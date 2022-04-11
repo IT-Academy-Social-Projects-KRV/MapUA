@@ -1,8 +1,8 @@
-import { Box } from '@mui/material';
 import React from 'react';
+import { StyledMap } from './styles';
 
 function Map() {
-  return <Box sx={{ mt: 20 }}>Map</Box>;
+  return <StyledMap sx={{ mt: 20 }}>Map</StyledMap>;
 }
 
 export default Map;
