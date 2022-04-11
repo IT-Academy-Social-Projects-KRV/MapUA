@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  frontend-app:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    image: frontend-app
+    container_name: frontend-app
+    restart: unless-stopped
+    networks:
+      - app-network
+    ports:
+      - "80:80"
+  node-app:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    image: node-app
+    container_name: node-app
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

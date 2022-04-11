@@ -4,14 +4,14 @@ RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
 
 WORKDIR /home/node/app
 
-COPY package*.json ./
-COPY .env ./
+COPY backend/package*.json ./
+COPY backend/.env ./
 
 USER node
 
 RUN npm install
 
-ADD --chown=node:node . ./
+ADD --chown=node:node backend ./
 
 EXPOSE 3000
 

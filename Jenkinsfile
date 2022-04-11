@@ -11,7 +11,7 @@ pipeline {
   }
 
   stages {
-    stage("build") {
+    stage("build backend/frontend") {
       steps {
         echo 'Test'
       }
