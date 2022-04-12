@@ -6,6 +6,8 @@ import express from "express";
 import cors from "cors";
 
 import router from "./routes";
+// import swaggerUI from "swagger-ui-express";
+// import swDocument from "./openapi";
 import "./config/db";
 
 const app = express();
@@ -18,6 +20,10 @@ app.use(cors({ credentials: true, origin: "*" }));
 
 // routes middleware
 app.use("/api", router);
+
+// TODO: ADD SWAGGER
+// swagger
+// app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swDocument));
 
 // turn on the server
 const port = process.env.PORT || 3001;
