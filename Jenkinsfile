@@ -11,20 +11,33 @@ pipeline {
   }
 
   stages {
-    stage("add credentials to the backend") {
+    stage("build backend") {
       steps {
         withCredentials([usernamePassword(credentialsId: 'mongodb-user', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
           dir("backend") {
             sh 'echo "MONGO_PASSWORD=${PASSWORD}\nMONGO_USERNAME=${USER}\nMONGO_DB=${MONGO_DB}\nMONGO_HOSTNAME=${MONGO_HOSTNAME}" > .env'
           }
         }
-        // withCredentials([usernamePassword(credentialsId: 'docker-repo', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-        //   dir("backend") {
-        //     sh 'docker build -t niukjs/mapua-backend:1.0 .'
-        //     sh "echo $PASS | docker login -u $USER --password-stdin"
-        //     sh "docker push niukjs/mapua-backend:1.0"
-        //   }
-        // }
+        withCredentials([usernamePassword(credentialsId: 'docker-repo', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+          dir("backend") {
+            sh 'docker build -t niukjs/mapua-backend:1.0 .'
+            sh "echo $PASS | docker login -u $USER --password-stdin"
+            sh "docker push niukjs/mapua-backend:1.0"
+          }
+        }
+      }
+    }
+    stage("build frontend") {
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'docker-repo', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+          dir("frontend") {
+            // As my docker-hub plan allows me only one private repo
+            // i will use differ versioning
+            sh 'docker build -t niukjs/mapua-backend:2.0 .'
+            sh "echo $PASS | docker login -u $USER --password-stdin"
+            sh "docker push niukjs/mapua-backend:2.0"
+          }
+        }
       }
     }
     stage("deploy") {
