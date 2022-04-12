@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  frontend-app:
+    image: niukjs/mapua-backend:2.0
+    container_name: frontend-app
+    restart: unless-stopped
+    networks:
+      - app-network
+    ports:
+      - "80:80"
+  node-app:
+    image: niukjs/mapua-backend:1.0
+    container_name: node-app
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
