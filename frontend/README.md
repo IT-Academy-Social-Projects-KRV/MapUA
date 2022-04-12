@@ -11,10 +11,10 @@
 
 - **prettier** - an opinionated code formatter;
 - **eslint** - code analyzer based on airbnb confiburation;
-- **husky** - a tool for improving commits
-- **CRA** - Create React App, tool for
+- **husky** - a tool for improving commits (temprorarily removed)
+- **CRA** - Create React App as a main project skeleton
 - **MUI** - a library of React components which based on Material UI concepts
 - **react-router v6** - a library for routing in the app Material UI  
   and more ...
 
-_TODO: Add i18n for translations, add Jenkins pipeline_
+_TODO: Add i18n for translations_

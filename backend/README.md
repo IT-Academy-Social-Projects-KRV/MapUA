@@ -16,6 +16,6 @@ To run backend, you can use **docker** installed on your machine as well.
 - **mongoose** - an ODM for MongoDB  
   and more, this list will be updated in the near future...
 
-[Server on which backend located](http://3.126.245.53:3000)
+[Server on which backend located](http://3.126.245.53:3001)
 
 _TODO: Add Swagger_
