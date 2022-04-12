@@ -11,12 +11,7 @@ pipeline {
   }
 
   stages {
-    stage("build backend/frontend") {
-      steps {
-        echo 'Test'
-      }
-    }
-    stage("build image") {
+    stage("build backend image") {
       steps {
         withCredentials([usernamePassword(credentialsId: 'mongodb-user', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
           dir("backend") {
@@ -35,9 +30,10 @@ pipeline {
     stage("deploy") {
       steps {
         script {
-          def dockerCmd = 'docker run -p 3000:3000 -d niukjs/mapua-backend:1.0'
+          def dockerComposeCmd = "docker-compose -f docker-compose.yml up -d"
           sshagent(['aws-ec2']) {
-              sh "ssh -o StrictHostKeyChecking=no ec2-user@3.126.245.53 ${dockerCmd}"
+              sh "scp docker-compose.yml ec2-user@3.126.245.53:/home/ec2-user"
+              sh "ssh -o StrictHostKeyChecking=no ec2-user@3.126.245.53 ${dockerComposeCmd}"
           }
         }
       }

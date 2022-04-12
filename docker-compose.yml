@@ -13,10 +13,7 @@ services:
     ports:
       - "80:80"
   node-app:
-    build:
-      context: .
-      dockerfile: backend/Dockerfile
-    image: node-app
+    image: niukjs/mapua-backend:1.0
     container_name: node-app
     restart: unless-stopped
     ports:
