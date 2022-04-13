@@ -4,8 +4,8 @@ import uploadFileOnAWSBucket from "../utils/uploadFileOnAWSBucket";
 const FilesController = {
   async uploadImage(req: Request, res: Response) {
     try {
-      uploadFileOnAWSBucket(req);
-      return res.json("Working great!");
+      const location = await uploadFileOnAWSBucket(req);
+      return res.json({ url: location });
     } catch (err: any) {
       return res.status(500).json({ message: err.message });
     }
