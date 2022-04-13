@@ -1,0 +1,22 @@
+.modal {
+  opacity: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  transition: 0.7s;
+}
+
+.modal.active {
+  opacity: 1;
+  pointer-events: all;
+  transition: 0.7s;
+}
+
+.modal__content {
+  transition: 0.7s all;
+}
+
+.modal__content.active {
+  transform: scale(0.8);
+}
