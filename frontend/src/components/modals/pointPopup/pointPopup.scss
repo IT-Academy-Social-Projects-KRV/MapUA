@@ -1,3 +1,10 @@
+* {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+}
+
 .modal {
   opacity: 0;
   display: flex;
@@ -18,11 +25,5 @@
 }
 
 .modal__content.active {
-  transform: scale(0.8);
-}
-
-.subInfo {
-  display: flex;
-  justify-content: space-between;
-  padding: 5px;
+  transform: scale(1);
 }

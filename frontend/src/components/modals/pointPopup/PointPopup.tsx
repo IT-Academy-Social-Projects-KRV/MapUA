@@ -1,4 +1,3 @@
-// I need a map, points and other data to implement the logic for this component
 import React, { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
@@ -10,7 +9,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import IosShareIcon from '@mui/icons-material/IosShare';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
-import DoneIcon from '@mui/icons-material/Done';
+import CheckCircleTwoToneIcon from '@mui/icons-material/CheckCircleTwoTone';
+import SendIcon from '@mui/icons-material/Send';
 import {
   Card,
   CardHeader,
@@ -20,7 +20,15 @@ import {
   Collapse,
   Avatar,
   Typography,
-  Box
+  Box,
+  TextField,
+  FormControl,
+  Button,
+  List,
+  ListItem,
+  Divider,
+  ListItemText,
+  ListItemAvatar
 } from '@mui/material';
 
 import './pointPopup.scss';
@@ -29,10 +37,6 @@ import './pointPopup.scss';
 // When the rest of the functionality is available, this component will be assigned to a specific and each point on the map
 // Change position a photo, description, buttons, etc. you can without problems
 // Now it works on stubs
-
-//  how many symbols should be in the description?
-//  height and width of this window ?
-//  photo height X width ?
 
 interface Props {
   active: boolean;
@@ -87,34 +91,36 @@ function PointPopup({ active, setActive, children }: Props) {
             <CardHeader
               sx={{ paddingBottom: 0 }}
               avatar={
-                <Avatar sx={{ bgcolor: '#FFCC33' }} aria-label="recipe">
-                  {children[0].avatarMini}
-                </Avatar>
+                <Avatar aria-label="recipe" src={children[0].avatarMini} />
               }
               title={<h3>{children[0].name}</h3>}
               subheader={children[0].dateOfPublic}
             />
             <IconButton
               onClick={() => setActive(false)}
-              sx={{ left: '88%', top: '-11vh' }}
+              sx={{ left: '90%', top: '-8vh' }}
             >
               <CloseIcon color="action" />
             </IconButton>
 
             <CardMedia
-              sx={{ p: 3.2, pt: 0 }}
+              sx={{
+                p: 3.2,
+                pt: 0,
+                pb: 0
+              }}
               component="img"
               image={imgUrl}
               alt="Monument to the Duke de Richelieu"
             />
             <CardContent>
               <Typography variant="body2" color="text.secondary">
-                <div className="subInfo">
-                  <Typography variant="h6" className="location__name">
+                <Box>
+                  <IconButton sx={{ p: 0 }}>
                     {children[0].locationName}
-                  </Typography>
-                  <IconButton>
-                    <DoneIcon />
+                  </IconButton>
+                  <IconButton sx={{ pr: 7 }}>
+                    {children[0].visited ? <CheckCircleTwoToneIcon /> : null}
                   </IconButton>
                   <IconButton>
                     <ThumbUpIcon />
@@ -123,12 +129,10 @@ function PointPopup({ active, setActive, children }: Props) {
                   <IconButton>
                     <ThumbDownIcon />
                   </IconButton>
-                </div>
+                </Box>
 
-                <Typography variant="subtitle2" mt={2}>
-                  Monument to the Duke de Richelieu in Odessa - a full-length
-                  bronze monument dedicated to Armand Emmanuel du Plessis, Duke
-                  de Richelieu, opened in 1828.
+                <Typography variant="subtitle1" mt={2}>
+                  {children[0].description}
                 </Typography>
               </Typography>
               <ExpandMore
@@ -142,8 +146,118 @@ function PointPopup({ active, setActive, children }: Props) {
             </CardContent>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
               <CardContent>
-                <Typography paragraph>Comments section</Typography>
-                <Typography paragraph>{children[0].comments}</Typography>
+                <Typography variant="h6" color="text.secondary">
+                  Comments section
+                </Typography>
+                <List
+                  sx={{
+                    bgcolor: 'background.paper'
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center'
+                    }}
+                  >
+                    <FormControl variant="standard">
+                      <TextField
+                        multiline
+                        rows={5}
+                        id="your comment"
+                        placeholder="Your comment"
+                        variant="outlined"
+                        fullWidth
+                      />
+
+                      <Button
+                        sx={{
+                          width: '25%',
+                          borderRadius: 10,
+                          alignSelf: 'center',
+                          mt: 3
+                        }}
+                        endIcon={<SendIcon />}
+                      >
+                        Send
+                      </Button>
+                    </FormControl>
+                  </Box>
+
+                  <ListItem alignItems="flex-start" sx={{ pl: 0 }}>
+                    <ListItemAvatar>
+                      <Avatar
+                        alt="Vasya"
+                        src={children[0].comments[0].userCommentAvatar}
+                      />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={children[0].comments[0].userCommentName}
+                      secondary={
+                        <>
+                          <Typography
+                            sx={{ display: 'inline' }}
+                            component="span"
+                            variant="body2"
+                            color="text.primary"
+                          >
+                            {children[0].comments[1]}
+                          </Typography>
+
+                          {children[0].comments[0].userCommentText}
+                        </>
+                      }
+                    />
+                  </ListItem>
+                  <Divider variant="inset" component="li" />
+                  <ListItem alignItems="flex-start" sx={{ pl: 0 }}>
+                    <ListItemAvatar>
+                      <Avatar
+                        alt="Vasya"
+                        src={children[0].comments[0].userCommentAvatar}
+                      />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={children[0].comments[0].userCommentName}
+                      secondary={
+                        <>
+                          <Typography
+                            sx={{ display: 'inline' }}
+                            component="span"
+                            variant="body2"
+                            color="text.primary"
+                          />
+                          {children[0].comments[0].userCommentText}
+                        </>
+                      }
+                    />
+                  </ListItem>
+                  <Divider variant="inset" component="li" />
+                  <ListItem alignItems="flex-start" sx={{ pl: 0 }}>
+                    <ListItemAvatar>
+                      <Avatar
+                        alt="Vasya"
+                        src={children[0].comments[0].userCommentAvatar}
+                      />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={children[0].comments[0].userCommentName}
+                      secondary={
+                        <>
+                          <Typography
+                            sx={{ display: 'inline' }}
+                            component="span"
+                            variant="body2"
+                            color="text.primary"
+                          />
+
+                          {children[0].comments[0].userCommentText}
+                        </>
+                      }
+                    />
+                  </ListItem>
+                </List>
               </CardContent>
             </Collapse>
             <CardActions

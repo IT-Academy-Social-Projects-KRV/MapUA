@@ -1,7 +1,7 @@
+import React from 'react';
 import { Container } from '@mui/material';
 import Map from 'components/Map';
 import SendFileFormTest from 'components/SendFileFormTest';
-import React from 'react';
 
 function HomeScreen() {
   return (
