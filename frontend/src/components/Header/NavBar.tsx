@@ -23,7 +23,7 @@ function NavBar() {
         >
           News
         </Link>
-        <Link color="inherit" underline="none" component={RouterLink} to="/Map">
+        <Link color="inherit" underline="none" component={RouterLink} to="/">
           Map
         </Link>
         <Link
