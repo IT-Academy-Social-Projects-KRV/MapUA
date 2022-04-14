@@ -1,41 +1,25 @@
-import React, { useState } from 'react';
-import { Box, IconButton } from '@mui/material';
-import PlaceIcon from '@mui/icons-material/Place';
-import PointPopup from '../modals/pointPopup/PointPopup';
-import { StyledMap } from './styles';
+import React from 'react';
+import { MapContainer, TileLayer } from 'react-leaflet';
 
 function Map() {
-  const [popup, setPopup] = useState(false);
-
-  // <PlaceIcon/> simulates a point on the map
-  // I need a data for normal implementation
+  // TODO
+  // Function that defines coordinates on mouse click
+  // function CoordsFinder() {
+  //   useMapEvents({
+  //     click(e) {
+  //       console.log(e.latlng);
+  //     }
+  //   });
+  //   return null;
+  // }
   return (
-    <Box sx={{ width: '100%' }}>
-      <StyledMap>
-        <IconButton>
-          <PlaceIcon
-            sx={{ color: 'white' }}
-            onClick={() => {
-              setPopup(true);
-            }}
-          />
-        </IconButton>
-
-        <PointPopup active={popup} setActive={setPopup}>
-          {[
-            {
-              locationName: 'LOCATION NAME',
-              avatarMini: 'AVA',
-              name: 'User Name',
-              dateOfPublic: 'June 22, 2022',
-              likeCounter: 231,
-              comments:
-                'Hidden section that opens after clicking on this little down arrow'
-            }
-          ]}
-        </PointPopup>
-      </StyledMap>
-    </Box>
+    <MapContainer
+      center={[50.447731, 30.542721]}
+      zoom={9}
+      style={{ height: '100vh' }}
+    >
+      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+    </MapContainer>
   );
 }
 

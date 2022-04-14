@@ -1,3 +1,5 @@
 node_modules
 .env
 yarn-error.log
+Mac/OSX
+.DS_Store
