@@ -1,8 +1,26 @@
 import React from 'react';
-import { StyledMap } from './styles';
+import { MapContainer, TileLayer } from 'react-leaflet';
 
 function Map() {
-  return <StyledMap sx={{ mt: 20, mb: 20 }}>Map</StyledMap>;
+  // TODO
+  // Function that defines coordinates on mouse click
+  // function CoordsFinder() {
+  //   useMapEvents({
+  //     click(e) {
+  //       console.log(e.latlng);
+  //     }
+  //   });
+  //   return null;
+  // }
+  return (
+    <MapContainer
+      center={[50.447731, 30.542721]}
+      zoom={9}
+      style={{ height: '100vh' }}
+    >
+      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+    </MapContainer>
+  );
 }
 
 export default Map;

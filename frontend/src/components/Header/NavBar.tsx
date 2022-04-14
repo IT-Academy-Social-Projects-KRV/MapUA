@@ -1,14 +1,12 @@
-import { AppBar, Stack, Link } from '@mui/material';
+import { Link } from '@mui/material';
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import { StyledAppBar, StyledStack } from './style';
 
 function NavBar() {
   return (
-    <AppBar
-      position="static"
-      sx={{ justifyContent: 'center', padding: '20px 0 20px 0' }}
-    >
-      <Stack justifyContent="center" direction="row" spacing={40}>
+    <StyledAppBar>
+      <StyledStack direction="row">
         <Link
           color="inherit"
           underline="none"
@@ -36,8 +34,8 @@ function NavBar() {
         >
           Login
         </Link>
-      </Stack>
-    </AppBar>
+      </StyledStack>
+    </StyledAppBar>
   );
 }
 
