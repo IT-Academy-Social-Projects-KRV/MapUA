@@ -2,6 +2,7 @@ import React from 'react';
 import { MapContainer, TileLayer } from 'react-leaflet';
 
 function Map() {
+  // TODO
   // Function that defines coordinates on mouse click
   // function CoordsFinder() {
   //   useMapEvents({
