@@ -8,7 +8,7 @@ function HomeScreen() {
   const [isOpen, setIsopen] = React.useState(false);
   return (
     <div>
-      <BigPopup isOpen={isOpen} togleClose={() => setIsopen(false)} />
+      <BigPopup isOpen={isOpen} toggleClose={() => setIsopen(false)} />
       <Button variant="text" onClick={() => setIsopen(true)} sx={{ ml: 100 }}>
         Open Popup
       </Button>
