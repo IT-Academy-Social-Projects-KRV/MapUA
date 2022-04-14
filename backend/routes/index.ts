@@ -1,12 +1,15 @@
 import express from "express";
+import FilesController from "../controllers/FilesController";
 import UserController from "../controllers/UserController";
 
 const router = express.Router();
 
 router.get("/users", UserController.getUsers);
+router.post("/uploadImage", FilesController.uploadImage);
 
 export default router;
 
+//Swager documentation API
 /**
  * @swagger
  * components:
@@ -14,28 +17,43 @@ export default router;
  *      Users:
  *        type: object
  *        required:
- *
+ *          - name
+ *          - account
  *        properties:
- *
+ *          id:
+ *              type: string
+ *              description: The auto-generated id of the user
+ *          name:
+ *              type: string
+ *              description: Name of the user
+ *          account:
+ *               type: string
+ *               description: Email of the user
  *        example:
  *            id: 1
- *            title: AAA
- *
+ *            name: test
+ *            account: test@gmai.com
+ */
+/**
+ * @swagger
+ *  tags:
+ *      name: Users
+ *      description: The users managing API
  */
 
 /**
  * @swagger
  * /users:
  *    get:
- *      summary: returns the test response string
+ *      summary: returns the list of all users
+ *      tags: [Users]
  *      responses:
- *          304:
- *            description: Success
+ *          200:
+ *            description: The list of the users
  *            content:
  *             aplication/json:
  *                schema:
  *                  type: array
  *                  items:
  *                  $ref: "#/components/schemas/Users"
- *
  */

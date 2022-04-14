@@ -3,6 +3,7 @@ import {
   ThemeProvider,
   ThemeProvider as CoreThemeProvider
 } from '@mui/material/styles';
+import 'leaflet/dist/leaflet.css';
 import React from 'react';
 
 import ReactDOM from 'react-dom';
