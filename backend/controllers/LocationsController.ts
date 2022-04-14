@@ -2,9 +2,9 @@ import { Response, Request } from "express";
 import Location from "../models/Locations";
 
 const LocationController = {
-  async getLocationId(req: Request, res: Response) {
+  async getLocationById(req: Request, res: Response) {
     try {
-      const { id } = req.body;
+      const id = req.params.id;
 
       const locations = await Location.findById(id);
 
