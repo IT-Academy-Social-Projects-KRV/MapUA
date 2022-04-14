@@ -8,6 +8,7 @@ pipeline {
   environment {
     MONGO_DB = 'mapua'
     MONGO_HOSTNAME = 'mapua-cluster.uhph9.mongodb.net'
+    BACKEND_PROD_URI = 'http://3.126.245.53:3001/api'
   }
 
   stages {
@@ -33,6 +34,7 @@ pipeline {
           dir("frontend") {
             // As my docker-hub plan allows me only one private repo
             // i will use differ versioning
+            sh 'echo "REACT_APP_API_URI=${BACKEND_PROD_URI}" > .env'
             sh 'docker build -t niukjs/mapua-backend:2.0 .'
             sh "echo $PASS | docker login -u $USER --password-stdin"
             sh "docker push niukjs/mapua-backend:2.0"
