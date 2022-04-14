@@ -1,7 +1,7 @@
 import { Response, Request } from "express";
 import Location from "../models/Locations";
 
-const LocationController = {
+const LocationsController = {
   async getLocationById(req: Request, res: Response) {
     try {
       const id = req.params.id;
@@ -42,4 +42,4 @@ const LocationController = {
   },
 };
 
-export default LocationController;
+export default LocationsController;
