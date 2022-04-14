@@ -1,5 +1,6 @@
 import { Container } from '@mui/material';
 import Map from 'components/Map';
+import SendFileFormTest from 'components/SendFileFormTest';
 import React from 'react';
 
 function HomeScreen() {
@@ -7,6 +8,7 @@ function HomeScreen() {
     <Container>
       HomeScreen
       <Map />
+      <SendFileFormTest />
     </Container>
   );
 }
