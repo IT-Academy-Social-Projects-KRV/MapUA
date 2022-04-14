@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Container } from '@mui/material';
 import Map from 'components/Map';
-import BigPopup from 'components/big popup/index';
+import BigPopup from 'components/BigPopup/index';
 import Button from '@mui/material/Button';
 
 function HomeScreen() {

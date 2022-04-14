@@ -2,21 +2,25 @@ import * as React from 'react';
 import { Drawer } from '@mui/material';
 import Box from '@mui/material/Box';
 
-export default function BigPopup(props: any) {
+interface PopupProps {
+  isOpen: boolean;
+  togleClose: any; // this function reatern set of useState
+}
+export default function BigPopup(props: PopupProps) {
   const { isOpen, togleClose } = props;
 
-  const fon: any = true;
+  const fon: boolean = true;
 
   return (
     <div>
       <Drawer
-        sx={{ height: 100 }}
+        sx={{ marginTop: 300 }}
         anchor="left"
         hideBackdrop={fon}
         open={isOpen}
         onClose={togleClose}
       >
-        <Box sx={{ width: 400, backgroundColor: '#757ce8', mt: 50 }}>
+        <Box sx={{ width: 400, mt: 50 }}>
           <h2>Location</h2>
         </Box>
       </Drawer>
