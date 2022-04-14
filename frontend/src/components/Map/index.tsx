@@ -1,49 +1,44 @@
-import React from 'react';
-import { MapContainer, TileLayer } from 'react-leaflet';
-// import React, { useEffect, useState } from 'react';
-// import { StyledMap } from './styles';
+import React, { useState, useEffect } from 'react';
+import {
+  MapContainer,
+  Marker,
+  Popup,
+  TileLayer,
+  useMapEvents
+} from 'react-leaflet';
+import { v4 } from 'uuid';
+import 'leaflet/dist/leaflet.css';
+// import '../../style.css';
+import { locations as locConst, locationType } from '../../constants/develop';
 // import { fetchData } from '../../fetch/requests';
 
-// type coordinatesType = {
-//   x: number;
-//   y: number;
-// };
-// import { fetchData } from '../../fetch/requests';
-
-// type coordinatesType = {
-//   x: number;
-//   y: number;
-// };
 function Map() {
-  // const [zoom, setZoom] = useState<number>();
-  // const [coordinates, setСoordinates] = useState<coordinatesType>();
-  // // @ts-ignore
-  // useEffect(async () => {
-  //   const url = 'http://localhost/locations';
-  //   const options = { zoom, coordinates };
-  //   const { status, data } = await fetchData(url, options);
-  //   console.log(status, data);
-  // }, [zoom, coordinates]);
-  //
-  // function onZoomIn(e: any) {
-  //   e.preventDefault();
-  //   setZoom(1);
-  //   setСoordinates({ x: 1, y: 1 });
-  // }
-  //
-  // function onZoomOut(e: any) {
-  //   e.preventDefault();
-  //   setZoom(1);
-  //   setСoordinates({ x: 1, y: 1 });
-  // }
-  //
-  // function onMapDrag(e: any) {
-  //   e.preventDefault();
-  //   setZoom(1);
-  //   setСoordinates({ x: 1, y: 1 });
-  // }
-  // TODO
-  // Function that defines coordinates on mouse click
+  const [zoom, setZoom] = useState<number>(6);
+  const [locations, setLocations] = useState<locationType[]>(locConst);
+  // @ts-ignore
+  useEffect(() => {
+    async function onZoom() {
+      // todo fetch new locations onZoom
+      //   const url = 'http://localhost/locations';
+      //   const options = { zoom };
+      //   const { status, data } = await fetchData(url, options);
+      //   positions = JSON.parse(data);
+      //   console.log(status, data);
+      // todo rewrite all locations from fetch data
+      setLocations(prevLocations => [...prevLocations]);
+    }
+    onZoom();
+  }, [zoom]);
+
+  function MyZoomComponent() {
+    const map = useMapEvents({
+      zoom: () => {
+        setZoom(map.getZoom());
+      }
+    });
+    return null;
+  }
+  // TODO Function that defines coordinates on mouse click
   // function CoordsFinder() {
   //   useMapEvents({
   //     click(e) {
@@ -55,10 +50,20 @@ function Map() {
   return (
     <MapContainer
       center={[50.447731, 30.542721]}
-      zoom={9}
+      zoom={zoom}
       style={{ height: '100vh' }}
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+      {locations.map((loc: locationType) => (
+        <Marker position={loc.coordinates} key={v4()}>
+          <Popup>
+            A pretty CSS3 popup.
+            <br />
+            Easily customizable.
+          </Popup>
+        </Marker>
+      ))}
+      <MyZoomComponent />
     </MapContainer>
   );
 }
