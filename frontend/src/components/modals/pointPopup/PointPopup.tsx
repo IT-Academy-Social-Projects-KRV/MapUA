@@ -1,11 +1,16 @@
+// I need a map, points and other data to implement the logic for this component
 import React, { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
+import ReportIcon from '@mui/icons-material/Report';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import CloseIcon from '@mui/icons-material/Close';
+import IosShareIcon from '@mui/icons-material/IosShare';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import DoneIcon from '@mui/icons-material/Done';
 import {
   Card,
   CardHeader,
@@ -25,9 +30,9 @@ import './pointPopup.scss';
 // Change position a photo, description, buttons, etc. you can without problems
 // Now it works on stubs
 
-// ! how many symbols should be in the description?
-// ! height and width of this window ?
-// ! photo height X width ?
+//  how many symbols should be in the description?
+//  height and width of this window ?
+//  photo height X width ?
 
 interface Props {
   active: boolean;
@@ -87,28 +92,44 @@ function PointPopup({ active, setActive, children }: Props) {
                 </Avatar>
               }
               title={<h3>{children[0].name}</h3>}
+              subheader={children[0].dateOfPublic}
             />
             <IconButton
               onClick={() => setActive(false)}
-              sx={{ left: '88%', top: '-8vh' }}
+              sx={{ left: '88%', top: '-11vh' }}
             >
               <CloseIcon color="action" />
             </IconButton>
 
             <CardMedia
-              sx={{ p: 1, borderRadius: 3, pt: 0 }}
+              sx={{ p: 3.2, pt: 0 }}
               component="img"
               image={imgUrl}
               alt="Monument to the Duke de Richelieu"
             />
             <CardContent>
               <Typography variant="body2" color="text.secondary">
-                <h2>{children[0].text}</h2>
-                <h3>
+                <div className="subInfo">
+                  <Typography variant="h6" className="location__name">
+                    {children[0].locationName}
+                  </Typography>
+                  <IconButton>
+                    <DoneIcon />
+                  </IconButton>
+                  <IconButton>
+                    <ThumbUpIcon />
+                  </IconButton>
+                  <IconButton>{children[0].likeCounter}</IconButton>
+                  <IconButton>
+                    <ThumbDownIcon />
+                  </IconButton>
+                </div>
+
+                <Typography variant="subtitle2" mt={2}>
                   Monument to the Duke de Richelieu in Odessa - a full-length
                   bronze monument dedicated to Armand Emmanuel du Plessis, Duke
                   de Richelieu, opened in 1828.
-                </h3>
+                </Typography>
               </Typography>
               <ExpandMore
                 expand={expanded}
@@ -121,14 +142,8 @@ function PointPopup({ active, setActive, children }: Props) {
             </CardContent>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
               <CardContent>
-                <Typography paragraph>Full {children[0].text}</Typography>
-                <Typography paragraph>
-                  The first monument erected in Odessa. On three sides there are
-                  bronze high-relief images symbolizing trade, justice and
-                  agriculture. The installation of the monument was supervised
-                  by the architect F.K. Boffo. The opening of the bronze
-                  monument to Duke took place on April 22, 1828.
-                </Typography>
+                <Typography paragraph>Comments section</Typography>
+                <Typography paragraph>{children[0].comments}</Typography>
               </CardContent>
             </Collapse>
             <CardActions
@@ -143,9 +158,11 @@ function PointPopup({ active, setActive, children }: Props) {
                 <FavoriteIcon />
               </IconButton>
               <IconButton aria-label="share">
-                <ShareIcon />
+                <IosShareIcon />
               </IconButton>
-
+              <IconButton aria-label="report">
+                <ReportIcon />
+              </IconButton>
               <IconButton aria-label="settings">
                 <MoreVertIcon />
               </IconButton>

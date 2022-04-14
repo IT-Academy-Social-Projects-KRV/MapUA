@@ -7,6 +7,8 @@ import { StyledMap } from './styles';
 function Map() {
   const [popup, setPopup] = useState(false);
 
+  // <PlaceIcon/> simulates a point on the map
+  // I need a data for normal implementation
   return (
     <Box sx={{ width: '100%' }}>
       <StyledMap>
@@ -22,9 +24,13 @@ function Map() {
         <PointPopup active={popup} setActive={setPopup}>
           {[
             {
-              text: 'Dynamic Text:',
-              avatarMini: 'Ava',
-              name: 'User Name'
+              locationName: 'LOCATION NAME',
+              avatarMini: 'AVA',
+              name: 'User Name',
+              dateOfPublic: 'June 22, 2022',
+              likeCounter: 231,
+              comments:
+                'Hidden section that opens after clicking on this little down arrow'
             }
           ]}
         </PointPopup>
