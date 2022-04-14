@@ -1,12 +1,19 @@
-import React from 'react'; // , { useEffect, useState } from 'react';
-import { StyledMap } from './styles';
+import React from 'react';
+import { MapContainer, TileLayer } from 'react-leaflet';
+// import React, { useEffect, useState } from 'react';
+// import { StyledMap } from './styles';
 // import { fetchData } from '../../fetch/requests';
 
 // type coordinatesType = {
 //   x: number;
 //   y: number;
 // };
+// import { fetchData } from '../../fetch/requests';
 
+// type coordinatesType = {
+//   x: number;
+//   y: number;
+// };
 function Map() {
   // const [zoom, setZoom] = useState<number>();
   // const [coordinates, setСoordinates] = useState<coordinatesType>();
@@ -35,12 +42,24 @@ function Map() {
   //   setZoom(1);
   //   setСoordinates({ x: 1, y: 1 });
   // }
-
+  // TODO
+  // Function that defines coordinates on mouse click
+  // function CoordsFinder() {
+  //   useMapEvents({
+  //     click(e) {
+  //       console.log(e.latlng);
+  //     }
+  //   });
+  //   return null;
+  // }
   return (
-    <>
-      <div />
-      <StyledMap sx={{ mt: 20 }}>Map</StyledMap>
-    </>
+    <MapContainer
+      center={[50.447731, 30.542721]}
+      zoom={9}
+      style={{ height: '100vh' }}
+    >
+      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+    </MapContainer>
   );
 }
 
