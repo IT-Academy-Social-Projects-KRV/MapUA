@@ -6,7 +6,7 @@ const LocationsController = {
     try {
       // todo add search by coordinates
       // todo find data, sort and send top 50 results to frontend
-      console.log(req.params.zoom);
+      // console.log(req.params.zoom);
 
       // todo create formula to calculate max amount of
       //  found locations, and max 100% of map width + 50% radius of it
@@ -17,7 +17,10 @@ const LocationsController = {
       //   return res.status(400).json({ message: "Location doesn`t exist" });
       // }
       // return res.json(locations);
-      return res.json("Backend got data about zoom and coords!");
+      // return res.json({mes:"Backend got data about zoom and coords!"});
+      // console.log('bibip')
+      // return res.sendStatus(400);
+      return res.json({mes:"Backend got data about zoom and coords!"});
     } catch (err: any) {
       return res.status(500).json({ message: err.message });
     }
@@ -29,7 +32,7 @@ const LocationsController = {
       const locations = await Location.findById(id);
 
       if (!locations) {
-        return res.status(400).json({ message: "Location doesn`t exist" });
+        return res.status(400).json({ message: "Location doesn't exist" });
       }
       return res.json(locations);
     } catch (err: any) {

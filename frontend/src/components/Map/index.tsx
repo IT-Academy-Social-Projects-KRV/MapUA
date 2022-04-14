@@ -18,7 +18,7 @@ function Map() {
   useEffect(() => {
     async function onZoom() {
       // todo fetch new locations onZoom
-      const url = `http://localhost:3000/api/locations/${zoom}`;
+      const url = `http://localhost:3001/api/locations/search/${zoom}`;
       const { status, data } = await fetchData(url);
       //   positions = JSON.parse(data);
       console.log(status, data);

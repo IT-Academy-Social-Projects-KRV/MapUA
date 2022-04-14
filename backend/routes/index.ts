@@ -7,10 +7,10 @@ const router = express.Router();
 
 router.get("/users", UserController.getUsers);
 router.get("/locations/:id", LocationsController.getLocationById);
+router.get("/locations/search/:zoom", LocationsController.getLocationsByZoom);
 router.post("/locations/add", LocationsController.addLocation);
 router.post("/uploadImage", FilesController.uploadImage);
 
-router.get("/locations/:zoom", LocationsController.getLocationsByZoom);
 
 export default router;
 
