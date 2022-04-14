@@ -18,5 +18,4 @@ To run backend, you can use **docker** installed on your machine as well.
 
 [Server on which backend located](http://3.126.245.53:3001)
 
-_TODO: Add Swagger_
 To run Swagger http://localhost:3001/api-docs/
