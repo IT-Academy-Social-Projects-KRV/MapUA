@@ -8,22 +8,20 @@ import {
 } from 'react-leaflet';
 import { v4 } from 'uuid';
 import 'leaflet/dist/leaflet.css';
-// import '../../style.css';
 import { locations as locConst, locationType } from '../../constants/develop';
-// import { fetchData } from '../../fetch/requests';
+import { fetchData } from '../../fetch/requests';
 
 function Map() {
   const [zoom, setZoom] = useState<number>(6);
   const [locations, setLocations] = useState<locationType[]>(locConst);
-  // @ts-ignore
+
   useEffect(() => {
     async function onZoom() {
       // todo fetch new locations onZoom
-      //   const url = 'http://localhost/locations';
-      //   const options = { zoom };
-      //   const { status, data } = await fetchData(url, options);
+      const url = `http://localhost:3000/api/locations/${zoom}`;
+      const { status, data } = await fetchData(url);
       //   positions = JSON.parse(data);
-      //   console.log(status, data);
+      console.log(status, data);
       // todo rewrite all locations from fetch data
       setLocations(prevLocations => [...prevLocations]);
     }
