@@ -6,7 +6,7 @@ import LocationController from "../controllers/LocationsController";
 const router = express.Router();
 
 router.get("/users", UserController.getUsers);
-router.get("/locations", LocationController.getLocationId);
+router.get("/locations", LocationController.getLocationById);
 router.post("/locations/add", LocationController.addLocation);
 router.post("/uploadImage", FilesController.uploadImage);
 
