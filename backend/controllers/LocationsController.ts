@@ -8,12 +8,16 @@ const LocationController = {
 
       const locations = await Location.findById(id);
 
+      if (!locations) {
+        return res.status(400).json({ message: "Location doesn`t exist" });
+      }
       return res.json(locations);
     } catch (err: any) {
       return res.status(500).json({ message: err.message });
     }
   },
 
+  //TODO - This is test controller
   async addLocation(req: Request, res: Response) {
     try {
       const { locationName, description, coordinates, photoSrc } = req.body;
