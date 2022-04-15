@@ -39,13 +39,13 @@ function Map() {
             locationName: 'Duke monument',
             avatarMini:
               'https://freepikpsd.com/file/2019/10/avatar-icon-png-5-Images-PNG-Transparent.png',
-            name: 'Chief Vasya',
+            name: 'Вася Пупкин',
             dateOfPublic: 'June 22, 2022',
             likeCounter: 231,
-            visited: true,
-            description: `Monument to the Duke de Richelieu in Odessa - a full-length
-            bronze monument dedicated to Armand Emmanuel du Plessis, Duke
-            de Richelieu, opened in 1828.`,
+            description: `Nam nunc tortor, aliquam in nulla vel, tincidunt faucibus erat. Nunc cursus varius leo, 
+            eget convallis est auctor ac. Quisque  sagittis commodo ipsum, ut mattis mauris rhoncus sit amet. Donec hendrerit, dui et porta feugiat, 
+            eros nisi ullamcorper ex, vel venenatis quam nunc quis nunc. Phasellus ac orci non quam interdum auctor non ut lorem. Fusce lobortis pulvinar risus a laoreet. Nam congue nisi eu semper tincidunt. Integer eu risus massa. Sed non lorem elementum, dapibus ante sed, 
+            elementum ex. Aliquam lacinia nisl at justo auctor, ut consectetur metus vehicula. Nullam ac tortor et diam sodales hendrerit quis eget urna. Etiam malesuada viverra rutrum. Nunc vel pulvinar eros, sed semper nisl.`,
             comments: [
               {
                 userCommentAvatar:

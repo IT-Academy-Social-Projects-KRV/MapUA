@@ -1,22 +1,17 @@
 import React, { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ReportIcon from '@mui/icons-material/Report';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import CloseIcon from '@mui/icons-material/Close';
-import IosShareIcon from '@mui/icons-material/IosShare';
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import ThumbDownIcon from '@mui/icons-material/ThumbDown';
-import CheckCircleTwoToneIcon from '@mui/icons-material/CheckCircleTwoTone';
-import SendIcon from '@mui/icons-material/Send';
+import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
+import Link from '@mui/material/Link';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
 import {
   Card,
-  CardHeader,
   CardMedia,
   CardContent,
-  CardActions,
   Collapse,
   Avatar,
   Typography,
@@ -30,8 +25,6 @@ import {
   ListItemText,
   ListItemAvatar
 } from '@mui/material';
-
-import './pointPopup.scss';
 
 // It can be reused in different components
 // When the rest of the functionality is available, this component will be assigned to a specific and each point on the map
@@ -82,27 +75,15 @@ function PointPopup({ active, setActive, children }: Props) {
       >
         <Typography
           role="dialog"
-          sx={{ maxWidth: '35%', maxHeight: '25%' }}
+          sx={{ maxWidth: '50%' }}
           className={active ? 'modal__content active' : 'modal'}
           onClick={e => e.stopPropagation()}
           onKeyDown={e => e.stopPropagation()}
         >
           <Card>
-            <CardHeader
-              sx={{ paddingBottom: 0 }}
-              avatar={
-                <Avatar aria-label="recipe" src={children[0].avatarMini} />
-              }
-              title={<h3>{children[0].name}</h3>}
-              subheader={children[0].dateOfPublic}
-            />
-            <IconButton
-              onClick={() => setActive(false)}
-              sx={{ left: '90%', top: '-8vh' }}
-            >
-              <CloseIcon color="action" />
+            <IconButton sx={{ pl: '3%' }} onClick={() => setActive(false)}>
+              <ArrowBackIcon color="action" />
             </IconButton>
-
             <CardMedia
               sx={{
                 p: 3.2,
@@ -113,25 +94,104 @@ function PointPopup({ active, setActive, children }: Props) {
               image={imgUrl}
               alt="Monument to the Duke de Richelieu"
             />
+
+            <Typography
+              color="text.secondary"
+              variant="h4"
+              sx={{ pl: 5, pt: 2 }}
+            >
+              {children[0].locationName}
+            </Typography>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'end',
+                gap: 5,
+                pr: 10,
+                mt: 5
+              }}
+            >
+              <Typography variant="button">
+                <Link
+                  href="/"
+                  component="button"
+                  underline="none"
+                  sx={{ pr: 1.5 }}
+                >
+                  <ThumbUpOutlinedIcon
+                    fontSize="small"
+                    sx={{ color: 'text.secondary' }}
+                  />
+                </Link>
+                {children[0].likeCounter}
+              </Typography>
+
+              <Typography variant="button">
+                <Link href="/" component="button" underline="none">
+                  <ThumbDownAltOutlinedIcon
+                    fontSize="small"
+                    sx={{ color: 'text.secondary' }}
+                  />
+                </Link>
+              </Typography>
+
+              <Typography>
+                <Link
+                  sx={{ color: 'text.secondary' }}
+                  href="/"
+                  component="button"
+                  underline="none"
+                >
+                  Поділитись
+                </Link>
+              </Typography>
+              <Typography>
+                <Link
+                  sx={{ color: 'text.secondary' }}
+                  href="/"
+                  component="button"
+                  underline="none"
+                >
+                  Додати у відвідані
+                </Link>
+              </Typography>
+
+              <Typography variant="button">
+                <Link
+                  sx={{ color: 'text.secondary' }}
+                  href="/"
+                  component="button"
+                  underline="none"
+                >
+                  <MoreHorizIcon />
+                </Link>
+              </Typography>
+            </Box>
+
             <CardContent>
               <Typography variant="body2" color="text.secondary">
-                <Box>
-                  <IconButton sx={{ p: 0 }}>
-                    {children[0].locationName}
-                  </IconButton>
-                  <IconButton sx={{ pr: 7 }}>
-                    {children[0].visited ? <CheckCircleTwoToneIcon /> : null}
-                  </IconButton>
-                  <IconButton>
-                    <ThumbUpIcon />
-                  </IconButton>
-                  <IconButton>{children[0].likeCounter}</IconButton>
-                  <IconButton>
-                    <ThumbDownIcon />
-                  </IconButton>
-                </Box>
+                <Typography
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    gap: 5,
+                    mt: 5
+                  }}
+                >
+                  <Typography>This location created by:</Typography>
+                  <Avatar
+                    sx={{ mt: -2 }}
+                    aria-label="avtor"
+                    src={children[0].avatarMini}
+                  />
+                  <Typography>{children[0].name}</Typography>
 
-                <Typography variant="subtitle1" mt={2}>
+                  <Typography>{children[0].dateOfPublic}</Typography>
+                </Typography>
+                <Typography
+                  variant="subtitle1"
+                  sx={{ mt: 5, p: 3, border: '2px solid grey' }}
+                >
                   {children[0].description}
                 </Typography>
               </Typography>
@@ -140,13 +200,21 @@ function PointPopup({ active, setActive, children }: Props) {
                 onClick={handleExpandClick}
                 aria-expanded={expanded}
                 aria-label="show more"
+                sx={{ mt: 5 }}
               >
                 <ExpandMoreIcon />
               </ExpandMore>
             </CardContent>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
               <CardContent>
-                <Typography variant="h6" color="text.secondary">
+                <Typography
+                  variant="h6"
+                  color="text.secondary"
+                  sx={{
+                    textAlign: 'center',
+                    borderBottom: '3px solid grey'
+                  }}
+                >
                   Comments section
                 </Typography>
                 <List
@@ -166,7 +234,7 @@ function PointPopup({ active, setActive, children }: Props) {
                         multiline
                         rows={5}
                         id="your comment"
-                        placeholder="Your comment"
+                        placeholder="Add your comment"
                         variant="outlined"
                         fullWidth
                       />
@@ -176,9 +244,10 @@ function PointPopup({ active, setActive, children }: Props) {
                           width: '25%',
                           borderRadius: 10,
                           alignSelf: 'center',
-                          mt: 3
+                          mt: 3,
+                          color: 'black'
                         }}
-                        endIcon={<SendIcon />}
+                        endIcon={<SendOutlinedIcon />}
                       >
                         Send
                       </Button>
@@ -209,6 +278,36 @@ function PointPopup({ active, setActive, children }: Props) {
                         </>
                       }
                     />
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        justifyContent: 'flex-end',
+                        gap: 4,
+                        alignSelf: 'flex-end'
+                      }}
+                    >
+                      <Typography variant="button">
+                        <Link
+                          href="/"
+                          component="button"
+                          underline="none"
+                          sx={{ pr: 1, color: 'text.secondary' }}
+                        >
+                          <ThumbUpOutlinedIcon fontSize="small" />
+                        </Link>
+                        {children[0].likeCounter}
+                      </Typography>
+                      <Typography variant="button">
+                        <Link
+                          sx={{ pr: 1, color: 'text.secondary' }}
+                          href="/"
+                          component="button"
+                          underline="none"
+                        >
+                          <ThumbDownAltOutlinedIcon fontSize="small" />
+                        </Link>
+                      </Typography>
+                    </Box>
                   </ListItem>
                   <Divider variant="inset" component="li" />
                   <ListItem alignItems="flex-start" sx={{ pl: 0 }}>
@@ -232,6 +331,36 @@ function PointPopup({ active, setActive, children }: Props) {
                         </>
                       }
                     />
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        justifyContent: 'flex-end',
+                        gap: 4,
+                        alignSelf: 'flex-end'
+                      }}
+                    >
+                      <Typography variant="button">
+                        <Link
+                          href="/"
+                          component="button"
+                          underline="none"
+                          sx={{ pr: 1, color: 'text.secondary' }}
+                        >
+                          <ThumbUpOutlinedIcon fontSize="small" />
+                        </Link>
+                        {children[0].likeCounter}
+                      </Typography>
+                      <Typography variant="button">
+                        <Link
+                          sx={{ pr: 1, color: 'text.secondary' }}
+                          href="/"
+                          component="button"
+                          underline="none"
+                        >
+                          <ThumbDownAltOutlinedIcon fontSize="small" />
+                        </Link>
+                      </Typography>
+                    </Box>
                   </ListItem>
                   <Divider variant="inset" component="li" />
                   <ListItem alignItems="flex-start" sx={{ pl: 0 }}>
@@ -256,31 +385,40 @@ function PointPopup({ active, setActive, children }: Props) {
                         </>
                       }
                     />
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        justifyContent: 'flex-end',
+                        gap: 4,
+                        alignSelf: 'flex-end'
+                      }}
+                    >
+                      <Typography variant="button">
+                        <Link
+                          href="/"
+                          component="button"
+                          underline="none"
+                          sx={{ pr: 1, color: 'text.secondary' }}
+                        >
+                          <ThumbUpOutlinedIcon fontSize="small" />
+                        </Link>
+                        {children[0].likeCounter}
+                      </Typography>
+                      <Typography variant="button">
+                        <Link
+                          href="/"
+                          sx={{ color: 'text.secondary' }}
+                          component="button"
+                          underline="none"
+                        >
+                          <ThumbDownAltOutlinedIcon fontSize="small" />
+                        </Link>
+                      </Typography>
+                    </Box>
                   </ListItem>
                 </List>
               </CardContent>
             </Collapse>
-            <CardActions
-              sx={{
-                p: 2,
-                display: 'flex',
-                justifyContent: 'space-around'
-              }}
-              disableSpacing
-            >
-              <IconButton aria-label="add to favorites">
-                <FavoriteIcon />
-              </IconButton>
-              <IconButton aria-label="share">
-                <IosShareIcon />
-              </IconButton>
-              <IconButton aria-label="report">
-                <ReportIcon />
-              </IconButton>
-              <IconButton aria-label="settings">
-                <MoreVertIcon />
-              </IconButton>
-            </CardActions>
           </Card>
         </Typography>
       </Typography>
