@@ -1,14 +1,23 @@
-import { Container } from '@mui/material';
+import * as React from 'react';
+import { Button, Container } from '@mui/material';
 import Map from 'components/Map/index';
 import SendFileFormTest from 'components/SendFileFormTest';
-import React from 'react';
+import BigPopup from 'components/BigPopup/index';
 
 function HomeScreen() {
+  const [isOpen, setIsopen] = React.useState(false);
   return (
-    <Container>
-      <Map />
-      <SendFileFormTest />
-    </Container>
+    <div>
+      <BigPopup isOpen={isOpen} toggleClose={() => setIsopen(false)} />
+      <Button variant="text" onClick={() => setIsopen(true)} sx={{ ml: 100 }}>
+        Open Popup
+      </Button>
+
+      <Container onClick={() => setIsopen(false)}>
+        <Map />
+        <SendFileFormTest />
+      </Container>
+    </div>
   );
 }
 
