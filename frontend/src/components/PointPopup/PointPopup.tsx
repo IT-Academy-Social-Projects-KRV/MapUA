@@ -6,8 +6,8 @@ import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import Link from '@mui/material/Link';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
+
 import {
   Card,
   CardMedia,
@@ -32,8 +32,6 @@ import {
 // Now it works on stubs
 
 interface Props {
-  active: boolean;
-  setActive: Function;
   children: Array<any>;
 }
 
@@ -53,7 +51,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
   })
 }));
 
-function PointPopup({ active, setActive, children }: Props) {
+function PointPopup({ children }: Props) {
   const [expanded, setExpanded] = useState(false);
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -68,22 +66,9 @@ function PointPopup({ active, setActive, children }: Props) {
 
   return (
     <Box>
-      <Typography
-        className={active ? 'modal active' : 'modal'}
-        onClick={() => setActive(false)}
-        onKeyDown={() => setActive(false)}
-      >
-        <Typography
-          role="dialog"
-          sx={{ maxWidth: '50%' }}
-          className={active ? 'modal__content active' : 'modal'}
-          onClick={e => e.stopPropagation()}
-          onKeyDown={e => e.stopPropagation()}
-        >
+      <Typography>
+        <Typography role="dialog">
           <Card>
-            <IconButton sx={{ pl: '3%' }} onClick={() => setActive(false)}>
-              <ArrowBackIcon color="action" />
-            </IconButton>
             <CardMedia
               sx={{
                 p: 3.2,
@@ -190,7 +175,11 @@ function PointPopup({ active, setActive, children }: Props) {
                 </Typography>
                 <Typography
                   variant="subtitle1"
-                  sx={{ mt: 5, p: 3, border: '2px solid grey' }}
+                  sx={{
+                    mt: 5,
+                    p: 3,
+                    border: '1px solid grey '
+                  }}
                 >
                   {children[0].description}
                 </Typography>
@@ -212,7 +201,7 @@ function PointPopup({ active, setActive, children }: Props) {
                   color="text.secondary"
                   sx={{
                     textAlign: 'center',
-                    borderBottom: '3px solid grey'
+                    borderBottom: '1px solid grey'
                   }}
                 >
                   Comments section
