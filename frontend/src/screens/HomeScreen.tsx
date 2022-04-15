@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { Container } from '@mui/material';
-import Map from 'components/Map';
+import { Button, Container } from '@mui/material';
+import Map from 'components/Map/index';
+import SendFileFormTest from 'components/SendFileFormTest';
 import BigPopup from 'components/BigPopup/index';
-import Button from '@mui/material/Button';
 
 function HomeScreen() {
   const [isOpen, setIsopen] = React.useState(false);
@@ -14,8 +14,8 @@ function HomeScreen() {
       </Button>
 
       <Container onClick={() => setIsopen(false)}>
-        HomeScreen
         <Map />
+        <SendFileFormTest />
       </Container>
     </div>
   );
