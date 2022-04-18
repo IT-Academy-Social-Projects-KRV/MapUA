@@ -30,7 +30,8 @@ const LocationsController = {
           l.coordinates[0] > center[0] - height &&
           l.coordinates[0] < center[0] + height &&
           l.coordinates[1] > center[1] - width &&
-          l.coordinates[1] < center[1] + width);
+          l.coordinates[1] < center[1] + width)
+      locations = locations.slice(0, (locations.length < 50)? locations.length : 50);
 
       return res.json({ locations });
     } catch (err: any) {
