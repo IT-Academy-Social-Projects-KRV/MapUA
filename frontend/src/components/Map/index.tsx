@@ -49,13 +49,12 @@ function Map() {
       )}/${JSON.stringify(bounds)}`;
       const { status, data } = await fetchData(url);
 
-      if (data.mes) {
-        console.log(data.mes);
+      if (data && data.mes && status) {
+        console.log(data.mes, status);
         return;
       }
 
-      if (data.locations && typeof data.locations === typeof []) {
-        console.log(status, data.locations);
+      if (data && data.locations && typeof data.locations === typeof []) {
         setLocations(() => [...data.locations]);
       }
     }
