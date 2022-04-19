@@ -9,9 +9,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import theme from 'theme';
 
-import App from './App';
+// imports to fix for popup icon
+import L from 'leaflet';
+import icon from 'leaflet/dist/images/marker-icon.png';
+import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 
+import App from './App';
 import reportWebVitals from './reportWebVitals';
+
+// fix for popup icon
+const DefaultIcon = L.icon({
+  iconUrl: icon,
+  shadowUrl: iconShadow
+});
+L.Marker.prototype.options.icon = DefaultIcon;
 
 ReactDOM.render(
   <React.StrictMode>

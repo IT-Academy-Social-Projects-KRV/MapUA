@@ -11,6 +11,7 @@ export interface ILocation {
   photoSrc: string;
   description: string;
   rating: ratingType;
+  comments?: string[];
 }
 
 const schema = new mongoose.Schema({
