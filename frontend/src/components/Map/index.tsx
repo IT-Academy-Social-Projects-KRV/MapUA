@@ -4,7 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import { boundsType, latlngType, lightLocationType } from '../../../types';
 import { fetchData } from '../../utils/requests';
 
-const REACT_APP_API_URI = process.env;
+const { REACT_APP_API_URI } = process.env;
 
 function Map() {
   const [bounds, setBounds] = useState<boundsType>({
