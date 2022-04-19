@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get("/users", UserController.getUsers);
 router.get("/locations/:id", LocationsController.getLocationById);
-router.get("/locations/search/:zoom/:center/:bounds", LocationsController.getLocationsByZoom);
+router.post("/locations/location-list", LocationsController.getLocationsByZoom);
 router.post("/locations/add", LocationsController.addLocation);
 router.post("/uploadImage", FilesController.uploadImage);
 

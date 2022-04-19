@@ -1,3 +1,5 @@
+import { locationType } from '../../types';
+
 export const positions: [number, number][] = [
   [49.447731, 29.542721],
   [50.447731, 29.542721],
@@ -11,30 +13,6 @@ export const positions: [number, number][] = [
   [50.447731, 31.542721],
   [51.447731, 31.542721]
 ];
-
-export type locationType = {
-  _id?: string;
-  locationName: string;
-  rating: {
-    likes: number;
-    dislikes: number;
-  };
-  coordinates: [number, number];
-  photoSrc: string;
-  description: string;
-  comments: string[];
-};
-
-export type lightLocationType = {
-  _id?: string;
-  locationName: string;
-  rating: {
-    likes: number;
-    dislikes: number;
-  };
-  coordinates: [number, number];
-  photoSrc: string;
-};
 
 export const locations: locationType[] = [
   {

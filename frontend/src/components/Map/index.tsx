@@ -1,31 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import {
-  MapContainer,
-  Marker,
-  Popup,
-  TileLayer,
-  useMapEvents
-} from 'react-leaflet';
-import { v4 } from 'uuid';
+import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import { lightLocationType } from '../../constants/develop';
-import { fetchData } from '../../fetch/requests';
-
-type latlngType = {
-  lat: number;
-  lng: number;
-};
-
-type boundsType = {
-  _northEast: {
-    lat: number;
-    lng: number;
-  };
-  _southWest: {
-    lat: number;
-    lng: number;
-  };
-};
+import { boundsType, latlngType, lightLocationType } from '../../../types';
+import { fetchData } from '../../utils/requests';
 
 function Map() {
   const [bounds, setBounds] = useState<boundsType>({
@@ -40,14 +17,24 @@ function Map() {
     lat: 50.447731,
     lng: 30.542721
   });
+  // eslint-disable-next-line no-unused-vars
   const [locations, setLocations] = useState<lightLocationType[]>([]);
 
   useEffect(() => {
     async function onZoom() {
-      const url = `http://localhost:3001/api/locations/search/${zoom}/${JSON.stringify(
-        zoomPosition
-      )}/${JSON.stringify(bounds)}`;
-      const { status, data } = await fetchData(url);
+      const url = `http://localhost:3001/api/locations/location-list`;
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          zoom,
+          center: JSON.stringify(zoomPosition),
+          bounds: JSON.stringify(bounds)
+        })
+      };
+      const { status, data } = await fetchData(url, options);
 
       if (data && data.mes && status) {
         console.log(data.mes, status);
@@ -68,7 +55,7 @@ function Map() {
         // eslint-disable-next-line no-underscore-dangle
         // setZoomPosition(e.target._animateToCenter);
         setZoomPosition(e.target.getCenter());
-        setBounds(prev => ({
+        setBounds((prev: boundsType) => ({
           ...prev,
           ...map.getBounds()
         }));
@@ -82,7 +69,7 @@ function Map() {
         // eslint-disable-next-line no-underscore-dangle
         // setZoomPosition(e.target._animateToCenter);
         setZoomPosition(e.target.getCenter());
-        setBounds(prev => ({
+        setBounds((prev: boundsType) => ({
           ...prev,
           ...map.getBounds()
         }));
@@ -106,15 +93,6 @@ function Map() {
   return (
     <MapContainer center={center} zoom={zoom} style={{ height: '100vh' }}>
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-      {locations.map((loc: lightLocationType) => (
-        <Marker position={loc.coordinates} key={v4()}>
-          <Popup>
-            A pretty CSS3 popup.
-            <br />
-            Easily customizable.
-          </Popup>
-        </Marker>
-      ))}
       <MyZoomComponent />
     </MapContainer>
   );
