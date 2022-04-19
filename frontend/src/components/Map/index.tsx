@@ -9,10 +9,6 @@ function Map() {
     _northEast: { lat: 54.82600799909498, lng: 38.64990234375001 },
     _southWest: { lat: 45.62940492064501, lng: 22.456054687500004 }
   });
-  const [center, setCenter] = useState<[number, number]>([
-    50.447731, 30.542721
-  ]);
-  const [zoom, setZoom] = useState<number>(6);
   const [zoomPosition, setZoomPosition] = useState<latlngType>({
     lat: 50.447731,
     lng: 30.542721
@@ -21,15 +17,14 @@ function Map() {
   const [locations, setLocations] = useState<lightLocationType[]>([]);
 
   useEffect(() => {
-    async function onZoom() {
-      const url = `http://localhost:3001/api/locations/location-list`;
+    async function onBoundsChange() {
+      const url = 'http://localhost:3001/api/locations/location-list';
       const options = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          zoom,
           center: JSON.stringify(zoomPosition),
           bounds: JSON.stringify(bounds)
         })
@@ -45,37 +40,23 @@ function Map() {
         setLocations(() => [...data.locations]);
       }
     }
-    onZoom();
+    onBoundsChange();
   }, [bounds]);
 
   function MyZoomComponent() {
     const map = useMapEvents({
       zoom: e => {
-        setZoom(map.getZoom());
-        // eslint-disable-next-line no-underscore-dangle
-        // setZoomPosition(e.target._animateToCenter);
         setZoomPosition(e.target.getCenter());
         setBounds((prev: boundsType) => ({
           ...prev,
           ...map.getBounds()
-        }));
-        setCenter(prev => ({
-          ...prev,
-          ...map.getCenter()
         }));
       },
-      click: () => null,
       dragend: e => {
-        // eslint-disable-next-line no-underscore-dangle
-        // setZoomPosition(e.target._animateToCenter);
         setZoomPosition(e.target.getCenter());
         setBounds((prev: boundsType) => ({
           ...prev,
           ...map.getBounds()
-        }));
-        setCenter(prev => ({
-          ...prev,
-          ...map.getCenter()
         }));
       }
     });
@@ -91,7 +72,11 @@ function Map() {
   //   return null;
   // }
   return (
-    <MapContainer center={center} zoom={zoom} style={{ height: '100vh' }}>
+    <MapContainer
+      center={[50.447731, 30.542721]}
+      zoom={6}
+      style={{ height: '100vh' }}
+    >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       <MyZoomComponent />
     </MapContainer>

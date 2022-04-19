@@ -51,9 +51,9 @@ const LocationsController = {
     try {
       const { locationName, description, coordinates, photoSrc } = req.body;
 
-      const locaton = await Location.find({ coordinates: coordinates });
+      const location = await Location.find({ coordinates: coordinates });
 
-      if (locaton.length === 0) {
+      if (location.length === 0) {
         const newLocation = new Location({
           locationName: locationName,
           coordinates: coordinates,
