@@ -4,6 +4,8 @@ import 'leaflet/dist/leaflet.css';
 import { boundsType, latlngType, lightLocationType } from '../../../types';
 import { fetchData } from '../../utils/requests';
 
+const REACT_APP_API_URI = process.env;
+
 function Map() {
   const [bounds, setBounds] = useState<boundsType>({
     _northEast: { lat: 54.82600799909498, lng: 38.64990234375001 },
@@ -18,7 +20,7 @@ function Map() {
 
   useEffect(() => {
     async function onBoundsChange() {
-      const url = 'http://localhost:3001/api/locations/location-list';
+      const url = `${REACT_APP_API_URI}locations/location-list`;
       const options = {
         method: 'POST',
         headers: {
