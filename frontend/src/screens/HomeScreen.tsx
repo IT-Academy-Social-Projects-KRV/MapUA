@@ -13,7 +13,6 @@ function HomeScreen() {
       <Button variant="text" onClick={() => setIsopen(true)} sx={{ ml: 100 }}>
         <PlaceIcon />
       </Button>
-
       <Container onClick={() => setIsopen(false)}>
         <Map />
         <SendFileFormTest />

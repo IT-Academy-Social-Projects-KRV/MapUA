@@ -1,6 +1,7 @@
 import React from 'react';
 import { MapContainer, TileLayer } from 'react-leaflet';
 import { Box } from '@mui/material';
+import SearchForm from 'components/SearchForm';
 
 function Map() {
   // TODO
@@ -22,6 +23,7 @@ function Map() {
         style={{ height: '100vh' }}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        <SearchForm />
       </MapContainer>
     </Box>
   );
