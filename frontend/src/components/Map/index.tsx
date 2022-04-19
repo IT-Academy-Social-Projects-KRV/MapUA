@@ -1,3 +1,4 @@
+import { LocationPopOut } from 'components/LocationPopOut/LocationPopOut';
 import React from 'react';
 import { MapContainer, TileLayer } from 'react-leaflet';
 
@@ -19,6 +20,7 @@ function Map() {
       style={{ height: '100vh' }}
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+      <LocationPopOut id="1" position={[50.447731, 30.542721]} />
     </MapContainer>
   );
 }
