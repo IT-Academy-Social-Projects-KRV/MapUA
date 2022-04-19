@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import { Box } from '@mui/material';
 import { boundsType, latlngType, lightLocationType } from '../../../types';
 import { fetchData } from '../../utils/requests';
 
@@ -73,15 +74,18 @@ function Map() {
   //   });
   //   return null;
   // }
+
   return (
-    <MapContainer
-      center={[50.447731, 30.542721]}
-      zoom={6}
-      style={{ height: '100vh' }}
-    >
-      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-      <MyZoomComponent />
-    </MapContainer>
+    <Box>
+      <MapContainer
+        center={[50.447731, 30.542721]}
+        zoom={6}
+        style={{ height: '100vh' }}
+      >
+        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        <MyZoomComponent />
+      </MapContainer>
+    </Box>
   );
 }
 
