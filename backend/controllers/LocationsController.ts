@@ -6,18 +6,22 @@ import Location from "../models/Locations";
 const LocationsController = {
   async getLocationsByZoom(req: Request, res: Response) {
     try {
-      const zoom = +req.params.zoom,
-          center: [number, number] = [JSON.parse(req.params.center).lat, JSON.parse(req.params.center).lng],
+      const center: [number, number] = [JSON.parse(req.params.center).lat, JSON.parse(req.params.center).lng],
           bounds = JSON.parse(req.params.bounds);
 
       const height = +(bounds._northEast.lat - bounds._southWest.lat);
       const width = +(bounds._northEast.lng - bounds._southWest.lng);
-      // console.log(width, height, center);
-      // await Location.remove({});
-      // await Location.insertMany(locConst);
-      // console.log(await Location.find());
 
-      let locations = (await Location.find()).map(l => ({
+      let locations = (await Location.find({
+        "coordinates.0": {
+          $gt: center[0] - height,
+          $lt: center[0] + height
+        },
+        "coordinates.1": {
+          $gt: center[1] - width,
+          $lt: center[1] + width
+        }
+      })).map(l => ({
         _id: l._id,
         coordinates: l.coordinates,
       }));
@@ -26,11 +30,6 @@ const LocationsController = {
       //   return res.status(400).json({ message: "Location doesn't exist" });
       // }
 
-      locations = locations.filter(l =>
-          l.coordinates[0] > center[0] - height &&
-          l.coordinates[0] < center[0] + height &&
-          l.coordinates[1] > center[1] - width &&
-          l.coordinates[1] < center[1] + width)
       locations = locations.slice(0, (locations.length < 50)? locations.length : 50);
 
       return res.json({ locations });
