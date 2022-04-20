@@ -27,6 +27,11 @@ export type locationType = {
   comments: string[];
 };
 
+export type LocationPopOutData = {
+  locationName: string;
+  photoSrc: string;
+};
+
 export type lightLocationType = {
   _id?: string;
   locationName: string;

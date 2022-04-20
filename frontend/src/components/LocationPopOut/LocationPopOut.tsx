@@ -1,34 +1,41 @@
 import * as React from 'react';
-import Typography from '@mui/material/Typography';
-import { Box, CardMedia, CircularProgress, styled } from '@mui/material';
-import { Marker, Tooltip } from 'react-leaflet';
-import L from 'leaflet';
 import { useState } from 'react';
+import Typography from '@mui/material/Typography';
+import { CardMedia, CircularProgress } from '@mui/material';
+import { Marker } from 'react-leaflet';
+import L from 'leaflet';
+import { fetchData } from 'utils/requests';
+import { LocationPopOutData } from '../../../types';
 import { StyledBox, StyledMediaBox, StyledTooltip } from './style';
 import icon from '../../static/map-point-svgrepo-com.svg';
 import img from '../../static/image-not-found.jpg';
 
 interface Props {
-  id: string;
-  position: [number, number];
+  id: string | undefined;
+  coordinates: [number, number];
 }
 
-export function LocationPopOut({ id, position }: Props) {
-  const [locationData, setLocationData] = useState<string>('');
+const { REACT_APP_API_URI } = process.env;
+
+export function LocationPopOut({ id, coordinates }: Props) {
+  const [locationData, setLocationData] = useState<LocationPopOutData>(
+    {} as LocationPopOutData
+  );
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const sleep = (ms: number) =>
-    new Promise(resolve => {
-      setTimeout(resolve, ms);
-    });
-
   const onOpenTooltip = async () => {
-    if (!locationData) {
+    if (!locationData.locationName) {
       setIsLoading(true);
-      await sleep(3000);
-      setLocationData('hello');
+      const url = `${REACT_APP_API_URI}locations/${id}`;
+      const { data } = await fetchData(url);
+      if (data) {
+        setLocationData({
+          locationName: data.locationName,
+          photoSrc: data.photoSrc
+        });
+      }
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   return (
@@ -40,7 +47,7 @@ export function LocationPopOut({ id, position }: Props) {
       eventHandlers={{
         tooltipopen: () => onOpenTooltip()
       }}
-      position={position}
+      position={coordinates}
     >
       <StyledTooltip>
         <StyledBox>
@@ -50,8 +57,7 @@ export function LocationPopOut({ id, position }: Props) {
             ) : (
               <CardMedia
                 sx={{ borderRadius: '20px' }}
-                alt={locationData}
-                src={locationData === 'hello' ? img : ''}
+                src={locationData.photoSrc === '' ? img : locationData.photoSrc}
                 component="img"
               />
             )}
@@ -62,7 +68,7 @@ export function LocationPopOut({ id, position }: Props) {
             textAlign="center"
             color="inherit"
           >
-            {id}dmaskdnaskldnsakldjnaskldjkals
+            {locationData.locationName}
           </Typography>
         </StyledBox>
       </StyledTooltip>
