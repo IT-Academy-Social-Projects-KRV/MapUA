@@ -59,6 +59,7 @@ export function LocationPopOut({ id, coordinates }: Props) {
                 sx={{ borderRadius: '20px' }}
                 src={!locationData.photoSrc ? img : img}
                 component="img"
+                alt={locationData.locationName}
               />
             )}
           </StyledMediaBox>
