@@ -7,8 +7,10 @@ const router = express.Router();
 
 router.get("/users", UserController.getUsers);
 router.get("/locations/:id", LocationsController.getLocationById);
+router.post("/locations/location-list", LocationsController.getLocationsByZoom);
 router.post("/locations/add", LocationsController.addLocation);
 router.post("/uploadImage", FilesController.uploadImage);
+
 
 export default router;
 
@@ -36,12 +38,48 @@ export default router;
  *            id: 1
  *            name: test
  *            account: test@gmai.com
+ *      Locations:
+ *        type: object
+ *        required:
+ *          - locationName
+ *          - account
+ *        properties:
+ *          locationName:
+ *              type: string
+ *              description: This is name
+ *          coordinates:
+ *              type: [number, number]
+ *              description: Two coordinates in array
+ *          photoSrc:
+ *               type: string
+ *               description: Location photo
+ *          description:
+ *               type: string
+ *               description: Location description
+ *          comments:
+ *               type: string
+ *               description: Location comments
+ *          rating:
+ *               type: object
+ *               properties:
+ *                like:
+ *                 type: number
+ *                dislike:
+ *                 type: number
+ *               description: Location ratings
  */
 /**
  * @swagger
  *  tags:
  *      name: Users
  *      description: The users managing API
+ */
+
+/**
+ * @swagger
+ *  tags:
+ *      name: Locations
+ *      description: The locations managing API
  */
 
 /**
@@ -60,3 +98,24 @@ export default router;
  *                  items:
  *                  $ref: "#/components/schemas/Users"
  */
+
+/**
+ * @swagger
+ * /locations/:id:
+ *    get:
+ *      summary: returns location by id
+ *      tags: [Locations]
+ *      responses:
+ *          200:
+ *            description: The location by id
+ *            content:
+ *             aplication/json:
+ *                schema:
+ *                  type: object
+ *                  items: [number]
+ *                  $ref: "#/components/schemas/Locations"
+ *          400:
+ *            description: Bad request. Location doesn`t find by id
+ *
+ */
+
