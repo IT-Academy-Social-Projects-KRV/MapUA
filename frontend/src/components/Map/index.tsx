@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Box } from '@mui/material';
+import { LocationPopOut } from 'components/LocationPopOut/LocationPopOut';
 import { boundsType, latlngType, lightLocationType } from '../../../types';
 import { fetchData } from '../../utils/requests';
 
@@ -83,7 +84,11 @@ function Map() {
         style={{ height: '100vh' }}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+
         <MyZoomComponent />
+        {locations.map(({ _id, coordinates }) => (
+          <LocationPopOut key={_id} id={_id} coordinates={coordinates} />
+        ))}
       </MapContainer>
     </Box>
   );
