@@ -396,7 +396,7 @@ function PointPopup({ children }: Props) {
                       <Typography variant="button">
                         <Link
                           href="/"
-                          sx={{ color: 'text.secondary' }}
+                          sx={{ pr: 1, color: 'text.secondary' }}
                           component="button"
                           underline="none"
                         >
