@@ -4,6 +4,7 @@ import GlobalStyles from '@mui/material/GlobalStyles';
 import HomeScreen from 'screens/HomeScreen';
 import NavBar from 'components/Header/NavBar';
 import Footer from 'components/Footer/Footer';
+import Registration from './components/Registration/Registration';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
       <NavBar />
       <Routes>
         <Route path="/" element={<HomeScreen />} />
+        <Route path="/registration" element={<Registration />} />
       </Routes>
       <Footer />
     </BrowserRouter>
