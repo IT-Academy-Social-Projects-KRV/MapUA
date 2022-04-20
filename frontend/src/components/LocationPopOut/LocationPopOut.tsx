@@ -57,7 +57,7 @@ export function LocationPopOut({ id, coordinates }: Props) {
             ) : (
               <CardMedia
                 sx={{ borderRadius: '20px' }}
-                src={locationData.photoSrc === '' ? img : locationData.photoSrc}
+                src={!locationData.photoSrc ? img : img}
                 component="img"
               />
             )}
