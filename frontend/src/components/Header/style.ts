@@ -9,5 +9,6 @@ export const StyledAppBar = styled(AppBar)(({ theme }) => ({
 
 export const StyledStack = styled(Stack)({
   justifyContent: 'space-around',
-  spacing: 40
+  spacing: 40,
+  zIndex: 1500
 });

@@ -5,6 +5,6 @@ export const StyledFooter = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
   color: 'white',
   width: '100%',
-  height: '100px',
-  padding: '30px 0 0 50px'
+  height: '50px',
+  paddingLeft: '20px'
 }));
