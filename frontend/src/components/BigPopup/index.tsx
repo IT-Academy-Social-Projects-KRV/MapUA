@@ -49,7 +49,7 @@ export default function BigPopup(props: PopupProps) {
             >
               <ArrowLeftIcon />
             </IconButton>
-            <Box sx={{ width: '40rem', mt: -10, mb: 10 }}>
+            <Box sx={{ width: '35rem', mt: -10, mb: 10 }}>
               <PointPopup location={location} />
             </Box>
           </Drawer>
