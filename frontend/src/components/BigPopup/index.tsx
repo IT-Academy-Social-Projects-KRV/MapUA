@@ -31,7 +31,7 @@ export default function BigPopup(props: PopupProps) {
       <Box>
         <ThemeProvider theme={theme}>
           <Drawer
-            sx={{ width: '50%' }}
+            sx={{ width: '35%' }}
             anchor="left"
             hideBackdrop
             open={isOpen}
