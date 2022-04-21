@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Box } from '@mui/material';
 import Map from 'components/Map/index';
-import SendFileFormTest from 'components/SendFileFormTest';
 import BigPopup from 'components/BigPopup/index';
 import { locationType } from '../../types';
 
@@ -23,7 +22,6 @@ function HomeScreen() {
       />
       <Container onClick={() => setIsopen(false)}>
         <Map onOpenBigPopup={onOpenBigPopup} />
-        <SendFileFormTest />
       </Container>
     </Box>
   );
