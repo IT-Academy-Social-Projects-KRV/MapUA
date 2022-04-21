@@ -5,8 +5,7 @@ import {
 } from '@mui/material/styles';
 import 'leaflet/dist/leaflet.css';
 import React from 'react';
-
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import theme from 'theme';
 
 // imports to fix for popup icon
@@ -24,7 +23,10 @@ const DefaultIcon = L.icon({
 });
 L.Marker.prototype.options.icon = DefaultIcon;
 
-ReactDOM.render(
+const rootElement = document.getElementById('root');
+const root = createRoot(rootElement!);
+
+root.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <CoreThemeProvider theme={theme}>
@@ -32,8 +34,7 @@ ReactDOM.render(
         <App />
       </CoreThemeProvider>
     </ThemeProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 );
 
 reportWebVitals();

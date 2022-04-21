@@ -8,7 +8,11 @@ import { fetchData } from '../../utils/requests';
 
 const { REACT_APP_API_URI } = process.env;
 
-function Map() {
+interface Props {
+  onOpenBigPopup: Function;
+}
+
+function Map({ onOpenBigPopup }: Props) {
   const [bounds, setBounds] = useState<boundsType>({
     _northEast: { lat: 54.82600799909498, lng: 38.64990234375001 },
     _southWest: { lat: 45.62940492064501, lng: 22.456054687500004 }
@@ -83,11 +87,16 @@ function Map() {
         zoom={6}
         style={{ height: '100vh' }}
       >
-        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        <TileLayer url="https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png" />
 
         <MyZoomComponent />
         {locations.map(({ _id, coordinates }) => (
-          <LocationPopOut key={_id} id={_id} coordinates={coordinates} />
+          <LocationPopOut
+            key={_id}
+            id={_id}
+            coordinates={coordinates}
+            onOpenBigPopup={onOpenBigPopup}
+          />
         ))}
       </MapContainer>
     </Box>
