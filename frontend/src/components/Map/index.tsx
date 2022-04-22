@@ -26,7 +26,7 @@ function Map({ onOpenBigPopup }: Props) {
 
   useEffect(() => {
     async function onBoundsChange() {
-      const url = `${REACT_APP_API_URI}locations/location-list`;
+      const url = `${REACT_APP_API_URI}/locations/location-list`;
       const options = {
         method: 'POST',
         headers: {
