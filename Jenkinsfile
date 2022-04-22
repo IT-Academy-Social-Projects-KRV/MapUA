@@ -47,7 +47,7 @@ pipeline {
         script {
           def dockerComposeCmd = "docker-compose -f docker-compose.yml up -d"
           // sshagent(['aws-ec2']) {
-              sh "scp docker-compose.yml root@159.89.0.180:/home/root"
+              sh "scp docker-compose.yml root@159.89.0.180:/root"
               sh "ssh -o StrictHostKeyChecking=no root@159.89.0.180 ${dockerComposeCmd}"
           // }
         }

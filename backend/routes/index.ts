@@ -11,7 +11,6 @@ router.post("/locations/location-list", LocationsController.getLocationsByZoom);
 router.post("/locations/add", LocationsController.addLocation);
 router.post("/uploadImage", FilesController.uploadImage);
 
-
 export default router;
 
 //Swager documentation API
@@ -118,4 +117,3 @@ export default router;
  *            description: Bad request. Location doesn`t find by id
  *
  */
-
