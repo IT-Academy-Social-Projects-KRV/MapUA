@@ -44,8 +44,10 @@ export function LocationPopOut({ id, coordinates, onOpenBigPopup }: Props) {
       })}
       eventHandlers={{
         click: e => {
-          e.originalEvent.stopPropagation();
-          onOpenBigPopup(locationData);
+          if (!isLoading) {
+            e.originalEvent.stopPropagation();
+            onOpenBigPopup(locationData);
+          }
         },
         tooltipopen: () => onOpenTooltip()
       }}

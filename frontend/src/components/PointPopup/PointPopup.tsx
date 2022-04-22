@@ -94,7 +94,7 @@ function PointPopup({ location }: Props) {
                   sx={{ color: 'text.secondary' }}
                 />
               </Link>
-              {location.rating.likes}
+              {location.rating?.likes}
             </Typography>
 
             <Link href="/" component="button" underline="none">
