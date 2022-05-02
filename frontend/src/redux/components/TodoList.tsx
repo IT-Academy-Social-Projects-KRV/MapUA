@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useEffect } from 'react';
 import { useTypedSelector } from '../hooks/useTypedSelector';
 import { useTypedDispatch } from '../hooks/useTypedDispatch';
@@ -11,7 +10,7 @@ function TodoList(): React.ReactElement<Props> {
   const { page, error, loading, todos, limit } = useTypedSelector(
     state => state.todo
   );
-  // eslint-disable-next-line no-shadow
+
   const { fetchTodos, setTodoPage } = useTypedDispatch();
   const pages = [1, 2, 3, 4, 5];
 
@@ -35,8 +34,8 @@ function TodoList(): React.ReactElement<Props> {
       ))}
       <div style={{ display: 'flex' }}>
         {pages.map(p => (
-          // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-          <div
+          <button
+            type="button"
             onClick={() => setTodoPage(p)}
             style={{
               border: p === page ? '2px solid green' : '1px solid gray',
@@ -44,7 +43,7 @@ function TodoList(): React.ReactElement<Props> {
             }}
           >
             {p}
-          </div>
+          </button>
         ))}
       </div>
     </div>
