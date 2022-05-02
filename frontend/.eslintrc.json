@@ -16,6 +16,7 @@
   "plugins": ["react", "@typescript-eslint", "prettier"],
   "rules": {
     "import/prefer-default-export": "off",
+    "default-param-last": 0,
     "prettier/prettier": "error",
     "react/jsx-filename-extension": [
       1,
