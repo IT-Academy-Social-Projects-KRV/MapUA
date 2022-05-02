@@ -15,7 +15,10 @@
   },
   "plugins": ["react", "@typescript-eslint", "prettier"],
   "rules": {
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": ["error"],
     "import/prefer-default-export": "off",
+    "default-param-last": 0,
     "prettier/prettier": "error",
     "react/jsx-filename-extension": [
       1,

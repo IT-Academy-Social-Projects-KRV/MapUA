@@ -4,6 +4,7 @@ import GlobalStyles from '@mui/material/GlobalStyles';
 import HomeScreen from 'screens/HomeScreen';
 import NavBar from 'components/Header/NavBar';
 import Footer from 'components/Footer/Footer';
+import ComposeComponents from 'redux/components/ComposeComponents';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
       <NavBar />
       <Routes>
         <Route path="/" element={<HomeScreen />} />
+        <Route path="/test-redux-components" element={<ComposeComponents />} />
       </Routes>
       <Footer />
     </BrowserRouter>
