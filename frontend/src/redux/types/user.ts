@@ -1,15 +1,12 @@
-/* eslint-disable no-shadow */
+/* eslint-disable no-unused-vars */
 export interface UserState {
   users: any[];
   loading: boolean;
   error: null | string;
 }
 export enum UserActionTypes {
-  // eslint-disable-next-line no-unused-vars
   FETCH_USERS = 'FETCH_USERS',
-  // eslint-disable-next-line no-unused-vars
   FETCH_USERS_SUCCESS = 'FETCH_USERS_SUCCESS',
-  // eslint-disable-next-line no-unused-vars
   FETCH_USERS_ERROR = 'FETCH_USERS_FETCH_USERS_ERROR'
 }
 interface FetchUsersAction {

@@ -1,4 +1,4 @@
-/* eslint-disable no-shadow */
+/* eslint-disable no-unused-vars */
 export interface TodoState {
   todos: any[];
   loading: boolean;
@@ -7,15 +7,10 @@ export interface TodoState {
   limit: number;
 }
 
-// eslint-disable-next-line no-unused-vars
 export enum TodoActionTypes {
-  // eslint-disable-next-line no-unused-vars
   FETCH_TODOS = 'FETCH_TODOS',
-  // eslint-disable-next-line no-unused-vars
   FETCH_TODOS_SUCCESS = 'FETCH_TODOS_SUCCESS',
-  // eslint-disable-next-line no-unused-vars
   FETCH_TODOS_ERROR = 'FETCH_TODOS_ERROR',
-  // eslint-disable-next-line no-unused-vars
   SET_TODO_PAGE = 'SET_TODO_PAGE'
 }
 type FetchTodoAction = {
