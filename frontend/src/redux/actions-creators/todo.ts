@@ -22,7 +22,7 @@ export const fetchTodos =
     } catch (e) {
       dispatch({
         type: TodoActionTypes.FETCH_TODOS_ERROR,
-        payload: 'Произошла ошибка при загрузке списка дел'
+        payload: 'An error occurred while loading the to-do list'
       });
     }
   };
