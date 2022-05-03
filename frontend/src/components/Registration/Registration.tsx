@@ -2,32 +2,44 @@ import React from 'react';
 import { FormControl, TextField, Button } from '@mui/material';
 import {
   BorderForm,
-  RegistrationFormWrapper
+  RegistrationFormWrapper,
+  StyledSpan,
+  WrapButtonAndText
 } from 'components/Registration/styles';
+import { TextFieldWrap, WrapH1 } from 'components/ForgotPassword/styles';
 
 function Registration() {
   return (
     <RegistrationFormWrapper>
       <BorderForm>
-        <FormControl sx={{ width: '25ch' }}>
-          <h1 style={{ textAlign: 'center' }}>Registration</h1>
-          <TextField
-            placeholder="Please enter your email"
-            label="Email"
-            autoComplete="current-email"
-          />
-          <TextField
-            placeholder="Please enter your email"
-            label="Password"
-            type="password"
-            autoComplete="current-password"
-          />
-          <div style={{ display: 'flex' }}>
-            <Button variant="contained" style={{ width: '50%' }}>
-              Contained
-            </Button>
-            <span>Return to login</span>
-          </div>
+        <FormControl sx={{ width: '35ch' }}>
+          <WrapH1>
+            <h1> Create profile</h1>
+          </WrapH1>
+
+          <TextFieldWrap>
+            <TextField
+              placeholder="Please enter your email"
+              label="Email"
+              autoComplete="current-email"
+            />
+          </TextFieldWrap>
+
+          <TextFieldWrap>
+            <TextField
+              placeholder="Please enter your email"
+              label="Password"
+              type="password"
+              autoComplete="current-password"
+            />
+          </TextFieldWrap>
+
+          <WrapButtonAndText>
+            <Button variant="contained">Create</Button>
+            <StyledSpan>
+              <span>Return to login</span>
+            </StyledSpan>
+          </WrapButtonAndText>
         </FormControl>
       </BorderForm>
     </RegistrationFormWrapper>

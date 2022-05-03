@@ -10,7 +10,18 @@ export const RegistrationFormWrapper = styled(Box)`
 
 export const BorderForm = styled(RegistrationFormWrapper)`
   border: 2px solid black;
-  padding: 50px;
-  height: 56vh;
+  height: 62vh;
   border-radius: 20px;
+  width: 500px;
+`;
+
+export const StyledSpan = styled(Box)`
+  margin-left: 20px;
+`;
+
+export const WrapButtonAndText = styled('div')`
+  display: flex;
+  margin-top: 20px;
+  justify-content: center;
+  align-items: center;
 `;
