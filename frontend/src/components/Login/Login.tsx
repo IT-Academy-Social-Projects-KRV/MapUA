@@ -5,14 +5,14 @@ import {
   RegistrationFormWrapper,
   StyledSpan,
   StyledSpanEnd
-} from 'components/LoginPage/styles';
+} from 'components/Login/styles';
 import {
   TextFieldWrap,
   WrapButtonAndText,
   WrapH1
 } from 'components/ForgotPassword/styles';
 
-function LoginPage() {
+function Login() {
   return (
     <RegistrationFormWrapper>
       <BorderForm>
@@ -58,4 +58,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default Login;
