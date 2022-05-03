@@ -4,6 +4,8 @@ import GlobalStyles from '@mui/material/GlobalStyles';
 import HomeScreen from 'screens/HomeScreen';
 import NavBar from 'components/Header/NavBar';
 import Footer from 'components/Footer/Footer';
+import LoginPage from 'components/LoginPage/LoginPage';
+import ForgotPassword from 'components/ForgotPassword/ForgotPassword';
 import Registration from './components/Registration/Registration';
 
 function App() {
@@ -37,6 +39,8 @@ function App() {
       <Routes>
         <Route path="/" element={<HomeScreen />} />
         <Route path="/registration" element={<Registration />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
       </Routes>
       <Footer />
     </BrowserRouter>
