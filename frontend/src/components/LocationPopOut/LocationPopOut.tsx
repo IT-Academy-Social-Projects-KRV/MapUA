@@ -27,7 +27,7 @@ export function LocationPopOut({ id, coordinates, onOpenBigPopup }: Props) {
   const onOpenTooltip = async () => {
     if (!locationData.locationName) {
       setIsLoading(true);
-      const url = `${REACT_APP_API_URI}locations/${id}`;
+      const url = `${REACT_APP_API_URI}/locations/${id}`;
       const { data } = await fetchData(url);
       if (data) {
         setLocationData(data);
@@ -44,8 +44,10 @@ export function LocationPopOut({ id, coordinates, onOpenBigPopup }: Props) {
       })}
       eventHandlers={{
         click: e => {
-          e.originalEvent.stopPropagation();
-          onOpenBigPopup(locationData);
+          if (!isLoading) {
+            e.originalEvent.stopPropagation();
+            onOpenBigPopup(locationData);
+          }
         },
         tooltipopen: () => onOpenTooltip()
       }}
