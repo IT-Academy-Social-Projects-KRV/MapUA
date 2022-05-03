@@ -28,7 +28,7 @@ function Login() {
 
           <Box sx={{ mt: '20px' }}>
             <TextField
-              placeholder="Please enter your email"
+              placeholder="Please enter your password"
               label="Password"
               type="password"
               autoComplete="current-password"
