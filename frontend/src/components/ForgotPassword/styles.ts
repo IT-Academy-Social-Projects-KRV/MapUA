@@ -1,4 +1,4 @@
-import { Box, TextField } from '@mui/material';
+import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 export const RegistrationFormWrapper = styled(Box)`
@@ -26,10 +26,6 @@ export const StyledSpanOr = styled(Box)`
 
 export const StyledSpanEnd = styled(StyledSpan)`
   margin-top: 15px;
-`;
-
-export const TextFieldWrap = styled(TextField)`
-  margin-top: 20px;
 `;
 
 export const WrapH1 = styled('div')`

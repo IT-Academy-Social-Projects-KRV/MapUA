@@ -1,8 +1,7 @@
 import React from 'react';
-import { FormControl, TextField, Button, Typography } from '@mui/material';
+import { FormControl, TextField, Button, Typography, Box } from '@mui/material';
 
 import {
-  TextFieldWrap,
   WrapH1,
   BorderForm,
   RegistrationFormWrapper,
@@ -16,16 +15,17 @@ function ForgotPassword() {
       <BorderForm>
         <FormControl sx={{ width: '35ch' }}>
           <WrapH1>
-            <Typography>Forgot password?</Typography>
+            <Typography sx={{ fontSize: '24px' }}>Forgot password?</Typography>
           </WrapH1>
 
-          <TextFieldWrap>
+          <Box sx={{ mt: '20px' }}>
             <TextField
               placeholder="Please enter your email"
               label="Email"
               autoComplete="current-email"
+              fullWidth
             />
-          </TextFieldWrap>
+          </Box>
 
           <WrapButtonAndText>
             <Button variant="contained">sent password</Button>
