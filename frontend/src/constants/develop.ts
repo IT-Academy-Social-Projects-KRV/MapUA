@@ -1,4 +1,4 @@
-import { locationType } from '../../types';
+import { locationType, UserDataType } from '../../types';
 
 export const positions: [number, number][] = [
   [49.447731, 29.542721],
@@ -354,4 +354,32 @@ export const locations: locationType[] = [
       "Озеро вважається найцікавішим об'єктом Національного природного парку «Синевир» і є однією з візитних карток Українських Карпат. Воно розташоване на висоті 989 метрів над рівнем моря, має середню площу 4—5 гектарів, його середня глибина становить 8—10 м, максимальна — 22-24 м. Через значну висоту над рівнем моря і порівняну глибоководність навіть у найтепліші дні прогріваються лише верхні 1—2 метри озера до максимальної температури 11—13°С.",
     comments: []
   }
+];
+
+export const usersDataPlug: UserDataType[] = [
+  {
+    account: 'andrii@mapua.com',
+    name: 'Andrii',
+    userToken: '32qugc843cbu',
+  },
+  {
+    account: 'roman@mapua.com',
+    name: 'Roman',
+    userToken: 'sservde324324',
+  },
+  {
+    account: 'vlad@mapua.com',
+    name: 'Vlad',
+    userToken: '438pw9poln43dc3',
+  },
+  {
+    account: 'yuriy@mapua.com',
+    name: 'Yuriy',
+    userToken: '234w3j0vpj5v',
+  },
+  {
+    account: 'oleksandr@mapua.com',
+    name: 'Oleksandr',
+    userToken: 'kmndvxpin3v342',
+  },
 ];

@@ -6,6 +6,7 @@ import LocationsController from "../controllers/LocationsController";
 const router = express.Router();
 
 router.get("/users", UserController.getUsers);
+router.get("/userData/:userToken", UserController.getUserData);
 router.get("/locations/:id", LocationsController.getLocationById);
 router.post("/locations/location-list", LocationsController.getLocationsByZoom);
 router.post("/locations/add", LocationsController.addLocation);

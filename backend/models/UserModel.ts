@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 export interface IUser extends Document {
   account: string;
   name: string;
+  userToken: string;
 }
 
 const schema = new mongoose.Schema(
@@ -20,6 +21,11 @@ const schema = new mongoose.Schema(
       trim: true,
       unique: true,
       lowercase: true,
+    },
+    userToken: {
+      type: String,
+      required: true,
+      unique: true,
     },
   },
   {

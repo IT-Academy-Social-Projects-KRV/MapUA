@@ -42,3 +42,9 @@ export type lightLocationType = {
   coordinates: [number, number];
   photoSrc: string;
 };
+
+export type UserDataType = {
+  account: string;
+  name: string;
+  userToken: string;
+}
