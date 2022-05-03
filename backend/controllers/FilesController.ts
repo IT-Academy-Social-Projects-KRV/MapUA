@@ -7,7 +7,7 @@ const FilesController = {
       const location = await uploadFileOnAWSBucket(req);
       return res.json({ url: location });
     } catch (err: any) {
-      return res.status(500).json({ message: err.message });
+      return res.status(500).json({ error: err.message });
     }
   },
 };
