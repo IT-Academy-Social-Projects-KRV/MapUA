@@ -8,7 +8,7 @@ pipeline {
   environment {
     MONGO_DB = 'mapua'
     MONGO_HOSTNAME = 'mapua-cluster.uhph9.mongodb.net'
-    BACKEND_PROD_URI = 'http://3.126.245.53:3001/api'
+    BACKEND_PROD_URI = 'http://159.89.0.180/api'
   }
 
   stages {
@@ -46,10 +46,10 @@ pipeline {
       steps {
         script {
           def dockerComposeCmd = "docker-compose -f docker-compose.yml up -d"
-          sshagent(['aws-ec2']) {
-              sh "scp docker-compose.yml ec2-user@3.126.245.53:/home/ec2-user"
-              sh "ssh -o StrictHostKeyChecking=no ec2-user@3.126.245.53 ${dockerComposeCmd}"
-          }
+          // sshagent(['aws-ec2']) {
+              sh "scp docker-compose.yml root@159.89.0.180:/root"
+              sh "ssh -o StrictHostKeyChecking=no root@159.89.0.180 ${dockerComposeCmd}"
+          // }
         }
       }
     }
