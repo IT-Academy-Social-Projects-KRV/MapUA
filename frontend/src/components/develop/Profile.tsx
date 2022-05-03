@@ -8,9 +8,20 @@ const { REACT_APP_API_URI } = process.env;
 function Profile() {
   const [token, setToken] = useState<string>('');
   const [userData, setUserData] = useState<UserDataType>({
-    account: '',
-    name: '',
-    userToken: ''
+    email: '',
+    createdAt: '',
+    updatedAt: '',
+    displayName: '',
+    description: '',
+    imageUrl: '',
+    userToken: '',
+    locations: {
+      personal: [],
+      favorite: [],
+      visited: []
+    },
+    subscribers: [],
+    subscriptions: []
   });
 
   async function onGetToken() {
@@ -55,8 +66,8 @@ function Profile() {
           border: '1px solid black'
         }}
       >
-        <Box>{`account: ${userData.account}`}</Box>
-        <Box>{`name: ${userData.name}`}</Box>
+        <Box>{`email: ${userData.email}`}</Box>
+        <Box>{`displayName: ${userData.displayName}`}</Box>
       </Box>
     </Box>
   );

@@ -44,7 +44,18 @@ export type lightLocationType = {
 };
 
 export type UserDataType = {
-  account: string;
-  name: string;
+  email: string;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+  displayName: string;
+  description: string;
+  imageUrl: string;
   userToken: string;
-}
+  locations: {
+    personal: string[];
+    favorite: string[];
+    visited: string[];
+  };
+  subscribers: string[];
+  subscriptions: string[];
+};

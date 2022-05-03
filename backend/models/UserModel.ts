@@ -8,6 +8,18 @@ export interface IUser extends Document {
   createdAt: Date | string;
   updatedAt: Date | string;
   isValidPassword: (pass: string) => boolean;
+
+  displayName: string;
+  description: string;
+  imageUrl: string;
+  userToken: string;
+  locations: {
+    personal: string[],
+    favorite: string[],
+    visited: string[],
+  }
+  subscribers: string[];
+  subscriptions: string[];
 }
 
 const schema = new mongoose.Schema(
@@ -18,6 +30,23 @@ const schema = new mongoose.Schema(
       unique: true,
     },
     passwordHash: {
+      type: String,
+      required: true,
+    },
+
+    userToken: {
+      type: String,
+      required: true,
+    },
+    displayName: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    imageUrl: {
       type: String,
       required: true,
     },
