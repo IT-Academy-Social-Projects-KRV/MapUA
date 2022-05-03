@@ -5,6 +5,7 @@ import HomeScreen from 'screens/HomeScreen';
 import NavBar from 'components/Header/NavBar';
 import Footer from 'components/Footer/Footer';
 import ComposeComponents from 'redux/components/ComposeComponents';
+import Profile from 'components/develop/Profile';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomeScreen />} />
         <Route path="/test-redux-components" element={<ComposeComponents />} />
+        <Route path="/test-profile-data" element={<Profile />} />
       </Routes>
       <Footer />
     </BrowserRouter>
