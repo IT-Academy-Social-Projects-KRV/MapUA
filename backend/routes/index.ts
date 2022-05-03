@@ -2,11 +2,20 @@ import express from "express";
 import FilesController from "../controllers/FilesController";
 import UserController from "../controllers/UserController";
 import LocationsController from "../controllers/LocationsController";
+import AuthController from "../controllers/AuthController";
+import passport from "../libs/passport";
 
 const router = express.Router();
 
 router.get("/users", UserController.getUsers);
 router.get("/userData/:userToken", UserController.getUserData);
+router.post("/signup", AuthController.signUp);
+router.post("/signin", AuthController.signIn);
+router.get(
+  "/protected-route",
+  passport.authenticate("jwt", { session: false })
+);
+
 router.get("/locations/:id", LocationsController.getLocationById);
 router.post("/locations/location-list", LocationsController.getLocationsByZoom);
 router.post("/locations/add", LocationsController.addLocation);
@@ -104,7 +113,7 @@ export default router;
  * /locations/:id:
  *    get:
  *      summary: returns location by id
- *      tags: [Locations]
+ *      tags: [Locations]locations
  *      responses:
  *          200:
  *            description: The location by id
