@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormControl, TextField, Button } from '@mui/material';
+import { FormControl, TextField, Button, Typography } from '@mui/material';
 import {
   BorderForm,
   RegistrationFormWrapper,
@@ -14,7 +14,7 @@ function Registration() {
       <BorderForm>
         <FormControl sx={{ width: '35ch' }}>
           <WrapH1>
-            <h1> Create profile</h1>
+            <Typography> Create profile</Typography>
           </WrapH1>
 
           <TextFieldWrap>

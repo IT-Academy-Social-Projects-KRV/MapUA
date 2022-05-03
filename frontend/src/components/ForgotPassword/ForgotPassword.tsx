@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormControl, TextField, Button } from '@mui/material';
+import { FormControl, TextField, Button, Typography } from '@mui/material';
 
 import {
   TextFieldWrap,
@@ -16,7 +16,7 @@ function ForgotPassword() {
       <BorderForm>
         <FormControl sx={{ width: '35ch' }}>
           <WrapH1>
-            <h1>Forgot password?</h1>
+            <Typography>Forgot password?</Typography>
           </WrapH1>
 
           <TextFieldWrap>
