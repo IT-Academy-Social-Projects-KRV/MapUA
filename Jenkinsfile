@@ -8,7 +8,7 @@ pipeline {
   environment {
     MONGO_DB = 'mapua'
     MONGO_HOSTNAME = 'mapua-cluster.uhph9.mongodb.net'
-    BACKEND_PROD_URI = 'http://159.89.0.180/api'
+    BACKEND_PROD_URI = 'http://159.89.0.180:3001/api/'
   }
 
   stages {
