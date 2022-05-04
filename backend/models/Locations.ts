@@ -12,6 +12,7 @@ export interface ILocation {
   description: string;
   rating: ratingType;
   comments?: string[];
+  author: string;
 }
 
 const schema = new mongoose.Schema({
@@ -24,6 +25,7 @@ const schema = new mongoose.Schema({
     likes: { type: Number, default: 0 },
     dislikes: { type: Number, default: 0 },
   },
+  author: { type: String, required: true },
 });
 
 export default mongoose.model<ILocation>("Location", schema);
