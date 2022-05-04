@@ -51,14 +51,16 @@ const schema = new mongoose.Schema(
       required: true,
     },
     locations: {
-      personal: {
-        type: []
-      },
-      favorite: {
-        type: []
-      },
-      visited: {
-        type: []
+      type: {
+        personal: {
+          type: []
+        },
+        favorite: {
+          type: []
+        },
+        visited: {
+          type: []
+        }
       },
       required: true,
       unique: true,

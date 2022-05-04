@@ -6,7 +6,7 @@ import NavBar from 'components/Header/NavBar';
 import Footer from 'components/Footer/Footer';
 import Login from 'components/Login/Login';
 import ForgotPassword from 'components/ForgotPassword/ForgotPassword';
-import Registration from './components/Registration/Registration';
+import Registration from 'components/Registration/Registration';
 import ComposeComponents from 'redux/components/ComposeComponents';
 import Profile from 'components/develop/Profile';
 
