@@ -7,7 +7,7 @@ import passport from "../libs/passport";
 
 const router = express.Router();
 
-router.get("/userData/:userToken", UserController.getUserData);
+router.get("/userData/:_id", UserController.getUserData);
 router.post("/signup", AuthController.signUp);
 router.post("/signin", AuthController.signIn);
 router.get(

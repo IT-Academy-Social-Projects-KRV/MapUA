@@ -4,11 +4,11 @@ import User from "../models/UserModel";
 const UserController = {
   async getUserData(req: Request, res: Response) {
     try {
-      const userToken = req.params.userToken;
+      const _id = req.params._id;
 
       const userData = (await User.find(
           {
-            userToken: userToken
+            _id: _id
           },
           {
               email: true,
@@ -17,7 +17,6 @@ const UserController = {
               displayName: true,
               description: true,
               imageUrl: true,
-              userToken: true,
               locations: true,
               subscribers: true,
               subscriptions: true,

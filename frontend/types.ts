@@ -50,12 +50,6 @@ export type UserDataType = {
   displayName: string;
   description: string;
   imageUrl: string;
-  userToken: string;
-  locations: {
-    personal: string[];
-    favorite: string[];
-    visited: string[];
-  };
   subscribers: string[];
   subscriptions: string[];
 };

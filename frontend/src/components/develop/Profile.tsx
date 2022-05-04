@@ -6,7 +6,7 @@ import { fetchData } from '../../utils/requests';
 const { REACT_APP_API_URI } = process.env;
 
 function Profile() {
-  const [token, setToken] = useState<string>('');
+  const [id, setId] = useState<string>('');
   const [userData, setUserData] = useState<UserDataType>({
     email: '',
     createdAt: '',
@@ -14,19 +14,13 @@ function Profile() {
     displayName: '',
     description: '',
     imageUrl: '',
-    userToken: '',
-    locations: {
-      personal: [],
-      favorite: [],
-      visited: []
-    },
     subscribers: [],
     subscriptions: []
   });
 
   async function onGetToken() {
-    if (token) {
-      const url = `${REACT_APP_API_URI}userData/${token}`;
+    if (id) {
+      const url = `${REACT_APP_API_URI}userData/${id}`;
       const { status, data } = await fetchData(url);
 
       if (status && data && data.error) {
@@ -41,7 +35,7 @@ function Profile() {
   }
 
   const onTokenChange = (e: any) => {
-    setToken(e.target.value);
+    setId(e.target.value);
   };
 
   return (
@@ -53,7 +47,7 @@ function Profile() {
         }
       }}
     >
-      <TextField value={token} onChange={onTokenChange} label="user token" />
+      <TextField value={id} onChange={onTokenChange} label="user token" />
       <Button variant="contained" onClick={() => onGetToken()}>
         Check token
       </Button>
