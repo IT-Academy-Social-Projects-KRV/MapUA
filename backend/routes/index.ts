@@ -1,11 +1,13 @@
 import express from "express";
 import FilesController from "../controllers/FilesController";
+import UserController from "../controllers/UserController";
 import LocationsController from "../controllers/LocationsController";
 import AuthController from "../controllers/AuthController";
 import passport from "../libs/passport";
 
 const router = express.Router();
 
+router.get("/userData/:_id", UserController.getUserData);
 router.post("/signup", AuthController.signUp);
 router.post("/signin", AuthController.signIn);
 router.get(

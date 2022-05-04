@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
 type ratingType = {
-  likes: number;
-  dislikes: number;
+  likes: string[];
+  dislikes: string[];
 };
 
 export interface ILocation {
@@ -12,6 +12,12 @@ export interface ILocation {
   description: string;
   rating: ratingType;
   comments?: string[];
+  filters: {
+    favorite: string[];
+    visited: string[];
+    author: string;
+    cost: 'free' | 'paid';
+  }
 }
 
 const schema = new mongoose.Schema({
@@ -21,9 +27,23 @@ const schema = new mongoose.Schema({
   description: { type: String },
   comments: { type: Array, default: [] },
   rating: {
-    likes: { type: Number, default: 0 },
-    dislikes: { type: Number, default: 0 },
+    likes: { type: Array, default: [] },
+    dislikes: { type: Array, default: [] },
   },
+  filters: {
+    type : {
+      favorite: {
+        type: Array,
+        default: []
+      },
+      visited: {
+        type: Array,
+        default: []
+      },
+      author: String,
+      cost: String,
+    }
+  }
 });
 
 export default mongoose.model<ILocation>("Location", schema);
