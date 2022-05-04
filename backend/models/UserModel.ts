@@ -60,6 +60,8 @@ const schema = new mongoose.Schema(
       visited: {
         type: []
       },
+      required: true,
+      unique: true,
     },
     subscribers: {
       type: []
