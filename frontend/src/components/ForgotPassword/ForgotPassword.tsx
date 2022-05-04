@@ -22,13 +22,13 @@ function ForgotPassword() {
     // after I make MAP-77 the data will go to the backend
     console.log(email.value);
 
-    await fetch('/reset-password...', {
+    await fetch('/reset-password', {
       headers: {
         'Content-Type': 'application/json'
       },
       method: 'POST',
       body: JSON.stringify({
-        password: email.value
+        email: email.value
       })
     });
   };

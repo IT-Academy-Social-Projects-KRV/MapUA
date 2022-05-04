@@ -1,22 +1,23 @@
-import express from "express";
-import FilesController from "../controllers/FilesController";
-import LocationsController from "../controllers/LocationsController";
-import AuthController from "../controllers/AuthController";
-import passport from "../libs/passport";
+import express from 'express';
+import FilesController from '../controllers/FilesController';
+import LocationsController from '../controllers/LocationsController';
+import AuthController from '../controllers/AuthController';
+import passport from '../libs/passport';
 
 const router = express.Router();
 
-router.post("/signup", AuthController.signUp);
-router.post("/signin", AuthController.signIn);
+router.post('/signup', AuthController.signUp);
+router.post('/signin', AuthController.signIn);
+router.post('/forgot-password', AuthController.forgotPassword);
 router.get(
-  "/protected-route",
-  passport.authenticate("jwt", { session: false })
+  '/protected-route',
+  passport.authenticate('jwt', { session: false })
 );
 
-router.get("/locations/:id", LocationsController.getLocationById);
-router.post("/locations/location-list", LocationsController.getLocationsByZoom);
-router.post("/locations/add", LocationsController.addLocation);
-router.post("/uploadImage", FilesController.uploadImage);
+router.get('/locations/:id', LocationsController.getLocationById);
+router.post('/locations/location-list', LocationsController.getLocationsByZoom);
+router.post('/locations/add', LocationsController.addLocation);
+router.post('/uploadImage', FilesController.uploadImage);
 
 export default router;
 
