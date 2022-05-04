@@ -29,15 +29,13 @@ function Profile() {
       const url = `${REACT_APP_API_URI}userData/${token}`;
       const { status, data } = await fetchData(url);
 
-      console.log(status, data);
-      if (status && data && data.message) {
-        console.log(status, data.message);
+      if (status && data && data.error) {
+        console.error(status, data.error);
         return;
       }
 
       if (data) {
         setUserData(data.userData);
-        console.log(data.userData);
       }
     }
   }
