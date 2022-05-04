@@ -34,7 +34,7 @@ function Profile() {
     }
   }
 
-  const onTokenChange = (e: any) => {
+  const onIdChange = (e: any) => {
     setId(e.target.value);
   };
 
@@ -47,7 +47,7 @@ function Profile() {
         }
       }}
     >
-      <TextField value={id} onChange={onTokenChange} label="user token" />
+      <TextField value={id} onChange={onIdChange} label="user id" />
       <Button variant="contained" onClick={() => onGetToken()}>
         Check token
       </Button>

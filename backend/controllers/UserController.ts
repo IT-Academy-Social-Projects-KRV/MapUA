@@ -6,10 +6,8 @@ const UserController = {
     try {
       const _id = req.params._id;
 
-      const userData = (await User.find(
-          {
-            _id: _id
-          },
+      const userData = await User.findById(
+          _id,
           {
               email: true,
               createdAt: true,
@@ -20,7 +18,7 @@ const UserController = {
               locations: true,
               subscribers: true,
               subscriptions: true,
-            }))[0];
+            });
 
       if (!userData) {
         return res.status(400).json({ error: "User doesn't exist" });
