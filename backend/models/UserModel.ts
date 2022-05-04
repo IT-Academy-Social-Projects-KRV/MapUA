@@ -12,7 +12,6 @@ export interface IUser extends Document {
   displayName: string;
   description: string;
   imageUrl: string;
-  userToken: string;
   subscribers: string[];
   subscriptions: string[];
 }
@@ -29,10 +28,6 @@ const schema = new mongoose.Schema(
       required: true,
     },
 
-    userToken: {
-      type: String,
-      required: true,
-    },
     displayName: {
       type: String,
       required: true,
