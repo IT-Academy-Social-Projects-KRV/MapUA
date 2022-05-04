@@ -1,20 +1,9 @@
 import React from 'react';
 import { MapContainer, TileLayer } from 'react-leaflet';
 import { Box } from '@mui/material';
-import SearchForm from 'components/SearchForm';
+import SearchFormContainer from 'components/SearchFormContainer';
 
 function Map() {
-  // TODO
-  // Function that defines coordinates on mouse click
-  // function CoordsFinder() {
-  //   useMapEvents({
-  //     click(e) {
-  //       console.log(e.latlng);
-  //     }
-  //   });
-  //   return null;
-  // }
-
   return (
     <Box>
       <MapContainer
@@ -23,7 +12,7 @@ function Map() {
         style={{ height: '100vh' }}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        <SearchForm />
+        <SearchFormContainer />
       </MapContainer>
     </Box>
   );
