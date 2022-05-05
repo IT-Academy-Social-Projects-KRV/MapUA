@@ -1,7 +1,17 @@
 import { UserAction, UserActionTypes, UserState } from '../types/user';
+import image from '../../static/image-not-found.jpg';
 
 const initialState: UserState = {
-  users: [],
+  data: {
+    email: '',
+    createdAt: '',
+    updatedAt: '',
+    displayName: '',
+    description: '',
+    imageUrl: image,
+    subscribers: [],
+    subscriptions: []
+  },
   loading: false,
   error: null
 };
@@ -11,12 +21,12 @@ export const userReducer = (
   action: UserAction
 ): UserState => {
   switch (action.type) {
-    case UserActionTypes.FETCH_USERS:
-      return { loading: true, error: null, users: [] };
-    case UserActionTypes.FETCH_USERS_SUCCESS:
-      return { loading: false, error: null, users: action.payload };
-    case UserActionTypes.FETCH_USERS_ERROR:
-      return { loading: false, error: action.payload, users: [] };
+    case UserActionTypes.FETCH_USER:
+      return { loading: true, error: null, data: initialState.data };
+    case UserActionTypes.FETCH_USER_SUCCESS:
+      return { loading: false, error: null, data: action.payload };
+    case UserActionTypes.FETCH_USER_ERROR:
+      return { loading: false, error: action.payload, data: initialState.data };
     default:
       return state;
   }
