@@ -27,18 +27,14 @@ const schema = new mongoose.Schema(
       type: String,
       required: true,
     },
-
     displayName: {
       type: String,
-      required: true,
     },
     description: {
       type: String,
-      required: true,
     },
     imageUrl: {
       type: String,
-      required: true,
     },
     subscribers: {
       type: []
