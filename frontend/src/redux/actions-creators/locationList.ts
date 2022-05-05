@@ -1,11 +1,10 @@
 import { Dispatch } from 'redux';
 import {
-  boundsType,
-  latlngType,
   LocationListActions,
   LocationsListActionsType
 } from 'redux/types/locationList';
 import { fetchData } from 'utils/requests';
+import { boundsType, latlngType } from '../../../types';
 
 const { REACT_APP_API_URI } = process.env;
 
@@ -15,16 +14,18 @@ export const fetchLocations =
     try {
       const url = `${REACT_APP_API_URI}/locations/location-list`;
       const options = {
-        method: 'POST',
+        method: 'post',
+        url,
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
+        data: {
           center: JSON.stringify(zoomPosition),
           bounds: JSON.stringify(bounds)
-        })
+        }
       };
-      const { status, data } = await fetchData(url, options);
+      const { status, data } = await fetchData(options);
+
       if (data && data.mes && status) {
         console.log(data.mes, status);
         return;

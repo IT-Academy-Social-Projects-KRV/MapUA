@@ -21,14 +21,15 @@ function Map({ onOpenBigPopup }: Props) {
   }, [bounds]);
 
   function MyZoomComponent() {
+    const prev = bounds;
     const map = useMapEvents({
       zoom: e => {
         setZoomPosition(e.target.getCenter());
-        setBounds({ ...map.getBounds() });
+        setBounds({ ...prev, ...map.getBounds() });
       },
       dragend: e => {
         setZoomPosition(e.target.getCenter());
-        setBounds({ ...map.getBounds() });
+        setBounds({ ...prev, ...map.getBounds() });
       }
     });
     return null;

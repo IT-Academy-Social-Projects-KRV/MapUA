@@ -1,18 +1,18 @@
-// export type latlngType = {
-//   lat: number;
-//   lng: number;
-// };
+export type latlngType = {
+  lat: number;
+  lng: number;
+};
 
-// export type boundsType = {
-//   _northEast: {
-//     lat: number;
-//     lng: number;
-//   };
-//   _southWest: {
-//     lat: number;
-//     lng: number;
-//   };
-// };
+export type boundsType = {
+  _northEast: {
+    lat: number;
+    lng: number;
+  };
+  _southWest: {
+    lat: number;
+    lng: number;
+  };
+};
 
 export type locationType = {
   _id?: string;

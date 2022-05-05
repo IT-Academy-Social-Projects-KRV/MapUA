@@ -9,10 +9,14 @@ import { fetchData } from 'utils/requests';
 const { REACT_APP_API_URI } = process.env;
 
 export const fetchPopupLocation =
-  (id: any) => async (dispatch: Dispatch<LocationActions>) => {
+  (id: string) => async (dispatch: Dispatch<LocationActions>) => {
     try {
       const url = `${REACT_APP_API_URI}/locations/${id}`;
-      const { data } = await fetchData(url);
+      const options = {
+        method: 'get',
+        url
+      };
+      const { data } = await fetchData(options);
 
       if (data) {
         dispatch({

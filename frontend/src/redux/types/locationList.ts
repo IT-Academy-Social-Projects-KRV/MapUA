@@ -1,3 +1,5 @@
+import { boundsType, latlngType } from '../../../types';
+
 /* eslint-disable no-unused-vars */
 export interface locationsListStateType {
   locations: any[];
@@ -5,21 +7,21 @@ export interface locationsListStateType {
   zoomPosition: latlngType;
 }
 
-export type latlngType = {
-  lat: number;
-  lng: number;
-};
+// export type latlngType = {
+//   lat: number;
+//   lng: number;
+// };
 
-export type boundsType = {
-  _northEast?: {
-    lat?: number;
-    lng?: number;
-  };
-  _southWest?: {
-    lat?: number;
-    lng?: number;
-  };
-};
+// export type boundsType = {
+//   _northEast?: {
+//     lat?: number;
+//     lng?: number;
+//   };
+//   _southWest?: {
+//     lat?: number;
+//     lng?: number;
+//   };
+// };
 
 export enum LocationsListActionsType {
   FETCH_LOCATIONS = 'FETCH_LOCATIONS',
@@ -33,7 +35,7 @@ interface FetchLocationAction {
 
 interface SetBoundsAction {
   type: LocationsListActionsType.SET_BOUNDS;
-  payload: boundsType;
+  payload: any;
 }
 
 interface SetZoomPositionAction {
