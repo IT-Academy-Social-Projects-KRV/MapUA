@@ -9,7 +9,6 @@ import busboy from "connect-busboy";
 import router from "./routes";
 
 import swaggerUI from "swagger-ui-express";
-import swaggerJsDoc from "swagger-jsdoc";
 import "./config/db";
 import passport from "./libs/passport";
 import YAML from "yamljs";

@@ -96,7 +96,7 @@ paths:
                   $ref: "#/components/schemas/Locations"
           400:
             description: Bad request. Location doesn`t find by id
-  /api/signin:
+  /api/signup:
     post:
       summary: Register user using his email and password
       requestBody:
@@ -108,7 +108,7 @@ paths:
               properties:
                 email:
                   type: string
-                  example: Vasia Pupkin
+                  example: vasia@gmail.com
                 password:
                   type: string
                   example: whatever-string
@@ -121,11 +121,68 @@ paths:
                 schema:
                   type: object
                   properties:
-                    email:
+                    user:
+                      type: object
+                      properties:
+                        email:
+                          type: string
+                          example: vaasassddasddazzz@gmai.com
+                        _id:
+                          type: string
+                          example: 627380218b043204a17b6bb1
+                        createdAt:
+                          type: Date
+                          example: 2022-05-05T07:43:29.524Z
+                        updatedAt:
+                          type: Date
+                          example: 2022-05-05T07:43:29.524Z
+                    token:
                       type: string
-                      example: Vasia Pupkin
-                    password:
-                      type: string
-                      example: whatever-string
+                      example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjczODAyMThiMDQzMjA0YTE3YjZiYjEiLCJlbWFpbCI6InZhYXNhc3NkZGFzZGRhenp6QGdtYWkuY29tIiwiaWF0IjoxNjUxNzM2NjA5LCJleHAiOjE2NTE4MjMwMDl9.NLStXGRatNepZ852uVE67FhqKJK0WkZIv5p7V9Vn-mk
           400:
-            description: Bad Request
+            description: Bad Request. User with such email already registered.
+  /api/signin:
+    post:
+      summary: Login user via his email and password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: vasia@gmail.com
+                password:
+                  type: string
+                  example: whatever-string
+      tags: [Users]
+      responses:
+          200:
+            description: Authorized user dictionary and accessToken
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    user:
+                      type: object
+                      properties:
+                        email:
+                          type: string
+                          example: vaasassddasddazzz@gmai.com
+                        _id:
+                          type: string
+                          example: 627380218b043204a17b6bb1
+                        createdAt:
+                          type: Date
+                          example: 2022-05-05T07:43:29.524Z
+                        updatedAt:
+                          type: Date
+                          example: 2022-05-05T07:43:29.524Z
+                    token:
+                      type: string
+                      example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjczODAyMThiMDQzMjA0YTE3YjZiYjEiLCJlbWFpbCI6InZhYXNhc3NkZGFzZGRhenp6QGdtYWkuY29tIiwiaWF0IjoxNjUxNzM2NjA5LCJleHAiOjE2NTE4MjMwMDl9.NLStXGRatNepZ852uVE67FhqKJK0WkZIv5p7V9Vn-mk
+          400:
+            description: Bad Request. 1) User not found. 2) Wrong Password
