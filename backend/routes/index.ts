@@ -8,9 +8,9 @@ import passport from "../libs/passport";
 const router = express.Router();
 
 router.get(
-  "/userData/:_id",
-  passport.authenticate("jwt", { session: false }),
-  UserController.getUserData
+    "/profile",
+    passport.authenticate("jwt", { session: false }),
+    UserController.getProfile
 );
 router.post("/signup", AuthController.signUp);
 router.post("/signin", AuthController.signIn);
