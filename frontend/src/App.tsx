@@ -6,14 +6,9 @@ import NavBar from 'components/Header/NavBar';
 import Footer from 'components/Footer/Footer';
 import Login from 'components/Login/Login';
 import ForgotPassword from 'components/ForgotPassword/ForgotPassword';
-<<<<<<< HEAD
-import ComposeComponents from 'redux/components/ComposeComponents';
-import Registration from './components/Registration/Registration';
-=======
 import Registration from 'components/Registration/Registration';
 import ComposeComponents from 'redux/components/ComposeComponents';
 import Profile from 'components/develop/Profile';
->>>>>>> 67e18bb6e37bc3528389e23ad9a3a9ff4814efb6
 
 function App() {
   return (

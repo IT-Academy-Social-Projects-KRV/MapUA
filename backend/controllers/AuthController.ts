@@ -3,6 +3,7 @@ import passport from '../libs/passport';
 import mapUserProps from '../mappers/mapUserProps';
 import UserModel, { IUser } from '../models/UserModel';
 import tokenGenerator from '../utils/tokenGenerator';
+const { v4: uuidv4 } = require('uuid');
 
 const AuthController = {
   async signUp(req: Request, res: Response, next: NextFunction) {
@@ -49,29 +50,24 @@ const AuthController = {
   async forgotPassword(req: Request, res: Response, next: NextFunction) {
     try {
       // Получить имейл (рек.бади.имейл)
-      // const user = await UserModel.findOne({ email });
-      // if (!user) {
-      //   return res.status(401).json({ error: info.message });
-      // }
-      // https://www.npmjs.com/package/generate-password
-      // юзер.пасвордХеш = пасворд
-      // await юзер.save();
-      // сендгрид
+      const { email } = req.body;
 
-      await passport.authenticate(
-        'signup',
-        { session: false },
-        async (err: Error, user: IUser, info) => {
-          if (err) throw err;
-          if (!user) {
-            return res.status(400).json({ error: info.message });
-          }
-          res.json({
-            user: mapUserProps(user),
-            token: _tokenGeneration(user),
-          });
-        }
-      )(req, res, next);
+      const user = await UserModel.findOne({ email });
+
+      if (!user) {
+        return res.status(401).send({ status: 'Error...' });
+      }
+      res.status(200).send({ status: 'success' });
+      console.log(email);
+      // https://www.npmjs.com/package/generate-password
+
+      // юзер.пасвордХеш = пасворд
+      user.passwordHash = uuidv4();
+
+      await user.save();
+      // await юзер.save();
+
+      // сендгрид
     } catch (err: any) {
       return res.status(500).json({ error: err.message });
     }
