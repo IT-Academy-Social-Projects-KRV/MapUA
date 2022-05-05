@@ -17,6 +17,7 @@ function Map({ onOpenBigPopup }: Props) {
     _northEast: { lat: 54.82600799909498, lng: 38.64990234375001 },
     _southWest: { lat: 45.62940492064501, lng: 22.456054687500004 }
   });
+  // eslint-disable-next-line no-unused-vars
   const [zoomPosition, setZoomPosition] = useState<latlngType>({
     lat: 50.447731,
     lng: 30.542721
@@ -26,16 +27,14 @@ function Map({ onOpenBigPopup }: Props) {
 
   useEffect(() => {
     async function onBoundsChange() {
-      const url = `${REACT_APP_API_URI}/locations/location-list`;
+      const url = `${REACT_APP_API_URI}locations/?center=${JSON.stringify(
+        zoomPosition
+      )}&bounds=${JSON.stringify(bounds)}`;
       const options = {
-        method: 'POST',
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          center: JSON.stringify(zoomPosition),
-          bounds: JSON.stringify(bounds)
-        })
+        }
       };
       const { status, data } = await fetchData(url, options);
 

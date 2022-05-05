@@ -1,27 +1,24 @@
-import { Response, Request } from "express";
-import Location from "../models/Locations";
+import { Response, Request } from 'express';
+import Location from '../models/Locations';
 
 const LocationsController = {
   async getLocationsByZoom(req: Request, res: Response) {
     try {
-      const center: [number, number] = [
-          JSON.parse(req.body.center).lat,
-          JSON.parse(req.body.center).lng,
-        ],
-        bounds = JSON.parse(req.body.bounds);
+      const center = JSON.parse(req.query.center as string);
+      const bounds = JSON.parse(req.query.bounds as string);
 
       const height = +(bounds._northEast.lat - bounds._southWest.lat);
       const width = +(bounds._northEast.lng - bounds._southWest.lng);
 
       let locations = (
         await Location.find({
-          "coordinates.0": {
-            $gt: center[0] - height,
-            $lt: center[0] + height,
+          'coordinates.0': {
+            $gt: center.lat - height,
+            $lt: center.lat + height,
           },
-          "coordinates.1": {
-            $gt: center[1] - width,
-            $lt: center[1] + width,
+          'coordinates.1': {
+            $gt: center.lng - width,
+            $lt: center.lng + width,
           },
         })
       ).map((l) => ({
@@ -71,7 +68,7 @@ const LocationsController = {
         const result = await newLocation.save(newLocation as any);
         res.status(200).json(result);
       } else {
-        res.status(400).json({ error: "Data is present" });
+        res.status(400).json({ error: 'Data is present' });
       }
     } catch (err: any) {
       return res.status(500).json({ error: err.message });
