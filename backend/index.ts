@@ -9,9 +9,9 @@ import busboy from "connect-busboy";
 import router from "./routes";
 
 import swaggerUI from "swagger-ui-express";
-import swaggerJsDoc from "swagger-jsdoc";
 import "./config/db";
 import passport from "./libs/passport";
+import YAML from "yamljs";
 
 const app = express();
 
@@ -41,22 +41,5 @@ app.listen(port, () => {
 });
 
 // swagger
-const options = {
-  definition: {
-    openapi: "3.0.0",
-    info: {
-      title: "Library API",
-      version: "1.0.0",
-      description: "MapUA API",
-    },
-    servers: [
-      {
-        url: process.env.HOST,
-      },
-    ],
-  },
-  apis: ["./routes/index.ts"],
-};
-
-const specs = swaggerJsDoc(options);
-app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
+const swaggerDocument = YAML.load("./swagger-config.yml");
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
