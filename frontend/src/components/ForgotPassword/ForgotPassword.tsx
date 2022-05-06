@@ -1,14 +1,17 @@
 import React, { useState, FormEvent, SyntheticEvent } from 'react';
 import axios from 'axios';
+import _ from 'lodash';
 import {
   FormControl,
   TextField,
-  Button,
   Typography,
   Box,
   Stack,
-  Snackbar
+  Alert,
+  Snackbar,
+  AlertColor
 } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 import {
   WrapH1,
@@ -20,34 +23,72 @@ import {
 
 const { REACT_APP_API_URI } = process.env;
 
+interface INotification {
+  type: AlertColor;
+  message: string;
+}
+
 function ForgotPassword() {
   const [email, setEmail] = useState('');
-  const [open, setOpen] = useState(false);
+  const [notification, setNotification] = useState<INotification | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  const handleClose = (e?: SyntheticEvent | Event, reason?: string) => {
+  const handleCloseNotification = (
+    e?: SyntheticEvent | Event,
+    reason?: string
+  ) => {
     if (reason === 'clickaway') {
       return;
     }
-    setOpen(false);
+    setNotification(null);
   };
 
   const sendEmail = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
-      const res = await axios.post(`${REACT_APP_API_URI}forgot-password`, {
-        email
-      });
+      const { data } = await axios.post(
+        `${REACT_APP_API_URI}/forgot-password`,
+        {
+          email
+        }
+      );
       setEmail('');
-      console.log(res);
-    } catch (error) {
-      console.log(error);
+      setNotification({ type: 'success', message: data.message });
+    } catch (error: any) {
+      const { message } = _.has(error, 'response.data.message')
+        ? error.response.data
+        : error;
+      setNotification({ type: 'error', message });
+    } finally {
+      setLoading(false);
     }
   };
 
+  let snackbar;
+  if (notification) {
+    snackbar = (
+      <Snackbar
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        open={!!notification}
+        autoHideDuration={5000}
+        onClose={handleCloseNotification}
+      >
+        <Alert
+          onClose={handleCloseNotification}
+          severity={notification.type}
+          sx={{ width: '100%' }}
+        >
+          {notification.message}
+        </Alert>
+      </Snackbar>
+    );
+  }
+
   return (
     <RegistrationFormWrapper>
-      <form onSubmit={sendEmail}>
+      <Box component="form" onSubmit={sendEmail}>
         <BorderForm>
           <FormControl sx={{ width: '35ch' }}>
             <WrapH1>
@@ -70,9 +111,13 @@ function ForgotPassword() {
               />
             </Box>
             <WrapButtonAndText>
-              <Button type="submit" variant="contained">
+              <LoadingButton
+                loading={loading}
+                type="submit"
+                variant="contained"
+              >
                 sent password
-              </Button>
+              </LoadingButton>
               <StyledSpan>
                 <span>I remember password</span>
               </StyledSpan>
@@ -80,14 +125,9 @@ function ForgotPassword() {
           </FormControl>
         </BorderForm>
         <Stack spacing={5} sx={{ width: '100%' }}>
-          <Snackbar
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-            open={open}
-            autoHideDuration={5000}
-            onClose={handleClose}
-          />
+          {snackbar}
         </Stack>
-      </form>
+      </Box>
     </RegistrationFormWrapper>
   );
 }

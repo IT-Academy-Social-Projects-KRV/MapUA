@@ -3,7 +3,7 @@ import passport from '../libs/passport';
 import mapUserProps from '../mappers/mapUserProps';
 import UserModel, { IUser } from '../models/UserModel';
 import tokenGenerator from '../utils/tokenGenerator';
-import { sendForgotPasswordMail } from '../libs/mailerSend';
+import { sendForgotPasswordMail } from '../libs/mailtrap';
 import { v4 as uuidv4 } from 'uuid';
 
 const AuthController = {
@@ -59,20 +59,30 @@ const AuthController = {
       const user = await UserModel.findOne({ email });
 
       if (!user) {
-        return res
-          .status(400)
-          .json({ error: 'There is no user with this email address...' });
+        return res.status(400).json({
+          message: 'There is no user with this email address...',
+          success: false,
+        });
       }
 
       const newPassword = uuidv4();
       user.passwordHash = newPassword;
 
       await user.save();
-      await sendForgotPasswordMail(email, newPassword, user.displayName);
 
-      return res.status(200).json({ ok: true });
+      const isOk = await sendForgotPasswordMail(email, newPassword);
+      if (!isOk) {
+        return res.status(400).json({
+          message: 'An error occurred while sending the email...',
+          success: false,
+        });
+      }
+
+      return res
+        .status(200)
+        .json({ success: true, message: 'Password was sent successfully...' });
     } catch (err: any) {
-      return res.status(500).json({ error: err.message });
+      return res.status(500).json({ message: err.message, success: false });
     }
   },
 };
