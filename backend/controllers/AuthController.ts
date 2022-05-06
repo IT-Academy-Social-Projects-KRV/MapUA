@@ -61,7 +61,7 @@ const AuthController = {
       if (!user) {
         return res
           .status(400)
-          .json({ error: `User with this email address doesn't exist...` });
+          .json({ error: 'There is no user with this email address...' });
       }
 
       const newPassword = uuidv4();
@@ -69,6 +69,7 @@ const AuthController = {
 
       await user.save();
       await sendForgotPasswordMail(email, newPassword, user.displayName);
+
       return res.status(200).json({ ok: true });
     } catch (err: any) {
       return res.status(500).json({ error: err.message });

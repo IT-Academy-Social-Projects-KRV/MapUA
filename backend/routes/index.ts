@@ -7,6 +7,11 @@ import passport from '../libs/passport';
 
 const router = express.Router();
 
+router.post(
+  '/get_profile_location',
+  passport.authenticate('jwt', { session: false }),
+  UserController.postUserLocation
+);
 router.get(
   '/profile',
   passport.authenticate('jwt', { session: false }),
