@@ -7,7 +7,11 @@ import passport from '../libs/passport';
 
 const router = express.Router();
 
-router.get('/userData/:_id', UserController.getUserData);
+router.get(
+  '/profile',
+  passport.authenticate('jwt', { session: false }),
+  UserController.getProfile
+);
 router.post('/signup', AuthController.signUp);
 router.post('/signin', AuthController.signIn);
 router.post('/forgot-password', AuthController.forgotPassword);

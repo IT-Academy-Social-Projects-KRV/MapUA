@@ -1,6 +1,5 @@
 import React, { useState, FormEvent, SyntheticEvent } from 'react';
 import axios from 'axios';
-import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import {
   FormControl,
   TextField,
@@ -21,24 +20,9 @@ import {
 
 const { REACT_APP_API_URI } = process.env;
 
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
-  props,
-  ref
-) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
-
 function ForgotPassword() {
-  const [data, setData] = useState('');
+  const [email, setEmail] = useState('');
   const [open, setOpen] = useState(false);
-
-  const handleClick = () => {
-    if (data.includes('@')) {
-      setOpen(true);
-    } else {
-      setOpen(false);
-    }
-  };
 
   const handleClose = (e?: SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
@@ -49,19 +33,21 @@ function ForgotPassword() {
 
   const sendEmail = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setData('');
-    console.log(data);
-    if (!data) return;
 
-    const res = await axios
-      .post(`${REACT_APP_API_URI}forgot-password`, { email: data })
-      .then(res => console.log(res))
-      .catch(error => console.log(error));
+    try {
+      const res = await axios.post(`${REACT_APP_API_URI}forgot-password`, {
+        email
+      });
+      setEmail('');
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <RegistrationFormWrapper>
-      <form onSubmit={e => sendEmail(e)}>
+      <form onSubmit={sendEmail}>
         <BorderForm>
           <FormControl sx={{ width: '35ch' }}>
             <WrapH1>
@@ -74,16 +60,17 @@ function ForgotPassword() {
               <TextField
                 type="email"
                 id="email"
-                value={data}
+                required
+                value={email}
                 placeholder="Please enter your email"
                 label="Email"
                 autoComplete="current-email"
                 fullWidth
-                onChange={e => setData(e.target.value)}
+                onChange={e => setEmail(e.target.value)}
               />
             </Box>
             <WrapButtonAndText>
-              <Button onClick={handleClick} type="submit" variant="contained">
+              <Button type="submit" variant="contained">
                 sent password
               </Button>
               <StyledSpan>
@@ -98,11 +85,7 @@ function ForgotPassword() {
             open={open}
             autoHideDuration={5000}
             onClose={handleClose}
-          >
-            <Alert onClose={handleClose} severity="info" sx={{ width: '100%' }}>
-              A new password has been sent to your email !
-            </Alert>
-          </Snackbar>
+          />
         </Stack>
       </form>
     </RegistrationFormWrapper>

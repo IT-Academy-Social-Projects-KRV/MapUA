@@ -3,7 +3,8 @@ import passport from '../libs/passport';
 import mapUserProps from '../mappers/mapUserProps';
 import UserModel, { IUser } from '../models/UserModel';
 import tokenGenerator from '../utils/tokenGenerator';
-const { v4: uuidv4 } = require('uuid');
+import { sendForgotPasswordMail } from '../libs/mailerSend';
+import { v4 as uuidv4 } from 'uuid';
 
 const AuthController = {
   async signUp(req: Request, res: Response, next: NextFunction) {
@@ -51,27 +52,24 @@ const AuthController = {
       return res.status(500).json({ error: err.message });
     }
   },
-  async forgotPassword(req: Request, res: Response, next: NextFunction) {
+  async forgotPassword(req: Request, res: Response) {
     try {
-      // Получить имейл (рек.бади.имейл)
       const { email } = req.body;
 
       const user = await UserModel.findOne({ email });
 
       if (!user) {
-        return res.status(401).send({ status: 'Error...' });
+        return res
+          .status(400)
+          .json({ error: `User with this email address doesn't exist...` });
       }
-      res.status(200).send({ status: 'success' });
-      console.log(email);
-      // https://www.npmjs.com/package/generate-password
 
-      // юзер.пасвордХеш = пасворд
-      user.passwordHash = uuidv4();
+      const newPassword = uuidv4();
+      user.passwordHash = newPassword;
 
       await user.save();
-      // await юзер.save();
-
-      // сендгрид
+      await sendForgotPasswordMail(email, newPassword, user.displayName);
+      return res.status(200).json({ ok: true });
     } catch (err: any) {
       return res.status(500).json({ error: err.message });
     }
