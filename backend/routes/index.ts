@@ -7,17 +7,15 @@ import passport from "../libs/passport";
 
 const router = express.Router();
 
-router.get(
-    "/profile",
-    passport.authenticate("jwt", { session: false }),
-    UserController.getProfile
+router.post(
+  "/get_profile_location",
+  passport.authenticate("jwt", { session: false }),
+  UserController.postUserLocation
 );
+router.get("/profile", passport.authenticate("jwt", { session: false }), UserController.getProfile);
 router.post("/signup", AuthController.signUp);
 router.post("/signin", AuthController.signIn);
-router.get(
-  "/protected-route",
-  passport.authenticate("jwt", { session: false })
-);
+router.get("/protected-route", passport.authenticate("jwt", { session: false }));
 
 router.get("/locations/:id", LocationsController.getLocationById);
 router.post("/locations/location-list", LocationsController.getLocationsByZoom);
@@ -25,3 +23,4 @@ router.post("/locations/add", LocationsController.addLocation);
 router.post("/uploadImage", FilesController.uploadImage);
 
 export default router;
+
