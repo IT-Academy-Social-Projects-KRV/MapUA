@@ -1,9 +1,9 @@
+import axios from 'axios';
 import { Dispatch } from 'redux';
 import {
   LocationListActions,
   LocationsListActionsType
 } from 'redux/types/locationList';
-import { fetchData } from 'utils/requests';
 import { boundsType, latlngType } from '../../../types';
 
 const { REACT_APP_API_URI } = process.env;
@@ -24,10 +24,9 @@ export const fetchLocations =
           bounds: JSON.stringify(bounds)
         }
       };
-      const { status, data } = await fetchData(options);
-
-      if (data && data.mes && status) {
-        console.log(data.mes, status);
+      const { status, data } = await axios(options);
+      if (data && data.error && status) {
+        console.log(data.error, status);
         return;
       }
       if (data && data.locations && typeof data.locations === typeof []) {

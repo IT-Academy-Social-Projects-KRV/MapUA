@@ -7,22 +7,6 @@ export interface locationsListStateType {
   zoomPosition: latlngType;
 }
 
-// export type latlngType = {
-//   lat: number;
-//   lng: number;
-// };
-
-// export type boundsType = {
-//   _northEast?: {
-//     lat?: number;
-//     lng?: number;
-//   };
-//   _southWest?: {
-//     lat?: number;
-//     lng?: number;
-//   };
-// };
-
 export enum LocationsListActionsType {
   FETCH_LOCATIONS = 'FETCH_LOCATIONS',
   SET_BOUNDS = 'SET_BOUNDS',
