@@ -12,11 +12,7 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   UserController.postUserLocation
 );
-router.get(
-  "/userData/:_id",
-  passport.authenticate("jwt", { session: false }),
-  UserController.getUserData
-);
+router.get("/profile", passport.authenticate("jwt", { session: false }), UserController.getProfile);
 router.post("/signup", AuthController.signUp);
 router.post("/signin", AuthController.signIn);
 router.get("/protected-route", passport.authenticate("jwt", { session: false }));

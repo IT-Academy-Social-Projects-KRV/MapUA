@@ -3,9 +3,9 @@ import User from "../models/UserModel";
 import Location from "../models/Locations";
 
 const UserController = {
-  async getUserData(req: Request, res: Response) {
+  async getProfile(req: Request, res: Response) {
     try {
-      const _id = req.params._id;
+      const _id = req.user;
 
       const userData = await User.findById(_id, {
         email: true,
