@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Container, Box } from '@mui/material';
 import Map from 'components/Map/index';
 import BigPopup from 'components/BigPopup/index';
+
 import { locationType } from '../../types';
 
 function HomeScreen() {

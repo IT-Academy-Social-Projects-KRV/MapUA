@@ -1,39 +1,29 @@
 import * as React from 'react';
-import { useState } from 'react';
+
 import Typography from '@mui/material/Typography';
 import { CardMedia, CircularProgress } from '@mui/material';
 import { Marker } from 'react-leaflet';
 import L from 'leaflet';
-import { fetchData } from 'utils/requests';
-import { locationType } from '../../../types';
+import { useTypedSelector } from 'redux/hooks/useTypedSelector';
+import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { StyledBox, StyledMediaBox, StyledTooltip } from './style';
 import icon from '../../static/map-point-svgrepo-com.svg';
 import img from '../../static/image-not-found.jpg';
 
 interface Props {
-  id: string | undefined;
+  id: string;
   coordinates: [number, number];
   onOpenBigPopup: Function;
 }
 
-const { REACT_APP_API_URI } = process.env;
-
 export function LocationPopOut({ id, coordinates, onOpenBigPopup }: Props) {
-  const [locationData, setLocationData] = useState<locationType>(
-    {} as locationType
-  );
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const locationData = useTypedSelector(state => state.popupLocation);
+  const { isLoading } = locationData;
+  const { fetchPopupLocation, startLoading } = useTypedDispatch();
 
-  const onOpenTooltip = async () => {
-    if (!locationData.locationName) {
-      setIsLoading(true);
-      const url = `${REACT_APP_API_URI}/locations/${id}`;
-      const { data } = await fetchData(url);
-      if (data) {
-        setLocationData(data);
-      }
-      setIsLoading(false);
-    }
+  const onOpenTooltip = () => {
+    startLoading();
+    fetchPopupLocation(id);
   };
 
   return (
