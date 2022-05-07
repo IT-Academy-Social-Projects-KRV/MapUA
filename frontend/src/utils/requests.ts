@@ -3,11 +3,9 @@ import axios from 'axios';
 export async function fetchData(option: any) {
   let data: any = null;
   try {
-    data = await axios(option).catch((e: any) => {
-      console.error('Error has occurred: ', e);
-    });
+    data = await axios(option);
   } catch (e) {
-    console.log(e);
+    console.error('Error has occurred: ', e);
   }
   return data;
 }

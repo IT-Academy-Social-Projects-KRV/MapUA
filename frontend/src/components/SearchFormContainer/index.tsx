@@ -1,11 +1,17 @@
-import NestedList from 'components/FiltersList/NestedList';
-import SearchForm from 'components/SearchForm';
-import React from 'react';
+import NestedList from 'components/SearchFormContainer/FiltersList/NestedList';
+import SearchForm from 'components/SearchFormContainer/SearchForm';
+import React, { useEffect } from 'react';
+import L from 'leaflet';
 import { StyledSearchFormContainer } from './style';
 
 function SearchFormContainer() {
+  const formRef = React.useRef<any>(null);
+  useEffect(() => {
+    L.DomEvent.disableClickPropagation(formRef.current);
+  }, []);
+
   return (
-    <StyledSearchFormContainer>
+    <StyledSearchFormContainer ref={formRef}>
       <SearchForm />
       <NestedList />
     </StyledSearchFormContainer>

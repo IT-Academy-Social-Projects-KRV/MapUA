@@ -13,7 +13,8 @@ const initialState: locationsListStateType = {
   zoomPosition: {
     lat: 50.447731,
     lng: 30.542721
-  }
+  },
+  locationName: ''
 };
 export const locationsListReduser = (
   state = initialState,
@@ -26,6 +27,8 @@ export const locationsListReduser = (
       return { ...state, bounds: action.payload };
     case LocationsListActionsType.SET_ZOOM_POSITION:
       return { ...state, zoomPosition: action.payload };
+    case LocationsListActionsType.GET_LOCATION_NAME:
+      return { ...state, locationName: action.payload };
     default:
       return state;
   }

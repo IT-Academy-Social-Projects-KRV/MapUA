@@ -4,6 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import { Box } from '@mui/material';
 import { LocationPopOut } from 'components/LocationPopOut/LocationPopOut';
 import SearchFormContainer from 'components/SearchFormContainer';
+import useDebounce from 'utils/useDebounce';
 
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
@@ -13,14 +14,14 @@ interface Props {
 }
 
 function Map({ onOpenBigPopup }: Props) {
-  const { bounds, locations, zoomPosition } = useTypedSelector(
+  const { bounds, locations, zoomPosition, locationName } = useTypedSelector(
     state => state.locationList
   );
-  const { fetchLocations, setBounds, setZoomPosition } = useTypedDispatch();
+  const debouncedValue = useDebounce(locationName, 1000);
+  const { setBounds, setZoomPosition, fetchLocations } = useTypedDispatch();
   useEffect(() => {
-    fetchLocations(zoomPosition, bounds);
-  }, [bounds]);
-
+    fetchLocations(zoomPosition, bounds, debouncedValue);
+  }, [bounds, debouncedValue]);
   function MyZoomComponent() {
     const prev = bounds;
     const map = useMapEvents({
@@ -35,16 +36,6 @@ function Map({ onOpenBigPopup }: Props) {
     });
     return null;
   }
-  // TODO Function that defines coordinates on mouse click
-  // function CoordsFinder() {
-  //   useMapEvents({
-  //     click(e) {
-  //       console.log(e.latlng);
-  //     }
-  //   });
-  //   return null;
-  // }
-
   return (
     <Box>
       <MapContainer
