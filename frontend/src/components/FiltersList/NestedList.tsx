@@ -3,14 +3,15 @@ import ListItemButton from '@mui/material/ListItemButton';
 import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import { Checkbox, ListItemText } from '@mui/material';
-
+import { Box, Checkbox, ListItemText } from '@mui/material';
+import useId from '@mui/material/utils/useId';
 import { StyledList } from './style';
 
 const filterGroups = [
   {
     id: 1,
-    title: 'Dashboard'
+    title: 'Dashboard',
+    value: ['value1', 'value2']
   },
   {
     id: 2,
@@ -34,9 +35,14 @@ const filterGroups = [
   }
 ];
 
+type NestType = {
+  [key: number]: boolean;
+};
+
 export default function NestedList() {
   const [open, setOpen] = React.useState(false);
-  const [openNested, setOpenNested] = React.useState<any>({});
+  const [openNested, setOpenNested] = React.useState<NestType>({});
+
   const handleClick = () => {
     setOpen(!open);
   };
@@ -53,20 +59,22 @@ export default function NestedList() {
       <Collapse in={open} timeout="auto" unmountOnExit>
         <StyledList>
           {filterGroups.map(filter => (
-            <>
+            <Box key={filter.id}>
               <ListItemButton onClick={() => handleClickNested(filter.id)}>
                 <ListItemText primary={filter.title} />
                 {openNested[filter.id] ? <ExpandLess /> : <ExpandMore />}
               </ListItemButton>
               <Collapse in={openNested[filter.id]} timeout="auto" unmountOnExit>
                 <StyledList>
-                  <ListItemButton className="pl-4">
-                    <Checkbox edge="start" tabIndex={-1} disableRipple />
-                    <ListItemText primary={filter.title} />
-                  </ListItemButton>
+                  {filter.value?.map(nestedFilter => (
+                    <ListItemButton key={useId()} className="pl-4">
+                      <Checkbox edge="start" tabIndex={-1} disableRipple />
+                      <ListItemText primary={nestedFilter} />
+                    </ListItemButton>
+                  ))}
                 </StyledList>
               </Collapse>
-            </>
+            </Box>
           ))}
         </StyledList>
       </Collapse>

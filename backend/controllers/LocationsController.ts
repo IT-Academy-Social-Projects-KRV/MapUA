@@ -6,6 +6,7 @@ const LocationsController = {
     try {
       const center = JSON.parse(req.query.center as string);
       const bounds = JSON.parse(req.query.bounds as string);
+      const name = req.query.name;
 
       const height = +(bounds._northEast.lat - bounds._southWest.lat);
       const width = +(bounds._northEast.lng - bounds._southWest.lng);

@@ -1,4 +1,4 @@
-import NestedList from 'components/List/List';
+import NestedList from 'components/FiltersList/NestedList';
 import SearchForm from 'components/SearchForm';
 import React from 'react';
 import { StyledSearchFormContainer } from './style';

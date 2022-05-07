@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Box } from '@mui/material';
 import { LocationPopOut } from 'components/LocationPopOut/LocationPopOut';
+import SearchFormContainer from 'components/SearchFormContainer';
 import { boundsType, latlngType, lightLocationType } from '../../../types';
 import { fetchData } from '../../utils/requests';
 
@@ -17,14 +18,11 @@ function Map({ onOpenBigPopup }: Props) {
     _northEast: { lat: 54.82600799909498, lng: 38.64990234375001 },
     _southWest: { lat: 45.62940492064501, lng: 22.456054687500004 }
   });
-  // eslint-disable-next-line no-unused-vars
   const [zoomPosition, setZoomPosition] = useState<latlngType>({
     lat: 50.447731,
     lng: 30.542721
   });
-  // eslint-disable-next-line no-unused-vars
   const [locations, setLocations] = useState<lightLocationType[]>([]);
-
   useEffect(() => {
     async function onBoundsChange() {
       const url = `${REACT_APP_API_URI}locations/?center=${JSON.stringify(
@@ -97,6 +95,7 @@ function Map({ onOpenBigPopup }: Props) {
             onOpenBigPopup={onOpenBigPopup}
           />
         ))}
+        <SearchFormContainer />
       </MapContainer>
     </Box>
   );
