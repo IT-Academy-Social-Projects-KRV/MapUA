@@ -1,9 +1,24 @@
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 import { Link } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
+import { useTypedSelector } from 'redux/hooks/useTypedSelector';
+
 import { StyledAppBar, StyledStack } from './style';
 
 function NavBar() {
+  const { isLogged } = useTypedSelector(state => state.userLogin);
+  const { logout } = useTypedDispatch();
+  const navigate = useNavigate();
+
+  const logoutHandler = async (e: SyntheticEvent) => {
+    e.preventDefault();
+    setTimeout(() => {
+      logout();
+      navigate('/');
+    }, 500);
+  };
+
   return (
     <StyledAppBar>
       <StyledStack direction="row">
@@ -26,14 +41,26 @@ function NavBar() {
         <Link color="inherit" underline="none" component={RouterLink} to="/">
           Map
         </Link>
-        <Link
-          color="inherit"
-          underline="none"
-          component={RouterLink}
-          to="/Login"
-        >
-          Login
-        </Link>
+        {isLogged ? (
+          <Link
+            to="/"
+            color="inherit"
+            underline="none"
+            component={RouterLink}
+            onClick={logoutHandler}
+          >
+            Logout
+          </Link>
+        ) : (
+          <Link
+            color="inherit"
+            underline="none"
+            component={RouterLink}
+            to="/Login"
+          >
+            Login
+          </Link>
+        )}
       </StyledStack>
     </StyledAppBar>
   );
