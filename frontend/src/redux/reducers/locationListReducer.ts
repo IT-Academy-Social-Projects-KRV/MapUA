@@ -14,9 +14,10 @@ const initialState: locationsListStateType = {
     lat: 50.447731,
     lng: 30.542721
   },
-  locationName: ''
+  locationName: '',
+  selectedFilters: []
 };
-export const locationsListReduser = (
+export const locationsListReducer = (
   state = initialState,
   action: LocationListActions
 ): locationsListStateType => {
@@ -29,6 +30,8 @@ export const locationsListReduser = (
       return { ...state, zoomPosition: action.payload };
     case LocationsListActionsType.GET_LOCATION_NAME:
       return { ...state, locationName: action.payload };
+    case LocationsListActionsType.APPLY_FILTER:
+      return { ...state, selectedFilters: action.payload };
     default:
       return state;
   }

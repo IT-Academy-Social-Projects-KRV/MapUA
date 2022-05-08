@@ -8,6 +8,7 @@ function SearchFormContainer() {
   const formRef = React.useRef<any>(null);
   useEffect(() => {
     L.DomEvent.disableClickPropagation(formRef.current);
+    L.DomEvent.disableScrollPropagation(formRef.current);
   }, []);
 
   return (

@@ -14,14 +14,13 @@ interface Props {
 }
 
 function Map({ onOpenBigPopup }: Props) {
-  const { bounds, locations, zoomPosition, locationName } = useTypedSelector(
-    state => state.locationList
-  );
+  const { bounds, locations, zoomPosition, locationName, selectedFilters } =
+    useTypedSelector(state => state.locationList);
   const debouncedValue = useDebounce(locationName, 1000);
   const { setBounds, setZoomPosition, fetchLocations } = useTypedDispatch();
   useEffect(() => {
-    fetchLocations(zoomPosition, bounds, debouncedValue);
-  }, [bounds, debouncedValue]);
+    fetchLocations(zoomPosition, bounds, debouncedValue, selectedFilters);
+  }, [bounds, debouncedValue, selectedFilters]);
   function MyZoomComponent() {
     const prev = bounds;
     const map = useMapEvents({

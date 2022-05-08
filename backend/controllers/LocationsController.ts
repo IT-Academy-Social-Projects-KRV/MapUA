@@ -7,7 +7,7 @@ const LocationsController = {
       const center = JSON.parse(req.query.center as string);
       const bounds = JSON.parse(req.query.bounds as string);
       const name = req.query.name as string;
-      console.log(name);
+      const filters = JSON.parse(req.query.filters as string)
       const height = +(bounds._northEast.lat - bounds._southWest.lat);
       const width = +(bounds._northEast.lng - bounds._southWest.lng);
 
@@ -25,13 +25,18 @@ const LocationsController = {
       ).map((l) => ({
         _id: l._id,
         coordinates: l.coordinates,
-        name:l.locationName
+        name:l.locationName,
+        filters:l.filters
       }));
       if(name){
         locations = locations.filter((l)=>{
           return l.name.toLocaleLowerCase().startsWith(name)
         })
-      }else{
+      }
+      if(filters.length > 0){
+       locations = locations.filter((l)=>{
+        return l.filters.includes(filters)
+       })}else{
         locations = locations.slice(
           0,
           locations.length < 50 ? locations.length : 50

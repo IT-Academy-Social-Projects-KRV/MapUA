@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
-import { popupLocationReduser } from './popupLocationReduser';
-import { locationsListReduser } from './locationListReduser';
+import { popupLocationReducer } from './popupLocationReducer';
+import { locationsListReducer } from './locationListReducer';
 
 export const rootReducer = combineReducers({
-  popupLocation: popupLocationReduser,
-  locationList: locationsListReduser
+  popupLocation: popupLocationReducer,
+  locationList: locationsListReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
