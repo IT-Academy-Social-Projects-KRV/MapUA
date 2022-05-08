@@ -1,26 +1,37 @@
 /* eslint-disable no-unused-vars */
+type UserDataType = {
+  email: string;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+  displayName: string;
+  description: string;
+  imageUrl: string;
+  subscribers: string[];
+  subscriptions: string[];
+};
+
 export interface UserState {
-  users: any[];
+  data: UserDataType;
   loading: boolean;
   error: null | string;
 }
 export enum UserActionTypes {
-  FETCH_USERS = 'FETCH_USERS',
-  FETCH_USERS_SUCCESS = 'FETCH_USERS_SUCCESS',
-  FETCH_USERS_ERROR = 'FETCH_USERS_FETCH_USERS_ERROR'
+  FETCH_USER = 'FETCH_USER',
+  FETCH_USER_SUCCESS = 'FETCH_USER_SUCCESS',
+  FETCH_USER_ERROR = 'FETCH_USER_ERROR'
 }
-interface FetchUsersAction {
-  type: UserActionTypes.FETCH_USERS;
+interface FetchUserAction {
+  type: UserActionTypes.FETCH_USER;
 }
-interface FetchUsersSuccessAction {
-  type: UserActionTypes.FETCH_USERS_SUCCESS;
-  payload: any[];
+interface FetchUserSuccessAction {
+  type: UserActionTypes.FETCH_USER_SUCCESS;
+  payload: UserDataType;
 }
-interface FetchUsersErrorAction {
-  type: UserActionTypes.FETCH_USERS_ERROR;
+interface FetchUserErrorAction {
+  type: UserActionTypes.FETCH_USER_ERROR;
   payload: string;
 }
 export type UserAction =
-  | FetchUsersAction
-  | FetchUsersErrorAction
-  | FetchUsersSuccessAction;
+  | FetchUserAction
+  | FetchUserErrorAction
+  | FetchUserSuccessAction;
