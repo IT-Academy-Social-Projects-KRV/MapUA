@@ -1,80 +1,59 @@
-import { FormControl, TextField, Button, Typography, Box } from '@mui/material';
+import {
+  FormControl,
+  TextField,
+  Button,
+  Typography,
+  Box,
+  Snackbar,
+  Alert
+} from '@mui/material';
 import {
   BorderForm,
   RegistrationFormWrapper,
   WrapButtonAndText
 } from 'components/Registration/styles';
 import { WrapH1 } from 'components/ForgotPassword/styles';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import {
+  useForm,
+  Controller,
+  SubmitHandler,
+  useFormState
+} from 'react-hook-form';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { emailValidation, passwordValidation } from 'utils/validation';
+
+type SignUp = {
+  email: string;
+  password: string;
+};
 
 function Registration() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [emailDirty, setEmailDirty] = useState(false);
-  const [passwordDirty, setPasswordDirty] = useState(false);
-  const [emailError, setEmailError] = useState("Email can't be empty");
-  const [passwordError, setPasswordError] = useState("Password can't be empty");
-  const [formValid, setFormValid] = useState(false);
-  const [errorReq, setErrorReq] = useState('');
-  const [succesReq, setSuccesReq] = useState('');
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (emailError || passwordError) {
-      setFormValid(false);
-    } else {
-      setFormValid(true);
-    }
-  }, [emailError, passwordError]);
-
-  const registration = async () => {
+  const [visibleSucces, setVisibleSucces] = useState(false);
+  const [visibleError, setVisibleError] = useState(false);
+  const { handleSubmit, control } = useForm<SignUp>({
+    mode: 'onBlur'
+  });
+  const onSubmit: SubmitHandler<SignUp> = async data => {
     try {
-      const response = await axios.post('http://localhost:3001/api/signup', {
-        email,
-        password
-      });
+      const response = await axios.post(
+        process.env.REACT_APP_REGISTRATION_URI!,
+        data
+      );
       if (response.status === 200) {
-        setSuccesReq('Registration successful');
-        setTimeout(() => navigate('/login'), 3000);
+        setVisibleSucces(true);
+        setTimeout(() => navigate('/login'), 1500);
       }
     } catch (e: any) {
-      setErrorReq('This email is already exists');
-      setTimeout(() => setErrorReq(''), 3000);
+      setVisibleError(true);
+      setTimeout(() => setVisibleError(false), 3000);
     }
   };
-
-  const emailHandler = (e: any) => {
-    setEmail(e.target.value);
-    const re =
-      /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
-    if (!re.test(String(e.target.value).toLowerCase())) {
-      setEmailError('Incorrect email');
-    } else {
-      setEmailError('');
-    }
-  };
-  const passwordHandler = (e: any) => {
-    setPassword(e.target.value);
-    if (e.target.value.length < 2 || e.target.value.length > 10) {
-      setPasswordError('Password should more 2 and less then 10 symbols');
-      if (!e.target.value) {
-        setPasswordError("Password can't be empty");
-      }
-    } else {
-      setPasswordError('');
-    }
-  };
-
-  const blurHandler = (e: any) => {
-    if (e.target.name === 'email') {
-      setEmailDirty(true);
-    }
-    if (e.target.name === 'password') {
-      setPasswordDirty(true);
-    }
-  };
+  const { errors } = useFormState({
+    control
+  });
   return (
     <RegistrationFormWrapper>
       <BorderForm>
@@ -82,85 +61,73 @@ function Registration() {
           <WrapH1>
             <Typography sx={{ fontSize: '24px' }}> Create profile</Typography>
           </WrapH1>
-          {errorReq && (
-            <Box
-              style={{
-                color: 'red',
-                marginBottom: '10px'
-              }}
+          <Snackbar open={visibleSucces}>
+            <Alert
+              variant="filled"
+              severity="success"
+              sx={{ width: '100%', mb: '2rem', textAlign: 'center' }}
             >
-              {errorReq}
+              Registration successful!
+            </Alert>
+          </Snackbar>
+          <Snackbar open={visibleError}>
+            <Alert
+              variant="filled"
+              severity="error"
+              sx={{ width: '100%', mb: '2rem', textAlign: 'center' }}
+            >
+              This email is already exists!
+            </Alert>
+          </Snackbar>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Box sx={{ mt: '20px' }}>
+              <Controller
+                control={control}
+                name="email"
+                rules={emailValidation}
+                render={({ field }) => (
+                  <TextField
+                    placeholder="Please enter your email"
+                    label="Email"
+                    autoComplete="current-email"
+                    fullWidth
+                    onChange={e => field.onChange(e)}
+                    onBlur={field.onBlur}
+                    defaultValue={field.value}
+                    type="text"
+                    error={!!errors.email?.message}
+                    helperText={errors.email?.message}
+                  />
+                )}
+              />
             </Box>
-          )}
-          {succesReq && (
-            <Box
-              style={{
-                color: 'green',
-                marginBottom: '10px'
-              }}
-            >
-              {succesReq}
+            <Box sx={{ mt: '20px' }}>
+              <Controller
+                control={control}
+                name="password"
+                rules={passwordValidation}
+                render={({ field }) => (
+                  <TextField
+                    placeholder="Please enter your password"
+                    label="Password"
+                    autoComplete="current-password"
+                    fullWidth
+                    onChange={e => field.onChange(e)}
+                    onBlur={field.onBlur}
+                    defaultValue={field.value}
+                    type="password"
+                    error={!!errors.password?.message}
+                    helperText={errors.password?.message}
+                  />
+                )}
+              />
             </Box>
-          )}
-          <Box sx={{ mt: '20px' }}>
-            {emailDirty && emailError && (
-              <Box
-                style={{
-                  color: 'red',
-                  marginBottom: '10px',
-                  marginTop: '10px'
-                }}
-              >
-                {emailError}
-              </Box>
-            )}
-            <TextField
-              value={email}
-              placeholder="Please enter your email"
-              label="Email"
-              autoComplete="current-email"
-              fullWidth
-              onChange={e => emailHandler(e)}
-              onBlur={e => blurHandler(e)}
-              type="text"
-              name="email"
-            />
-          </Box>
-
-          <Box sx={{ mt: '20px' }}>
-            {passwordDirty && passwordError && (
-              <Box
-                style={{
-                  color: 'red',
-                  marginBottom: '10px'
-                }}
-              >
-                {passwordError}
-              </Box>
-            )}
-            <TextField
-              value={password}
-              placeholder="Please enter your password"
-              label="Password"
-              type="password"
-              autoComplete="current-password"
-              fullWidth
-              onChange={e => passwordHandler(e)}
-              onBlur={e => blurHandler(e)}
-              name="password"
-            />
-          </Box>
-
-          <WrapButtonAndText>
-            <Button
-              variant="contained"
-              disabled={!formValid}
-              onClick={registration}
-              type="submit"
-            >
-              Create
-            </Button>
-          </WrapButtonAndText>
+            <WrapButtonAndText>
+              <Button variant="contained" type="submit">
+                Create
+              </Button>
+            </WrapButtonAndText>
+          </form>
         </FormControl>
       </BorderForm>
     </RegistrationFormWrapper>
