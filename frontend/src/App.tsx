@@ -16,7 +16,7 @@ function App() {
       <GlobalStyles
         styles={{
           html: {
-            height: '100%',
+            height: '100vh',
             width: '100%'
           },
           '*, *::before, *::after': {
@@ -26,11 +26,13 @@ function App() {
             border: 0
           },
           body: {
-            height: '100%',
+            height: '100vh',
             width: '100%'
           },
           '#root': {
-            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            height: '100vh',
             width: '100%'
           }
         }}
