@@ -24,7 +24,7 @@ export const fetchPopupLocation =
         });
       }
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   };
 
