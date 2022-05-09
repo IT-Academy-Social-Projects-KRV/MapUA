@@ -31,3 +31,4 @@ router.post('/locations/add', LocationsController.addLocation);
 router.post('/uploadImage', FilesController.uploadImage);
 
 export default router;
+

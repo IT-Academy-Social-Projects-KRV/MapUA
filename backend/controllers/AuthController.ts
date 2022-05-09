@@ -29,13 +29,11 @@ const AuthController = {
   },
   async signIn(req: Request, res: Response, next: NextFunction) {
     try {
-      // NEED TO BE REFACTORED PROPERLY by Oleksandr Poberezhniy
-      await passport.authenticate('signin', async (err, user, info) => {
-        if (err) {
-          const error = new Error('An error occurred.');
-          return next(error);
+      await passport.authenticate("signin", async (err, user, info) => {
+        if (err) throw err;
+        if (!user) {
+          return res.status(400).json({ error: info.message });
         }
-
         if (!user) {
           return res.status(400).json({ error: info.message });
         }
