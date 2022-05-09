@@ -7,5 +7,8 @@ export const StyledSearchFormContainer = styled(Box)(({ theme }) => ({
   top: '10px',
   right: '20px',
   zIndex: '1500',
-  width: '300px'
+  width: '300px',
+  height: 'auto',
+  overflowY: 'auto',
+  overflowX: 'hidden'
 }));

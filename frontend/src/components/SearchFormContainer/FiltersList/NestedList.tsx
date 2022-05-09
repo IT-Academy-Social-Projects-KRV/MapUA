@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import ListItemButton from '@mui/material/ListItemButton';
 import Collapse from '@mui/material/Collapse';
@@ -15,7 +16,7 @@ type NestType = {
 };
 
 export default function NestedList() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const [openNested, setOpenNested] = useState<NestType>({});
 
   const selectedFilters = useTypedSelector(
