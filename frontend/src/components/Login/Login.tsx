@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useState } from 'react';
+import React from 'react';
 import { FormControl, TextField, Button, Typography, Box } from '@mui/material';
 import {
   BorderForm,
@@ -8,46 +8,81 @@ import {
 } from 'components/Login/styles';
 import { WrapButtonAndText, WrapH1 } from 'components/ForgotPassword/styles';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
+import { emailValidation, passwordValidation } from 'utils/validation';
+import {
+  useForm,
+  Controller,
+  SubmitHandler,
+  useFormState
+} from 'react-hook-form';
+
+type SignIn = {
+  email: string;
+  password: string;
+};
 
 function Login() {
   const { login } = useTypedDispatch();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const { handleSubmit, control } = useForm<SignIn>({
+    mode: 'onBlur'
+  });
 
-  const submitHandler = async (e: SyntheticEvent) => {
-    e.preventDefault();
+  const onSubmit: SubmitHandler<SignIn> = async ({ email, password }) => {
     login(email, password);
   };
+  const { errors } = useFormState({
+    control
+  });
 
   return (
-    <form onSubmit={submitHandler}>
-      <RegistrationFormWrapper>
-        <BorderForm>
-          <FormControl sx={{ width: '35ch' }} onSubmit={submitHandler}>
-            <WrapH1>
-              <Typography sx={{ fontSize: '24px' }}>Login</Typography>
-            </WrapH1>
-
-            <Box sx={{ mt: '20px' }}>
-              <TextField
-                placeholder="Please enter your email"
-                label="Email"
-                autoComplete="current-email"
-                fullWidth
-                value={email}
-                onChange={e => setEmail(e.target.value)}
+    <RegistrationFormWrapper>
+      <BorderForm>
+        <FormControl sx={{ width: '35ch' }}>
+          <WrapH1>
+            <Typography sx={{ fontSize: '24px' }}>Login</Typography>
+          </WrapH1>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Box sx={{ mt: 4 }}>
+              <Controller
+                control={control}
+                name="email"
+                rules={emailValidation}
+                render={({ field }) => (
+                  <TextField
+                    placeholder="Please enter your email"
+                    label="Email"
+                    autoComplete="current-email"
+                    fullWidth
+                    onChange={e => field.onChange(e)}
+                    onBlur={field.onBlur}
+                    defaultValue={field.value}
+                    type="text"
+                    error={!!errors.email?.message}
+                    helperText={errors.email?.message}
+                  />
+                )}
               />
             </Box>
 
-            <Box sx={{ mt: '20px' }}>
-              <TextField
-                placeholder="Please enter your password"
-                label="Password"
-                type="password"
-                autoComplete="current-password"
-                fullWidth
-                value={password}
-                onChange={e => setPassword(e.target.value)}
+            <Box sx={{ mt: 4 }}>
+              <Controller
+                control={control}
+                name="password"
+                rules={passwordValidation}
+                render={({ field }) => (
+                  <TextField
+                    placeholder="Please enter your password"
+                    label="Password"
+                    type="password"
+                    autoComplete="current-password"
+                    fullWidth
+                    onChange={e => field.onChange(e)}
+                    onBlur={field.onBlur}
+                    defaultValue={field.value}
+                    error={!!errors.password?.message}
+                    helperText={errors.password?.message}
+                  />
+                )}
               />
             </Box>
 
@@ -68,10 +103,10 @@ function Login() {
                 <span>don`t have an account</span>
               </StyledSpan>
             </WrapButtonAndText>
-          </FormControl>
-        </BorderForm>
-      </RegistrationFormWrapper>
-    </form>
+          </form>
+        </FormControl>
+      </BorderForm>
+    </RegistrationFormWrapper>
   );
 }
 
