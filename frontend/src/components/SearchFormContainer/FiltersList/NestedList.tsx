@@ -17,6 +17,7 @@ type NestType = {
 export default function NestedList() {
   const [open, setOpen] = React.useState(false);
   const [openNested, setOpenNested] = useState<NestType>({});
+
   const selectedFilters = useTypedSelector(
     state => state.locationList.selectedFilters
   );
@@ -46,7 +47,7 @@ export default function NestedList() {
         {open ? <ExpandLess /> : <ExpandMore />}
         <ListItemText primary="Filters" />
       </ListItemButton>
-      <Collapse in={open} timeout="auto" unmountOnExit>
+      <Collapse in={open} timeout="auto">
         <StyledList>
           {mainFilters.map(filter => (
             <Box key={filter.id}>
@@ -54,14 +55,12 @@ export default function NestedList() {
                 <ListItemText primary={filter.type} />
                 {openNested[filter.id] ? <ExpandLess /> : <ExpandMore />}
               </ListItemButton>
-              <Collapse in={openNested[filter.id]} timeout="auto" unmountOnExit>
+              <Collapse in={openNested[filter.id]} timeout="auto">
                 <StyledList>
                   {filter.values?.map(nestedFilter => (
                     <ListItemButton key={useId()} className="pl-4">
                       <Checkbox
                         edge="start"
-                        tabIndex={-1}
-                        disableRipple
                         onChange={OnChange}
                         value={nestedFilter}
                       />
