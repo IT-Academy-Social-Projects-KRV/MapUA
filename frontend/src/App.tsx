@@ -33,6 +33,7 @@ function App() {
             display: 'flex',
             flexDirection: 'column',
             height: '100vh',
+            minHeight: '100vh',
             width: '100%'
           }
         }}
