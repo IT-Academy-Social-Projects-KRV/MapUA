@@ -4,25 +4,28 @@ import { UserAction, UserActionTypes } from '../types/user';
 
 const { REACT_APP_API_URI } = process.env;
 
-export const fetchUsers = () => async (dispatch: Dispatch<UserAction>) => {
-  try {
-    dispatch({ type: UserActionTypes.FETCH_USERS });
-    const response = await axios.get(
-      'https://jsonplaceholder.typicode.com/users'
-    );
-    setTimeout(() => {
-      dispatch({
-        type: UserActionTypes.FETCH_USERS_SUCCESS,
-        payload: response.data
+export const fetchUser =
+  (accessToken: string) => async (dispatch: Dispatch<UserAction>) => {
+    try {
+      dispatch({ type: UserActionTypes.FETCH_USER });
+      const response = await axios.get(`${REACT_APP_API_URI}profile`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
       });
-    }, 500);
-  } catch (e) {
-    dispatch({
-      type: UserActionTypes.FETCH_USERS_ERROR,
-      payload: 'An error occurred while loading list of users'
-    });
-  }
-};
+      setTimeout(() => {
+        dispatch({
+          type: UserActionTypes.FETCH_USER_SUCCESS,
+          payload: response.data.userData
+        });
+      }, 500);
+    } catch (e) {
+      dispatch({
+        type: UserActionTypes.FETCH_USER_ERROR,
+        payload: 'An error occurred while loading user data'
+      });
+    }
+  };
 
 // Login
 export const login =

@@ -8,7 +8,7 @@ import Login from 'components/Login/Login';
 import ForgotPassword from 'components/ForgotPassword/ForgotPassword';
 import Registration from 'components/Registration/Registration';
 import ComposeComponents from 'redux/components/ComposeComponents';
-import Profile from 'components/develop/Profile';
+import Profile from 'components/Profile/Profile';
 
 function App() {
   return (
@@ -42,7 +42,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/test-redux-components" element={<ComposeComponents />} />
-        <Route path="/test-profile-data" element={<Profile />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
       <Footer />
     </BrowserRouter>
