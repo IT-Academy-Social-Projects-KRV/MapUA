@@ -1,4 +1,5 @@
 import { Response, Request } from 'express';
+import { TupleTypeReference } from 'typescript';
 import Location from '../models/Locations';
 
 const LocationsController = {
@@ -7,10 +8,9 @@ const LocationsController = {
       const center = JSON.parse(req.query.center as string);
       const bounds = JSON.parse(req.query.bounds as string);
       const name = req.query.name as string;
-      const filters = JSON.parse(req.query.filters as string)
+      const filters = JSON.parse(req.query.filters as any)
       const height = +(bounds._northEast.lat - bounds._southWest.lat);
       const width = +(bounds._northEast.lng - bounds._southWest.lng);
-
       let locations = (
         await Location.find({
           'coordinates.0': {
@@ -34,9 +34,8 @@ const LocationsController = {
         })
       }
       if(filters.length > 0){
-       locations = locations.filter((l)=>{
-        return l.filters.includes(filters)
-       })}else{
+        locations = locations.filter((l) => [...l.filters].some(el => filters.includes(el)));
+      }else{
         locations = locations.slice(
           0,
           locations.length < 50 ? locations.length : 50
