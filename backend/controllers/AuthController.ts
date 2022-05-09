@@ -60,7 +60,7 @@ const AuthController = {
 
       if (!user) {
         return res.status(400).json({
-          message: 'There is no user with this email address...',
+          error: 'There is no user with this email address...',
           success: false,
         });
       }
@@ -73,7 +73,7 @@ const AuthController = {
       const isOk = await sendForgotPasswordMail(email, newPassword);
       if (!isOk) {
         return res.status(400).json({
-          message: 'An error occurred while sending the email...',
+          error: 'An error occurred while sending the email...',
           success: false,
         });
       }
@@ -82,7 +82,7 @@ const AuthController = {
         .status(200)
         .json({ success: true, message: 'Password was sent successfully...' });
     } catch (err: any) {
-      return res.status(500).json({ message: err.message, success: false });
+      return res.status(500).json({ error: err.message, success: false });
     }
   },
 };

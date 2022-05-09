@@ -1,6 +1,6 @@
 import React, { useState, FormEvent, SyntheticEvent } from 'react';
 import axios from 'axios';
-import _ from 'lodash';
+
 import {
   FormControl,
   TextField,
@@ -57,9 +57,9 @@ function ForgotPassword() {
       setEmail('');
       setNotification({ type: 'success', message: data.message });
     } catch (error: any) {
-      const { message } = _.has(error, 'response.data.message')
-        ? error.response.data
-        : error;
+      const message = error?.response?.data?.error
+        ? error.response.data.error
+        : error.message;
       setNotification({ type: 'error', message });
     } finally {
       setLoading(false);
