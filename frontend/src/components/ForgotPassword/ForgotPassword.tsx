@@ -9,7 +9,8 @@ import {
   Stack,
   Alert,
   Snackbar,
-  AlertColor
+  AlertColor,
+  Link
 } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 
@@ -119,7 +120,9 @@ function ForgotPassword() {
                 sent password
               </LoadingButton>
               <StyledSpan>
-                <span>I remember password</span>
+                <Link href="/login" underline="none">
+                  I remember password
+                </Link>
               </StyledSpan>
             </WrapButtonAndText>
           </FormControl>
