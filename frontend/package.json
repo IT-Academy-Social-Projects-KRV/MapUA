@@ -17,6 +17,7 @@
     "lint-staged": "^12.3.7",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
+    "react-hook-form": "^7.30.0",
     "react-leaflet": "4.0.0",
     "react-redux": "^8.0.1",
     "react-router-dom": "^6.3.0",

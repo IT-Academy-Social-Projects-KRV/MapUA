@@ -1,5 +1,12 @@
 import React from 'react';
-import { FormControl, TextField, Button, Typography, Box } from '@mui/material';
+import {
+  FormControl,
+  TextField,
+  Button,
+  Typography,
+  Box,
+  Link
+} from '@mui/material';
 import {
   BorderForm,
   RegistrationFormWrapper,
@@ -7,6 +14,7 @@ import {
   StyledSpanEnd
 } from 'components/Login/styles';
 import { WrapButtonAndText, WrapH1 } from 'components/ForgotPassword/styles';
+import { Link as RouterLink } from 'react-router-dom';
 
 function Login() {
   return (
@@ -48,7 +56,16 @@ function Login() {
             <Button variant="contained">Sing in with google</Button>
 
             <StyledSpan>
-              <span>don`t have an account</span>
+              <Button variant="contained">
+                <Link
+                  component={RouterLink}
+                  to="/registration"
+                  color="inherit"
+                  underline="none"
+                >
+                  Sign up
+                </Link>
+              </Button>
             </StyledSpan>
           </WrapButtonAndText>
         </FormControl>
