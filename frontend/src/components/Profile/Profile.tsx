@@ -1,29 +1,27 @@
-// import React, { useEffect } from 'react';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Container } from '@mui/material';
-import Map from 'components/Map/index';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import BigPopup from 'components/BigPopup';
-import ProfilePage from 'components/ProfilePage/ProfilePage';
+import Map from 'components/Map/index';
+import ProfilePage from './ProfilePage';
 import { useTypedSelector } from '../../redux/hooks/useTypedSelector';
 import { locationType } from '../../../types';
-
-// import { useTypedDispatch } from '../../redux/hooks/useTypedDispatch';
+import { useTypedDispatch } from '../../redux/hooks/useTypedDispatch';
 
 function Profile() {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const { data, error, loading } = useTypedSelector(state => state.user);
-  // const { fetchUser } = useTypedDispatch();
+  const { fetchUser } = useTypedDispatch();
 
-  // useEffect(() => {
-  //   const accessToken = localStorage.getItem('accessToken');
-  //   if (accessToken) {
-  //     fetchUser(accessToken);
-  //   } else {
-  //     navigate('/');
-  //   }
-  // }, []);
+  useEffect(() => {
+    const accessToken = localStorage.getItem('accessToken');
+    if (accessToken) {
+      fetchUser(accessToken);
+    } else {
+      navigate('/');
+    }
+  }, []);
 
   const [isOpen, setIsopen] = useState(false);
   const [location, setLocation] = useState<locationType | null>(null);

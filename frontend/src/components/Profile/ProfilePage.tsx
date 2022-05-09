@@ -5,9 +5,7 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import { Typography } from '@mui/material';
-import { useDispatch } from 'react-redux';
-import { toogleProfilePage } from 'redux/actions-creators/profilepage';
-import BasicTabs from './BasicTabs';
+
 import {
   ProfileAvatar,
   ProfileButton,
@@ -16,21 +14,7 @@ import {
   ProfileFormWrapper,
   ProfileUsertWrapper
 } from './styles';
-
-// const testUserData = {
-//   email: 'test@email.com',
-//   createdAt: '11082021',
-//   updatedAt: '11012022',
-//   displayName: 'Test UserName',
-//   description: 'here is should be description',
-//   imageUrl: '/static/media/image-not-found.1668c579705e7d36ceab.jpg',
-//   subscribers: ['First Subscriber', 'Second Subscriber', 'Third Subscriber'],
-//   subscriptions: [
-//     'First Subscriptions',
-//     'Second Subscriptions',
-//     'Third Subscriptions'
-//   ]
-// };
+import BasicTabs from './BasicTabs';
 
 interface ProfilePageProps {
   email: string;
@@ -39,10 +23,7 @@ interface ProfilePageProps {
 }
 
 export default function ProfilePage(props: ProfilePageProps) {
-  // const stater = useTypedSelector(state => state.user);
   const { email, displayName, createdAt } = props;
-  const dispatch = useDispatch();
-
   return (
     <>
       <ProfileFormWrapper>
@@ -56,21 +37,23 @@ export default function ProfilePage(props: ProfilePageProps) {
               top: '90px'
             }}
           >
-            <CloseIcon onClick={() => dispatch(toogleProfilePage())} />
+            <CloseIcon />
           </IconButton>
           <ProfileAvatar
             aria-label="avatar"
             src="https://cdn-icons-png.flaticon.com/512/147/147142.png"
           />
-          <Typography variant="h4" component="h4" align="center">
-            {displayName}
+          <Typography variant="h3" component="h4" align="center">
+            {displayName === undefined ? 'name is undefined' : displayName}
+          </Typography>
+          <Typography variant="h5" component="h4" align="center">
             Creation date: {createdAt}
           </Typography>
           <Typography variant="h5" component="h5" align="center">
             {email}
           </Typography>
           <ProfileButton size="large" variant="contained">
-            Subscribe
+            Logout
           </ProfileButton>
         </ProfileContentWrapper>
         <ProfileUsertWrapper>
