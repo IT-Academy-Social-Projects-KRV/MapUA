@@ -15,8 +15,23 @@ export const BorderForm = styled(RegistrationFormWrapper)`
   width: 500px;
 `;
 
-export const StyledSpan = styled(Box)`
-  margin-left: 20px;
+export const RegistrationError = styled(Box)`
+  margin-bottom: 10px;
+  margin-top: 10px;
+  color: #ff0000;
+`;
+
+export const RegistrationSucces = styled(Box)`
+  margin-bottom: 10px;
+  color: #008000;
+`;
+export const EmailError = styled(Box)`
+  color: #ff0000;
+  margin: 10px 0;
+`;
+export const PasswordError = styled(Box)`
+  color: #ff0000;
+  margin: 10px 0;
 `;
 
 export const WrapButtonAndText = styled('div')`

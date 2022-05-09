@@ -123,14 +123,16 @@ function Login() {
               <Button variant="contained">Sing in with google</Button>
 
               <StyledSpan>
-                <Link
-                  color="inherit"
-                  underline="none"
-                  component={RouterLink}
-                  to="/registration"
-                >
-                  don`t have an account
-                </Link>
+                <Button variant="contained">
+                  <Link
+                    component={RouterLink}
+                    to="/registration"
+                    color="inherit"
+                    underline="none"
+                  >
+                    Sign up
+                  </Link>
+                </Button>
               </StyledSpan>
             </WrapButtonAndText>
           </FormControl>
