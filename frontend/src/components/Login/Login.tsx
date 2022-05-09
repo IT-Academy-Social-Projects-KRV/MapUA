@@ -1,5 +1,12 @@
 import React from 'react';
-import { FormControl, TextField, Button, Typography, Box } from '@mui/material';
+import {
+  FormControl,
+  TextField,
+  Button,
+  Typography,
+  Box,
+  Link
+} from '@mui/material';
 import {
   BorderForm,
   RegistrationFormWrapper,
@@ -15,6 +22,8 @@ import {
   SubmitHandler,
   useFormState
 } from 'react-hook-form';
+import { useTypedSelector } from 'redux/hooks/useTypedSelector';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 type SignIn = {
   email: string;
@@ -27,6 +36,12 @@ function Login() {
     mode: 'onBlur'
   });
 
+  const { isLogged } = useTypedSelector(state => state.userLogin);
+  const navigate = useNavigate();
+  if (isLogged === true) {
+    navigate('/');
+  }
+
   const onSubmit: SubmitHandler<SignIn> = async ({ email, password }) => {
     login(email, password);
   };
@@ -37,11 +52,12 @@ function Login() {
   return (
     <RegistrationFormWrapper>
       <BorderForm>
-        <FormControl sx={{ width: '35ch' }}>
-          <WrapH1>
-            <Typography sx={{ fontSize: '24px' }}>Login</Typography>
-          </WrapH1>
-          <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <FormControl sx={{ width: '35ch' }}>
+            <WrapH1>
+              <Typography sx={{ fontSize: '24px' }}>Login</Typography>
+            </WrapH1>
+
             <Box sx={{ mt: 4 }}>
               <Controller
                 control={control}
@@ -87,7 +103,14 @@ function Login() {
             </Box>
 
             <StyledSpanEnd>
-              <span>Forgot the password?</span>
+              <Link
+                color="inherit"
+                underline="none"
+                component={RouterLink}
+                to="/forgot-password"
+              >
+                Forgot the password?
+              </Link>
             </StyledSpanEnd>
 
             <WrapButtonAndText>
@@ -100,11 +123,18 @@ function Login() {
               <Button variant="contained">Sing in with google</Button>
 
               <StyledSpan>
-                <span>don`t have an account</span>
+                <Link
+                  color="inherit"
+                  underline="none"
+                  component={RouterLink}
+                  to="/registration"
+                >
+                  don`t have an account
+                </Link>
               </StyledSpan>
             </WrapButtonAndText>
-          </form>
-        </FormControl>
+          </FormControl>
+        </form>
       </BorderForm>
     </RegistrationFormWrapper>
   );

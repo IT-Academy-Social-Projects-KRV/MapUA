@@ -39,13 +39,11 @@ export const login =
         email,
         password
       });
+      dispatch({
+        type: UserActionTypes.USER_LOGIN_SUCCESS,
+        payload: response.data
+      });
 
-      setTimeout(() => {
-        dispatch({
-          type: UserActionTypes.USER_LOGIN_SUCCESS,
-          payload: response.data
-        });
-      }, 500);
       localStorage.setItem('accessToken', JSON.stringify(response.data.token));
     } catch (error: any) {
       dispatch({

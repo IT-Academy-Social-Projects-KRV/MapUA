@@ -1,23 +1,12 @@
-import React, { SyntheticEvent } from 'react';
+import React from 'react';
 import { Link } from '@mui/material';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
+import { Link as RouterLink } from 'react-router-dom';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 
 import { StyledAppBar, StyledStack } from './style';
 
 function NavBar() {
   const { isLogged } = useTypedSelector(state => state.userLogin);
-  const { logout } = useTypedDispatch();
-  const navigate = useNavigate();
-
-  const logoutHandler = async (e: SyntheticEvent) => {
-    e.preventDefault();
-    setTimeout(() => {
-      logout();
-      navigate('/');
-    }, 500);
-  };
 
   return (
     <StyledAppBar>
@@ -43,13 +32,12 @@ function NavBar() {
         </Link>
         {isLogged ? (
           <Link
-            to="/"
+            to="/profile"
             color="inherit"
             underline="none"
             component={RouterLink}
-            onClick={logoutHandler}
           >
-            Logout
+            My Profile
           </Link>
         ) : (
           <Link
