@@ -5,7 +5,7 @@ type ratingType = {
   dislikes: string[];
 };
 
-export interface ILocation {
+export interface ILocation extends Document {
   locationName: string;
   coordinates: [number, number];
   photoSrc: string;
