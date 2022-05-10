@@ -1,10 +1,6 @@
 import React from 'react';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
 import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
-import { Typography } from '@mui/material';
+import { Typography, FormControlLabel, Switch } from '@mui/material';
 import userImageNotFound from '../../static/user-image-not-found.png';
 
 import {
@@ -29,17 +25,6 @@ export default function ProfilePage(props: ProfilePageProps) {
     <>
       <ProfileFormWrapper>
         <ProfileContentWrapper>
-          <IconButton
-            aria-label="Close"
-            sx={{
-              borderRadius: 0,
-              position: 'absolute',
-              right: '20px',
-              top: '90px'
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
           <ProfileAvatar aria-label="avatar" src={userImageNotFound} />
           <Typography variant="h3" component="h4" align="center">
             {displayName === undefined ? 'name is undefined' : displayName}
