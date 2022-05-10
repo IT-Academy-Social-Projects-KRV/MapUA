@@ -17,7 +17,7 @@ export const initialState: locationState = {
   comments: [],
   isLoading: false
 };
-export const popupLocationReduser = (
+export const popupLocationReducer = (
   state = initialState,
   action: LocationActions
 ): locationState => {

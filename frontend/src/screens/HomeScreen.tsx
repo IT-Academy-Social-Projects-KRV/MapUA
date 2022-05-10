@@ -15,13 +15,13 @@ function HomeScreen() {
   };
 
   return (
-    <Box>
+    <Box sx={{ flexGrow: 1 }}>
       <BigPopup
         isOpen={isOpen}
         toggleClose={() => setIsopen(false)}
         location={location}
       />
-      <Container onClick={() => setIsopen(false)}>
+      <Container sx={{ height: '100%' }} onClick={() => setIsopen(false)}>
         <Map onOpenBigPopup={onOpenBigPopup} />
       </Container>
     </Box>
