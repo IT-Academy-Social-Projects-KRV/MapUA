@@ -24,14 +24,11 @@ export default function NestedList() {
   );
   const { applyFilter } = useTypedDispatch();
 
-  const OnChange = (e: any) => {
-    const ischecked = e.target.checked;
-    if (ischecked) {
-      applyFilter([...selectedFilters, e.target.value]);
+  const OnChange = (value: string) => {
+    if (selectedFilters.some(f => f === value)) {
+      applyFilter(selectedFilters.filter(f => f !== value));
     } else {
-      const index = selectedFilters.indexOf(e.target.value);
-      selectedFilters.splice(index, 1);
-      applyFilter(selectedFilters);
+      applyFilter([...selectedFilters, value]);
     }
   };
 
@@ -59,10 +56,15 @@ export default function NestedList() {
               <Collapse in={openNested[filter.id]} timeout="auto">
                 <StyledList>
                   {filter.values?.map(nestedFilter => (
-                    <ListItemButton key={useId()} className="pl-4">
+                    <ListItemButton
+                      onClick={() => OnChange(nestedFilter)}
+                      key={useId()}
+                      className="pl-4"
+                    >
                       <Checkbox
+                        checked={selectedFilters.some(f => f === nestedFilter)}
                         edge="start"
-                        onChange={OnChange}
+                        onChange={() => null}
                         value={nestedFilter}
                       />
                       <ListItemText primary={nestedFilter} />
