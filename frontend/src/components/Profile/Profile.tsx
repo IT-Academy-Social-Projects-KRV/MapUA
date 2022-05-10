@@ -46,7 +46,7 @@ function Profile() {
         <Box>{`displayName: ${data.displayName}`}</Box>
         <Box>{`createdAt: ${data.createdAt}`}</Box>
       </Box>
-    </Box>
+git remote    </Box>
   );
 }
 
