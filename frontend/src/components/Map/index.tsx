@@ -3,6 +3,8 @@ import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Box } from '@mui/material';
 import { LocationPopOut } from 'components/LocationPopOut/LocationPopOut';
+import SearchFormContainer from 'components/SearchFormContainer';
+import useDebounce from 'utils/useDebounce';
 
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
@@ -12,14 +14,13 @@ interface Props {
 }
 
 function Map({ onOpenBigPopup }: Props) {
-  const { bounds, locations, zoomPosition } = useTypedSelector(
-    state => state.locationList
-  );
-  const { fetchLocations, setBounds, setZoomPosition } = useTypedDispatch();
+  const { bounds, locations, zoomPosition, locationName, selectedFilters } =
+    useTypedSelector(state => state.locationList);
+  const debouncedValue = useDebounce(locationName, 1000);
+  const { setBounds, setZoomPosition, fetchLocations } = useTypedDispatch();
   useEffect(() => {
-    fetchLocations(zoomPosition, bounds);
-  }, [bounds]);
-
+    fetchLocations(zoomPosition, bounds, debouncedValue, selectedFilters);
+  }, [bounds, debouncedValue, JSON.stringify(selectedFilters)]);
   function MyZoomComponent() {
     const prev = bounds;
     const map = useMapEvents({
@@ -34,22 +35,12 @@ function Map({ onOpenBigPopup }: Props) {
     });
     return null;
   }
-  // TODO Function that defines coordinates on mouse click
-  // function CoordsFinder() {
-  //   useMapEvents({
-  //     click(e) {
-  //       console.log(e.latlng);
-  //     }
-  //   });
-  //   return null;
-  // }
-
   return (
-    <Box>
+    <Box sx={{ height: '100%' }}>
       <MapContainer
         center={[50.447731, 30.542721]}
         zoom={6}
-        style={{ height: '100vh' }}
+        style={{ height: '100%' }}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png" />
 
@@ -62,6 +53,7 @@ function Map({ onOpenBigPopup }: Props) {
             onOpenBigPopup={onOpenBigPopup}
           />
         ))}
+        <SearchFormContainer />
       </MapContainer>
     </Box>
   );

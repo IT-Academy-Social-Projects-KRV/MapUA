@@ -15,7 +15,7 @@ function NavBar() {
           color="inherit"
           underline="none"
           component={RouterLink}
-          to="/About_US"
+          to="/about_us"
         >
           About US
         </Link>
@@ -23,7 +23,7 @@ function NavBar() {
           color="inherit"
           underline="none"
           component={RouterLink}
-          to="/News"
+          to="/news"
         >
           News
         </Link>

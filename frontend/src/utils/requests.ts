@@ -5,7 +5,7 @@ export async function fetchData(option: any) {
   try {
     data = await axios(option);
   } catch (e) {
-    console.log(e);
+    console.error('Error has occurred: ', e);
   }
   return data;
 }
