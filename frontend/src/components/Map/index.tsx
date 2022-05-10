@@ -1,91 +1,46 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Box } from '@mui/material';
 import { LocationPopOut } from 'components/LocationPopOut/LocationPopOut';
-import { boundsType, latlngType, lightLocationType } from '../../../types';
-import { fetchData } from '../../utils/requests';
+import SearchFormContainer from 'components/SearchFormContainer';
+import useDebounce from 'utils/useDebounce';
 
-const { REACT_APP_API_URI } = process.env;
+import { useTypedSelector } from 'redux/hooks/useTypedSelector';
+import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 
 interface Props {
   onOpenBigPopup: Function;
 }
 
 function Map({ onOpenBigPopup }: Props) {
-  const [bounds, setBounds] = useState<boundsType>({
-    _northEast: { lat: 54.82600799909498, lng: 38.64990234375001 },
-    _southWest: { lat: 45.62940492064501, lng: 22.456054687500004 }
-  });
-  const [zoomPosition, setZoomPosition] = useState<latlngType>({
-    lat: 50.447731,
-    lng: 30.542721
-  });
-  // eslint-disable-next-line no-unused-vars
-  const [locations, setLocations] = useState<lightLocationType[]>([]);
-
+  const { bounds, locations, zoomPosition, locationName, selectedFilters } =
+    useTypedSelector(state => state.locationList);
+  const debouncedValue = useDebounce(locationName, 1000);
+  const { setBounds, setZoomPosition, fetchLocations } = useTypedDispatch();
   useEffect(() => {
-    async function onBoundsChange() {
-      const url = `${REACT_APP_API_URI}/locations/location-list`;
-      const options = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          center: JSON.stringify(zoomPosition),
-          bounds: JSON.stringify(bounds)
-        })
-      };
-      const { status, data } = await fetchData(url, options);
-
-      if (data && data.mes && status) {
-        console.log(data.mes, status);
-        return;
-      }
-
-      if (data && data.locations && typeof data.locations === typeof []) {
-        setLocations(() => [...data.locations]);
-      }
-    }
-    onBoundsChange();
-  }, [bounds]);
-
+    fetchLocations(zoomPosition, bounds, debouncedValue, selectedFilters);
+  }, [bounds, debouncedValue, JSON.stringify(selectedFilters)]);
   function MyZoomComponent() {
+    const prev = bounds;
     const map = useMapEvents({
       zoom: e => {
         setZoomPosition(e.target.getCenter());
-        setBounds((prev: boundsType) => ({
-          ...prev,
-          ...map.getBounds()
-        }));
+        setBounds({ ...prev, ...map.getBounds() });
       },
       dragend: e => {
         setZoomPosition(e.target.getCenter());
-        setBounds((prev: boundsType) => ({
-          ...prev,
-          ...map.getBounds()
-        }));
+        setBounds({ ...prev, ...map.getBounds() });
       }
     });
     return null;
   }
-  // TODO Function that defines coordinates on mouse click
-  // function CoordsFinder() {
-  //   useMapEvents({
-  //     click(e) {
-  //       console.log(e.latlng);
-  //     }
-  //   });
-  //   return null;
-  // }
-
   return (
-    <Box>
+    <Box sx={{ height: '100%' }}>
       <MapContainer
         center={[50.447731, 30.542721]}
         zoom={6}
-        style={{ height: '100vh' }}
+        style={{ height: '100%' }}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png" />
 
@@ -98,6 +53,7 @@ function Map({ onOpenBigPopup }: Props) {
             onOpenBigPopup={onOpenBigPopup}
           />
         ))}
+        <SearchFormContainer />
       </MapContainer>
     </Box>
   );

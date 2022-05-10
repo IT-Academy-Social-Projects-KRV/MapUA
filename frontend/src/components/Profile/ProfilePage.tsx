@@ -5,6 +5,7 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import { Typography } from '@mui/material';
+import userImageNotFound from '../../static/user-image-not-found.png';
 
 import {
   ProfileAvatar,
@@ -39,10 +40,7 @@ export default function ProfilePage(props: ProfilePageProps) {
           >
             <CloseIcon />
           </IconButton>
-          <ProfileAvatar
-            aria-label="avatar"
-            src="https://cdn-icons-png.flaticon.com/512/147/147142.png"
-          />
+          <ProfileAvatar aria-label="avatar" src={userImageNotFound} />
           <Typography variant="h3" component="h4" align="center">
             {displayName === undefined ? 'name is undefined' : displayName}
           </Typography>

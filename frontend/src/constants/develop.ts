@@ -1,4 +1,4 @@
-import { locationType, UserDataType } from '../../types';
+import { locationType } from '../../types';
 
 export const positions: [number, number][] = [
   [49.447731, 29.542721],

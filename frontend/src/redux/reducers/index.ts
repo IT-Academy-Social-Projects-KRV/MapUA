@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
 import { userReducer } from './userReducer';
-import { todoReducer } from './todoReducer';
+import { popupLocationReducer } from './popupLocationReducer';
+import { locationsListReducer } from './locationListReducer';
 
 export const rootReducer = combineReducers({
   user: userReducer,
-  todo: todoReducer
+  popupLocation: popupLocationReducer,
+  locationList: locationsListReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

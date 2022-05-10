@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import { StyledAppBar, StyledStack } from './style';
-// import { useTypedDispatch } from '../../redux/hooks/useTypedDispatch';
 
 function NavBar() {
   return (
@@ -39,7 +38,6 @@ function NavBar() {
           color="inherit"
           underline="none"
           component={RouterLink}
-          // to="/profile-page"
           to="/profile"
         >
           Profile

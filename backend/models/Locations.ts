@@ -5,19 +5,14 @@ type ratingType = {
   dislikes: string[];
 };
 
-export interface ILocation {
+export interface ILocation extends Document {
   locationName: string;
   coordinates: [number, number];
   photoSrc: string;
   description: string;
   rating: ratingType;
   comments?: string[];
-  filters: {
-    favorite: string[];
-    visited: string[];
-    author: string;
-    cost: 'free' | 'paid';
-  }
+  filters: string[]
 }
 
 const schema = new mongoose.Schema({
@@ -30,20 +25,7 @@ const schema = new mongoose.Schema({
     likes: { type: Array, default: [] },
     dislikes: { type: Array, default: [] },
   },
-  filters: {
-    type : {
-      favorite: {
-        type: Array,
-        default: []
-      },
-      visited: {
-        type: Array,
-        default: []
-      },
-      author: String,
-      cost: String,
-    }
-  }
+  filters: { type: Array, default: [] }
 });
 
 export default mongoose.model<ILocation>("Location", schema);
