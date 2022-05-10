@@ -44,7 +44,7 @@ function NavBar() {
             color="inherit"
             underline="none"
             component={RouterLink}
-            to="/Login"
+            to="/login"
           >
             Login
           </Link>
