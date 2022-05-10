@@ -51,7 +51,7 @@ function Profile() {
           displayName={data.displayName}
           createdAt={data.createdAt}
         />
-        <Map onOpenBigPopup={onOpenBigPopup} />
+        {/* <Map onOpenBigPopup={onOpenBigPopup} /> */}
       </Container>
     </Box>
   );
