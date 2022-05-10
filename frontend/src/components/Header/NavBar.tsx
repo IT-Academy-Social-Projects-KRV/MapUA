@@ -34,6 +34,14 @@ function NavBar() {
         >
           Login
         </Link>
+        <Link
+          color="inherit"
+          underline="none"
+          component={RouterLink}
+          to="/profile"
+        >
+          Profile
+        </Link>
       </StyledStack>
     </StyledAppBar>
   );
