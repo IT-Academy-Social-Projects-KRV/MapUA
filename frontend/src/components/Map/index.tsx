@@ -36,11 +36,11 @@ function Map({ onOpenBigPopup }: Props) {
     return null;
   }
   return (
-    <Box sx={{ height: '100%' }}>
+    <Box sx={{ height: '100%', width: '100%' }}>
       <MapContainer
-        center={[50.447731, 30.542721]}
+        center={[48.978189, 31.982826]}
         zoom={6}
-        style={{ height: '100%' }}
+        style={{ height: '100%', width: '100vw' }}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png" />
 
