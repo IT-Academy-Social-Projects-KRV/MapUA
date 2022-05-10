@@ -39,7 +39,7 @@ function Registration() {
   const onSubmit: SubmitHandler<SignUp> = async data => {
     try {
       const response = await axios.post(
-        process.env.REACT_APP_REGISTRATION_URI!,
+        `${process.env.REACT_APP_API_URI}signup`,
         data
       );
       if (response.status === 200) {
