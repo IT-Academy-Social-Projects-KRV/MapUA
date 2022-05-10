@@ -1,5 +1,6 @@
 import express from 'express';
 import FilesController from '../controllers/FilesController';
+
 import UserController from '../controllers/UserController';
 import LocationsController from '../controllers/LocationsController';
 import AuthController from '../controllers/AuthController';
@@ -26,8 +27,7 @@ router.get(
 );
 
 router.get('/locations/:id', LocationsController.getLocationById);
-router.post('/locations/location-list', LocationsController.getLocationsByZoom);
+router.get('/locations/', LocationsController.getLocationsByZoom);
 router.post('/locations/add', LocationsController.addLocation);
 router.post('/uploadImage', FilesController.uploadImage);
-
 export default router;
