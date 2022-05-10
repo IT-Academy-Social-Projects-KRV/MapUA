@@ -44,7 +44,7 @@ export const login =
         payload: response.data
       });
 
-      localStorage.setItem('accessToken', JSON.stringify(response.data.token));
+      localStorage.setItem('accessToken', response.data.token);
     } catch (error: any) {
       dispatch({
         type: UserActionTypes.USER_LOGIN_FAIL,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   FormControl,
   TextField,
@@ -38,9 +38,12 @@ function Login() {
 
   const { isLogged } = useTypedSelector(state => state.userLogin);
   const navigate = useNavigate();
-  if (isLogged === true) {
-    navigate('/');
-  }
+
+  useEffect(() => {
+    if (isLogged) {
+      navigate('/');
+    }
+  }, [isLogged]);
 
   const onSubmit: SubmitHandler<SignIn> = async ({ email, password }) => {
     login(email, password);
