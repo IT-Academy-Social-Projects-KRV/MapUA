@@ -31,8 +31,8 @@ type SignUp = {
 
 function Registration() {
   const navigate = useNavigate();
-  const [visibleSucces, setVisibleSucces] = useState(false);
-  const [visibleError, setVisibleError] = useState(false);
+  const [visibleSucces, setVisibleSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const { handleSubmit, control } = useForm<SignUp>({
     mode: 'onBlur'
   });
@@ -43,40 +43,41 @@ function Registration() {
         data
       );
       if (response.status === 200) {
-        setVisibleSucces(true);
+        setVisibleSuccess(true);
         setTimeout(() => navigate('/login'), 1500);
       }
     } catch (e: any) {
-      setVisibleError(true);
-      setTimeout(() => setVisibleError(false), 3000);
+      setTimeout(() => setErrorMessage(''), 3000);
+      setErrorMessage(e.response.data?.error || 'Something went wrong');
     }
   };
   const { errors } = useFormState({
     control
   });
+
   return (
     <RegistrationFormWrapper>
       <BorderForm>
         <FormControl sx={{ width: '35ch' }}>
           <WrapH1>
-            <Typography sx={{ fontSize: '24px' }}> Create profile</Typography>
+            <Typography sx={{ fontSize: '24px' }}>Create profile</Typography>
           </WrapH1>
           <Snackbar open={visibleSucces}>
             <Alert
               variant="filled"
               severity="success"
-              sx={{ width: '100%', mb: '2rem', textAlign: 'center' }}
+              sx={{ width: '100%', mb: '2rem' }}
             >
               Registration successful!
             </Alert>
           </Snackbar>
-          <Snackbar open={visibleError}>
+          <Snackbar open={!!errorMessage}>
             <Alert
               variant="filled"
               severity="error"
-              sx={{ width: '100%', mb: '2rem', textAlign: 'center' }}
+              sx={{ width: '100%', mb: '2rem' }}
             >
-              This email is already exists!
+              {errorMessage}
             </Alert>
           </Snackbar>
           <form onSubmit={handleSubmit(onSubmit)}>
