@@ -32,7 +32,7 @@ function Profile() {
   };
 
   if (loading) {
-    return <h1>Идет загрузка...</h1>;
+    return <h1>Loading...</h1>;
   }
   if (error) {
     return <h1>{error}</h1>;

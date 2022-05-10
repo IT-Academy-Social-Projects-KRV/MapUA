@@ -16,7 +16,7 @@ export const BorderForm = styled(RegistrationFormWrapper)`
 `;
 
 export const StyledSpan = styled(Box)`
-  text-align: end;
+  text-align: center;
   margin-top: 20px;
 `;
 

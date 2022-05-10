@@ -12,8 +12,8 @@ export const emailValidation = {
 export const passwordValidation = {
   required: "Password can't be empty",
   validate: (value: string) => {
-    if (value.length < 3 || value.length > 10) {
-      return 'password must be more then 3 and less then 10';
+    if (value.length < 3 || value.length > 36) {
+      return 'password must be more then 3 and less or equal then 36';
     }
     return true;
   }
