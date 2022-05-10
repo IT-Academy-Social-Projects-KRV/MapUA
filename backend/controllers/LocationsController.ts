@@ -64,15 +64,22 @@ const LocationsController = {
   //TODO - This is test controller
   async addLocation(req: Request, res: Response) {
     try {
-      const { locationName, description, coordinates, photoSrc } = req.body;
+      const { locationName, description, coordinates } = req.body;
 
       const location = await Location.find({ coordinates: coordinates });
+      const imageUrls: string[] = [];
 
       if (location.length === 0) {
+        Array.prototype.forEach.call(req.files, (file) => {
+          imageUrls.push(file.location);
+        });
+
         const newLocation = new Location({
           locationName: locationName,
           coordinates: coordinates,
-          photoSrc: photoSrc,
+          // here, we can save not only one url for the location image
+          // but rather an array of images
+          photoSrc: imageUrls[0],
           description: description,
         });
         const result = await newLocation.save(newLocation as any);
