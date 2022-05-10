@@ -12,7 +12,7 @@ const theme = createTheme({
     MuiPaper: {
       styleOverrides: {
         root: {
-          marginTop: '80px'
+          marginTop: '75px'
         }
       }
     }
@@ -36,6 +36,7 @@ export default function BigPopup(props: PopupProps) {
             hideBackdrop
             open={isOpen}
             onClose={toggleClose}
+            style={{ height: '82%' }}
           >
             <IconButton
               onClick={toggleClose}
