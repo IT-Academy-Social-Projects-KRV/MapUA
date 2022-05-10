@@ -15,7 +15,7 @@ function TabPanel(props: TabPanelProps & typeof defaultProps) {
   const { children, value, index } = props;
 
   return (
-    <div
+    <Box
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
@@ -26,7 +26,7 @@ function TabPanel(props: TabPanelProps & typeof defaultProps) {
           <Typography>{children}</Typography>
         </Box>
       )}
-    </div>
+    </Box>
   );
 }
 
