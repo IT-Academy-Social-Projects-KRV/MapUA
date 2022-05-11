@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 export const RegistrationFormWrapper = styled(Box)`
-  height: 83vh;
+  height: 86vh;
   display: flex;
   justify-content: center;
   align-items: center;
