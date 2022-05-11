@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import HomeScreen from 'screens/HomeScreen';
 import NavBar from 'components/Header/NavBar';
@@ -9,14 +9,16 @@ import ForgotPassword from 'components/ForgotPassword/ForgotPassword';
 import Registration from 'components/Registration/Registration';
 import ComposeComponents from 'redux/components/ComposeComponents';
 import Profile from 'components/Profile/Profile';
+import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 
 function App() {
+  const { isLogged } = useTypedSelector(state => state.userLogin);
   return (
     <BrowserRouter>
       <GlobalStyles
         styles={{
           html: {
-            height: '100%',
+            height: '100vh',
             width: '100%'
           },
           '*, *::before, *::after': {
@@ -26,11 +28,14 @@ function App() {
             border: 0
           },
           body: {
-            height: '100%',
+            height: '100vh',
             width: '100%'
           },
           '#root': {
-            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            height: '100vh',
+            minHeight: '100vh',
             width: '100%'
           }
         }}
@@ -39,7 +44,10 @@ function App() {
       <Routes>
         <Route path="/" element={<HomeScreen />} />
         <Route path="/registration" element={<Registration />} />
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/login"
+          element={isLogged ? <Navigate to="/" replace /> : <Login />}
+        />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/test-redux-components" element={<ComposeComponents />} />
         <Route path="/profile" element={<Profile />} />

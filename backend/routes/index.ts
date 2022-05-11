@@ -18,6 +18,7 @@ router.get(
   passport.authenticate("jwt", { session: false }),
   UserController.getProfile
 );
+<<<<<<< HEAD
 router.post("/signup", AuthController.signUp);
 router.post("/signin", AuthController.signIn);
 router.post("/forgot-password", AuthController.forgotPassword);
@@ -29,5 +30,21 @@ router.post(
   upload.array("image"),
   LocationsController.addLocation
 );
+=======
+
+router.post("/signup", AuthController.signUp);
+router.post("/signin", AuthController.signIn);
+router.post("/forgot-password", AuthController.forgotPassword);
+
+router.post("/locations/location-list", LocationsController.getLocationsByZoom);
+router.post(
+  "/locations/add",
+  upload.array("image"),
+  LocationsController.addLocation
+);
+
+router.get('/locations/:id', LocationsController.getLocationById);
+router.get('/locations/', LocationsController.getLocationsByZoom);
+>>>>>>> fdcad00307baa7f172f2bd786737d53f7f2daaf0
 
 export default router;

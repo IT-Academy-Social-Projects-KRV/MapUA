@@ -1,9 +1,13 @@
 import React from 'react';
 import { Link } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
+import { useTypedSelector } from 'redux/hooks/useTypedSelector';
+
 import { StyledAppBar, StyledStack } from './style';
 
 function NavBar() {
+  const { isLogged } = useTypedSelector(state => state.userLogin);
+
   return (
     <StyledAppBar>
       <StyledStack direction="row">
@@ -11,7 +15,7 @@ function NavBar() {
           color="inherit"
           underline="none"
           component={RouterLink}
-          to="/About_US"
+          to="/about_us"
         >
           About US
         </Link>
@@ -19,21 +23,32 @@ function NavBar() {
           color="inherit"
           underline="none"
           component={RouterLink}
-          to="/News"
+          to="/news"
         >
           News
         </Link>
         <Link color="inherit" underline="none" component={RouterLink} to="/">
           Map
         </Link>
-        <Link
-          color="inherit"
-          underline="none"
-          component={RouterLink}
-          to="/Login"
-        >
-          Login
-        </Link>
+        {isLogged ? (
+          <Link
+            to="/profile"
+            color="inherit"
+            underline="none"
+            component={RouterLink}
+          >
+            My Profile
+          </Link>
+        ) : (
+          <Link
+            color="inherit"
+            underline="none"
+            component={RouterLink}
+            to="/login"
+          >
+            Login
+          </Link>
+        )}
       </StyledStack>
     </StyledAppBar>
   );

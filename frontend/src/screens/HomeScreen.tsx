@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Box } from '@mui/material';
+import { Box } from '@mui/material';
 import Map from 'components/Map/index';
 import BigPopup from 'components/BigPopup/index';
 
@@ -15,15 +15,15 @@ function HomeScreen() {
   };
 
   return (
-    <Box>
+    <Box sx={{ flexGrow: 1 }}>
       <BigPopup
         isOpen={isOpen}
         toggleClose={() => setIsopen(false)}
         location={location}
       />
-      <Container onClick={() => setIsopen(false)}>
+      <Box sx={{ height: '100%' }} onClick={() => setIsopen(false)}>
         <Map onOpenBigPopup={onOpenBigPopup} />
-      </Container>
+      </Box>
     </Box>
   );
 }

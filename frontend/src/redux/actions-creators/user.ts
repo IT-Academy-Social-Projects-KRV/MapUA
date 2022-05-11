@@ -26,3 +26,39 @@ export const fetchUser =
       });
     }
   };
+
+// Login
+export const login =
+  (email: string, password: string) =>
+  async (dispatch: Dispatch<UserAction>) => {
+    try {
+      dispatch({
+        type: UserActionTypes.USER_LOGIN_REQUEST
+      });
+      const response = await axios.post(`${REACT_APP_API_URI}signin`, {
+        email,
+        password
+      });
+      dispatch({
+        type: UserActionTypes.USER_LOGIN_SUCCESS,
+        payload: response.data
+      });
+
+      localStorage.setItem('accessToken', response.data.token);
+    } catch (error: any) {
+      dispatch({
+        type: UserActionTypes.USER_LOGIN_FAIL,
+        payload:
+          error.response && error.response.data.massage
+            ? error.response.data.message
+            : error.message
+      });
+    }
+  };
+
+export const logout = () => async (dispatch: Dispatch<UserAction>) => {
+  dispatch({
+    type: UserActionTypes.USER_LOGOUT
+  });
+  localStorage.removeItem('accessToken');
+};

@@ -9,34 +9,50 @@ import { boundsType, latlngType } from '../../../types';
 const { REACT_APP_API_URI } = process.env;
 
 export const fetchLocations =
-  (zoomPosition: latlngType, bounds: boundsType) =>
+  (
+    zoomPosition: latlngType,
+    bounds: boundsType,
+    locationName?: string,
+    filters?: string[]
+  ) =>
   async (dispatch: Dispatch<LocationListActions>) => {
     try {
-      const url = `${REACT_APP_API_URI}/locations/location-list`;
+      let url = `${REACT_APP_API_URI}locations/?center=${JSON.stringify(
+        zoomPosition
+      )}&bounds=${JSON.stringify(bounds)}`;
+      if (locationName) {
+        url = `${REACT_APP_API_URI}locations/?center=${JSON.stringify(
+          zoomPosition
+        )}&bounds=${JSON.stringify(bounds)}&name=${locationName}`;
+      }
+      if (filters) {
+        url = `${REACT_APP_API_URI}locations/?center=${JSON.stringify(
+          zoomPosition
+        )}&bounds=${JSON.stringify(bounds)}&filters=${JSON.stringify(filters)}`;
+      }
+      if (filters && locationName) {
+        url = `${REACT_APP_API_URI}locations/?center=${JSON.stringify(
+          zoomPosition
+        )}&bounds=${JSON.stringify(
+          bounds
+        )}&name=${locationName}&filters=${JSON.stringify(filters)}`;
+      }
       const options = {
-        method: 'post',
+        method: 'get',
         url,
         headers: {
           'Content-Type': 'application/json'
-        },
-        data: {
-          center: JSON.stringify(zoomPosition),
-          bounds: JSON.stringify(bounds)
         }
       };
-      const { status, data } = await axios(options);
-      if (data && data.error && status) {
-        console.log(data.error, status);
-        return;
-      }
+      const { data } = await axios(options);
       if (data && data.locations && typeof data.locations === typeof []) {
         dispatch({
           type: LocationsListActionsType.FETCH_LOCATIONS,
           payload: data.locations
         });
       }
-    } catch (e) {
-      console.log(e);
+    } catch (e: any) {
+      throw new Error(e);
     }
   };
 export function setBounds(bounds: boundsType): LocationListActions {
@@ -46,5 +62,17 @@ export function setZoomPosition(zoomPosition: latlngType): LocationListActions {
   return {
     type: LocationsListActionsType.SET_ZOOM_POSITION,
     payload: zoomPosition
+  };
+}
+export function getLocationName(locationName: string): LocationListActions {
+  return {
+    type: LocationsListActionsType.GET_LOCATION_NAME,
+    payload: locationName
+  };
+}
+export function applyFilter(filter: string[]): LocationListActions {
+  return {
+    type: LocationsListActionsType.APPLY_FILTER,
+    payload: filter
   };
 }

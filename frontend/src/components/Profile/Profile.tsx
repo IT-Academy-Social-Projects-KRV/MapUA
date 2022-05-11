@@ -1,7 +1,11 @@
-import { Box } from '@mui/material';
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Box, Container } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import BigPopup from 'components/BigPopup';
+import Map from 'components/Map/index';
+import ProfilePage from './ProfilePage';
 import { useTypedSelector } from '../../redux/hooks/useTypedSelector';
+import { locationType } from '../../../types';
 import { useTypedDispatch } from '../../redux/hooks/useTypedDispatch';
 
 function Profile() {
@@ -19,33 +23,36 @@ function Profile() {
     }
   }, []);
 
+  const [isOpen, setIsopen] = useState(false);
+  const [location, setLocation] = useState<locationType | null>(null);
+
+  const onOpenBigPopup = (locationData: locationType) => {
+    setLocation(locationData);
+    setIsopen(true);
+  };
+
   if (loading) {
-    return <h1>Идет загрузка...</h1>;
+    return <h1>Loading...</h1>;
   }
   if (error) {
     return <h1>{error}</h1>;
   }
 
   return (
-    <Box
-      sx={{
-        m: 3,
-        '&>*:not(:last-child)': {
-          m: 3
-        }
-      }}
-    >
-      <Box
-        sx={{
-          mt: 3,
-          p: 3,
-          border: '1px solid black'
-        }}
-      >
-        <Box>{`email: ${data.email}`}</Box>
-        <Box>{`displayName: ${data.displayName}`}</Box>
-        <Box>{`createdAt: ${data.createdAt}`}</Box>
-      </Box>
+    <Box>
+      <BigPopup
+        isOpen={isOpen}
+        toggleClose={() => setIsopen(false)}
+        location={location}
+      />
+      <Container onClick={() => setIsopen(false)}>
+        <ProfilePage
+          email={data.email}
+          displayName={data.displayName}
+          createdAt={data.createdAt}
+        />
+        <Map onOpenBigPopup={onOpenBigPopup} />
+      </Container>
     </Box>
   );
 }
