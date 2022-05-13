@@ -20,7 +20,7 @@ export default function BigPopup(props: PopupProps) {
         <Drawer
           sx={{ width: '35%' }}
           PaperProps={{
-            style: { height: '75vh', marginTop: '85px' }
+            style: { height: '77vh', marginTop: '85px' }
           }}
           anchor="left"
           hideBackdrop
