@@ -1,26 +1,19 @@
 import React, { useState, FormEvent, SyntheticEvent } from 'react';
 import axios from 'axios';
-
 import {
-  FormControl,
+  Box,
   TextField,
   Typography,
-  Box,
   Stack,
   Alert,
   Snackbar,
   AlertColor,
+  Grid,
   Link
 } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
 import LoadingButton from '@mui/lab/LoadingButton';
-
-import {
-  WrapH1,
-  BorderForm,
-  RegistrationFormWrapper,
-  StyledSpan,
-  WrapButtonAndText
-} from './styles';
+import { PaperForm, AuthFormWrapper } from '../../theme';
 
 const { REACT_APP_API_URI } = process.env;
 
@@ -71,7 +64,7 @@ function ForgotPassword() {
   if (notification) {
     snackbar = (
       <Snackbar
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         open={!!notification}
         autoHideDuration={5000}
         onClose={handleCloseNotification}
@@ -88,50 +81,50 @@ function ForgotPassword() {
   }
 
   return (
-    <RegistrationFormWrapper>
-      <Box component="form" onSubmit={sendEmail}>
-        <BorderForm>
-          <FormControl sx={{ width: '35ch' }}>
-            <WrapH1>
-              <Typography sx={{ fontSize: '24px' }}>
-                Forgot password?
-              </Typography>
-            </WrapH1>
+    <AuthFormWrapper>
+      <Grid container justifyContent="center">
+        <Grid item md={4}>
+          <PaperForm>
+            <Box component="form" onSubmit={sendEmail}>
+              <Stack spacing={4}>
+                <Typography align="center" variant="h4">
+                  Forgot password?
+                </Typography>
 
-            <Box sx={{ mt: '20px' }}>
-              <TextField
-                type="email"
-                id="email"
-                required
-                value={email}
-                placeholder="Please enter your email"
-                label="Email"
-                autoComplete="current-email"
-                fullWidth
-                onChange={e => setEmail(e.target.value)}
-              />
+                <TextField
+                  label="Email"
+                  type="email"
+                  id="email"
+                  required
+                  value={email}
+                  placeholder="Please enter your email"
+                  autoComplete="current-email"
+                  fullWidth
+                  onChange={e => setEmail(e.target.value)}
+                />
+
+                <LoadingButton
+                  loading={loading}
+                  type="submit"
+                  variant="contained"
+                >
+                  sent password
+                </LoadingButton>
+
+                <Typography align="right">
+                  <Link to="/login" underline="none" component={RouterLink}>
+                    I remember password
+                  </Link>
+                </Typography>
+              </Stack>
             </Box>
-            <WrapButtonAndText>
-              <LoadingButton
-                loading={loading}
-                type="submit"
-                variant="contained"
-              >
-                sent password
-              </LoadingButton>
-              <StyledSpan>
-                <Link href="/login" underline="none">
-                  I remember password
-                </Link>
-              </StyledSpan>
-            </WrapButtonAndText>
-          </FormControl>
-        </BorderForm>
-        <Stack spacing={5} sx={{ width: '100%' }}>
-          {snackbar}
-        </Stack>
-      </Box>
-    </RegistrationFormWrapper>
+          </PaperForm>
+          <Stack spacing={5} sx={{ width: '100%' }}>
+            {snackbar}
+          </Stack>
+        </Grid>
+      </Grid>
+    </AuthFormWrapper>
   );
 }
 
