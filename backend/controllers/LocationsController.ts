@@ -1,6 +1,6 @@
-import { Response, Request } from "express";
-import { TupleTypeReference } from "typescript";
-import Location from "../models/Locations";
+import { Response, Request } from 'express';
+import { TupleTypeReference } from 'typescript';
+import Location from '../models/Locations';
 
 const LocationsController = {
   async getLocationsByZoom(req: Request, res: Response) {
@@ -13,30 +13,35 @@ const LocationsController = {
       const width = +(bounds._northEast.lng - bounds._southWest.lng);
       let locations = (
         await Location.find({
-          "coordinates.0": {
+          'coordinates.0': {
             $gt: center.lat - height,
-            $lt: center.lat + height,
+            $lt: center.lat + height
           },
-          "coordinates.1": {
+          'coordinates.1': {
             $gt: center.lng - width,
-            $lt: center.lng + width,
-          },
+            $lt: center.lng + width
+          }
         })
-      ).map((l) => ({
+      ).map(l => ({
         _id: l._id,
         coordinates: l.coordinates,
         name: l.locationName,
-        filters: l.filters,
+        filters: l.filters
       }));
       if (name) {
-        locations = locations.filter((l) => {
+        locations = locations.filter(l => {
           return l.name.toLocaleLowerCase().startsWith(name);
         });
       }
       if (filters.length > 0) {
-        locations = locations.filter((l) => [...l.filters].some((el) => filters.includes(el)));
+        locations = locations.filter(l =>
+          [...l.filters].some(el => filters.includes(el))
+        );
       } else {
-        locations = locations.slice(0, locations.length < 50 ? locations.length : 50);
+        locations = locations.slice(
+          0,
+          locations.length < 50 ? locations.length : 50
+        );
       }
       return res.json({ locations });
     } catch (err: any) {
@@ -67,7 +72,7 @@ const LocationsController = {
       const imageUrls: string[] = [];
 
       if (location.length === 0) {
-        Array.prototype.forEach.call(req.files, (file) => {
+        Array.prototype.forEach.call(req.files, file => {
           imageUrls.push(file.location);
         });
 
@@ -76,18 +81,18 @@ const LocationsController = {
           coordinates: coordinates,
           // here, we can save not only one url for the location image
           // but rather an array of images
-          photoSrc: imageUrls,
-          description: description,
+          arrayPhotos: imageUrls,
+          description: description
         });
         const result = await newLocation.save(newLocation as any);
         res.status(200).json(result);
       } else {
-        res.status(400).json({ error: "Data is present" });
+        res.status(400).json({ error: 'Data is present' });
       }
     } catch (err: any) {
       return res.status(500).json({ error: err.message });
     }
-  },
+  }
 };
 
 export default LocationsController;
