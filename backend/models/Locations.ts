@@ -5,11 +5,19 @@ type ratingType = {
   dislikes: string[];
 };
 
-type comentType = {
+type commentType = {
   author: string;
   text: string;
   likes: string[];
   dislikes: string[];
+  createdAt: {
+    type: Date;
+    default: null;
+  };
+  updatedAt: {
+    type: Date;
+    default: null;
+  };
 };
 export interface ILocation extends Document {
   locationName: string;
@@ -17,15 +25,15 @@ export interface ILocation extends Document {
   photoSrc: string;
   description: string;
   rating: ratingType;
-  comments?: comentType;
+  comments?: commentType;
   filters: string[];
-  author: string[];
+  author: string;
 }
 
 const schema = new mongoose.Schema({
   locationName: { type: String, required: true },
   coordinates: [],
-  photoSrc: { type: Array, required: false },
+  arrayPhotos: { type: Array, required: false },
   description: { type: String },
   comments: { type: Object, default: {} },
   rating: {
