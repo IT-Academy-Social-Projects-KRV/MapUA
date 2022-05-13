@@ -1,8 +1,9 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { Box, Container } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import BigPopup from 'components/BigPopup';
-import Map from 'components/Map/index';
+// import Map from 'components/Map/index';
 import ProfilePage from './ProfilePage';
 import { useTypedSelector } from '../../redux/hooks/useTypedSelector';
 import { locationType } from '../../../types';
@@ -51,7 +52,7 @@ function Profile() {
           displayName={data.displayName}
           createdAt={data.createdAt}
         />
-        <Map onOpenBigPopup={onOpenBigPopup} />
+        {/* <Map onOpenBigPopup={onOpenBigPopup} /> */}
       </Container>
     </Box>
   );
