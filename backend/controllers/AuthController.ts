@@ -50,6 +50,11 @@ const AuthController = {
       return res.status(500).json({ error: err.message });
     }
   },
+  async googleLogin(req:Request,res:Response){
+  },
+  async googleLoginCallback(req:Request,res:Response){
+    res.redirect('http://localhost:3000/')
+ },
   async forgotPassword(req: Request, res: Response) {
     try {
       const { email } = req.body;

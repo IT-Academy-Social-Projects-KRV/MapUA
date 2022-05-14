@@ -29,8 +29,10 @@ router.post(
   upload.array("image"),
   LocationsController.addLocation
 );
-
 router.get('/locations/:id', LocationsController.getLocationById);
 router.get('/locations/', LocationsController.getLocationsByZoom);
+router.get('/google',passport.authenticate('google', { scope: ['email','profile'] }),AuthController.googleLogin);
+router.get('/google/callback',passport.authenticate('google'),AuthController.googleLoginCallback);
+
 
 export default router;
