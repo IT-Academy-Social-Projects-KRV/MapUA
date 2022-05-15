@@ -5,13 +5,21 @@ type ratingType = {
   dislikes: string[];
 };
 
+type commentType = {
+  creationDate: Date;
+  author: string;
+  text: string;
+  likes: string[];
+  dislikes: string[];
+};
+
 export interface ILocation extends Document {
   locationName: string;
   coordinates: [number, number];
   photoSrc: string;
   description: string;
   rating: ratingType;
-  comments?: string[];
+  comments: commentType[];
   filters: string[]
 }
 
