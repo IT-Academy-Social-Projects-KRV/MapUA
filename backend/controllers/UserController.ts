@@ -6,7 +6,7 @@ const UserController = {
   async getProfile(req: Request, res: Response) {
     try {
       const _id = req.user;
-
+      
       const userData = await User.findById(_id, {
         email: true,
         createdAt: true,

@@ -16,12 +16,24 @@ type NestType = {
 };
 
 export default function NestedList() {
+  let processedFilters;
+
   const [open, setOpen] = useState(false);
   const [openNested, setOpenNested] = useState<NestType>({});
 
   const selectedFilters = useTypedSelector(
     state => state.locationList.selectedFilters
   );
+
+  const userIsSignedIn = useTypedSelector(state => state.userLogin.isLogged);
+
+  const userSubscriptions = useTypedSelector(
+    state => state.user.data.subscriptions
+  );
+
+  // const testData = useTypedSelector(state => state);
+  // console.log('testData: ', testData.userLogin.userInfo);
+
   const { applyFilter } = useTypedDispatch();
 
   const OnChange = (value: string) => {
@@ -39,6 +51,19 @@ export default function NestedList() {
     setOpenNested((prevState: any) => ({ ...prevState, [id]: !prevState[id] }));
   };
 
+  if (userIsSignedIn) {
+    const lastId = mainFilters.length;
+    const newArrayEl = {
+      id: lastId + 1,
+      forLoggedUser: true,
+      type: 'Subscriptions',
+      values: userSubscriptions
+    };
+    processedFilters = [...mainFilters, newArrayEl];
+  } else {
+    processedFilters = mainFilters.filter(el => el.forLoggedUser === false);
+  }
+
   return (
     <StyledList aria-labelledby="nested-list-subheader">
       <ListItemButton onClick={handleClick}>
@@ -47,7 +72,7 @@ export default function NestedList() {
       </ListItemButton>
       <Collapse in={open} timeout="auto">
         <StyledList>
-          {mainFilters.map(filter => (
+          {processedFilters.map(filter => (
             <Box key={filter.id}>
               <ListItemButton onClick={() => handleClickNested(filter.id)}>
                 <ListItemText primary={filter.type} />
