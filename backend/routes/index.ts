@@ -22,7 +22,7 @@ router.post("/signin", AuthController.signIn);
 router.post("/forgot-password", AuthController.forgotPassword);
 
 router.get("/locations/:id", LocationsController.getLocationById);
-router.post("/locations/location-list", LocationsController.getLocationsByZoom);
+router.get('/locations/', LocationsController.getLocationsByZoom);
 router.post(
   "/locations/add",
   upload.array("image"),
