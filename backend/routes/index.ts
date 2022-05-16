@@ -32,5 +32,6 @@ router.post(
 
 router.get('/locations/:id', LocationsController.getLocationById);
 router.get('/locations/', LocationsController.getLocationsByZoom);
+router.put('/locations/comment', LocationsController.addLocationComments);
 
 export default router;

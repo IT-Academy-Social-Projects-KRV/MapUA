@@ -1,3 +1,4 @@
+import { resolveSoa } from 'dns';
 import { Response, Request } from 'express';
 import { TupleTypeReference } from 'typescript';
 import Location from '../models/Locations';
@@ -91,6 +92,27 @@ const LocationsController = {
       return res.status(500).json({ error: err.message });
     }
   },
-};
+
+  async addLocationComments(req: Request, res: Response) {
+    try {
+      const {id,comment}=req.body;
+      const locations = await Location.findById(id);
+      if (!locations||!locations.comments) {
+        return res.status(400).json({ error: "Location or comments doesn't exist" });
+      }
+      else{locations.comments.push(comment)};
+      const updateLocations=await Location.findByIdAndUpdate(id,{comments:locations.comments}, { 'new': true })
+      if (!updateLocations) {
+        return res.status(400).json({ error: "Location doesn't exist" });
+      }
+      res.status(200).json(updateLocations.comments);
+
+    }
+    catch (err: any) {
+      return res.status(500).json({ error: err.message });
+    }
+  }
+
+}
 
 export default LocationsController;
