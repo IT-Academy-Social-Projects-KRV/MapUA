@@ -8,9 +8,11 @@ export const googleStrategy = new GoogleStrategy({
     clientID: `${GOOGLE_CLIENT_ID}`,
     clientSecret: `${GOOGLE_CLIENT_SECRET}`,
     callbackURL: "http://localhost:3001/api/google/callback",
+    passReqToCallback:true
   },
-  async (accessToken, refreshToken, profile, done) => {
-    const user = await UserModel.findOne({ googleId: profile.id });
+  async (req, accessToken, refreshToken, profile, done) => {
+    try {
+      const user = await UserModel.findOne({ googleId: profile.id });
     if (!user) {
       const newUser = await UserModel.create({
         googleId: profile.id,
@@ -19,15 +21,26 @@ export const googleStrategy = new GoogleStrategy({
       });
       if (newUser) {
         done(null, newUser);
-      }
+      };
     } else {
       done(null, user);
+    }
+    } catch (error:any) {
+      done(error)
     }
   }
 );
 passport.serializeUser(function(user, done) {
-    done(null, user);
+  //@ts-ignore
+    done(null, user.id);
   });
-  passport.serializeUser(function(user, done) {
-    done(null, user);
+  passport.serializeUser(async function(id, done) {
+    try {
+      const user = await UserModel.findOne({where: { id }})
+    if(user){
+        done(null,user)
+      } 
+    } catch (error) {
+      done(error,null)
+    }
   });

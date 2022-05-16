@@ -54,6 +54,7 @@ const AuthController = {
   },
   async googleLoginCallback(req:Request,res:Response){
     res.redirect('http://localhost:3000/')
+    
  },
   async forgotPassword(req: Request, res: Response) {
     try {

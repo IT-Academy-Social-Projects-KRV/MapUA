@@ -15,7 +15,7 @@ router.post(
 );
 router.get(
   "/profile",
-  passport.authenticate("jwt", { session: false }),
+  // passport.authenticate("jwt", { session: false }),
   UserController.getProfile
 );
 
@@ -32,7 +32,7 @@ router.post(
 router.get('/locations/:id', LocationsController.getLocationById);
 router.get('/locations/', LocationsController.getLocationsByZoom);
 router.get('/google',passport.authenticate('google', { scope: ['email','profile'] }),AuthController.googleLogin);
-router.get('/google/callback',passport.authenticate('google'),AuthController.googleLoginCallback);
+router.get('/google/callback',passport.authenticate('google',{session:false}),AuthController.googleLoginCallback);
 
 
 export default router;
