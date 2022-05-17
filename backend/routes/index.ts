@@ -18,6 +18,12 @@ router.get(
   passport.authenticate("jwt", { session: false }),
   UserController.getProfile
 );
+// Check is user Authorized
+router.get(
+  "/is_user_authorized",
+  passport.authenticate("jwt", { session: false }),
+  AuthController.isUserAuthorized
+);
 
 router.post("/signup", AuthController.signUp);
 router.post("/signin", AuthController.signIn);
@@ -30,7 +36,7 @@ router.post(
   LocationsController.addLocation
 );
 
-router.get('/locations/:id', LocationsController.getLocationById);
-router.get('/locations/', LocationsController.getLocationsByZoom);
+router.get("/locations/:id", LocationsController.getLocationById);
+router.get("/locations/", LocationsController.getLocationsByZoom);
 
 export default router;

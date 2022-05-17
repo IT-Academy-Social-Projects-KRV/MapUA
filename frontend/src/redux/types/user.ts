@@ -20,8 +20,14 @@ export interface UserState {
 export interface UserLoginState {
   loading: boolean;
   error: {} | null;
-  isLogged: boolean;
+  isAuthorized: any;
   userInfo: {};
+}
+
+// Check if user authorized every time when component mounted
+export interface IsUserAuthorizedState {
+  loading: boolean;
+  error: {} | null;
 }
 
 export enum UserActionTypes {
@@ -33,7 +39,12 @@ export enum UserActionTypes {
   USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST',
   USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS',
   USER_LOGIN_FAIL = 'USER_LOGIN_FAIL',
-  USER_LOGOUT = 'USER_LOGOUT'
+  USER_LOGOUT = 'USER_LOGOUT',
+
+  // Check if user authorized every time when component mounted
+  IF_USER_AUTORIZED_REQUEST = 'IF_USER_AUTORIZED_REQUEST',
+  IF_USER_AUTORIZED_SUCCESS = 'IF_USER_AUTORIZED_SUCCESS',
+  IF_USER_AUTORIZED_ERROR = 'IF_USER_AUTORIZED_ERROR'
 }
 interface FetchUserAction {
   type: UserActionTypes.FETCH_USER;
@@ -63,6 +74,17 @@ interface LogoutUserAction {
   type: UserActionTypes.USER_LOGOUT;
 }
 
+// Check if user authorized every time when component mounted
+interface IsUserAuthorizedRequestAction {
+  type: UserActionTypes.IF_USER_AUTORIZED_REQUEST;
+}
+interface IsUserAuthorizedSucsessAction {
+  type: UserActionTypes.IF_USER_AUTORIZED_SUCCESS;
+}
+interface IsUserAuthorizedErrorAction {
+  type: UserActionTypes.IF_USER_AUTORIZED_ERROR;
+}
+
 export type UserAction =
   | FetchUserAction
   | FetchUserErrorAction
@@ -71,4 +93,8 @@ export type UserAction =
   | LoginUserRequestAction
   | LoginUserSuccessAction
   | LoginUserFailAction
-  | LogoutUserAction;
+  | LogoutUserAction
+  // Check if user authorized every time when component mounted
+  | IsUserAuthorizedRequestAction
+  | IsUserAuthorizedSucsessAction
+  | IsUserAuthorizedErrorAction;

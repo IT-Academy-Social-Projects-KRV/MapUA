@@ -36,14 +36,14 @@ function Login() {
     mode: 'onBlur'
   });
 
-  const { isLogged } = useTypedSelector(state => state.userLogin);
+  const { isAuthorized } = useTypedSelector(state => state.userLogin);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isLogged) {
+    if (isAuthorized) {
       navigate('/');
     }
-  }, [isLogged]);
+  }, [isAuthorized]);
 
   const onSubmit: SubmitHandler<SignIn> = async ({ email, password }) => {
     login(email, password);

@@ -62,3 +62,24 @@ export const logout = () => async (dispatch: Dispatch<UserAction>) => {
   });
   localStorage.removeItem('accessToken');
 };
+
+// Check if user authorized every time when component mounted
+export const checkIsUserAuthorized =
+  (accessToken: string) => async (dispatch: Dispatch<UserAction>) => {
+    try {
+      dispatch({ type: UserActionTypes.IF_USER_AUTORIZED_REQUEST });
+      await axios.get(`${REACT_APP_API_URI}profile`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      });
+      dispatch({
+        type: UserActionTypes.IF_USER_AUTORIZED_SUCCESS
+      });
+    } catch (e) {
+      dispatch({
+        type: UserActionTypes.IF_USER_AUTORIZED_ERROR,
+        payload: 'An error occurred while loading user data'
+      });
+    }
+  };

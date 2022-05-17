@@ -12,7 +12,9 @@ import Profile from 'components/Profile/Profile';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 
 function App() {
-  const { isLogged } = useTypedSelector(state => state.userLogin);
+  const { isAuthorized } = useTypedSelector(state => state.userLogin);
+  console.log('isAuthorized', isAuthorized);
+
   return (
     <BrowserRouter>
       <GlobalStyles
@@ -44,11 +46,13 @@ function App() {
       <Routes>
         <Route path="/" element={<HomeScreen />} />
         <Route path="/registration" element={<Registration />} />
+        <Route path="/login" element={<Login />} />
         <Route
-          path="/login"
-          element={isLogged ? <Navigate to="/" replace /> : <Login />}
+          path="/forgot-password"
+          element={
+            isAuthorized ? <Navigate to="/" replace /> : <ForgotPassword />
+          }
         />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/test-redux-components" element={<ComposeComponents />} />
         <Route path="/profile" element={<Profile />} />
       </Routes>

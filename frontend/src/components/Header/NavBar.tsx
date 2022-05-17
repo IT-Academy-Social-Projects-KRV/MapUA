@@ -6,7 +6,7 @@ import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { StyledAppBar, StyledStack } from './style';
 
 function NavBar() {
-  const { isLogged } = useTypedSelector(state => state.userLogin);
+  const { isAuthorized } = useTypedSelector(state => state.userLogin);
 
   return (
     <StyledAppBar>
@@ -30,7 +30,7 @@ function NavBar() {
         <Link color="inherit" underline="none" component={RouterLink} to="/">
           Map
         </Link>
-        {isLogged ? (
+        {isAuthorized ? (
           <Link
             to="/profile"
             color="inherit"
