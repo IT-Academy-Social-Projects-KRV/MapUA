@@ -97,24 +97,24 @@ const LocationsController = {
 
   async addLocationComments(req: Request, res: Response) {
     try {
-      const {id,comment}=req.body;
-      const commentProperties=['author','text','likes','dislikes','createdAt','updatedAt'];
-      let fullComment:boolean=true;
+      const { id,comment } = req.body;
+      const commentProperties = ['author','text','likes','dislikes','createdAt','updatedAt'];
+      let fullComment:boolean = true;
       const location = await Location.findById(id);
-      if (!location||!location.comments) {
+      if ( !location||!location.comments ) {
         return res.status(400).json({ error: "Location or comments doesn't exist" });
       }
      location.comments.push(comment)
-     for(let i in commentProperties){  if (!comment.hasOwnProperty(commentProperties[i])){
-      fullComment=false;
-      return (res.status(410).json({ error: `comment doesn't have ${commentProperties[i]} propertie` }),fullComment)
+     for ( let i in commentProperties ) {  if ( !comment.hasOwnProperty(commentProperties[i]) ){
+      fullComment = false;
+      return ( res.status(410).json({ error: `comment doesn't have ${commentProperties[i]} propertie` }),fullComment)
      }}
-     if(fullComment){
+     if ( fullComment ) {
        await Location.updateOne({_id:id},{comments:location.comments}, {})
      return res.status(200).json(location.comments)
     }
     }
-    catch (err: any) {
+    catch ( err: any ) {
       return res.status(500).json({ error: err.message });
     }
   },
