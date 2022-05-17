@@ -1,6 +1,6 @@
-import { Response, Request } from "express";
-import User from "../models/UserModel";
-import Location from "../models/Locations";
+import { Response, Request } from 'express';
+import User from '../models/UserModel';
+import Location from '../models/Locations';
 
 const UserController = {
   async getProfile(req: Request, res: Response) {
@@ -16,7 +16,7 @@ const UserController = {
         imageUrl: true,
         locations: true,
         subscribers: true,
-        subscriptions: true,
+        subscriptions: true
       });
 
       if (!userData) {
@@ -47,14 +47,14 @@ const UserController = {
         comments: [],
         rating: {
           likes: [],
-          dislikes: [],
+          dislikes: []
         },
         filters: {
           favorite: [],
           visited: [],
           author: _id,
-          cost: "free",
-        },
+          cost: 'free'
+        }
       });
 
       const result = await userLocation.save();
@@ -62,8 +62,7 @@ const UserController = {
     } catch (err: any) {
       return res.status(500).json({ error: err.message });
     }
-  },
+  }
 };
 
 export default UserController;
-

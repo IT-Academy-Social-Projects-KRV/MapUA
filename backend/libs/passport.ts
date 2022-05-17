@@ -1,4 +1,5 @@
 import passport from "passport";
+import facebookStrategy from "./strategies/facebookStrategy";
 import jwtStrategy from "./strategies/jwtStrategy";
 import {
   localStrategySignUp,
@@ -7,6 +8,7 @@ import {
 import { googleStrategy } from './strategies/googleStrategy'
 passport.use("signup", localStrategySignUp);
 passport.use("signin", localStrategySignIn);
+passport.use("facebook", facebookStrategy);
 passport.use("jwt", jwtStrategy);
 passport.use("google", googleStrategy);
 
