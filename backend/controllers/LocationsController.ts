@@ -92,6 +92,35 @@ const LocationsController = {
     } catch (err: any) {
       return res.status(500).json({ error: err.message });
     }
+  },
+  async changeLocationInfo(req: Request, res: Response) {
+    try {
+      const { _id, fields } = req.body;
+
+      const location = await Location.findById(_id);
+      if (location) {
+        await Location.updateOne(
+            {
+              _id: _id
+            },
+            {
+              $set: fields.reduce(
+                  (prev: any, curr: any) => ({
+                    ...prev,
+                    [curr.name]: curr.value
+                  }),
+                  {}
+              )
+            }
+        )
+
+        res.sendStatus(200);
+      } else {
+        res.status(400).json({ error: 'There is no such location!' });
+      }
+    } catch (err: any) {
+      return res.status(500).json({ error: err.message });
+    }
   }
 };
 

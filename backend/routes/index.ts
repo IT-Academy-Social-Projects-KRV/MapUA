@@ -29,6 +29,7 @@ router.post(
   upload.array("image"),
   LocationsController.addLocation
 );
+router.patch('/locations', LocationsController.changeLocationInfo);
 
 router.get('/locations/:id', LocationsController.getLocationById);
 router.get('/locations/', LocationsController.getLocationsByZoom);
