@@ -15,6 +15,9 @@ export interface IUser extends Document {
   imageUrl: string;
   subscribers: string[];
   subscriptions: string[];
+  favourite: string[];
+  visited: string[];
+  personalLocations: string[];
 }
 
 const schema = new mongoose.Schema(
@@ -44,6 +47,15 @@ const schema = new mongoose.Schema(
       type: []
     },
     subscriptions: {
+      type: []
+    },
+    favourite: {
+      type: []
+    },
+    visited: {
+      type: []
+    },
+    personalLocations: {
       type: []
     }
   },

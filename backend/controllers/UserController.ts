@@ -14,9 +14,11 @@ const UserController = {
         displayName: true,
         description: true,
         imageUrl: true,
-        locations: true,
         subscribers: true,
-        subscriptions: true
+        subscriptions: true,
+        favourite: true,
+        visited: true,
+        personalLocations: true
       });
 
       if (!userData) {
