@@ -22,7 +22,7 @@ type commentType = {
 export interface ILocation extends Document {
   locationName: string;
   coordinates: [number, number];
-  photoSrc: string;
+  arrayPhotos: string[];
   description: string;
   rating: ratingType;
   comments: commentType[];
