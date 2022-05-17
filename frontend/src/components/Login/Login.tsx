@@ -53,6 +53,9 @@ function Login() {
   const { errors } = useFormState({
     control
   });
+  const handleClickGoogle = () => {
+    window.open('http://localhost:3001/api/google', '_self');
+  };
 
   const handleMouseDownPassword = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -138,13 +141,11 @@ function Login() {
                     Forgot the password?
                   </Link>
                 </Typography>
-
                 <Button variant="contained" type="submit">
                   Login
                 </Button>
                 <Divider>or</Divider>
                 <Button variant="contained">Sing in with google</Button>
-
                 <Button variant="contained">
                   <Link
                     component={RouterLink}
