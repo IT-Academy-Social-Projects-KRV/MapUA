@@ -20,6 +20,7 @@ import BigPopup from 'components/BigPopup';
 
 interface Props {
   onOpenBigPopup: Function;
+  onOpenLocationForm: Function;
 }
 
 // function LocationMarker() {
@@ -42,15 +43,11 @@ interface Props {
 //   );
 // }
 
-function Map({ onOpenBigPopup }: Props) {
-  const locationData = useTypedSelector(state => state.popupLocation);
-  console.log(locationData, 'locationData');
-
-  const { isLoading } = locationData;
+function Map({ onOpenBigPopup, onOpenLocationForm }: Props) {
   const formRef = React.useRef<any>(null);
   const [coordinateByClick, SetCoordinateByClick] = useState<any>({});
   const [showPopup, setShowPopup] = useState(null);
-  const [pressedButton, setPressedButton] = useState(false);
+  const [isAddLocationActive, setIsAddLocationActive] = useState(false);
 
   const { bounds, locations, zoomPosition, locationName, selectedFilters } =
     useTypedSelector(state => state.locationList);
@@ -69,20 +66,21 @@ function Map({ onOpenBigPopup }: Props) {
     const prev = bounds;
     const map = useMapEvents({
       zoom: e => {
-        if (!pressedButton) {
+        if (!isAddLocationActive) {
           setZoomPosition(e.target.getCenter());
           setBounds({ ...prev, ...map.getBounds() });
         }
       },
       dragend: e => {
-        if (!pressedButton) {
+        if (!isAddLocationActive) {
           setZoomPosition(e.target.getCenter());
           setBounds({ ...prev, ...map.getBounds() });
         }
       },
       click: e => {
-        if (pressedButton) {
+        if (isAddLocationActive) {
           SetCoordinateByClick(e.latlng);
+          onOpenLocationForm();
         }
       }
     });
@@ -113,8 +111,7 @@ function Map({ onOpenBigPopup }: Props) {
 
         <Button
           onClick={() => {
-            setPressedButton(true);
-            console.log(onOpenBigPopup(locationData));
+            setIsAddLocationActive(true);
           }}
           style={{
             background: 'white',
