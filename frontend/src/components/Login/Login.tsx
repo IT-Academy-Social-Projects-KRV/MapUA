@@ -145,7 +145,9 @@ function Login() {
                   Login
                 </Button>
                 <Divider>or</Divider>
-                <Button variant="contained">Sing in with google</Button>
+                <Button onClick={handleClickGoogle} variant="contained">
+                  Sing in with google
+                </Button>
 
                 <Button variant="contained">
                   <Link
