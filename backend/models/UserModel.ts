@@ -29,6 +29,7 @@ const schema = new mongoose.Schema(
     },
     passwordHash: {
       type: String,
+      required: true,
     },
     displayName: {
       type: String,

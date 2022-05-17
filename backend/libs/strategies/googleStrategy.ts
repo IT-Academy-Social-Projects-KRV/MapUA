@@ -1,16 +1,16 @@
-import passport from 'passport'
 import passportGoogle from 'passport-google-oauth20'
+import passport from 'passport'
 import UserModel from '../../models/UserModel';
+import { v4 as uuidv4 } from "uuid";
 const GoogleStrategy = passportGoogle.Strategy
-const {GOOGLE_CLIENT_ID ,GOOGLE_CLIENT_SECRET} = process.env
+const {GOOGLE_CLIENT_ID ,GOOGLE_CLIENT_SECRET, HOST_URI} = process.env
 
 export const googleStrategy = new GoogleStrategy({
     clientID: `${GOOGLE_CLIENT_ID}`,
     clientSecret: `${GOOGLE_CLIENT_SECRET}`,
-    callbackURL: "http://localhost:3001/api/google/callback",
-    passReqToCallback:true
+    callbackURL: `${HOST_URI}/api/google/callback`,
   },
-  async (req, accessToken, refreshToken, profile, done) => {
+  async (accessToken, refreshToken, profile, done) => {
     try {
       const user = await UserModel.findOne({ googleId: profile.id });
     if (!user) {
@@ -18,6 +18,8 @@ export const googleStrategy = new GoogleStrategy({
         googleId: profile.id,
         displayName: profile.displayName,
         email: profile.emails?.[0].value,
+        imageUrl: profile?.photos?.[0]?.value ?? '',
+        passwordHash: uuidv4(),
       });
       if (newUser) {
         done(null, newUser);
@@ -30,17 +32,3 @@ export const googleStrategy = new GoogleStrategy({
     }
   }
 );
-passport.serializeUser(function(user, done) {
-  //@ts-ignore
-    done(null, user.id);
-  });
-  passport.serializeUser(async function(id, done) {
-    try {
-      const user = await UserModel.findOne({where: { id }})
-    if(user){
-        done(null,user)
-      } 
-    } catch (error) {
-      done(error,null)
-    }
-  });

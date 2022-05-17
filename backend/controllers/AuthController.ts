@@ -50,11 +50,16 @@ const AuthController = {
       return res.status(500).json({ error: err.message });
     }
   },
-  async googleLogin(req:Request,res:Response){
-  },
   async googleLoginCallback(req:Request,res:Response){
-    res.redirect('http://localhost:3000/')
-    
+    console.log(req.user);
+   if(!req.user) {
+    return res.status(400).json({ error: "User not found", success: false });
+   }
+   return res.json({
+    user: mapUserProps(req.user as IUser),
+    token: _tokenGeneration(req.user as IUser)
+   })
+   res.redirect('http://localhost:3000/profile')
  },
   async forgotPassword(req: Request, res: Response) {
     try {
@@ -99,3 +104,4 @@ function _tokenGeneration(user: IUser) {
 }
 
 export default AuthController;
+
