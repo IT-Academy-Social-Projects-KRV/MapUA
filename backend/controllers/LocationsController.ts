@@ -96,9 +96,8 @@ const LocationsController = {
       const { _id, fields } = req.body;
 
       const location = await Location.findById(_id);
-
       if (location) {
-        await Location.update(
+        await Location.updateOne(
             {
               _id: _id
             },
@@ -113,7 +112,7 @@ const LocationsController = {
             }
         )
 
-        res.status(200);
+        res.sendStatus(200);
       } else {
         res.status(400).json({ error: 'There is no such location!' });
       }
