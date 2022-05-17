@@ -24,9 +24,9 @@ router.post('/forgot-password', AuthController.forgotPassword);
 
 router.get('/locations/:id', LocationsController.getLocationById);
 router.get('/locations/', LocationsController.getLocationsByZoom);
-<<<<<<< HEAD
+
 router.put('/locations/comment', LocationsController.addLocationComments);
-=======
+
 router.post(
   '/locations/add',
   upload.array('image'),
@@ -53,6 +53,5 @@ router.get(
   }),
   AuthController.signInFacebook
 );
->>>>>>> develop
 
 export default router;
