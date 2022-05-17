@@ -43,7 +43,7 @@ export const login =
         type: UserActionTypes.USER_LOGIN_SUCCESS,
         payload: response.data
       });
-
+      console.log('Action user -> login response.data: ', response.data);
       localStorage.setItem('accessToken', response.data.token);
     } catch (error: any) {
       dispatch({

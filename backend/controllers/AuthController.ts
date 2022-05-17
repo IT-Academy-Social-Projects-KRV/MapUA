@@ -34,14 +34,11 @@ const AuthController = {
         if (!user) {
           return res.status(400).json({ error: info.message });
         }
-        if (!user) {
-          return res.status(400).json({ error: info.message });
-        }
 
         req.login(user, { session: false }, async (error) => {
           if (error) return next(error);
           return res.json({
-            user: mapUserProps(user),
+            id: mapUserProps(user),
             token: _tokenGeneration(user),
           });
         });

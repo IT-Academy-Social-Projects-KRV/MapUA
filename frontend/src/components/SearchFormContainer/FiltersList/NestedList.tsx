@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ListItemButton from '@mui/material/ListItemButton';
 import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
@@ -31,10 +31,12 @@ export default function NestedList() {
     state => state.user.data.subscriptions
   );
 
-  // const testData = useTypedSelector(state => state);
-  // console.log('testData: ', testData.userLogin.userInfo);
+  // console.log('userSubscriptions: ', userSubscriptions);
 
-  const { applyFilter } = useTypedDispatch();
+  // const testData = useTypedSelector(state => state);
+  // console.log('testData: ', testData);
+
+  const { applyFilter, fetchUser } = useTypedDispatch();
 
   const OnChange = (value: string) => {
     if (selectedFilters.some(f => f === value)) {
@@ -50,6 +52,13 @@ export default function NestedList() {
   const handleClickNested = (id: number) => {
     setOpenNested((prevState: any) => ({ ...prevState, [id]: !prevState[id] }));
   };
+
+  // useEffect(() => {
+  //   if (userIsSignedIn) {
+  //     const accessToken = localStorage.getItem('accessToken');
+  //   fetchUser(accessToken || '');
+  //   }
+  // }, [userIsSignedIn]);
 
   if (userIsSignedIn) {
     const lastId = mainFilters.length;

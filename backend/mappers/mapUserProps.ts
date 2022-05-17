@@ -1,12 +1,5 @@
 import { IUser } from "../models/UserModel";
 
-const mapUserProps = (user: IUser) => {
-  return {
-    email: user.email,
-    _id: user._id,
-    createdAt: user.createdAt,
-    updatedAt: user.updatedAt,
-  };
-};
+const mapUserProps = (user: IUser) => user._id;
 
 export default mapUserProps;
