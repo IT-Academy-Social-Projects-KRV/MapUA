@@ -16,6 +16,7 @@ import useDebounce from 'utils/useDebounce';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import L from 'leaflet';
+import BigPopup from 'components/BigPopup';
 
 interface Props {
   onOpenBigPopup: Function;
@@ -42,6 +43,10 @@ interface Props {
 // }
 
 function Map({ onOpenBigPopup }: Props) {
+  const locationData = useTypedSelector(state => state.popupLocation);
+  console.log(locationData, 'locationData');
+
+  const { isLoading } = locationData;
   const formRef = React.useRef<any>(null);
   const [coordinateByClick, SetCoordinateByClick] = useState<any>({});
   const [showPopup, setShowPopup] = useState(null);
@@ -84,8 +89,6 @@ function Map({ onOpenBigPopup }: Props) {
     return null;
   }
 
-  const ifCoordinatePresent = () => {};
-
   console.log(coordinateByClick);
 
   return (
@@ -109,7 +112,10 @@ function Map({ onOpenBigPopup }: Props) {
         <SearchFormContainer />
 
         <Button
-          onClick={() => setPressedButton(true)}
+          onClick={() => {
+            setPressedButton(true);
+            console.log(onOpenBigPopup(locationData));
+          }}
           style={{
             background: 'white',
             zIndex: '10000',
@@ -122,6 +128,7 @@ function Map({ onOpenBigPopup }: Props) {
           Add location
         </Button>
         {/* <LocationMarker /> */}
+        {/* {pressedButton } */}
       </MapContainer>
     </Box>
   );
