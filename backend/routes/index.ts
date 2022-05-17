@@ -21,7 +21,6 @@ router.post('/signup', AuthController.signUp);
 router.post('/signin', AuthController.signIn);
 router.post('/forgot-password', AuthController.forgotPassword);
 
-
 router.get('/locations/:id', LocationsController.getLocationById);
 router.get('/locations/', LocationsController.getLocationsByZoom);
 router.post(
@@ -29,9 +28,20 @@ router.post(
   upload.array('image'),
   LocationsController.addLocation
 );
-router.get('/google',passport.authenticate('google', { scope: ['email','profile'] }));
-router.get('/google/callback',passport.authenticate('google',{session:false,failureRedirect:'/google',scope: ['email','profile'],failureMessage:true}),AuthController.googleLoginCallback);
-
+router.get(
+  '/google',
+  passport.authenticate('google', { scope: ['email', 'profile'] })
+);
+router.get(
+  '/google/callback',
+  passport.authenticate('google', {
+    session: false,
+    failureRedirect: '/google',
+    scope: ['email', 'profile'],
+    failureMessage: true
+  }),
+  AuthController.googleLoginCallback
+);
 
 router.patch('/locations', LocationsController.changeLocationInfo);
 

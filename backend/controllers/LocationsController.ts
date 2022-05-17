@@ -1,5 +1,4 @@
 import { Response, Request } from 'express';
-import { TupleTypeReference } from 'typescript';
 import Location from '../models/Locations';
 
 const LocationsController = {
@@ -100,19 +99,19 @@ const LocationsController = {
       const location = await Location.findById(_id);
       if (location) {
         await Location.updateOne(
-            {
-              _id: _id
-            },
-            {
-              $set: fields.reduce(
-                  (prev: any, curr: any) => ({
-                    ...prev,
-                    [curr.name]: curr.value
-                  }),
-                  {}
-              )
-            }
-        )
+          {
+            _id: _id
+          },
+          {
+            $set: fields.reduce(
+              (prev: any, curr: any) => ({
+                ...prev,
+                [curr.name]: curr.value
+              }),
+              {}
+            )
+          }
+        );
 
         res.sendStatus(200);
       } else {
