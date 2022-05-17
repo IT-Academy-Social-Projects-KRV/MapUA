@@ -8,8 +8,8 @@ export const initialState: locationState = {
   _id: ' aa',
   locationName: '',
   rating: {
-    likes: 0,
-    dislikes: 0
+    likes: [],
+    dislikes: []
   },
   coordinates: [0, 0],
   photoSrc: '',

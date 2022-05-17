@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, MouseEvent } from 'react';
 import { styled } from '@mui/material/styles';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -22,13 +22,13 @@ import {
   ListItem,
   Divider,
   ListItemText,
-  ListItemAvatar
+  ListItemAvatar,
+  Stack,
+  Snackbar,
+  Alert
 } from '@mui/material';
-import { locationType } from '../../../types';
-
-interface Props {
-  location: locationType;
-}
+import { useTypedSelector } from 'redux/hooks/useTypedSelector';
+import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -36,7 +36,7 @@ interface ExpandMoreProps extends IconButtonProps {
 
 const ExpandMore = styled((props: ExpandMoreProps) => {
   const { expand, ...other } = props;
-  /* eslint-disable-next-line react/jsx-props-no-spreading */
+
   return <IconButton {...other} />;
 })(({ theme, expand }) => ({
   transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
@@ -46,7 +46,42 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
   })
 }));
 
-function PointPopup({ location }: Props) {
+function PointPopup() {
+  const isLoggedUser = useTypedSelector(state => state.userLogin.isLogged);
+  const infoLocation = useTypedSelector(state => state.popupLocation);
+  const emailUser = useTypedSelector(state => state.user);
+
+  console.log(emailUser);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+
+  const { isLoading, _id, rating, locationName, description, photoSrc } =
+    infoLocation;
+
+  console.log(isLoading, _id, rating, locationName);
+
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnackbar(false);
+  };
+
+  const handleLikes = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    console.log(isLoggedUser);
+
+    if (!isLoggedUser) {
+      setOpenSnackbar(true);
+    } else {
+      //
+    }
+  };
+
   const [expanded, setExpanded] = useState(false);
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -62,8 +97,8 @@ function PointPopup({ location }: Props) {
             pb: 0
           }}
           component="img"
-          image={location.photoSrc}
-          alt={location.locationName}
+          image={photoSrc}
+          alt={locationName}
         />
 
         <Box>
@@ -72,7 +107,7 @@ function PointPopup({ location }: Props) {
             variant="h4"
             sx={{ pl: 5, pt: 2, mb: 2 }}
           >
-            {location.locationName}
+            {locationName}
           </Typography>
           <Box
             sx={{
@@ -82,54 +117,28 @@ function PointPopup({ location }: Props) {
               pr: 10
             }}
           >
-            <Typography variant="button">
-              <Link
-                href="/"
-                component="button"
-                underline="none"
-                sx={{ pr: 1.5 }}
-              >
-                <ThumbUpOutlinedIcon
-                  fontSize="small"
-                  sx={{ color: 'text.secondary' }}
-                />
-              </Link>
-              {location.rating?.likes}
-            </Typography>
+            <IconButton onClick={handleLikes}>
+              <ThumbUpOutlinedIcon
+                fontSize="small"
+                sx={{ color: 'text.secondary' }}
+              />
+              {rating.likes.length}
+            </IconButton>
 
-            <Link href="/" component="button" underline="none">
+            <IconButton onClick={handleLikes}>
               <ThumbDownAltOutlinedIcon
                 fontSize="small"
                 sx={{ color: 'text.secondary' }}
               />
-            </Link>
+              {rating.dislikes.length}
+            </IconButton>
 
-            <Link
-              sx={{ color: 'text.secondary' }}
-              href="/"
-              component="button"
-              underline="none"
-            >
-              <Typography variant="subtitle2">To share</Typography>
-            </Link>
+            <IconButton size="small">To share</IconButton>
 
-            <Link
-              sx={{ color: 'text.secondary' }}
-              href="/"
-              component="button"
-              underline="none"
-            >
-              <Typography variant="subtitle2">Add to visited</Typography>
-            </Link>
-
-            <Link
-              sx={{ color: 'text.secondary' }}
-              href="/"
-              component="button"
-              underline="none"
-            >
+            <IconButton size="small">Add to visited</IconButton>
+            <IconButton>
               <MoreHorizIcon />
-            </Link>
+            </IconButton>
           </Box>
         </Box>
 
@@ -160,7 +169,7 @@ function PointPopup({ location }: Props) {
                 border: '1px solid grey '
               }}
             >
-              {location.description}
+              {description}
             </Typography>
           </Box>
           <ExpandMore
@@ -185,11 +194,7 @@ function PointPopup({ location }: Props) {
             >
               Comments section
             </Typography>
-            <List
-              sx={{
-                bgcolor: 'background.paper'
-              }}
-            >
+            <List>
               <Box
                 sx={{
                   display: 'flex',
@@ -271,6 +276,22 @@ function PointPopup({ location }: Props) {
             </List>
           </CardContent>
         </Collapse>
+        <Stack spacing={2} sx={{ width: '100%' }}>
+          <Snackbar
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            autoHideDuration={5000}
+            open={openSnackbar}
+            onClose={handleClose}
+          >
+            <Alert
+              onClose={handleClose}
+              severity="warning"
+              sx={{ width: '100%' }}
+            >
+              Sign up to be able to likes!
+            </Alert>
+          </Snackbar>
+        </Stack>
       </Card>
     </Box>
   );
