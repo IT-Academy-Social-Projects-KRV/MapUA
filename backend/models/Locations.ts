@@ -10,19 +10,13 @@ type commentType = {
   text: string;
   likes: string[];
   dislikes: string[];
-  createdAt: {
-    type: Date;
-    default: null;
-  };
-  updatedAt: {
-    type: Date;
-    default: null;
-  };
+  createdAt: Date;
+  updatedAt: Date;
 };
 export interface ILocation extends Document {
   locationName: string;
   coordinates: [number, number];
-  photoSrc: string;
+  arrayPhotos: string[];
   description: string;
   rating: ratingType;
   comments: commentType[];
