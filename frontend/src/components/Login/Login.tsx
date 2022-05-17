@@ -51,6 +51,9 @@ function Login() {
   const { errors } = useFormState({
     control
   });
+  const handleClickGoogle = () => {
+    window.open('http://localhost:3001/api/google', '_self');
+  };
 
   return (
     <RegistrationFormWrapper>
@@ -123,7 +126,9 @@ function Login() {
               <StyledSpan>
                 <span>or</span>
               </StyledSpan>
-              <Button variant="contained">Sing in with google</Button>
+              <Button variant="contained" onClick={handleClickGoogle}>
+                Sing in with google
+              </Button>
 
               <StyledSpan>
                 <Button variant="contained">
