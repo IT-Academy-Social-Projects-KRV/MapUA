@@ -15,27 +15,39 @@ const LocationsController = {
         await Location.find({
           'coordinates.0': {
             $gt: center.lat - height,
-            $lt: center.lat + height,
+            $lt: center.lat + height
           },
           'coordinates.1': {
             $gt: center.lng - width,
-            $lt: center.lng + width,
-          },
+            $lt: center.lng + width
+          }
         })
-      ).map((l) => ({
+      ).map(l => ({
         _id: l._id,
         coordinates: l.coordinates,
         name: l.locationName,
+<<<<<<< HEAD
         filters: l.filters,
       }));
       if (name) {
         locations = locations.filter((l) => {
+=======
+        filters: l.filters
+      }));
+      if (name) {
+        locations = locations.filter(l => {
+>>>>>>> 652e7fd17124e20f46039689a7b87a128a48d9a2
           return l.name.toLocaleLowerCase().startsWith(name);
         });
       }
       if (filters.length > 0) {
+<<<<<<< HEAD
         locations = locations.filter((l) =>
           [...l.filters].some((el) => filters.includes(el))
+=======
+        locations = locations.filter(l =>
+          [...l.filters].some(el => filters.includes(el))
+>>>>>>> 652e7fd17124e20f46039689a7b87a128a48d9a2
         );
       } else {
         locations = locations.slice(
@@ -72,7 +84,7 @@ const LocationsController = {
       const imageUrls: string[] = [];
 
       if (location.length === 0) {
-        Array.prototype.forEach.call(req.files, (file) => {
+        Array.prototype.forEach.call(req.files, file => {
           imageUrls.push(file.location);
         });
 
@@ -82,7 +94,11 @@ const LocationsController = {
           // here, we can save not only one url for the location image
           // but rather an array of images
           arrayPhotos: imageUrls,
+<<<<<<< HEAD
           description: description,
+=======
+          description: description
+>>>>>>> 652e7fd17124e20f46039689a7b87a128a48d9a2
         });
         const result = await newLocation.save(newLocation as any);
         res.status(200).json(result);
@@ -93,6 +109,7 @@ const LocationsController = {
       return res.status(500).json({ error: err.message });
     }
   },
+<<<<<<< HEAD
   async updateLocationById(req: Request, res: Response) {
     try {
       const id = req.params.id;
@@ -110,6 +127,37 @@ const LocationsController = {
       return res.status(500).json({ error: err.message });
     }
   },
+=======
+  async changeLocationInfo(req: Request, res: Response) {
+    try {
+      const { _id, fields } = req.body;
+
+      const location = await Location.findById(_id);
+      if (location) {
+        await Location.updateOne(
+            {
+              _id: _id
+            },
+            {
+              $set: fields.reduce(
+                  (prev: any, curr: any) => ({
+                    ...prev,
+                    [curr.name]: curr.value
+                  }),
+                  {}
+              )
+            }
+        )
+
+        res.sendStatus(200);
+      } else {
+        res.status(400).json({ error: 'There is no such location!' });
+      }
+    } catch (err: any) {
+      return res.status(500).json({ error: err.message });
+    }
+  }
+>>>>>>> 652e7fd17124e20f46039689a7b87a128a48d9a2
 };
 
 export default LocationsController;
