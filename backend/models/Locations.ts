@@ -25,7 +25,7 @@ export interface ILocation extends Document {
   photoSrc: string;
   description: string;
   rating: ratingType;
-  comments?: commentType;
+  comments: commentType[];
   filters: string[];
   author: string;
 }
@@ -35,7 +35,7 @@ const schema = new mongoose.Schema({
   coordinates: [],
   arrayPhotos: { type: Array, required: false },
   description: { type: String },
-  comments: { type: Object, default: {} },
+  comments: { type: Array, default: [] },
   rating: {
     likes: { type: Array, default: [] },
     dislikes: { type: Array, default: [] },
