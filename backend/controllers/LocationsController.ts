@@ -84,7 +84,9 @@ const LocationsController = {
           arrayPhotos: imageUrls,
           description: description
         });
+
         const result = await newLocation.save(newLocation as any);
+        // треба щоб додало id локації в список personalLocations
         res.status(200).json(result);
       } else {
         res.status(400).json({ error: 'Data is present' });
