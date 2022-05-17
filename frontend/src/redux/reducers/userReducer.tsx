@@ -1,4 +1,8 @@
-import { UserAction, UserActionTypes, UserState } from '../types/user';
+import {
+  UserAction,
+  UserActionTypes
+} from 'redux/action-types/userActionTypes';
+import { UserState } from 'redux/ts-types/user';
 import image from '../../static/image-not-found.jpg';
 
 const initialState: UserState = {

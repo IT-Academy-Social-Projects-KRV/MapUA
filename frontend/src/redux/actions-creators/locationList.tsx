@@ -3,7 +3,7 @@ import { Dispatch } from 'redux';
 import {
   LocationListActions,
   LocationsListActionsType
-} from 'redux/types/locationList';
+} from 'redux/action-types/locationListActionTypes';
 import { boundsType, latlngType } from '../../../types';
 
 const { REACT_APP_API_URI } = process.env;

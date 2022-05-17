@@ -36,7 +36,7 @@ function Login() {
     mode: 'onBlur'
   });
 
-  const { isLogged } = useTypedSelector(state => state.userLogin);
+  const { isLogged } = useTypedSelector(state => state.userAuth);
   const navigate = useNavigate();
 
   useEffect(() => {
