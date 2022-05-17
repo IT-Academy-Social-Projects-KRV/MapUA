@@ -3,10 +3,6 @@ import UserController from '../controllers/UserController';
 import LocationsController from '../controllers/LocationsController';
 import AuthController from '../controllers/AuthController';
 import passport from '../libs/passport';
-<<<<<<< HEAD
-import multer from 'multer';
-=======
->>>>>>> 652e7fd17124e20f46039689a7b87a128a48d9a2
 import { upload } from '../utils/upload';
 
 const router = express.Router();
@@ -25,20 +21,6 @@ router.post('/signup', AuthController.signUp);
 router.post('/signin', AuthController.signIn);
 router.post('/forgot-password', AuthController.forgotPassword);
 
-<<<<<<< HEAD
-router.post('/signup', AuthController.signUp);
-router.post('/signin', AuthController.signIn);
-router.post('/forgot-password', AuthController.forgotPassword);
-
-router.post('/locations/location-list', LocationsController.getLocationsByZoom);
-router.post(
-  '/locations/add',
-  upload.array('image'),
-  LocationsController.addLocation
-);
-=======
->>>>>>> 652e7fd17124e20f46039689a7b87a128a48d9a2
-
 router.get('/locations/:id', LocationsController.getLocationById);
 router.patch('/locations/:id', LocationsController.updateLocationById);
 router.get('/locations/', LocationsController.getLocationsByZoom);
@@ -47,9 +29,20 @@ router.post(
   upload.array('image'),
   LocationsController.addLocation
 );
-router.get('/google',passport.authenticate('google', { scope: ['email','profile'] }));
-router.get('/google/callback',passport.authenticate('google',{session:false,failureRedirect:'/google',scope: ['email','profile'],failureMessage:true}),AuthController.googleLoginCallback);
-
+router.get(
+  '/google',
+  passport.authenticate('google', { scope: ['email', 'profile'] })
+);
+router.get(
+  '/google/callback',
+  passport.authenticate('google', {
+    session: false,
+    failureRedirect: '/google',
+    scope: ['email', 'profile'],
+    failureMessage: true
+  }),
+  AuthController.googleLoginCallback
+);
 
 router.patch('/locations', LocationsController.changeLocationInfo);
 

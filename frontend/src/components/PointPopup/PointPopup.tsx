@@ -1,12 +1,4 @@
-import React, { useState, MouseEvent } from 'react';
-import { styled } from '@mui/material/styles';
-import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
-import Link from '@mui/material/Link';
-import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
+import React, { useState, MouseEvent, SyntheticEvent } from 'react';
 import {
   Card,
   CardMedia,
@@ -23,69 +15,128 @@ import {
   Divider,
   ListItemText,
   ListItemAvatar,
-  Stack,
   Snackbar,
-  Alert
+  Alert,
+  AlertColor
 } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 
-interface ExpandMoreProps extends IconButtonProps {
-  expand: boolean;
+interface INotification {
+  type: AlertColor;
+  message: string;
 }
 
-const ExpandMore = styled((props: ExpandMoreProps) => {
-  const { expand, ...other } = props;
+const PointPopup = () => {
+  const [expanded, setExpanded] = useState(false);
+  const [notification, setNotification] = useState<INotification | null>(null);
 
-  return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-  marginLeft: 'auto',
-  transition: theme.transitions.create('transform', {
-    duration: theme.transitions.duration.shortest
-  })
-}));
+  const { updatePopupLocation } = useTypedDispatch();
 
-function PointPopup() {
-  const isLoggedUser = useTypedSelector(state => state.userLogin.isLogged);
+  const userLogin = useTypedSelector(state => state.userLogin);
   const infoLocation = useTypedSelector(state => state.popupLocation);
-  const emailUser = useTypedSelector(state => state.user);
 
-  console.log(emailUser);
-  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const {
+    isLogged,
+    userInfo: { user }
+  } = userLogin;
 
-  const { isLoading, _id, rating, locationName, description, photoSrc } =
-    infoLocation;
+  const { _id: userId } = user;
+  const { _id, rating, locationName, description, photoSrc } = infoLocation;
 
-  console.log(isLoading, _id, rating, locationName);
-
-  const handleClose = (
-    event?: React.SyntheticEvent | Event,
+  const handleCloseNotification = (
+    e?: SyntheticEvent | Event,
     reason?: string
   ) => {
     if (reason === 'clickaway') {
       return;
     }
+    setNotification(null);
+  };
 
-    setOpenSnackbar(false);
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
   };
 
   const handleLikes = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-
-    console.log(isLoggedUser);
-
-    if (!isLoggedUser) {
-      setOpenSnackbar(true);
-    } else {
-      //
+    if (!isLogged) {
+      return setNotification({
+        type: 'warning',
+        message: 'Login to your account to be able to likes!'
+      });
     }
+    const updatedRating = { ...rating };
+    if (rating.likes.includes(userId)) {
+      updatedRating.likes = updatedRating.likes.filter(
+        value => value !== userId
+      );
+    } else {
+      updatedRating.likes.push(userId);
+    }
+
+    if (rating.dislikes.includes(userId)) {
+      updatedRating.dislikes = updatedRating.dislikes.filter(
+        value => value !== userId
+      );
+    }
+
+    return updatePopupLocation(_id, { rating: updatedRating });
   };
 
-  const [expanded, setExpanded] = useState(false);
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
+  const handleDislikes = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (!isLogged) {
+      return setNotification({
+        type: 'warning',
+        message: 'Login to your account to be able to likes!'
+      });
+    }
+    const updatedRating = { ...rating };
+    if (rating.dislikes.includes(userId)) {
+      updatedRating.dislikes = updatedRating.dislikes.filter(
+        value => value !== userId
+      );
+    } else {
+      updatedRating.dislikes.push(userId);
+    }
+
+    if (rating.likes.includes(userId)) {
+      updatedRating.likes = updatedRating.likes.filter(
+        value => value !== userId
+      );
+    }
+
+    return updatePopupLocation(_id, { rating: updatedRating });
   };
+
+  let snackbar;
+  if (notification) {
+    snackbar = (
+      <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        open={!!notification}
+        autoHideDuration={5000}
+        onClose={handleCloseNotification}
+      >
+        <Alert
+          onClose={handleCloseNotification}
+          severity={notification.type}
+          sx={{ width: '100%' }}
+        >
+          {notification.message}
+        </Alert>
+      </Snackbar>
+    );
+  }
 
   return (
     <Box>
@@ -118,18 +169,32 @@ function PointPopup() {
             }}
           >
             <IconButton onClick={handleLikes}>
-              <ThumbUpOutlinedIcon
-                fontSize="small"
-                sx={{ color: 'text.secondary' }}
-              />
+              {rating.likes.includes(userId) ? (
+                <ThumbUpIcon
+                  fontSize="small"
+                  sx={{ color: 'text.secondary' }}
+                />
+              ) : (
+                <ThumbUpOutlinedIcon
+                  fontSize="small"
+                  sx={{ color: 'text.secondary' }}
+                />
+              )}
               {rating.likes.length}
             </IconButton>
 
-            <IconButton onClick={handleLikes}>
-              <ThumbDownAltOutlinedIcon
-                fontSize="small"
-                sx={{ color: 'text.secondary' }}
-              />
+            <IconButton onClick={handleDislikes}>
+              {rating.dislikes.includes(userId) ? (
+                <ThumbDownIcon
+                  fontSize="small"
+                  sx={{ color: 'text.secondary' }}
+                />
+              ) : (
+                <ThumbDownAltOutlinedIcon
+                  fontSize="small"
+                  sx={{ color: 'text.secondary' }}
+                />
+              )}
               {rating.dislikes.length}
             </IconButton>
 
@@ -172,15 +237,15 @@ function PointPopup() {
               {description}
             </Typography>
           </Box>
-          <ExpandMore
-            expand={expanded}
+          <IconButton
             onClick={handleExpandClick}
-            aria-expanded={expanded}
-            aria-label="show more"
-            sx={{ mt: 3 }}
+            sx={{
+              mt: 3,
+              transform: !expanded ? 'rotate(0deg)' : 'rotate(180deg)'
+            }}
           >
             <ExpandMoreIcon />
-          </ExpandMore>
+          </IconButton>
         </CardContent>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
@@ -254,47 +319,21 @@ function PointPopup() {
                     alignSelf: 'flex-end'
                   }}
                 >
-                  <Link
-                    href="/"
-                    sx={{ color: 'text.secondary' }}
-                    component="button"
-                    underline="none"
-                  >
+                  <IconButton>
                     <ThumbUpOutlinedIcon fontSize="small" />
-                  </Link>
+                  </IconButton>
 
-                  <Link
-                    href="/"
-                    sx={{ color: 'text.secondary' }}
-                    component="button"
-                    underline="none"
-                  >
+                  <IconButton>
                     <ThumbDownAltOutlinedIcon fontSize="small" />
-                  </Link>
+                  </IconButton>
                 </Box>
               </ListItem>
             </List>
           </CardContent>
         </Collapse>
-        <Stack spacing={2} sx={{ width: '100%' }}>
-          <Snackbar
-            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-            autoHideDuration={5000}
-            open={openSnackbar}
-            onClose={handleClose}
-          >
-            <Alert
-              onClose={handleClose}
-              severity="warning"
-              sx={{ width: '100%' }}
-            >
-              Sign up to be able to likes!
-            </Alert>
-          </Snackbar>
-        </Stack>
+        {snackbar}
       </Card>
     </Box>
   );
-}
-
+};
 export default PointPopup;

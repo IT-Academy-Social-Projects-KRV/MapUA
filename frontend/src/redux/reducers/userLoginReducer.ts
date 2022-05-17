@@ -4,7 +4,11 @@ const initialState: UserLoginState = {
   loading: false,
   error: null,
   isLogged: false,
-  userInfo: {}
+  userInfo: {
+    user: {
+      _id: ''
+    }
+  }
 };
 
 export const userLoginReducer = (
@@ -13,23 +17,22 @@ export const userLoginReducer = (
 ): UserLoginState => {
   switch (action.type) {
     case UserActionTypes.USER_LOGIN_REQUEST:
-      return { loading: true, error: null, isLogged: false, userInfo: {} };
+      return { ...state, loading: true };
     case UserActionTypes.USER_LOGIN_SUCCESS:
       return {
-        loading: false,
-        error: null,
-        isLogged: true,
-        userInfo: action.payload
+        ...state,
+        userInfo: action.payload,
+        isLogged: true
       };
     case UserActionTypes.USER_LOGIN_FAIL:
       return {
-        loading: false,
-        error: action.payload,
-        isLogged: false,
-        userInfo: {}
+        ...state,
+        error: action.payload
       };
     case UserActionTypes.USER_LOGOUT:
-      return { loading: false, error: null, isLogged: false, userInfo: {} };
+      return {
+        ...state
+      };
     default:
       return state;
   }

@@ -26,28 +26,16 @@ const LocationsController = {
         _id: l._id,
         coordinates: l.coordinates,
         name: l.locationName,
-<<<<<<< HEAD
-        filters: l.filters,
-      }));
-      if (name) {
-        locations = locations.filter((l) => {
-=======
         filters: l.filters
       }));
       if (name) {
         locations = locations.filter(l => {
->>>>>>> 652e7fd17124e20f46039689a7b87a128a48d9a2
           return l.name.toLocaleLowerCase().startsWith(name);
         });
       }
       if (filters.length > 0) {
-<<<<<<< HEAD
-        locations = locations.filter((l) =>
-          [...l.filters].some((el) => filters.includes(el))
-=======
         locations = locations.filter(l =>
           [...l.filters].some(el => filters.includes(el))
->>>>>>> 652e7fd17124e20f46039689a7b87a128a48d9a2
         );
       } else {
         locations = locations.slice(
@@ -94,11 +82,7 @@ const LocationsController = {
           // here, we can save not only one url for the location image
           // but rather an array of images
           arrayPhotos: imageUrls,
-<<<<<<< HEAD
-          description: description,
-=======
           description: description
->>>>>>> 652e7fd17124e20f46039689a7b87a128a48d9a2
         });
         const result = await newLocation.save(newLocation as any);
         res.status(200).json(result);
@@ -109,7 +93,6 @@ const LocationsController = {
       return res.status(500).json({ error: err.message });
     }
   },
-<<<<<<< HEAD
   async updateLocationById(req: Request, res: Response) {
     try {
       const id = req.params.id;
@@ -117,7 +100,7 @@ const LocationsController = {
       const location = await Location.findByIdAndUpdate(
         id,
         {
-          $set: { ...req.body },
+          $set: { ...req.body }
         },
         { new: true }
       ).exec();
@@ -127,7 +110,6 @@ const LocationsController = {
       return res.status(500).json({ error: err.message });
     }
   },
-=======
   async changeLocationInfo(req: Request, res: Response) {
     try {
       const { _id, fields } = req.body;
@@ -135,19 +117,19 @@ const LocationsController = {
       const location = await Location.findById(_id);
       if (location) {
         await Location.updateOne(
-            {
-              _id: _id
-            },
-            {
-              $set: fields.reduce(
-                  (prev: any, curr: any) => ({
-                    ...prev,
-                    [curr.name]: curr.value
-                  }),
-                  {}
-              )
-            }
-        )
+          {
+            _id: _id
+          },
+          {
+            $set: fields.reduce(
+              (prev: any, curr: any) => ({
+                ...prev,
+                [curr.name]: curr.value
+              }),
+              {}
+            )
+          }
+        );
 
         res.sendStatus(200);
       } else {
@@ -157,7 +139,6 @@ const LocationsController = {
       return res.status(500).json({ error: err.message });
     }
   }
->>>>>>> 652e7fd17124e20f46039689a7b87a128a48d9a2
 };
 
 export default LocationsController;
