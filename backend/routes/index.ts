@@ -11,7 +11,7 @@ router.post(
   '/add_personal_location',
   upload.array('image'),
   passport.authenticate('jwt', { session: false }),
-  UserController.postUserLocation
+  LocationsController.postPersonalLocation
 );
 router.get(
   '/profile',
