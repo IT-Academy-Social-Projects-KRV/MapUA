@@ -13,7 +13,6 @@ function Profile() {
   const navigate = useNavigate();
 
   const { data, error, loading } = useTypedSelector(state => state.user);
-  console.log(data);
   const { fetchUser } = useTypedDispatch();
 
   useEffect(() => {
@@ -52,6 +51,7 @@ function Profile() {
           email={data.email}
           displayName={data.displayName}
           createdAt={data.createdAt}
+          imageUrl
         />
         {/* <Map onOpenBigPopup={onOpenBigPopup} /> */}
       </Container>
