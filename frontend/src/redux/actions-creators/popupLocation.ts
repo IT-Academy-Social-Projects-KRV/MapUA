@@ -31,3 +31,16 @@ export const fetchPopupLocation =
 export function startLoading(): LocationActions {
   return { type: LocationActionTypes.LOADING_START };
 }
+
+// export const sendComment =
+//   (commentBody: Comment) => async (dispatch: Dispatch<LocationActions>) => {
+//     try {
+//         const response = await axios.post(`${REACT_APP_API_URI}comment`, {
+//            commentBody
+//         });
+//         dispatch({
+//             type: LocationActionTypes.SET_COMMENTS,
+//             payload: response.data
+//         });
+//     } catch (error: any) {}
+//   };

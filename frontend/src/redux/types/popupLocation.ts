@@ -1,4 +1,19 @@
 /* eslint-disable no-unused-vars */
+export type Comment = {
+  author: string;
+  text: string;
+  likes: string[];
+  dislikes: string[];
+  createdAt: {
+    type: Date;
+    default: null;
+  };
+  updatedAt: {
+    type: Date;
+    default: null;
+  };
+}
+
 export interface locationState {
   _id?: string;
   locationName: string;
@@ -9,9 +24,10 @@ export interface locationState {
   coordinates: [number, number];
   photoSrc: string;
   description: string;
-  comments: string[];
+  comments: Comment[];
   isLoading: boolean;
 }
+
 export enum LocationActionTypes {
   FETCH_lOCATION = 'FETCH_lOCATION',
   LOADING_START = 'LOADING_START',
