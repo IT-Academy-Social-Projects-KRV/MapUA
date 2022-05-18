@@ -1,11 +1,11 @@
-import { IUser } from "../models/UserModel";
+import { IUser } from '../models/UserModel';
 
 const mapUserProps = (user: IUser) => {
   return {
     email: user.email,
     _id: user._id,
     createdAt: user.createdAt,
-    updatedAt: user.updatedAt,
+    updatedAt: user.updatedAt
   };
 };
 

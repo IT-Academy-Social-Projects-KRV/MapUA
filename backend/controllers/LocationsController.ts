@@ -1,6 +1,5 @@
 import { resolveSoa } from 'dns';
 import { Response, Request } from 'express';
-import { TupleTypeReference } from 'typescript';
 import Location from '../models/Locations';
 import User from '../models/UserModel';
 
