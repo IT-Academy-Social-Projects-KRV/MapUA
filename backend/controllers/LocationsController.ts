@@ -2,6 +2,7 @@ import { resolveSoa } from 'dns';
 import { Response, Request } from 'express';
 import { TupleTypeReference } from 'typescript';
 import Location from '../models/Locations';
+import User from '../models/UserModel';
 
 const LocationsController = {
   async getLocationsByZoom(req: Request, res: Response) {
@@ -96,31 +97,34 @@ const LocationsController = {
   async addLocationComments(req: Request, res: Response) {
     try {
       const { id, comment } = req.body;
-      const commentProperties = ['author', 'text', 'likes', 'dislikes', 'createdAt', 'updatedAt'];
+      const commentProperties: string[] = ['author', 'text', 'likes', 'dislikes', 'createdAt', 'updatedAt'];
+      let isFullComment: boolean = true;
 
-      if (!(await Location.exists({
-        _id: id,
-        comments: { $exists: true }
-      }))) {
-        return res.status(400).json({ error: "Location or comments doesn't exist" });
-      }
+      commentProperties.forEach(field => {
+        if (!Object.keys(comment).includes(field)) {
+          isFullComment = false;
+          return res.status(410).json({error: `comment doesn't have ${field} property`});
+        }
+      });
 
-      if (!commentProperties.every(field => Object.keys(comment).some(cf => field === cf))) {
-        return res.status(410).json({ error: 'Missing fields in comment object!' });
-      }
-
-      const location = await Location.findByIdAndUpdate(
-          {
-            _id: id
-          },
-          {
-            $push: {
-              comments: comment
+      if(isFullComment) {
+        const updateLocation = await Location.findByIdAndUpdate(
+            id,
+            {
+              $push: {
+                comments: comment
+              }
+            },
+            {
+              new: true
             }
-          }
-      );
+        );
+        if (!updateLocation) {
+          return res.status(400).json({ error: "Location doesn't exist" });
+        }
 
-      return res.status(200).json({ comments: location?.comments });
+        return res.status(200).json(updateLocation.comments)
+      }
     } catch ( err: any ) {
       return res.status(500).json({ error: err.message });
     }
@@ -132,19 +136,19 @@ const LocationsController = {
       const location = await Location.findById(_id);
       if (location) {
         await Location.updateOne(
-            {
-              _id: _id
-            },
-            {
-              $set: fields.reduce(
-                  (prev: any, curr: any) => ({
-                    ...prev,
-                    [curr.name]: curr.value
-                  }),
-                  {}
-              )
-            }
-        )
+          {
+            _id: _id
+          },
+          {
+            $set: fields.reduce(
+              (prev: any, curr: any) => ({
+                ...prev,
+                [curr.name]: curr.value
+              }),
+              {}
+            )
+          }
+        );
 
         res.sendStatus(200);
       } else {
@@ -154,6 +158,51 @@ const LocationsController = {
       return res.status(500).json({ error: err.message });
     }
   },
-}
+
+  async postPersonalLocation(req: Request, res: Response) {
+    try {
+      const { locationName, description, coordinates } = req.body;
+
+      const location = await Location.find({ coordinates: coordinates });
+
+      const imageUrls: string[] = [];
+
+      if (location.length === 0) {
+        Array.prototype.forEach.call(req.files, file => {
+          imageUrls.push(file.location);
+        });
+
+        const _id = req.user;
+        const userData = await User.findById(_id);
+
+        if (!userData) {
+          return res.status(400).json({ error: "User doesn't exist" });
+        }
+
+        const userLocation = new Location({
+          locationName: locationName,
+          coordinates: coordinates,
+          arrayPhotos: imageUrls,
+          description: description,
+          comments: [],
+          rating: {
+            likes: [],
+            dislikes: []
+          },
+          filters: [],
+          author: _id
+        });
+
+        const result = await userLocation.save();
+
+        return res.status(200).json(result);
+      } else {
+        res.status(400).json({ error: 'Data is present' });
+      }
+    } catch (err: any) {
+      return res.status(500).json({ error: err.message });
+    }
+  }
+};
 
 export default LocationsController;
