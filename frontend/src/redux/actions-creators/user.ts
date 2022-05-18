@@ -43,7 +43,6 @@ export const login =
         type: UserActionTypes.USER_LOGIN_SUCCESS,
         payload: response.data
       });
-
       localStorage.setItem('accessToken', response.data.token);
     } catch (error: any) {
       dispatch({

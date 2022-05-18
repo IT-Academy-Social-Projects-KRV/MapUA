@@ -21,7 +21,8 @@ export interface UserLoginState {
   loading: boolean;
   error: {} | null;
   isLogged: boolean;
-  userInfo: {};
+  id: string;
+  token: string;
 }
 
 export enum UserActionTypes {
@@ -53,7 +54,10 @@ interface LoginUserRequestAction {
 }
 interface LoginUserSuccessAction {
   type: UserActionTypes.USER_LOGIN_SUCCESS;
-  payload: string;
+  payload: {
+    id: string;
+    token: string;
+  };
 }
 interface LoginUserFailAction {
   type: UserActionTypes.USER_LOGIN_FAIL;

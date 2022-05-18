@@ -1,12 +1,10 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ListItemButton from '@mui/material/ListItemButton';
 import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { Box, Checkbox, ListItemText } from '@mui/material';
-import useId from '@mui/material/utils/useId';
-import { mainFilters } from 'static/mainFIlters';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { StyledList } from './style';
@@ -22,7 +20,22 @@ export default function NestedList() {
   const selectedFilters = useTypedSelector(
     state => state.locationList.selectedFilters
   );
-  const { applyFilter } = useTypedDispatch();
+
+  const userIsSignedIn = useTypedSelector(state => state.userLogin.isLogged);
+
+  const { applyFilter, fetchFilters, fetchFiltersWithoutAuth } =
+    useTypedDispatch();
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem('accessToken');
+    if (accessToken) {
+      fetchFilters(accessToken);
+    } else {
+      fetchFiltersWithoutAuth();
+    }
+  }, [userIsSignedIn]);
+
+  const filters = useTypedSelector(state => state.filterList.filters);
 
   const OnChange = (value: string) => {
     if (selectedFilters.some(f => f === value)) {
@@ -47,7 +60,7 @@ export default function NestedList() {
       </ListItemButton>
       <Collapse in={open} timeout="auto">
         <StyledList>
-          {mainFilters.map(filter => (
+          {filters.map(filter => (
             <Box key={filter.id}>
               <ListItemButton onClick={() => handleClickNested(filter.id)}>
                 <ListItemText primary={filter.type} />
@@ -55,10 +68,11 @@ export default function NestedList() {
               </ListItemButton>
               <Collapse in={openNested[filter.id]} timeout="auto">
                 <StyledList>
-                  {filter.values?.map(nestedFilter => (
+                  {filter.values?.map((nestedFilter: any, index: number) => (
                     <ListItemButton
                       onClick={() => OnChange(nestedFilter)}
-                      key={useId()}
+                      // eslint-disable-next-line react/no-array-index-key
+                      key={index}
                       className="pl-4"
                     >
                       <Checkbox

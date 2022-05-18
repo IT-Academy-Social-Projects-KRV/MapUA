@@ -1,10 +1,12 @@
 import express from "express";
 import UserController from "../controllers/UserController";
+import SubscriptionsController from "../controllers/SubscriptionsController";
 import LocationsController from "../controllers/LocationsController";
 import AuthController from "../controllers/AuthController";
 import passport from "../libs/passport";
 import multer from "multer";
 import { upload } from "../utils/upload";
+
 
 const router = express.Router();
 
@@ -17,6 +19,12 @@ router.get(
   "/profile",
   passport.authenticate("jwt", { session: false }),
   UserController.getProfile
+);
+
+router.get(
+  "/subscriptions",
+  passport.authenticate("jwt", { session: false }),
+  SubscriptionsController.getSubscriptions
 );
 
 router.post("/signup", AuthController.signUp);
