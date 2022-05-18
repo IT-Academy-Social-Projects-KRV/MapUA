@@ -97,32 +97,28 @@ const LocationsController = {
   async addLocationComments(req: Request, res: Response) {
     try {
       const { id, comment } = req.body;
-      const commentProperties = ['author', 'text', 'likes', 'dislikes', 'createdAt', 'updatedAt'];
-
-      if (!(await Location.exists({
-        _id: id,
-        comments: { $exists: true }
-      }))) {
-        return res.status(400).json({ error: "Location or comments doesn't exist" });
-      }
-
+      const commentProperties:string[] = ['author', 'text', 'likes', 'dislikes', 'createdAt', 'updatedAt'];
+      let isFullComment:boolean=true
       commentProperties.forEach(field => {
         if (!Object.keys(comment).includes(field))
-          return res.status(410).json({ error: `comment doesn't have ${field} property` });
+          return (res.status(410).json({ error: `comment doesn't have ${field} property` }),isFullComment=false)
       });
-
-      await Location.updateOne(
-          {
-            _id: id
-          },
+        if(isFullComment){ 
+          const updateLocation=await Location.findByIdAndUpdate(id,
           {
             $push: {
               comments: comment
             }
-          }
+          },
+          {new:true}
       );
+      if (!updateLocation) {
+        return res.status(400).json({ error: "Location doesn't exist" });
+      }
 
-      return res.status(200).json(comment)
+      return res.status(200).json(updateLocation.comments)
+    }         
+    
     } catch ( err: any ) {
       return res.status(500).json({ error: err.message });
     }
@@ -156,7 +152,7 @@ const LocationsController = {
       return res.status(500).json({ error: err.message });
     }
   },
-  
+
   async postPersonalLocation(req: Request, res: Response) {
     try {
       const { locationName, description, coordinates } = req.body;
