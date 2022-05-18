@@ -10,9 +10,10 @@ import { upload } from '../utils/upload';
 const router = express.Router();
 
 router.post(
-  '/add_profile_location',
+  '/add_personal_location',
+  upload.array('image'),
   passport.authenticate('jwt', { session: false }),
-  UserController.postUserLocation
+  LocationsController.postPersonalLocation
 );
 router.get(
   '/profile',
@@ -35,6 +36,9 @@ router.post('/forgot-password', AuthController.forgotPassword);
 
 router.get('/locations/:id', LocationsController.getLocationById);
 router.get('/locations/', LocationsController.getLocationsByZoom);
+
+router.put('/locations/comment', LocationsController.addLocationComments);
+
 router.post(
   '/locations/add',
   upload.array('image'),

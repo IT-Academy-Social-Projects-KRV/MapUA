@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const { MONGO_USERNAME, MONGO_PASSWORD, MONGO_HOSTNAME, MONGO_DB } =
   process.env;
@@ -6,13 +6,13 @@ const { MONGO_USERNAME, MONGO_PASSWORD, MONGO_HOSTNAME, MONGO_DB } =
 const url = `mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}/${MONGO_DB}?retryWrites=true&w=majority`;
 const options = {
   useNewUrlParser: true,
-  connectTimeoutMS: 10000,
+  connectTimeoutMS: 10000
 };
 
 mongoose
   .connect(url, options)
   .then(() => {
-    console.log("MongoDB is connected");
+    console.log('MongoDB is connected');
   })
   .catch((err: unknown) => {
     console.log(err);

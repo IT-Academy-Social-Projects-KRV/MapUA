@@ -1,29 +1,30 @@
-import React, { useEffect } from 'react';
-import {
-  FormControl,
-  TextField,
-  Button,
-  Typography,
-  Box,
-  Link
-} from '@mui/material';
-import {
-  BorderForm,
-  RegistrationFormWrapper,
-  StyledSpan,
-  StyledSpanEnd
-} from 'components/Login/styles';
-import { WrapButtonAndText, WrapH1 } from 'components/ForgotPassword/styles';
+import React, { useEffect, useState, MouseEvent } from 'react';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
-import { emailValidation, passwordValidation } from 'utils/validation';
 import {
   useForm,
   Controller,
   SubmitHandler,
   useFormState
 } from 'react-hook-form';
-import { useTypedSelector } from 'redux/hooks/useTypedSelector';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import {
+  Box,
+  Divider,
+  TextField,
+  Button,
+  Typography,
+  Link,
+  InputAdornment,
+  IconButton,
+  Grid,
+  Stack
+} from '@mui/material';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { emailValidation, passwordValidation } from 'utils/validation';
+import { PaperForm } from '../design/PaperForm';
+import { AuthFormWrapper } from '../design/AuthFormWrapper';
 
 type SignIn = {
   email: string;
@@ -35,8 +36,9 @@ function Login() {
   const { handleSubmit, control } = useForm<SignIn>({
     mode: 'onBlur'
   });
+  const [showPassword, setShowPassword] = useState(false);
 
-  const { isLogged } = useTypedSelector(state => state.userLogin);
+  const { isLogged } = useTypedSelector(state => state.userAuth);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -55,82 +57,95 @@ function Login() {
     window.open('http://localhost:3001/api/google', '_self');
   };
 
+  const handleMouseDownPassword = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+  };
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
-    <RegistrationFormWrapper>
-      <BorderForm>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <FormControl sx={{ width: '35ch' }}>
-            <WrapH1>
-              <Typography sx={{ fontSize: '24px' }}>Login</Typography>
-            </WrapH1>
+    <AuthFormWrapper>
+      <Grid container justifyContent="center">
+        <Grid item md={4}>
+          <PaperForm>
+            <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+              <Stack spacing={4}>
+                <Typography align="center" variant="h4">
+                  Login
+                </Typography>
 
-            <Box sx={{ mt: 4 }}>
-              <Controller
-                control={control}
-                name="email"
-                rules={emailValidation}
-                render={({ field }) => (
-                  <TextField
-                    placeholder="Please enter your email"
-                    label="Email"
-                    autoComplete="current-email"
-                    fullWidth
-                    onChange={e => field.onChange(e)}
-                    onBlur={field.onBlur}
-                    defaultValue={field.value}
-                    type="text"
-                    error={!!errors.email?.message}
-                    helperText={errors.email?.message}
-                  />
-                )}
-              />
-            </Box>
+                <Controller
+                  control={control}
+                  name="email"
+                  rules={emailValidation}
+                  render={({ field }) => (
+                    <TextField
+                      placeholder="Please enter your email"
+                      label="Email"
+                      autoComplete="current-email"
+                      fullWidth
+                      onChange={e => field.onChange(e)}
+                      onBlur={field.onBlur}
+                      defaultValue={field.value}
+                      type="text"
+                      error={!!errors.email?.message}
+                      helperText={errors.email?.message}
+                    />
+                  )}
+                />
 
-            <Box sx={{ mt: 4 }}>
-              <Controller
-                control={control}
-                name="password"
-                rules={passwordValidation}
-                render={({ field }) => (
-                  <TextField
-                    placeholder="Please enter your password"
-                    label="Password"
-                    type="password"
-                    autoComplete="current-password"
-                    fullWidth
-                    onChange={e => field.onChange(e)}
-                    onBlur={field.onBlur}
-                    defaultValue={field.value}
-                    error={!!errors.password?.message}
-                    helperText={errors.password?.message}
-                  />
-                )}
-              />
-            </Box>
+                <Controller
+                  control={control}
+                  name="password"
+                  rules={passwordValidation}
+                  render={({ field }) => (
+                    <TextField
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              onClick={handleClickShowPassword}
+                              onMouseDown={handleMouseDownPassword}
+                            >
+                              {showPassword ? (
+                                <VisibilityOff />
+                              ) : (
+                                <Visibility />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        )
+                      }}
+                      placeholder="Please enter your password"
+                      label="Password"
+                      type={showPassword ? 'text' : 'password'}
+                      autoComplete="current-password"
+                      fullWidth
+                      onChange={e => field.onChange(e)}
+                      onBlur={field.onBlur}
+                      defaultValue={field.value}
+                      error={!!errors.password?.message}
+                      helperText={errors.password?.message}
+                    />
+                  )}
+                />
 
-            <StyledSpanEnd>
-              <Link
-                color="inherit"
-                underline="none"
-                component={RouterLink}
-                to="/forgot-password"
-              >
-                Forgot the password?
-              </Link>
-            </StyledSpanEnd>
-
-            <WrapButtonAndText>
-              <Button variant="contained" type="submit">
-                Login
-              </Button>
-              <StyledSpan>
-                <span>or</span>
-              </StyledSpan>
-              <Button variant="contained" onClick={handleClickGoogle}>
-                Sing in with google
-              </Button>
-
-              <StyledSpan>
+                <Typography sx={{ my: 4 }} align="right">
+                  <Link
+                    underline="none"
+                    component={RouterLink}
+                    to="/forgot-password"
+                  >
+                    Forgot the password?
+                  </Link>
+                </Typography>
+                <Button variant="contained" type="submit">
+                  Login
+                </Button>
+                <Divider>or</Divider>
+                <Button variant="contained">Sing in with google</Button>
                 <Button variant="contained">
                   <Link
                     component={RouterLink}
@@ -141,12 +156,12 @@ function Login() {
                     Sign up
                   </Link>
                 </Button>
-              </StyledSpan>
-            </WrapButtonAndText>
-          </FormControl>
-        </form>
-      </BorderForm>
-    </RegistrationFormWrapper>
+              </Stack>
+            </Box>
+          </PaperForm>
+        </Grid>
+      </Grid>
+    </AuthFormWrapper>
   );
 }
 

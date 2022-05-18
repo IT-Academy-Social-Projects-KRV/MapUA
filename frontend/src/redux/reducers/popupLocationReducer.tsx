@@ -1,8 +1,8 @@
 import {
   LocationActions,
-  LocationActionTypes,
-  locationState
-} from 'redux/types/popupLocation';
+  LocationActionTypes
+} from 'redux/action-types/popupLocationActionTypes';
+import { locationState } from 'redux/ts-types/popupLocation';
 
 export const initialState: locationState = {
   _id: ' aa',

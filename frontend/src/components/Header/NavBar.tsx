@@ -6,7 +6,7 @@ import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { StyledAppBar, StyledStack } from './style';
 
 function NavBar() {
-  const { isLogged } = useTypedSelector(state => state.userLogin);
+  const { isLogged } = useTypedSelector(state => state.userAuth);
 
   return (
     <StyledAppBar>

@@ -1,13 +1,5 @@
-import { boundsType, latlngType } from '../../../types';
-
 /* eslint-disable no-unused-vars */
-export interface locationsListStateType {
-  locations: any[];
-  bounds: boundsType;
-  zoomPosition: latlngType;
-  locationName: string;
-  selectedFilters: string[];
-}
+import { boundsType, latlngType } from '../../../types';
 
 export enum LocationsListActionsType {
   FETCH_LOCATIONS = 'FETCH_LOCATIONS',

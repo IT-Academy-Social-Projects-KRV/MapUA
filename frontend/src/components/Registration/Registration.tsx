@@ -1,28 +1,29 @@
+import React, { useState, MouseEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import {
-  FormControl,
   TextField,
   Button,
   Typography,
   Box,
   Snackbar,
-  Alert
+  Alert,
+  InputAdornment,
+  IconButton,
+  Grid,
+  Stack
 } from '@mui/material';
-import {
-  BorderForm,
-  RegistrationFormWrapper,
-  WrapButtonAndText
-} from 'components/Registration/styles';
-import { WrapH1 } from 'components/ForgotPassword/styles';
-import React, { useState } from 'react';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {
   useForm,
   Controller,
   SubmitHandler,
   useFormState
 } from 'react-hook-form';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import { emailValidation, passwordValidation } from 'utils/validation';
+import { PaperForm } from '../design/PaperForm';
+import { AuthFormWrapper } from '../design/AuthFormWrapper';
 
 type SignUp = {
   email: string;
@@ -31,6 +32,7 @@ type SignUp = {
 
 function Registration() {
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
   const [visibleSucces, setVisibleSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const { handleSubmit, control } = useForm<SignUp>({
@@ -55,83 +57,101 @@ function Registration() {
     control
   });
 
+  const handleMouseDownPassword = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+  };
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
-    <RegistrationFormWrapper>
-      <BorderForm>
-        <FormControl sx={{ width: '35ch' }}>
-          <WrapH1>
-            <Typography sx={{ fontSize: '24px' }}>Create profile</Typography>
-          </WrapH1>
-          <Snackbar open={visibleSucces}>
-            <Alert
-              variant="filled"
-              severity="success"
-              sx={{ width: '100%', mb: '2rem' }}
-            >
-              Registration successful!
-            </Alert>
-          </Snackbar>
-          <Snackbar open={!!errorMessage}>
-            <Alert
-              variant="filled"
-              severity="error"
-              sx={{ width: '100%', mb: '2rem' }}
-            >
-              {errorMessage}
-            </Alert>
-          </Snackbar>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Box sx={{ mt: '20px' }}>
-              <Controller
-                control={control}
-                name="email"
-                rules={emailValidation}
-                render={({ field }) => (
-                  <TextField
-                    placeholder="Please enter your email"
-                    label="Email"
-                    autoComplete="current-email"
-                    fullWidth
-                    onChange={e => field.onChange(e)}
-                    onBlur={field.onBlur}
-                    defaultValue={field.value}
-                    type="text"
-                    error={!!errors.email?.message}
-                    helperText={errors.email?.message}
+    <AuthFormWrapper>
+      <Grid container justifyContent="center">
+        <Grid item md={4}>
+          <PaperForm>
+            <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+              <Stack spacing={4}>
+                <Typography align="center" variant="h4">
+                  Create profile
+                </Typography>
+                <Snackbar
+                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                  open={visibleSucces}
+                >
+                  <Alert severity="success">Registration successful!</Alert>
+                </Snackbar>
+                <Snackbar
+                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                  open={!!errorMessage}
+                >
+                  <Alert severity="error">{errorMessage}</Alert>
+                </Snackbar>
+                <Controller
+                  control={control}
+                  name="email"
+                  rules={emailValidation}
+                  render={({ field }) => (
+                    <TextField
+                      placeholder="Please enter your email"
+                      label="Email"
+                      autoComplete="current-email"
+                      fullWidth
+                      onChange={e => field.onChange(e)}
+                      onBlur={field.onBlur}
+                      defaultValue={field.value}
+                      type="text"
+                      error={!!errors.email?.message}
+                      helperText={errors.email?.message}
+                    />
+                  )}
+                />
+                <Box sx={{ my: 4 }}>
+                  <Controller
+                    control={control}
+                    name="password"
+                    rules={passwordValidation}
+                    render={({ field }) => (
+                      <TextField
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <IconButton
+                                onClick={handleClickShowPassword}
+                                onMouseDown={handleMouseDownPassword}
+                              >
+                                {showPassword ? (
+                                  <VisibilityOff />
+                                ) : (
+                                  <Visibility />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          )
+                        }}
+                        type={showPassword ? 'text' : 'password'}
+                        placeholder="Please enter your password"
+                        label="Password"
+                        autoComplete="current-password"
+                        fullWidth
+                        onChange={e => field.onChange(e)}
+                        onBlur={field.onBlur}
+                        defaultValue={field.value}
+                        error={!!errors.password?.message}
+                        helperText={errors.password?.message}
+                      />
+                    )}
                   />
-                )}
-              />
+                </Box>
+                <Button fullWidth variant="contained" type="submit">
+                  Create
+                </Button>
+              </Stack>
             </Box>
-            <Box sx={{ mt: '20px' }}>
-              <Controller
-                control={control}
-                name="password"
-                rules={passwordValidation}
-                render={({ field }) => (
-                  <TextField
-                    placeholder="Please enter your password"
-                    label="Password"
-                    autoComplete="current-password"
-                    fullWidth
-                    onChange={e => field.onChange(e)}
-                    onBlur={field.onBlur}
-                    defaultValue={field.value}
-                    type="password"
-                    error={!!errors.password?.message}
-                    helperText={errors.password?.message}
-                  />
-                )}
-              />
-            </Box>
-            <WrapButtonAndText>
-              <Button variant="contained" type="submit">
-                Create
-              </Button>
-            </WrapButtonAndText>
-          </form>
-        </FormControl>
-      </BorderForm>
-    </RegistrationFormWrapper>
+          </PaperForm>
+        </Grid>
+      </Grid>
+    </AuthFormWrapper>
   );
 }
 
