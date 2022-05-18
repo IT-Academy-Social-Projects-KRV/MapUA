@@ -2,7 +2,7 @@ import {
   FiltersAction,
   FiltersActionTypes,
   FiltersState
-} from '../types/filters';
+} from '../action-types/filters';
 import { mainFilters } from '../../static/mainFIlters';
 
 const initialState: FiltersState = {

@@ -21,7 +21,7 @@ export default function NestedList() {
     state => state.locationList.selectedFilters
   );
 
-  const { isLogged } = useTypedSelector(state => state.userLogin);
+  const { isLogged } = useTypedSelector(state => state.userAuth);
 
   const { applyFilter, fetchFilters, fetchFiltersWithoutAuth } =
     useTypedDispatch();
@@ -35,7 +35,7 @@ export default function NestedList() {
     }
   }, [isLogged]);
 
-  const filters = useTypedSelector(state => state.filterList.filters);
+  const filters = useTypedSelector(state => state.userFilters.filters);
 
   const OnChange = (value: string) => {
     if (selectedFilters.some(f => f === value)) {
@@ -60,7 +60,7 @@ export default function NestedList() {
       </ListItemButton>
       <Collapse in={open} timeout="auto">
         <StyledList>
-          {filters.map(filter => (
+          {filters.map((filter: any) => (
             <Box key={filter.id}>
               <ListItemButton onClick={() => handleClickNested(filter.id)}>
                 <ListItemText primary={filter.type} />
