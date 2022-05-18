@@ -63,7 +63,6 @@ const LocationsController = {
       return res.status(500).json({ error: err.message });
     }
   },
-
   //TODO - This is test controller
   async addLocation(req: Request, res: Response) {
     try {
@@ -94,31 +93,39 @@ const LocationsController = {
       return res.status(500).json({ error: err.message });
     }
   },
-
   async addLocationComments(req: Request, res: Response) {
     try {
-      const { id,comment } = req.body;
-      const commentProperties = ['author','text','likes','dislikes','createdAt','updatedAt'];
-      let fullComment:boolean = true;
-      const location = await Location.findById(id);
-      if ( !location||!location.comments ) {
+      const { id, comment } = req.body;
+      const commentProperties = ['author', 'text', 'likes', 'dislikes', 'createdAt', 'updatedAt'];
+
+      if (!(await Location.exists({
+        _id: id,
+        comments: { $exists: true }
+      }))) {
         return res.status(400).json({ error: "Location or comments doesn't exist" });
       }
-     location.comments.push(comment)
-     for ( let i in commentProperties ) {  if ( !comment.hasOwnProperty(commentProperties[i]) ){
-      fullComment = false;
-      return ( res.status(410).json({ error: `comment doesn't have ${commentProperties[i]} propertie` }),fullComment)
-     }}
-     if ( fullComment ) {
-       await Location.updateOne({_id:id},{comments:location.comments}, {})
-     return res.status(200).json(location.comments)
-    }
-    }
-    catch ( err: any ) {
+
+      commentProperties.forEach(field => {
+        if (!Object.keys(comment).includes(field))
+          return res.status(410).json({ error: `comment doesn't have ${field} property` });
+      });
+
+      await Location.updateOne(
+          {
+            _id: id
+          },
+          {
+            $push: {
+              comments: comment
+            }
+          }
+      );
+
+      return res.status(200).json(comment)
+    } catch ( err: any ) {
       return res.status(500).json({ error: err.message });
     }
   },
-
   async changeLocationInfo(req: Request, res: Response) {
     try {
       const { _id, fields } = req.body;
