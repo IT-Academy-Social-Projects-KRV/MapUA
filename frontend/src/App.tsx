@@ -17,20 +17,6 @@ function App() {
     <BrowserRouter>
       <GlobalStyles
         styles={{
-          html: {
-            height: '100vh',
-            width: '100%'
-          },
-          '*, *::before, *::after': {
-            boxSizing: 'border-box',
-            padding: 0,
-            margin: 0,
-            border: 0
-          },
-          body: {
-            height: '100vh',
-            width: '100%'
-          },
           '#root': {
             display: 'flex',
             flexDirection: 'column',
