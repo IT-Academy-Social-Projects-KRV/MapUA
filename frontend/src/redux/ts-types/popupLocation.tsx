@@ -6,7 +6,7 @@ export type locationState = {
     dislikes: number;
   };
   coordinates: [number, number];
-  photoSrc: string;
+  arrayPhotos: string[];
   description: string;
   comments: string[];
   isLoading: boolean;
