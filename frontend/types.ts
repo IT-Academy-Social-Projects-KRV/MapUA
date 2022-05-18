@@ -53,3 +53,14 @@ export type UserDataType = {
   subscribers: string[];
   subscriptions: string[];
 };
+
+export type LocationType = {
+  locationName: string;
+  coordinates: [number, number];
+  descripton: string;
+  arrayPhotos: [];
+};
+
+export type CoordinatesType = {
+  coordinate: [number, number];
+};

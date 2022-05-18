@@ -1,16 +1,26 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from 'react';
 import { Box } from '@mui/material';
 import Map from 'components/Map/index';
 import BigPopup from 'components/BigPopup/index';
 
 import BigPopupLocation from 'components/design/BigPopupLocation';
+// import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
+// import { useTypedSelector } from 'redux/hooks/useTypedSelector';
+import ChildrenBigPopupLocation from 'components/ChildrenBigPopupLocation/ChildrenBigPopupLocation';
 import { locationType } from '../../types';
 
 function HomeScreen() {
+  // eslint-disable-next-line no-unused-vars
+  const [isAuth, setIsAuth] = useState(true);
+  // const {} = useTypedDispatch();
+  // const { id } = useTypedSelector(state => state.user);
   const [isOpenLocationPopup, setIsOpenLocationPopup] = useState(false);
   const [isOpenLocacionForm, setIsOpenLocacionForm] = useState(false);
 
   const [location, setLocation] = useState<locationType | null>(null);
+  // eslint-disable-next-line no-unused-vars
+  const [coordinate, setCoordinate] = useState<any>([]);
 
   const onOpenBigPopup = (locationData: locationType) => {
     setLocation(locationData);
@@ -28,13 +38,12 @@ function HomeScreen() {
         toggleClose={() => setIsOpenLocationPopup(false)}
         location={location}
       />
+
       <BigPopupLocation
         isOpen={isOpenLocacionForm}
         toggleClose={() => setIsOpenLocacionForm(false)}
       >
-        <Box
-          sx={{ width: '300px', height: '600px', backgroundColor: 'tomato' }}
-        />
+        <ChildrenBigPopupLocation coordinate={coordinate} />
       </BigPopupLocation>
       <Box
         sx={{ height: '100%' }}
@@ -43,6 +52,8 @@ function HomeScreen() {
         <Map
           onOpenBigPopup={onOpenBigPopup}
           onOpenLocationForm={onOpenLocationForm}
+          isAuth={isAuth}
+          setCoordinate={setCoordinate}
         />
       </Box>
     </Box>

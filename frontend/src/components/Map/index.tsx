@@ -21,6 +21,8 @@ import BigPopup from 'components/BigPopup';
 interface Props {
   onOpenBigPopup: Function;
   onOpenLocationForm: Function;
+  isAuth: boolean;
+  setCoordinate: Function;
 }
 
 // function LocationMarker() {
@@ -43,7 +45,12 @@ interface Props {
 //   );
 // }
 
-function Map({ onOpenBigPopup, onOpenLocationForm }: Props) {
+function Map({
+  onOpenBigPopup,
+  onOpenLocationForm,
+  isAuth,
+  setCoordinate
+}: Props) {
   const formRef = React.useRef<any>(null);
   const [coordinateByClick, SetCoordinateByClick] = useState<any>({});
   const [showPopup, setShowPopup] = useState(null);
@@ -81,6 +88,7 @@ function Map({ onOpenBigPopup, onOpenLocationForm }: Props) {
         if (isAddLocationActive) {
           SetCoordinateByClick(e.latlng);
           onOpenLocationForm();
+          setCoordinate(coordinateByClick);
         }
       }
     });
@@ -108,22 +116,23 @@ function Map({ onOpenBigPopup, onOpenLocationForm }: Props) {
           />
         ))}
         <SearchFormContainer />
-
-        <Button
-          onClick={() => {
-            setIsAddLocationActive(true);
-          }}
-          style={{
-            background: 'white',
-            zIndex: '10000',
-            position: 'absolute',
-            top: '15px',
-            left: '50px',
-            padding: '8px'
-          }}
-        >
-          Add location
-        </Button>
+        {isAuth && (
+          <Button
+            onClick={() => {
+              setIsAddLocationActive(true);
+            }}
+            style={{
+              background: 'white',
+              zIndex: '10000',
+              position: 'absolute',
+              top: '15px',
+              left: '50px',
+              padding: '8px'
+            }}
+          >
+            Add location
+          </Button>
+        )}
         {/* <LocationMarker /> */}
         {/* {pressedButton } */}
       </MapContainer>
