@@ -21,6 +21,8 @@ function Map({ onOpenBigPopup }: Props) {
   useEffect(() => {
     fetchLocations(zoomPosition, bounds, debouncedValue, selectedFilters);
   }, [bounds, debouncedValue, JSON.stringify(selectedFilters)]);
+  // console.log('selectedFilters: ', selectedFilters);
+
   function MyZoomComponent() {
     const prev = bounds;
     const map = useMapEvents({

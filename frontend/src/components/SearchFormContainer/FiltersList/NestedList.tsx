@@ -5,8 +5,6 @@ import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { Box, Checkbox, ListItemText } from '@mui/material';
-import useId from '@mui/material/utils/useId';
-import { mainFilters } from 'static/mainFIlters';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { StyledList } from './style';
@@ -16,8 +14,6 @@ type NestType = {
 };
 
 export default function NestedList() {
-  let processedFilters;
-
   const [open, setOpen] = useState(false);
   const [openNested, setOpenNested] = useState<NestType>({});
 
@@ -27,16 +23,19 @@ export default function NestedList() {
 
   const userIsSignedIn = useTypedSelector(state => state.userLogin.isLogged);
 
-  const userSubscriptions = useTypedSelector(
-    state => state.user.data.subscriptions
-  );
+  const { applyFilter, fetchFilters, fetchFiltersWithoutAuth } =
+    useTypedDispatch();
 
-  // console.log('userSubscriptions: ', userSubscriptions);
+  useEffect(() => {
+    const accessToken = localStorage.getItem('accessToken');
+    if (accessToken) {
+      fetchFilters(accessToken);
+    } else {
+      fetchFiltersWithoutAuth();
+    }
+  }, [userIsSignedIn]);
 
-  // const testData = useTypedSelector(state => state);
-  // console.log('testData: ', testData);
-
-  const { applyFilter, fetchUser } = useTypedDispatch();
+  const filters = useTypedSelector(state => state.filterList.filters);
 
   const OnChange = (value: string) => {
     if (selectedFilters.some(f => f === value)) {
@@ -53,26 +52,6 @@ export default function NestedList() {
     setOpenNested((prevState: any) => ({ ...prevState, [id]: !prevState[id] }));
   };
 
-  // useEffect(() => {
-  //   if (userIsSignedIn) {
-  //     const accessToken = localStorage.getItem('accessToken');
-  //   fetchUser(accessToken || '');
-  //   }
-  // }, [userIsSignedIn]);
-
-  if (userIsSignedIn) {
-    const lastId = mainFilters.length;
-    const newArrayEl = {
-      id: lastId + 1,
-      forLoggedUser: true,
-      type: 'Subscriptions',
-      values: userSubscriptions
-    };
-    processedFilters = [...mainFilters, newArrayEl];
-  } else {
-    processedFilters = mainFilters.filter(el => el.forLoggedUser === false);
-  }
-
   return (
     <StyledList aria-labelledby="nested-list-subheader">
       <ListItemButton onClick={handleClick}>
@@ -81,7 +60,7 @@ export default function NestedList() {
       </ListItemButton>
       <Collapse in={open} timeout="auto">
         <StyledList>
-          {processedFilters.map(filter => (
+          {filters.map(filter => (
             <Box key={filter.id}>
               <ListItemButton onClick={() => handleClickNested(filter.id)}>
                 <ListItemText primary={filter.type} />
@@ -89,10 +68,11 @@ export default function NestedList() {
               </ListItemButton>
               <Collapse in={openNested[filter.id]} timeout="auto">
                 <StyledList>
-                  {filter.values?.map(nestedFilter => (
+                  {filter.values?.map((nestedFilter: any, index: number) => (
                     <ListItemButton
                       onClick={() => OnChange(nestedFilter)}
-                      key={useId()}
+                      // eslint-disable-next-line react/no-array-index-key
+                      key={index}
                       className="pl-4"
                     >
                       <Checkbox
