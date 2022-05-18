@@ -105,12 +105,11 @@ const LocationsController = {
         return res.status(400).json({ error: "Location or comments doesn't exist" });
       }
 
-      commentProperties.forEach(field => {
-        if (!Object.keys(comment).includes(field))
-          return res.status(410).json({ error: `comment doesn't have ${field} property` });
-      });
+      if (!commentProperties.every(field => Object.keys(comment).some(cf => field === cf))) {
+        return res.status(410).json({ error: 'Missing fields in comment object!' });
+      }
 
-      await Location.updateOne(
+      const location = await Location.findByIdAndUpdate(
           {
             _id: id
           },
@@ -121,7 +120,7 @@ const LocationsController = {
           }
       );
 
-      return res.status(200).json(comment)
+      return res.status(200).json({ comments: location?.comments });
     } catch ( err: any ) {
       return res.status(500).json({ error: err.message });
     }
