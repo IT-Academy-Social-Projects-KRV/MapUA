@@ -10,7 +10,7 @@ import { upload } from '../utils/upload';
 const router = express.Router();
 
 router.post(
-  '/get_profile_location',
+  '/add_profile_location',
   passport.authenticate('jwt', { session: false }),
   UserController.postUserLocation
 );
