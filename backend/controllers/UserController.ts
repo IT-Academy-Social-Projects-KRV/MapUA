@@ -27,7 +27,32 @@ const UserController = {
     } catch (err: any) {
       return res.status(500).json({ error: err.message });
     }
-  }
+  },
+  async changeUserData(req: Request, res: Response) {
+    try {
+      const { id, newUserData } = req.body;
+      
+      const changeData = await User.findByIdAndUpdate(
+        id,
+        {
+          $set: {
+            ...newUserData
+          }
+        },
+        {
+          new: true
+        }
+    );
+    if (!changeData) {
+      return res.status(400).json({ error: "User doesn't exist123" });
+    }
+
+    return res.status(200).json(changeData)
+
+    } catch(err: any) {
+      return res.status(500).json({ error: err.message });
+    }
+  },
 };
 
 export default UserController;

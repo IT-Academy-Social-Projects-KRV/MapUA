@@ -64,5 +64,7 @@ router.get(
   }),
   AuthController.signInFacebook
 );
+router.put('/user',UserController.changeUserData)
+
 
 export default router;
