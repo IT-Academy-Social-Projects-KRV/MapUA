@@ -13,12 +13,10 @@ export const fetchUser =
           Authorization: `Bearer ${accessToken}`
         }
       });
-      setTimeout(() => {
-        dispatch({
-          type: UserActionTypes.FETCH_USER_SUCCESS,
-          payload: response.data.userData
-        });
-      }, 500);
+      dispatch({
+        type: UserActionTypes.FETCH_USER_SUCCESS,
+        payload: response.data.userData
+      });
     } catch (e) {
       dispatch({
         type: UserActionTypes.FETCH_USER_ERROR,

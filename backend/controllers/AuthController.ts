@@ -19,7 +19,7 @@ const AuthController = {
           }
           res.json({
             user: mapUserProps(user),
-            token: _tokenGeneration(user),
+            token: _tokenGeneration(user)
           });
         }
       )(req, res, next);
@@ -35,17 +35,28 @@ const AuthController = {
           return res.status(400).json({ error: info.message });
         }
 
-        req.login(user, { session: false }, async (error) => {
+        req.login(user, { session: false }, async error => {
           if (error) return next(error);
           return res.json({
-            id: mapUserProps(user),
-            token: _tokenGeneration(user),
+            user: mapUserProps(user),
+            token: _tokenGeneration(user)
           });
         });
       })(req, res, next);
     } catch (err: any) {
       return res.status(500).json({ error: err.message });
     }
+  },
+  async googleLoginCallback(req: Request, res: Response) {
+    console.log(req.user);
+    if (!req.user) {
+      return res.status(400).json({ error: 'User not found', success: false });
+    }
+    return res.json({
+      user: mapUserProps(req.user as IUser),
+      token: _tokenGeneration(req.user as IUser)
+    });
+    res.redirect('http://localhost:3000/profile');
   },
   async forgotPassword(req: Request, res: Response) {
     try {
@@ -56,7 +67,7 @@ const AuthController = {
       if (!user) {
         return res.status(400).json({
           error: 'There is no user with this email address...',
-          success: false,
+          success: false
         });
       }
 
@@ -69,7 +80,7 @@ const AuthController = {
       if (!isOk) {
         return res.status(400).json({
           error: 'An error occurred while sending the email...',
-          success: false,
+          success: false
         });
       }
 
@@ -80,6 +91,15 @@ const AuthController = {
       return res.status(500).json({ error: err.message, success: false });
     }
   },
+  async signInFacebook(req: Request, res: Response) {
+    if (!req.user) {
+      return res.status(400).json({ error: 'User not found', success: false });
+    }
+    return res.json({
+      user: mapUserProps(req.user as IUser),
+      token: _tokenGeneration(req.user as IUser)
+    });
+  }
 };
 
 function _tokenGeneration(user: IUser) {
