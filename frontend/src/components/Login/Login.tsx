@@ -23,7 +23,8 @@ import {
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { emailValidation, passwordValidation } from 'utils/validation';
-import { PaperForm, AuthFormWrapper } from '../../theme';
+import { PaperForm } from '../design/PaperForm';
+import { AuthFormWrapper } from '../design/AuthFormWrapper';
 
 type SignIn = {
   email: string;

@@ -13,7 +13,8 @@ import {
 } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { PaperForm, AuthFormWrapper } from '../../theme';
+import { PaperForm } from '../design/PaperForm';
+import { AuthFormWrapper } from '../design/AuthFormWrapper';
 
 const { REACT_APP_API_URI } = process.env;
 

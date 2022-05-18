@@ -7,7 +7,7 @@ export interface locationState {
     dislikes: string[];
   };
   coordinates: [number, number];
-  photoSrc: string;
+  arrayPhotos: string[];
   description: string;
   comments: string[];
   isLoading: boolean;

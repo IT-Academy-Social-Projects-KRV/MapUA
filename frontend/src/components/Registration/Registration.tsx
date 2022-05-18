@@ -22,7 +22,8 @@ import {
   useFormState
 } from 'react-hook-form';
 import { emailValidation, passwordValidation } from 'utils/validation';
-import { PaperForm, AuthFormWrapper } from '../../theme';
+import { PaperForm } from '../design/PaperForm';
+import { AuthFormWrapper } from '../design/AuthFormWrapper';
 
 type SignUp = {
   email: string;

@@ -50,7 +50,7 @@ const PointPopup = () => {
   } = userLogin;
 
   const { _id: userId } = user;
-  const { _id, rating, locationName, description, photoSrc } = infoLocation;
+  const { _id, rating, locationName, description, arrayPhotos } = infoLocation;
 
   const handleCloseNotification = (
     e?: SyntheticEvent | Event,
@@ -148,7 +148,7 @@ const PointPopup = () => {
             pb: 0
           }}
           component="img"
-          image={photoSrc}
+          image={arrayPhotos[0]}
           alt={locationName}
         />
 

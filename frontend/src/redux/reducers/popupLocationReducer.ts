@@ -12,7 +12,7 @@ export const initialState: locationState = {
     dislikes: []
   },
   coordinates: [0, 0],
-  photoSrc: '',
+  arrayPhotos: [],
   description: '',
   comments: [],
   isLoading: false
