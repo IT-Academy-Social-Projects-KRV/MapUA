@@ -5,16 +5,12 @@ import Map from 'components/Map/index';
 import BigPopup from 'components/BigPopup/index';
 
 import BigPopupLocation from 'components/design/BigPopupLocation';
-// import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
-// import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import ChildrenBigPopupLocation from 'components/ChildrenBigPopupLocation/ChildrenBigPopupLocation';
 import { locationType } from '../../types';
 
 function HomeScreen() {
   // eslint-disable-next-line no-unused-vars
   const [isAuth, setIsAuth] = useState(true);
-  // const {} = useTypedDispatch();
-  // const { id } = useTypedSelector(state => state.user);
   const [isOpenLocationPopup, setIsOpenLocationPopup] = useState(false);
   const [isOpenLocacionForm, setIsOpenLocacionForm] = useState(false);
 
@@ -54,6 +50,7 @@ function HomeScreen() {
           onOpenLocationForm={onOpenLocationForm}
           isAuth={isAuth}
           setCoordinate={setCoordinate}
+          isOpen={isOpenLocacionForm}
         />
       </Box>
     </Box>
