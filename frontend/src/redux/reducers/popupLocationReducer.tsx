@@ -1,8 +1,8 @@
 import {
   LocationActions,
-  LocationActionTypes,
-  locationState
-} from 'redux/types/popupLocation';
+  LocationActionTypes
+} from 'redux/action-types/popupLocationActionTypes';
+import { locationState } from 'redux/ts-types/popupLocation';
 
 export const initialState: locationState = {
   _id: ' aa',
@@ -12,7 +12,7 @@ export const initialState: locationState = {
     dislikes: 0
   },
   coordinates: [0, 0],
-  photoSrc: '',
+  arrayPhotos: [],
   description: '',
   comments: [],
   isLoading: false

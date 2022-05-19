@@ -24,6 +24,9 @@ router.post('/forgot-password', AuthController.forgotPassword);
 
 router.get('/locations/:id', LocationsController.getLocationById);
 router.get('/locations/', LocationsController.getLocationsByZoom);
+
+router.put('/locations/comment', LocationsController.addLocationComments);
+
 router.post(
   '/locations/add',
   upload.array('image'),

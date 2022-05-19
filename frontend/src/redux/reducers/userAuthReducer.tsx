@@ -1,4 +1,8 @@
-import { UserAction, UserActionTypes, UserLoginState } from 'redux/types/user';
+import {
+  UserAuthAction,
+  UserAuthActionTypes
+} from 'redux/action-types/userAuthActionTypes';
+import { UserLoginState } from 'redux/ts-types/userAuth';
 
 const initialState: UserLoginState = {
   loading: false,
@@ -9,26 +13,26 @@ const initialState: UserLoginState = {
 
 export const userLoginReducer = (
   state = initialState,
-  action: UserAction
+  action: UserAuthAction
 ): UserLoginState => {
   switch (action.type) {
-    case UserActionTypes.USER_LOGIN_REQUEST:
+    case UserAuthActionTypes.USER_LOGIN_REQUEST:
       return { loading: true, error: null, isLogged: false, userInfo: {} };
-    case UserActionTypes.USER_LOGIN_SUCCESS:
+    case UserAuthActionTypes.USER_LOGIN_SUCCESS:
       return {
         loading: false,
         error: null,
         isLogged: true,
         userInfo: action.payload
       };
-    case UserActionTypes.USER_LOGIN_FAIL:
+    case UserAuthActionTypes.USER_LOGIN_FAIL:
       return {
         loading: false,
         error: action.payload,
         isLogged: false,
         userInfo: {}
       };
-    case UserActionTypes.USER_LOGOUT:
+    case UserAuthActionTypes.USER_LOGOUT:
       return { loading: false, error: null, isLogged: false, userInfo: {} };
     default:
       return state;

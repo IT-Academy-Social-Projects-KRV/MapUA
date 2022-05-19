@@ -38,7 +38,7 @@ function Login() {
   });
   const [showPassword, setShowPassword] = useState(false);
 
-  const { isLogged } = useTypedSelector(state => state.userLogin);
+  const { isLogged } = useTypedSelector(state => state.userAuth);
   const navigate = useNavigate();
 
   useEffect(() => {
