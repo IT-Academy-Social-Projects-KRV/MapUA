@@ -1,5 +1,5 @@
 {
-    "location_not_found": "Location doesn't exist",
+    "location_not_found": "Location not foundt",
     "locations_not_found": "Locations not found",
     "location_already_exist": "Location already exist",
     "comment_not_have_properties": "Comment doesn't have all needed properties",
@@ -7,5 +7,12 @@
     "location_add_success": "Location added successfully",
     "comment_add_success": "Your comment added successfully",
     "change_location_info_success": "Location info was successfully changed",
-    "user_not_exist": "User doesn't exist"
+    "user_not_exist": "User not found",
+    "password_send_error": "An error occurred while sending the password",
+    "password_send_success": "Password was sent successfully",
+    "token_not_provided": "Token wasn't provided",
+    "token_expired": "Token was expired. Date of expiration:",
+    "token_invalid": "Token is malformed",
+    "token_malformed": "Token is invalid",
+    "token_valid": "Token is valid"
 }
