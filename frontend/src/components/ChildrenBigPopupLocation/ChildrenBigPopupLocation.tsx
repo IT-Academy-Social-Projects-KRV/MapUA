@@ -84,6 +84,8 @@ const ChildrenBigPopupLocation = ({ coordinate }: Props) => {
     }
   };
 
+  console.log(files, 'files');
+
   const handleFormSubmit = async () => {
     const formData = new FormData();
 
@@ -110,7 +112,6 @@ const ChildrenBigPopupLocation = ({ coordinate }: Props) => {
       style={{
         width: '300px',
         height: '600px',
-        backgroundColor: 'tomato',
         textAlign: 'center',
         marginTop: '150px'
       }}
@@ -146,12 +147,14 @@ const ChildrenBigPopupLocation = ({ coordinate }: Props) => {
         type="file"
         onChange={e => handleFilesChange(e)}
       />
-      <Button variant="contained" component="span" onClick={handleFormSubmit}>
-        Upload
-      </Button>
-      <Button variant="contained" type="submit">
-        Done and submit
-      </Button>
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <Button variant="contained" component="span" onClick={handleFormSubmit}>
+          Upload
+        </Button>
+        <Button variant="contained" type="submit">
+          Done and submit
+        </Button>
+      </div>
     </form>
   );
 };
