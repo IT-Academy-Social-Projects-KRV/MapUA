@@ -1,12 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
-import {
-  MapContainer,
-  TileLayer,
-  useMapEvents
-  // Marker,
-  // Popup
-} from 'react-leaflet';
+import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Box, Button } from '@mui/material';
 import { LocationPopOut } from 'components/LocationPopOut/LocationPopOut';
@@ -16,44 +10,24 @@ import useDebounce from 'utils/useDebounce';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import L from 'leaflet';
-import BigPopup from 'components/BigPopup';
 
 interface Props {
   onOpenBigPopup: Function;
   onOpenLocationForm: Function;
   isAuth: boolean;
   setCoordinate: Function;
+  isOpen: boolean;
 }
-
-// function LocationMarker() {
-//   const [position, setPosition] = useState(null);
-//   const map = useMapEvents({
-//     click() {
-//       map.locate();
-//     },
-//     locationfound(e) {
-//       // @ts-ignore
-//       setPosition(e.latlng);
-//       map.flyTo(e.latlng, map.getZoom());
-//     }
-//   });
-
-//   return position === null ? null : (
-//     <Marker position={position}>
-//       <Popup>You are here</Popup>
-//     </Marker>
-//   );
-// }
 
 function Map({
   onOpenBigPopup,
   onOpenLocationForm,
   isAuth,
-  setCoordinate
+  setCoordinate,
+  isOpen
 }: Props) {
   const formRef = React.useRef<any>(null);
   const [coordinateByClick, SetCoordinateByClick] = useState<any>({});
-  const [showPopup, setShowPopup] = useState(null);
   const [isAddLocationActive, setIsAddLocationActive] = useState(false);
 
   const { bounds, locations, zoomPosition, locationName, selectedFilters } =
@@ -114,7 +88,7 @@ function Map({
           />
         ))}
         <SearchFormContainer />
-        {isAuth && (
+        {!isOpen && (
           <Button
             onClick={() => {
               setIsAddLocationActive(true);
@@ -131,8 +105,6 @@ function Map({
             Add location
           </Button>
         )}
-        {/* <LocationMarker /> */}
-        {/* {pressedButton } */}
       </MapContainer>
     </Box>
   );
