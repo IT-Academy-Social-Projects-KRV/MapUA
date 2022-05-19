@@ -1,0 +1,11 @@
+{
+    "location_not_found": "Location doesn't exist",
+    "locations_not_found": "Locations not found",
+    "location_already_exist": "Location already exist",
+    "comment_not_have_properties": "Comment doesn't have all needed properties",
+    "server_error": "Server error",
+    "location_add_success": "Location added successfully",
+    "comment_add_success": "Your comment added successfully",
+    "change_location_info_success": "Location info was successfully changed",
+    "user_not_exist": "User doesn't exist"
+}
