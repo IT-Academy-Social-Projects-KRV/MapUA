@@ -30,8 +30,14 @@ const UserController = {
   },
   async changeUserData(req: Request, res: Response) {
     try {
-      const { id, newUserData } = req.body;
-      
+      let { id, ...newUserData } = req.body;
+      const imageUrl:any = req.file
+      if(imageUrl){
+        newUserData= {
+          ... newUserData,
+          imageUrl:imageUrl.location
+        }
+      }
       const changeData = await User.findByIdAndUpdate(
         id,
         {
@@ -46,9 +52,8 @@ const UserController = {
     if (!changeData) {
       return res.status(400).json({ error: "User doesn't exist123" });
     }
-
     return res.status(200).json(changeData)
-
+    
     } catch(err: any) {
       return res.status(500).json({ error: err.message });
     }
