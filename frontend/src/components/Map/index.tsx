@@ -88,13 +88,14 @@ function Map({
         if (isAddLocationActive) {
           SetCoordinateByClick(e.latlng);
           onOpenLocationForm();
-          setCoordinate(coordinateByClick);
+          setCoordinate(e.latlng);
         }
       }
     });
     return null;
   }
 
+  console.log(setCoordinate(coordinateByClick));
   console.log(coordinateByClick);
 
   return (

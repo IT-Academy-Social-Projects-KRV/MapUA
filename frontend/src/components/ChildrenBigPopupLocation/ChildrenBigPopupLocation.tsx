@@ -1,5 +1,4 @@
 import { Input, TextareaAutosize, Typography, Button } from '@mui/material';
-import axios from 'axios';
 import React, { useState } from 'react';
 // import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 // import { useTypedSelector } from 'redux/hooks/useTypedSelector';
@@ -11,6 +10,7 @@ type Props = {
 const ChildrenBigPopupLocation = ({ coordinate }: Props) => {
   const [locationName, setLocationName] = useState('');
   const [description, setDescription] = useState('');
+  // eslint-disable-next-line no-unused-vars
   const [links, setLinks] = useState<string[]>([]);
   const [files, setFiles] = useState<File[]>([]);
 
@@ -40,20 +40,29 @@ const ChildrenBigPopupLocation = ({ coordinate }: Props) => {
 
   const accessToken = localStorage.getItem('accessToken');
 
+  console.log(coordinate, 'coordinate----->>>>>>>');
+
   const onSubmit = async (e: any) => {
     e.preventDefault();
     try {
+      const formData = new FormData();
+      formData.append('locationName', locationName);
+      formData.append('description', description);
+      Object.values(coordinate).forEach(itm =>
+        formData.append('coordinates', itm.toString())
+      );
+
+      console.log(formData, 'formData');
+
       console.log(
-        axios({
-          method: 'post',
-          url: `${proces}add_profile_location`,
-          headers: { Authorization: `Bearer ${accessToken}` },
-          data: {
-            locationName,
-            description,
-            links,
-            coordinate
-          }
+        fetch(`${proces}add_personal_location`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+            'Access-Control-Allow-Origin': '*'
+          },
+          body: formData
         })
       );
 

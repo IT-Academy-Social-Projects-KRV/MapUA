@@ -98,35 +98,44 @@ const LocationsController = {
   async addLocationComments(req: Request, res: Response) {
     try {
       const { id, comment } = req.body;
-      const commentProperties: string[] = ['author', 'text', 'likes', 'dislikes', 'createdAt', 'updatedAt'];
+      const commentProperties: string[] = [
+        'author',
+        'text',
+        'likes',
+        'dislikes',
+        'createdAt',
+        'updatedAt'
+      ];
       let isFullComment: boolean = true;
 
       commentProperties.forEach(field => {
         if (!Object.keys(comment).includes(field)) {
           isFullComment = false;
-          return res.status(410).json({error: `comment doesn't have ${field} property`});
+          return res
+            .status(410)
+            .json({ error: `comment doesn't have ${field} property` });
         }
       });
 
-      if(isFullComment) {
+      if (isFullComment) {
         const updateLocation = await Location.findByIdAndUpdate(
-            id,
-            {
-              $push: {
-                comments: comment
-              }
-            },
-            {
-              new: true
+          id,
+          {
+            $push: {
+              comments: comment
             }
+          },
+          {
+            new: true
+          }
         );
         if (!updateLocation) {
           return res.status(400).json({ error: "Location doesn't exist" });
         }
 
-        return res.status(200).json(updateLocation.comments)
+        return res.status(200).json(updateLocation.comments);
       }
-    } catch ( err: any ) {
+    } catch (err: any) {
       return res.status(500).json({ error: err.message });
     }
   },
@@ -163,6 +172,13 @@ const LocationsController = {
   async postPersonalLocation(req: Request, res: Response) {
     try {
       const { locationName, description, coordinates } = req.body;
+
+      console.log(
+        'locationName, description, coordinates>>>>>>>>>>>>> ',
+        locationName,
+        description,
+        coordinates
+      );
 
       const location = await Location.find({ coordinates: coordinates });
 
