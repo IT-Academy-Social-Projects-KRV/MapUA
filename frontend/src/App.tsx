@@ -10,6 +10,7 @@ import Registration from 'components/Registration/Registration';
 import ComposeComponents from 'redux/components/ComposeComponents';
 import Profile from 'components/Profile/Profile';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
+import './i18n/config';
 
 function App() {
   const { isLogged } = useTypedSelector(state => state.userLogin);
