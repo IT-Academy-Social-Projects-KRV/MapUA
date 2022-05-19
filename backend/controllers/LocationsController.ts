@@ -171,7 +171,7 @@ const LocationsController = {
 
   async postPersonalLocation(req: Request, res: Response) {
     try {
-      const { locationName, description, coordinates } = req.body;
+      const { locationName, description, coordinates, filters } = req.body;
 
       const location = await Location.find({ coordinates: coordinates });
 
@@ -199,7 +199,7 @@ const LocationsController = {
             likes: [],
             dislikes: []
           },
-          filters: [],
+          filters: filters.split(','),
           author: _id
         });
 
