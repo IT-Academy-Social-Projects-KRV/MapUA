@@ -1,13 +1,31 @@
-import { Box, Button, FormControl, TextField } from '@mui/material';
-import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
 import React, { useState } from 'react';
+import { Box, Button, FormControl, TextField } from '@mui/material';
+import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
+import { useTypedSelector } from 'redux/hooks/useTypedSelector';
+import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
+import { Comment } from '../../../redux/ts-types/popupLocation';
 
-const CommentFrom = () => {
+const CommentForm = () => {
   const [commentText, setCommentText] = useState('');
+  const { sendComment } = useTypedDispatch();
+  // const { userInfo } = useTypedSelector(state => state.userAuth);
+  const { _id } = useTypedSelector(state => state.popupLocation);
 
   const onSendComment = () => {
-
-  }
+    const commentDate = {
+      type: new Date(),
+      default: null
+    };
+    const commentBody: Comment = {
+      author: '',
+      text: commentText,
+      likes: [],
+      dislikes: [],
+      createdAt: commentDate,
+      updatedAt: commentDate
+    };
+    sendComment(_id!, commentBody);
+  };
 
   return (
     <Box
@@ -48,4 +66,4 @@ const CommentFrom = () => {
   );
 };
 
-export default CommentFrom;
+export default CommentForm;

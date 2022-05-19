@@ -1,9 +1,9 @@
-import { Strategy as JWTstrategy, ExtractJwt } from "passport-jwt";
+import { Strategy as JWTstrategy, ExtractJwt } from 'passport-jwt';
 
 const jwtStrategy = new JWTstrategy(
   {
     secretOrKey: process.env.ACCESS_TOKEN_SECRET,
-    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken()
   },
   async (token, done) => {
     try {

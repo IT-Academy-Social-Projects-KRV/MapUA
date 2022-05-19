@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 type ratingType = {
   likes: string[];
@@ -10,22 +10,16 @@ type commentType = {
   text: string;
   likes: string[];
   dislikes: string[];
-  createdAt: {
-    type: Date;
-    default: null;
-  };
-  updatedAt: {
-    type: Date;
-    default: null;
-  };
+  createdAt: Date;
+  updatedAt: Date;
 };
 export interface ILocation extends Document {
   locationName: string;
   coordinates: [number, number];
-  photoSrc: string;
+  arrayPhotos: string[];
   description: string;
   rating: ratingType;
-  comments?: commentType;
+  comments: commentType[];
   filters: string[];
   author: string;
 }
@@ -35,13 +29,13 @@ const schema = new mongoose.Schema({
   coordinates: [],
   arrayPhotos: { type: Array, required: false },
   description: { type: String },
-  comments: { type: Object, default: {} },
+  comments: { type: Array, default: [] },
   rating: {
     likes: { type: Array, default: [] },
-    dislikes: { type: Array, default: [] },
+    dislikes: { type: Array, default: [] }
   },
   filters: { type: Array, default: [] },
-  author: { type: String, required: true },
+  author: { type: String, required: true }
 });
 
-export default mongoose.model<ILocation>("Location", schema);
+export default mongoose.model<ILocation>('Location', schema);

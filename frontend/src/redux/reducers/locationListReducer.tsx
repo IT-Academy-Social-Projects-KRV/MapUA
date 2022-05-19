@@ -1,8 +1,8 @@
 import {
   LocationListActions,
-  LocationsListActionsType,
-  locationsListStateType
-} from 'redux/types/locationList';
+  LocationsListActionsType
+} from 'redux/action-types/locationListActionTypes';
+import { locationsListStateType } from 'redux/ts-types/locationList';
 
 const initialState: locationsListStateType = {
   locations: [],

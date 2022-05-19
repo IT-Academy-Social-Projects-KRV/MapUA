@@ -12,25 +12,11 @@ import Profile from 'components/Profile/Profile';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 
 function App() {
-  const { isLogged } = useTypedSelector(state => state.userLogin);
+  const { isLogged } = useTypedSelector(state => state.userAuth);
   return (
     <BrowserRouter>
       <GlobalStyles
         styles={{
-          html: {
-            height: '100vh',
-            width: '100%'
-          },
-          '*, *::before, *::after': {
-            boxSizing: 'border-box',
-            padding: 0,
-            margin: 0,
-            border: 0
-          },
-          body: {
-            height: '100vh',
-            width: '100%'
-          },
           '#root': {
             display: 'flex',
             flexDirection: 'column',

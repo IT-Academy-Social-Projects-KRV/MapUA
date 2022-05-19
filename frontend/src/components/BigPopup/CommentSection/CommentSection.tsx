@@ -1,23 +1,11 @@
-import {
-  Box,
-  CardContent,
-  List,
-  Typography,
-  FormControl,
-  TextField,
-  Button,
-  Divider,
-  ListItem,
-  ListItemAvatar,
-  Avatar,
-  ListItemText,
-  Link
-} from '@mui/material';
-import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
-import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
 import React from 'react';
+import { CardContent, Divider, List, Typography } from '@mui/material';
+import { useTypedSelector } from 'redux/hooks/useTypedSelector';
+import CommentForm from './CommentForm';
+import Comment from './Comment';
 
 const CommentSection = () => {
+  const { comments } = useTypedSelector(state => state.popupLocation);
   return (
     <CardContent>
       <Typography
@@ -35,53 +23,11 @@ const CommentSection = () => {
           bgcolor: 'background.paper'
         }}
       >
-
+        <CommentForm />
         <Divider variant="inset" component="li" />
-        <ListItem alignItems="flex-start" sx={{ pl: 0 }}>
-          <ListItemAvatar>
-            <Avatar
-              alt="Vasya"
-              src="https://cdn-icons-png.flaticon.com/512/147/147142.png"
-            />
-          </ListItemAvatar>
-          <ListItemText
-            primary="Nice place..."
-            secondary={
-              <Typography
-                sx={{ display: 'inline' }}
-                component="span"
-                variant="body2"
-                color="text.primary"
-              />
-            }
-          />
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              gap: 3,
-              alignSelf: 'flex-end'
-            }}
-          >
-            <Link
-              href="/"
-              sx={{ color: 'text.secondary' }}
-              component="button"
-              underline="none"
-            >
-              <ThumbUpOutlinedIcon fontSize="small" />
-            </Link>
-
-            <Link
-              href="/"
-              sx={{ color: 'text.secondary' }}
-              component="button"
-              underline="none"
-            >
-              <ThumbDownAltOutlinedIcon fontSize="small" />
-            </Link>
-          </Box>
-        </ListItem>
+        {comments.map(({ text, author, createdAt }) => (
+          <Comment key={author + text + createdAt.type} text={text} />
+        ))}
       </List>
     </CardContent>
   );
