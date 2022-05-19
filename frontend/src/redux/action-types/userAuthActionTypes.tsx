@@ -1,3 +1,5 @@
+import { UserInfo } from 'redux/ts-types/userAuth';
+
 /* eslint-disable no-unused-vars */
 export enum UserAuthActionTypes {
   USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST',
@@ -10,7 +12,7 @@ interface LoginUserRequestAction {
 }
 interface LoginUserSuccessAction {
   type: UserAuthActionTypes.USER_LOGIN_SUCCESS;
-  payload: string;
+  payload: UserInfo;
 }
 interface LoginUserFailAction {
   type: UserAuthActionTypes.USER_LOGIN_FAIL;

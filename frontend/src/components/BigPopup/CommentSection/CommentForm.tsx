@@ -8,7 +8,7 @@ import { Comment } from '../../../redux/ts-types/popupLocation';
 const CommentForm = () => {
   const [commentText, setCommentText] = useState('');
   const { sendComment } = useTypedDispatch();
-  // const { userInfo } = useTypedSelector(state => state.userAuth);
+  const { userInfo } = useTypedSelector(state => state.userAuth);
   const { _id } = useTypedSelector(state => state.popupLocation);
 
   const onSendComment = () => {
@@ -16,8 +16,9 @@ const CommentForm = () => {
       type: new Date(),
       default: null
     };
+    /* eslint no-underscore-dangle: 0 */
     const commentBody: Comment = {
-      author: '',
+      author: userInfo.user._id,
       text: commentText,
       likes: [],
       dislikes: [],

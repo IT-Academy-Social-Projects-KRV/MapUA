@@ -6,6 +6,7 @@ import Comment from './Comment';
 
 const CommentSection = () => {
   const { comments } = useTypedSelector(state => state.popupLocation);
+  const { isLogged } = useTypedSelector(state => state.userAuth);
   return (
     <CardContent>
       <Typography
@@ -23,10 +24,14 @@ const CommentSection = () => {
           bgcolor: 'background.paper'
         }}
       >
-        <CommentForm />
-        <Divider variant="inset" component="li" />
+        {isLogged && <CommentForm />}
+        {isLogged && <Divider variant="inset" component="li" />}
         {comments.map(({ text, author, createdAt }) => (
-          <Comment key={author + text + createdAt.type} text={text} />
+          <Comment
+            key={author + text + createdAt.type}
+            createdAt={createdAt.type}
+            text={text}
+          />
         ))}
       </List>
     </CardContent>

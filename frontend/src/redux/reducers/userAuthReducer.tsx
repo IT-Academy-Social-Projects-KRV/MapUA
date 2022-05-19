@@ -2,13 +2,13 @@ import {
   UserAuthAction,
   UserAuthActionTypes
 } from 'redux/action-types/userAuthActionTypes';
-import { UserLoginState } from 'redux/ts-types/userAuth';
+import { UserInfo, UserLoginState } from 'redux/ts-types/userAuth';
 
 const initialState: UserLoginState = {
   loading: false,
   error: null,
   isLogged: false,
-  userInfo: {}
+  userInfo: {} as UserInfo
 };
 
 export const userLoginReducer = (
@@ -17,7 +17,12 @@ export const userLoginReducer = (
 ): UserLoginState => {
   switch (action.type) {
     case UserAuthActionTypes.USER_LOGIN_REQUEST:
-      return { loading: true, error: null, isLogged: false, userInfo: {} };
+      return {
+        loading: true,
+        error: null,
+        isLogged: false,
+        userInfo: {} as UserInfo
+      };
     case UserAuthActionTypes.USER_LOGIN_SUCCESS:
       return {
         loading: false,
@@ -30,10 +35,15 @@ export const userLoginReducer = (
         loading: false,
         error: action.payload,
         isLogged: false,
-        userInfo: {}
+        userInfo: {} as UserInfo
       };
     case UserAuthActionTypes.USER_LOGOUT:
-      return { loading: false, error: null, isLogged: false, userInfo: {} };
+      return {
+        loading: false,
+        error: null,
+        isLogged: false,
+        userInfo: {} as UserInfo
+      };
     default:
       return state;
   }
