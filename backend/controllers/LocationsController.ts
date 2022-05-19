@@ -48,7 +48,7 @@ const LocationsController = {
       }
       return res.json({ locations });
     } catch (err: any) {
-      return res.status(500).json({ error: req.t('server_error') });
+      return res.status(500).json({ error: req.t('server_error'), err });
     }
   },
   async getLocationById(req: Request, res: Response) {
@@ -89,7 +89,7 @@ const LocationsController = {
         res.status(400).json({ error: req.t('location_already_exist') });
       }
     } catch (err: any) {
-      return res.status(500).json({ error: req.t('location_already_exist') });
+      return res.status(500).json({ error: req.t('server_error'), err });
     }
   },
   async addLocationComments(req: Request, res: Response) {
@@ -133,7 +133,7 @@ const LocationsController = {
         return res.status(200).json({ message: req.t('comment_add_success') });
       }
     } catch (err: any) {
-      return res.status(500).json({ error: err.message });
+      return res.status(500).json({ error: req.t('server_error'), err });
     }
   },
   async changeLocationInfo(req: Request, res: Response) {
@@ -164,7 +164,7 @@ const LocationsController = {
         res.status(400).json({ error: req.t('location_not_found') });
       }
     } catch (err: any) {
-      return res.status(500).json({ error: err.message });
+      return res.status(500).json({ error: req.t('server_error'), err });
     }
   },
 
@@ -211,7 +211,7 @@ const LocationsController = {
         res.status(400).json({ error: req.t('location_already_exist') });
       }
     } catch (err: any) {
-      return res.status(500).json({ error: req.t('location_already_exist') });
+      return res.status(500).json({ error: req.t('server_error'), err });
     }
   }
 };

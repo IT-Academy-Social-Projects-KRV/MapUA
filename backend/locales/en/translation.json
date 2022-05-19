@@ -11,7 +11,7 @@
     "password_send_error": "An error occurred while sending the password",
     "password_send_success": "Password was sent successfully",
     "token_not_provided": "Token wasn't provided",
-    "token_expired": "Token was expired. Date of expiration:",
+    "token_expired": "Token was expired.",
     "token_invalid": "Token is malformed",
     "token_malformed": "Token is invalid",
     "token_valid": "Token is valid"
