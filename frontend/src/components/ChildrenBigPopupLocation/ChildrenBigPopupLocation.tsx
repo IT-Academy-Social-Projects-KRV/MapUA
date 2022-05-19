@@ -1,34 +1,30 @@
-import { Input, TextareaAutosize, Typography, Button } from '@mui/material';
+import {
+  Input,
+  TextareaAutosize,
+  Typography,
+  Button,
+  Autocomplete,
+  TextField
+} from '@mui/material';
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { latlngType } from '../../../types';
-// import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
-// import { useTypedSelector } from 'redux/hooks/useTypedSelector';
+import { getFiltersForUser } from '../../static/mainFIlters';
 
 type Props = {
   coordinate: latlngType;
 };
 
 const ChildrenBigPopupLocation = ({ coordinate }: Props) => {
+  const ref = useRef<null | HTMLInputElement>();
+  const [filters, setFilters] = useState('');
+
   const [locationName, setLocationName] = useState('');
   const [description, setDescription] = useState('');
   // eslint-disable-next-line no-unused-vars
   const [links, setLinks] = useState<string[]>([]);
+  // eslint-disable-next-line no-unused-vars
   const [files, setFiles] = useState<File[]>([]);
-
-  const handleFilesChange = (e: any) => {
-    const { files: filesLst } = e.currentTarget;
-    const filesListArr = [];
-
-    if (filesLst) {
-      for (let i = 0; i < filesLst.length; i += 1) {
-        filesListArr.push(filesLst[i]);
-      }
-
-      setFiles(filesListArr);
-    }
-  };
-  // const [images, SetImages] = UseState([]);
 
   const proces = process.env.REACT_APP_API_URI;
 
@@ -45,46 +41,47 @@ const ChildrenBigPopupLocation = ({ coordinate }: Props) => {
   const onSubmit = async (e: any) => {
     e.preventDefault();
     try {
-      console.log('coordinate', coordinate);
       const formData = new FormData();
       formData.append('locationName', locationName);
       formData.append('description', description);
       formData.append('coordinates', String(coordinate.lat));
       formData.append('coordinates', String(coordinate.lng));
+      formData.append('filters', String(filters));
+      formData.append('image', files[0]);
 
-      console.log(formData, 'formData');
-
-      const data = await axios.post(
-        `${proces}add_personal_location`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`
-          }
+      await axios.post(`${proces}add_personal_location`, formData, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'multipart/form-data'
         }
-      );
-
-      console.log('data', data);
-
-      // console.log(
-      //   fetch(`${proces}add_personal_location`, {
-      //     method: 'POST',
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //       Authorization: `Bearer ${accessToken}`
-      //     },
-      //     body: formData
-      //   })
-      // );
+      });
 
       setLocationName('');
       setDescription('');
+      if (ref.current) {
+        ref.current.value = '';
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
-  console.log(files, 'files');
+  const onChangeAutocomlete = (e: any, value: any) => {
+    setFilters(value);
+  };
+
+  const handleFilesChange = (e: any) => {
+    const { files: filesLst } = e.currentTarget;
+    const filesListArr = [];
+
+    if (filesLst) {
+      for (let i = 0; i < filesLst.length; i += 1) {
+        filesListArr.push(filesLst[i]);
+      }
+
+      setFiles(filesListArr);
+    }
+  };
 
   const handleFormSubmit = async () => {
     const formData = new FormData();
@@ -92,13 +89,10 @@ const ChildrenBigPopupLocation = ({ coordinate }: Props) => {
     const urls = await Promise.all(
       files.map(async file => {
         formData.set('file', file);
-        const res = await fetch(
-          `${process.env.REACT_APP_API_URI}/uploadImage`,
-          {
-            method: 'POST',
-            body: formData
-          }
-        );
+        const res = await fetch(`${process.env.REACT_APP_API_URI}uploadImage`, {
+          method: 'POST',
+          body: formData
+        });
 
         return res.json();
       })
@@ -118,7 +112,7 @@ const ChildrenBigPopupLocation = ({ coordinate }: Props) => {
     >
       <Typography>Creating location</Typography>
 
-      <img
+      {/* <img
         src=""
         alt=""
         style={{
@@ -126,7 +120,7 @@ const ChildrenBigPopupLocation = ({ coordinate }: Props) => {
           height: '200px',
           backgroundColor: 'white'
         }}
-      />
+      /> */}
       <Input
         type="text"
         value={locationName}
@@ -142,10 +136,30 @@ const ChildrenBigPopupLocation = ({ coordinate }: Props) => {
         placeholder="Minimum 3 rows"
         style={{ width: 200 }}
       />
+
+      <Autocomplete
+        multiple
+        id="tags-outlined"
+        options={getFiltersForUser()}
+        getOptionLabel={option => option}
+        // defaultValue={[autocompleteFilters[0]]}
+        filterSelectedOptions
+        onChange={(e, values) => onChangeAutocomlete(e, values)}
+        renderInput={params => (
+          <TextField
+            {...params}
+            value={filters}
+            label="filterSelectedOptions"
+            placeholder="Favorites"
+          />
+        )}
+      />
+
       <Input
         id="contained-button-file"
         type="file"
         onChange={e => handleFilesChange(e)}
+        ref={ref}
       />
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <Button variant="contained" component="span" onClick={handleFormSubmit}>
