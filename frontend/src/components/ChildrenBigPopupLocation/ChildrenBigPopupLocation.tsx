@@ -1,10 +1,12 @@
 import { Input, TextareaAutosize, Typography, Button } from '@mui/material';
+import axios from 'axios';
 import React, { useState } from 'react';
+import { latlngType } from '../../../types';
 // import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 // import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 
 type Props = {
-  coordinate: [number, number];
+  coordinate: latlngType;
 };
 
 const ChildrenBigPopupLocation = ({ coordinate }: Props) => {
@@ -40,31 +42,40 @@ const ChildrenBigPopupLocation = ({ coordinate }: Props) => {
 
   const accessToken = localStorage.getItem('accessToken');
 
-  console.log(coordinate, 'coordinate----->>>>>>>');
-
   const onSubmit = async (e: any) => {
     e.preventDefault();
     try {
+      console.log('coordinate', coordinate);
       const formData = new FormData();
       formData.append('locationName', locationName);
       formData.append('description', description);
-      Object.values(coordinate).forEach(itm =>
-        formData.append('coordinates', itm.toString())
-      );
+      formData.append('coordinates', String(coordinate.lat));
+      formData.append('coordinates', String(coordinate.lng));
 
       console.log(formData, 'formData');
 
-      console.log(
-        fetch(`${proces}add_personal_location`, {
-          method: 'POST',
+      const data = await axios.post(
+        `${proces}add_personal_location`,
+        formData,
+        {
           headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
-            'Access-Control-Allow-Origin': '*'
-          },
-          body: formData
-        })
+            Authorization: `Bearer ${accessToken}`
+          }
+        }
       );
+
+      console.log('data', data);
+
+      // console.log(
+      //   fetch(`${proces}add_personal_location`, {
+      //     method: 'POST',
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //       Authorization: `Bearer ${accessToken}`
+      //     },
+      //     body: formData
+      //   })
+      // );
 
       setLocationName('');
       setDescription('');

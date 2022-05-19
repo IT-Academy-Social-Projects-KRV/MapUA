@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.post(
   '/add_personal_location',
-  // upload.array('image'),
+  upload.array('image'),
   passport.authenticate('jwt', { session: false }),
   LocationsController.postPersonalLocation
 );

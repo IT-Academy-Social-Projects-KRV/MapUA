@@ -95,9 +95,6 @@ function Map({
     return null;
   }
 
-  console.log(setCoordinate(coordinateByClick));
-  console.log(coordinateByClick);
-
   return (
     <Box sx={{ height: '100%', width: '100%' }} ref={formRef}>
       <MapContainer

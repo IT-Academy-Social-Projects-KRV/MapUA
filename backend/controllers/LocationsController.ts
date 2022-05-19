@@ -172,14 +172,6 @@ const LocationsController = {
   async postPersonalLocation(req: Request, res: Response) {
     try {
       const { locationName, description, coordinates } = req.body;
-
-      console.log(
-        'locationName, description, coordinates>>>>>>>>>>>>> ',
-        locationName,
-        description,
-        coordinates
-      );
-
       const location = await Location.find({ coordinates: coordinates });
 
       const imageUrls: string[] = [];
@@ -209,6 +201,8 @@ const LocationsController = {
           filters: [],
           author: _id
         });
+
+        console.log('userLocation', userLocation)
 
         const result = await userLocation.save();
 
