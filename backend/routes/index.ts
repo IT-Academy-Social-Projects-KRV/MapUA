@@ -65,4 +65,6 @@ router.get(
   AuthController.signInFacebook
 );
 
+router.get('/is-authenticated', AuthController.checkJwt);
+
 export default router;
