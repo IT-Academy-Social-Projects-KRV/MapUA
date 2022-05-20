@@ -43,11 +43,17 @@ export default function ProfilePage({
     }
   });
   const [showEditPanel, setShowEditPanel] = useState(false);
+  const [userImage, setUserImage] = useState<File | null>();
+
   const onSubmit: SubmitHandler<UserForm> = async data => {
     console.log(data);
     const formData = new FormData();
-    const file = data.imageUrl;
-    formData.append('image', file[0]);
+    // const file = data.imageUrl;
+    console.log('userImageuserImage', userImage);
+    if (userImage) {
+      formData.append('image', userImage);
+    }
+
     formData.append('id', id);
     formData.append('displayName', data.displayName);
     formData.append('description', data.description);
@@ -92,7 +98,11 @@ export default function ProfilePage({
                 <ProfileAvatar aria-label="avatar" src={imageUrl} />
                 Upload Photo
                 <Box>
-                  <input type="file" {...register('imageUrl')} />
+                  <input
+                    type="file"
+                    {...register('imageUrl')}
+                    onChange={e => setUserImage(e.target?.files?.[0])}
+                  />
                 </Box>
               </UploadBox>
               <Controller
