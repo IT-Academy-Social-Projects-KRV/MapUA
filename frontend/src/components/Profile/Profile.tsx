@@ -13,6 +13,7 @@ function Profile() {
   const navigate = useNavigate();
 
   const { data, error, loading } = useTypedSelector(state => state.user);
+  console.log(data);
   const { fetchUser } = useTypedDispatch();
 
   useEffect(() => {

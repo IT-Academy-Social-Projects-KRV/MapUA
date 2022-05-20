@@ -2,51 +2,83 @@ import axios from 'axios';
 import { UserAction, UserActionTypes, UserLoginState } from 'redux/types/user';
 
 const accessToken = localStorage.getItem('accessToken');
-// function ok() {
-//   return true;
-// }
-// eslint-disable-next-line consistent-return
-function aaa() {
-  let isSuccess: any = 1;
-  const checkIsUserAuth = async (token: string | null) => {
-    try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_API_URI}profile`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }
-      );
-      if (response.status === 200) {
-        console.log('User authorized');
-        isSuccess = true;
-        // console.log('isSuccess', isSuccess);
-      }
-      // return isSuccess;
-    } catch (e) {
-      console.log(e);
-      isSuccess = false;
-    }
-  };
-  checkIsUserAuth(accessToken);
-  console.log('isSuccess', isSuccess);
-  return isSuccess;
-}
-console.log('aaa()', aaa());
 
-function ifAccessTokenExist() {
+// (checkIsUserAuth = async (token: string | null) => {
+//   const response = await axios.get(
+//     `${process.env.REACT_APP_API_URI}is-authenticated`,
+//     {
+//       headers: {
+//         Authorization: `Bearer ${token}`
+//       }
+//     }
+//   );
+//   // console.log(response.data.success);
+//   data = await response.data.success;
+//   return data)()
+
+const checkIsUserAuth = async (token: string | null) => {
+  let result;
+  try {
+    const response = await axios.get(
+      `${process.env.REACT_APP_API_URI}is-authenticated`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+    result = response.data.success;
+  } catch (e) {
+    console.log(e);
+  }
+  return result;
+};
+
+console.log(
+  'checkIsUserAuth(accessToken)',
+  checkIsUserAuth(accessToken).then(result => result)
+);
+
+const respon = axios.get(`${process.env.REACT_APP_API_URI}is-authenticated`, {
+  headers: {
+    Authorization: `Bearer ${accessToken}`
+  }
+});
+console.log('respon', respon);
+
+// const text = checkIsUserAuth(accessToken);
+// console.log('text', text);
+
+function ifAccessTokenExist(): any {
   if (!accessToken) {
     return false;
   }
-  return aaa();
+  return axios
+    .get(`${process.env.REACT_APP_API_URI}is-authenticated`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    })
+    .then(response => response.data.success);
+  // .then(res => {
+  //   console.log('res', res);
+  //   return res.success;
+  // });
 }
+
+const token = ifAccessTokenExist().then(
+  (response: any) => response.data.success
+);
+
+console.log('token', token);
+
 console.log('ifAccessTokenExist()', ifAccessTokenExist());
+// console.log('isAuth', isAuth);
 
 const initialState: UserLoginState = {
   loading: false,
   error: null,
-  isAuthorized: ifAccessTokenExist(),
+  isAuthorized: false,
   userInfo: {}
 };
 
