@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import HomeScreen from 'screens/HomeScreen';
@@ -10,10 +10,18 @@ import Registration from 'components/Registration/Registration';
 import ComposeComponents from 'redux/components/ComposeComponents';
 import Profile from 'components/Profile/Profile';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
+import { useTypedDispatch } from './redux/hooks/useTypedDispatch';
+
+const accessToken = localStorage.getItem('accessToken');
 
 function App() {
   const { isAuthorized } = useTypedSelector(state => state.userLogin);
-  console.log('isAuthorized', isAuthorized);
+  const { checkIsUserAuthorized } = useTypedDispatch();
+  useEffect(() => {
+    if (accessToken) {
+      checkIsUserAuthorized(accessToken);
+    }
+  }, []);
 
   return (
     <BrowserRouter>

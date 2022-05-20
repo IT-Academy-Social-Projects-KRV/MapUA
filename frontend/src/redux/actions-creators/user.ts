@@ -66,13 +66,14 @@ export const checkIsUserAuthorized =
   (accessToken: string) => async (dispatch: Dispatch<UserAction>) => {
     try {
       dispatch({ type: UserActionTypes.IF_USER_AUTORIZED_REQUEST });
-      await axios.get(`${REACT_APP_API_URI}profile`, {
+      const response = await axios.get(`${REACT_APP_API_URI}is-authenticated`, {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
       });
       dispatch({
-        type: UserActionTypes.IF_USER_AUTORIZED_SUCCESS
+        type: UserActionTypes.IF_USER_AUTORIZED_SUCCESS,
+        payload: response.data.success
       });
     } catch (e) {
       dispatch({

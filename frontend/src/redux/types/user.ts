@@ -80,9 +80,11 @@ interface IsUserAuthorizedRequestAction {
 }
 interface IsUserAuthorizedSucsessAction {
   type: UserActionTypes.IF_USER_AUTORIZED_SUCCESS;
+  payload: boolean;
 }
 interface IsUserAuthorizedErrorAction {
   type: UserActionTypes.IF_USER_AUTORIZED_ERROR;
+  payload: string;
 }
 
 export type UserAction =

@@ -7,7 +7,7 @@ import { StyledAppBar, StyledStack } from './style';
 
 function NavBar() {
   const { isAuthorized } = useTypedSelector(state => state.userLogin);
-  console.log('NavBar', isAuthorized);
+  // console.log('NavBar', isAuthorized);
 
   return (
     <StyledAppBar>
