@@ -1,10 +1,9 @@
 import axios from 'axios';
 import { Dispatch } from 'redux';
-
 import {
   LocationActions,
   LocationActionTypes
-} from 'redux/types/popupLocation';
+} from 'redux/action-types/popupLocationActionTypes';
 
 const { REACT_APP_API_URI } = process.env;
 
@@ -23,8 +22,8 @@ export const fetchPopupLocation =
           type: LocationActionTypes.LOADING_END
         });
       }
-    } catch (e) {
-      console.error(e);
+    } catch (e: any) {
+      throw new Error(e);
     }
   };
 

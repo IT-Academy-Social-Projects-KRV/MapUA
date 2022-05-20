@@ -1,5 +1,5 @@
+import { resolveSoa } from 'dns';
 import { Response, Request } from 'express';
-import { TupleTypeReference } from 'typescript';
 import Location from '../models/Locations';
 import User from '../models/UserModel';
 
@@ -63,7 +63,6 @@ const LocationsController = {
       return res.status(500).json({ error: err.message });
     }
   },
-
   //TODO - This is test controller
   async addLocation(req: Request, res: Response) {
     try {
@@ -91,6 +90,41 @@ const LocationsController = {
         res.status(400).json({ error: 'Data is present' });
       }
     } catch (err: any) {
+      return res.status(500).json({ error: err.message });
+    }
+  },
+  async addLocationComments(req: Request, res: Response) {
+    try {
+      const { id, comment } = req.body;
+      const commentProperties: string[] = ['author', 'text', 'likes', 'dislikes', 'createdAt', 'updatedAt'];
+      let isFullComment: boolean = true;
+
+      commentProperties.forEach(field => {
+        if (!Object.keys(comment).includes(field)) {
+          isFullComment = false;
+          return res.status(410).json({error: `comment doesn't have ${field} property`});
+        }
+      });
+
+      if(isFullComment) {
+        const updateLocation = await Location.findByIdAndUpdate(
+            id,
+            {
+              $push: {
+                comments: comment
+              }
+            },
+            {
+              new: true
+            }
+        );
+        if (!updateLocation) {
+          return res.status(400).json({ error: "Location doesn't exist" });
+        }
+
+        return res.status(200).json(updateLocation.comments)
+      }
+    } catch ( err: any ) {
       return res.status(500).json({ error: err.message });
     }
   },

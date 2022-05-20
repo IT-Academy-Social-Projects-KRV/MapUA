@@ -8,8 +8,8 @@ const options = {
   port: Number(MAILTRAP_PORT),
   auth: {
     user: MAILTRAP_AUTH_USER,
-    pass: MAILTRAP_AUTH_PASS,
-  },
+    pass: MAILTRAP_AUTH_PASS
+  }
 };
 
 const transport = nodemailer.createTransport(options);
@@ -23,7 +23,7 @@ export const sendForgotPasswordMail = async (
       from: 'MapUA <noreply@mapua.com.ua>',
       to: email,
       subject: 'New Password',
-      text: `Your new password: ${password}`,
+      text: `Your new password: ${password}`
     });
     return res;
   } catch (error) {
