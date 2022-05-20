@@ -28,7 +28,7 @@ i18next
 const app = express();
 
 app.use(middleware.handle(i18next));
-// https://stackoverflow.com/questions/23259168/what-are-express-json-and-express-urlencoded
+
 app.use(passport.initialize());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
