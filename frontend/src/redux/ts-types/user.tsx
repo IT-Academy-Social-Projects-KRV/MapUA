@@ -1,4 +1,5 @@
 type UserDataType = {
+  _id: string;
   email: string;
   createdAt: Date | string;
   updatedAt: Date | string;
