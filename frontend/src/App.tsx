@@ -15,7 +15,7 @@ import { useTypedDispatch } from './redux/hooks/useTypedDispatch';
 const accessToken = localStorage.getItem('accessToken');
 
 function App() {
-  const { isAuthorized } = useTypedSelector(state => state.userLogin);
+  const { isAuthorized } = useTypedSelector(state => state.userAuth);
   const { checkIsUserAuthorized } = useTypedDispatch();
   useEffect(() => {
     if (accessToken) {
@@ -39,8 +39,16 @@ function App() {
       <NavBar />
       <Routes>
         <Route path="/" element={<HomeScreen />} />
-        <Route path="/registration" element={<Registration />} />
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/registration"
+          element={
+            isAuthorized ? <Navigate to="/" replace /> : <Registration />
+          }
+        />
+        <Route
+          path="/login"
+          element={isAuthorized ? <Navigate to="/" replace /> : <Login />}
+        />
         <Route
           path="/forgot-password"
           element={

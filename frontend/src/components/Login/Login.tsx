@@ -38,7 +38,7 @@ function Login() {
   });
   const [showPassword, setShowPassword] = useState(false);
 
-  const { isAuthorized } = useTypedSelector(state => state.userLogin);
+  const { isAuthorized } = useTypedSelector(state => state.userAuth);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -53,9 +53,9 @@ function Login() {
   const { errors } = useFormState({
     control
   });
-  // const handleClickGoogle = () => {
-  //   window.open('http://localhost:3001/api/google', '_self');
-  // };
+  const handleClickGoogle = () => {
+    window.open('http://localhost:3001/api/google', '_self');
+  };
 
   const handleMouseDownPassword = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();

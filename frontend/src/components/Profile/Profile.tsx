@@ -11,7 +11,7 @@ import { useTypedDispatch } from '../../redux/hooks/useTypedDispatch';
 
 function Profile() {
   const navigate = useNavigate();
-  const { isAuthorized } = useTypedSelector(state => state.userLogin);
+  const { isAuthorized } = useTypedSelector(state => state.userAuth);
   const { data, error, loading } = useTypedSelector(state => state.user);
 
   const { fetchUser } = useTypedDispatch();
