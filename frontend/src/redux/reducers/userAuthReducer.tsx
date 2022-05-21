@@ -8,6 +8,7 @@ const initialState: UserLoginState = {
   loading: false,
   error: null,
   isLogged: false,
+  isAuthorized: false,
   id: '',
   token: ''
 };
@@ -22,6 +23,7 @@ export const userLoginReducer = (
         loading: true,
         error: null,
         isLogged: false,
+        isAuthorized: false,
         id: '',
         token: ''
       };
@@ -31,6 +33,9 @@ export const userLoginReducer = (
         error: null,
         isLogged: true,
         id: action.payload.id,
+        isAuthorized: true,
+        // eslint-disable-next-line no-underscore-dangle
+        id: action.payload.user._id,
         token: action.payload.token
       };
     case UserAuthActionTypes.USER_LOGIN_FAIL:
@@ -38,6 +43,7 @@ export const userLoginReducer = (
         loading: false,
         error: action.payload,
         isLogged: false,
+        isAuthorized: false,
         id: '',
         token: ''
       };
@@ -48,6 +54,23 @@ export const userLoginReducer = (
         isLogged: false,
         id: '',
         token: ''
+      };
+        isAuthorized: false,
+        id: '',
+        token: ''
+      };
+
+    // Check if user authorized every time when component mounted
+    case UserAuthActionTypes.IF_USER_AUTORIZED_REQUEST:
+      return {
+        ...state,
+        loading: true
+      };
+    case UserAuthActionTypes.IF_USER_AUTORIZED_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isAuthorized: true
       };
     default:
       return state;
