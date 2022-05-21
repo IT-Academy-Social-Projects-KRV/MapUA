@@ -25,7 +25,9 @@ const CommentForm = () => {
       createdAt: commentDate,
       updatedAt: commentDate
     };
-    sendComment(_id!, commentBody);
+    if (commentText) {
+      sendComment(_id!, commentBody);
+    }
   };
 
   return (
