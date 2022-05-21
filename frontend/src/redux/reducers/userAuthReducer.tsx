@@ -2,9 +2,9 @@ import {
   UserAuthAction,
   UserAuthActionTypes
 } from 'redux/action-types/userAuthActionTypes';
-import { UserLoginState } from 'redux/ts-types/userAuth';
+import { UserAuthState } from 'redux/ts-types/userAuth';
 
-const initialState: UserLoginState = {
+const initialState: UserAuthState = {
   loading: false,
   error: null,
   isAuthorized: false,
@@ -15,7 +15,7 @@ const initialState: UserLoginState = {
 export const userLoginReducer = (
   state = initialState,
   action: UserAuthAction
-): UserLoginState => {
+): UserAuthState => {
   switch (action.type) {
     case UserAuthActionTypes.USER_LOGIN_REQUEST:
       return {
