@@ -9,12 +9,6 @@ import { upload } from '../utils/upload';
 
 const router = express.Router();
 
-router.post(
-  '/add_personal_location',
-  upload.array('image'),
-  passport.authenticate('jwt', { session: false }),
-  LocationsController.postPersonalLocation
-);
 router.get(
   '/profile',
   passport.authenticate('jwt', { session: false }),
@@ -30,14 +24,16 @@ router.get(
   SubscriptionsController.getSubscriptions
 );
 
-router.post('/signup', AuthController.signUp);
-router.post('/signin', AuthController.signIn);
-router.post('/forgot-password', AuthController.forgotPassword);
-
-router.get('/locations/:id', LocationsController.getLocationById);
 router.get('/locations/', LocationsController.getLocationsByZoom);
-
+router.patch('/locations', LocationsController.changeLocationInfo);
+router.get('/locations/:id', LocationsController.getLocationById);
 router.put('/locations/comment', LocationsController.addLocationComments);
+router.post(
+  '/locations/create',
+  upload.array('image'),
+  passport.authenticate('jwt', { session: false }),
+  LocationsController.postPersonalLocation
+);
 
 router.get(
   '/google',
@@ -54,7 +50,6 @@ router.get(
   AuthController.googleLoginCallback
 );
 
-router.patch('/locations', LocationsController.changeLocationInfo);
 
 router.get(
   '/signin-fb',

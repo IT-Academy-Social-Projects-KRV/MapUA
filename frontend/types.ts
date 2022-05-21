@@ -22,7 +22,7 @@ export type locationType = {
     dislikes: number;
   };
   coordinates: [number, number];
-  photoSrc: string;
+  arrayPhotos: string[];
   description: string;
   comments: string[];
 };

@@ -47,7 +47,7 @@ const CreateLocation = ({ coordinate }: Props) => {
       formData.append('filters', String(filters));
       formData.append('image', files[0]);
 
-      await axios.post(`${proces}add_personal_location`, formData, {
+      await axios.post(`${proces}locations/create`, formData, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'multipart/form-data'
