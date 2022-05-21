@@ -62,7 +62,7 @@ function PointPopup({ location }: Props) {
             pb: 0
           }}
           component="img"
-          image={location.photoSrc}
+          image={location.arrayPhotos[0]}
           alt={location.locationName}
         />
 

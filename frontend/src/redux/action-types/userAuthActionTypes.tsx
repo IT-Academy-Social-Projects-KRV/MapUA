@@ -10,7 +10,7 @@ interface LoginUserRequestAction {
 }
 interface LoginUserSuccessAction {
   type: UserAuthActionTypes.USER_LOGIN_SUCCESS;
-  payload: string;
+  payload: { id: string; token: string };
 }
 interface LoginUserFailAction {
   type: UserAuthActionTypes.USER_LOGIN_FAIL;
