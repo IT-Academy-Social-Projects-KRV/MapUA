@@ -7,6 +7,7 @@ import { UserLoginState } from 'redux/ts-types/userAuth';
 const initialState: UserLoginState = {
   loading: false,
   error: null,
+  isLogged: false,
   isAuthorized: false,
   id: '',
   token: ''
@@ -21,6 +22,7 @@ export const userLoginReducer = (
       return {
         loading: true,
         error: null,
+        isLogged: false,
         isAuthorized: false,
         id: '',
         token: ''
@@ -29,6 +31,8 @@ export const userLoginReducer = (
       return {
         loading: false,
         error: null,
+        isLogged: true,
+        id: action.payload.id,
         isAuthorized: true,
         // eslint-disable-next-line no-underscore-dangle
         id: action.payload.user._id,
@@ -38,6 +42,7 @@ export const userLoginReducer = (
       return {
         loading: false,
         error: action.payload,
+        isLogged: false,
         isAuthorized: false,
         id: '',
         token: ''
@@ -46,6 +51,10 @@ export const userLoginReducer = (
       return {
         loading: false,
         error: null,
+        isLogged: false,
+        id: '',
+        token: ''
+      };
         isAuthorized: false,
         id: '',
         token: ''
