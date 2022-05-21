@@ -82,7 +82,7 @@ const AuthController = {
       const isOk = await sendForgotPasswordMail(email, newPassword);
       if (!isOk) {
         return res.status(400).json({
-          message: req.t('password_send_error'),
+          error: req.t('password_send_error'),
           success: false
         });
       }
