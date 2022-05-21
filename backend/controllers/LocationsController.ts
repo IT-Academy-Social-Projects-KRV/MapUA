@@ -63,38 +63,7 @@ const LocationsController = {
       return res.status(500).json({ error: err.message });
     }
   },
-  //TODO - This is test controller
-  async addLocation(req: Request, res: Response) {
-    try {
-      const { locationName, description, coordinates } = req.body;
 
-      const location = await Location.find({ coordinates: coordinates });
-      const imageUrls: string[] = [];
-
-      if (location.length === 0) {
-        Array.prototype.forEach.call(req.files, file => {
-          imageUrls.push(file.location);
-        });
-
-        const newLocation = new Location({
-          locationName: locationName,
-          coordinates: coordinates,
-          // here, we can save not only one url for the location image
-          // but rather an array of images
-          arrayPhotos: imageUrls,
-          description: description
-        });
-
-        const result = await newLocation.save(newLocation as any);
-        // треба щоб додало id локації в список personalLocations
-        res.status(200).json(result);
-      } else {
-        res.status(400).json({ error: 'Data is present' });
-      }
-    } catch (err: any) {
-      return res.status(500).json({ error: err.message });
-    }
-  },
   async addLocationComments(req: Request, res: Response) {
     try {
       const { id, comment } = req.body;
@@ -191,7 +160,7 @@ const LocationsController = {
 
         const userLocation = new Location({
           locationName: locationName,
-          coordinates: coordinates,
+          coordinates: [+coordinates[0], +coordinates[1]],
           arrayPhotos: imageUrls,
           description: description,
           comments: [],
@@ -202,8 +171,6 @@ const LocationsController = {
           filters: filters.split(','),
           author: _id
         });
-
-        console.log('userLocation', userLocation);
 
         const result = await userLocation.save();
 
