@@ -9,8 +9,7 @@ export default {
   ...UserActionCreators,
   ...PopupLocationActionCreators,
   ...LocationListActionCreators,
-  ...UserAuthActionCreators,
-  ...FiltersActionCreators
+  ...FiltersActionCreators,
   ...UserAuthActionCreators
   // ...FiltersActionCreators
 };
