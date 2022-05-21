@@ -5,12 +5,11 @@ import Map from 'components/Map/index';
 import BigPopup from 'components/BigPopup/index';
 
 import BigPopupLocation from 'components/design/BigPopupLocation';
-import ChildrenBigPopupLocation from 'components/ChildrenBigPopupLocation/ChildrenBigPopupLocation';
+import CreateLocation from 'components/CreateLocation/CreateLocation';
 import { locationType } from '../../types';
 
 function HomeScreen() {
-  // eslint-disable-next-line no-unused-vars
-  const [isAuth, setIsAuth] = useState(true);
+  const [isAuth] = useState(true);
   const [isOpenLocationPopup, setIsOpenLocationPopup] = useState(false);
   const [isOpenLocacionForm, setIsOpenLocacionForm] = useState(false);
 
@@ -39,7 +38,7 @@ function HomeScreen() {
         isOpen={isOpenLocacionForm}
         toggleClose={() => setIsOpenLocacionForm(false)}
       >
-        <ChildrenBigPopupLocation coordinate={coordinate} />
+        <CreateLocation coordinate={coordinate} />
       </BigPopupLocation>
       <Box
         sx={{ height: '100%' }}
