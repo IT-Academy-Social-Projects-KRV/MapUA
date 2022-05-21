@@ -2,11 +2,14 @@ import React from 'react';
 import { Drawer } from '@mui/material';
 import Box from '@mui/material/Box';
 
-interface PopupProps extends React.PropsWithChildren<any> {
+type BigPopupProps = {
   isOpen: boolean;
   toggleClose: any;
-}
-export default function BigPopupLocation(props: PopupProps) {
+};
+
+export default function BigPopupLocation(
+  props: React.PropsWithChildren<BigPopupProps>
+) {
   const { isOpen, toggleClose, children } = props;
 
   return (
