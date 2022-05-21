@@ -15,15 +15,13 @@ type Props = {
   coordinate: latlngType;
 };
 
-const ChildrenBigPopupLocation = ({ coordinate }: Props) => {
+const CreateLocation = ({ coordinate }: Props) => {
   const ref = useRef<null | HTMLInputElement>();
   const [filters, setFilters] = useState('');
 
   const [locationName, setLocationName] = useState('');
   const [description, setDescription] = useState('');
-  // eslint-disable-next-line no-unused-vars
-  const [links, setLinks] = useState<string[]>([]);
-  // eslint-disable-next-line no-unused-vars
+  const [, setLinks] = useState<string[]>([]);
   const [files, setFiles] = useState<File[]>([]);
 
   const proces = process.env.REACT_APP_API_URI;
@@ -142,7 +140,6 @@ const ChildrenBigPopupLocation = ({ coordinate }: Props) => {
         id="tags-outlined"
         options={getFiltersForUser()}
         getOptionLabel={option => option}
-        // defaultValue={[autocompleteFilters[0]]}
         filterSelectedOptions
         onChange={(e, values) => onChangeAutocomlete(e, values)}
         renderInput={params => (
@@ -173,4 +170,4 @@ const ChildrenBigPopupLocation = ({ coordinate }: Props) => {
   );
 };
 
-export default ChildrenBigPopupLocation;
+export default CreateLocation;
