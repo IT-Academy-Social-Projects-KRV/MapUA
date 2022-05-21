@@ -1,5 +1,4 @@
 import passportGoogle from 'passport-google-oauth20';
-import passport from 'passport';
 import UserModel from '../../models/UserModel';
 import { v4 as uuidv4 } from 'uuid';
 const GoogleStrategy = passportGoogle.Strategy;
@@ -13,10 +12,11 @@ export const googleStrategy = new GoogleStrategy(
   },
   async (accessToken, refreshToken, profile, done) => {
     try {
-      const user = await UserModel.findOne({ googleId: profile.id });
+      const user = await UserModel.findOne({
+        email: profile.emails?.[0].value
+      });
       if (!user) {
         const newUser = await UserModel.create({
-          googleId: profile.id,
           displayName: profile.displayName,
           email: profile.emails?.[0].value,
           imageUrl: profile?.photos?.[0]?.value ?? '',

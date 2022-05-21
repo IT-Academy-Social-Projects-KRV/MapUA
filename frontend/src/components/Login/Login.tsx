@@ -1,5 +1,6 @@
 import React, { useEffect, useState, MouseEvent } from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import {
@@ -32,7 +33,9 @@ type SignIn = {
 };
 
 function Login() {
-  const { login } = useTypedDispatch();
+  // eslint-disable-next-line no-unused-vars
+  const location = useLocation();
+  const { login, loginOAuth } = useTypedDispatch();
   const { handleSubmit, control } = useForm<SignIn>({
     mode: 'onBlur'
   });
@@ -47,6 +50,14 @@ function Login() {
     }
   }, [isAuthorized]);
 
+  useEffect(() => {
+    if (location.search.includes('oauth=1')) {
+      const accessToken = Cookies.get('accessToken') || '';
+      const userId = Cookies.get('userId') || '';
+      loginOAuth(accessToken, userId);
+    }
+  }, []);
+
   const onSubmit: SubmitHandler<SignIn> = async ({ email, password }) => {
     login(email, password);
   };
@@ -57,6 +68,14 @@ function Login() {
   // const handleClickGoogle = () => {
   //   window.open('http://localhost:3001/api/google', '_self');
   // };
+
+  const handleOAuth = (type: 'google' | 'facebook') => {
+    if (type === 'google') {
+      window.open(`${process.env.REACT_APP_API_URI}signin-google`, '_self');
+    } else if (type === 'facebook') {
+      window.open(`${process.env.REACT_APP_API_URI}signin-fb`, '_self');
+    }
+  };
 
   const handleMouseDownPassword = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -146,7 +165,18 @@ function Login() {
                   Login
                 </Button>
                 <Divider>or</Divider>
-                <Button variant="contained">Sing in with google</Button>
+                <Button
+                  variant="contained"
+                  onClick={() => handleOAuth('google')}
+                >
+                  Sing in with google
+                </Button>
+                <Button
+                  variant="contained"
+                  onClick={() => handleOAuth('facebook')}
+                >
+                  Sing in with facebook
+                </Button>
                 <Button variant="contained">
                   <Link
                     component={RouterLink}

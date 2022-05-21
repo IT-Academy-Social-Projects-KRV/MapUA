@@ -36,7 +36,7 @@ router.post(
 );
 
 router.get(
-  '/google',
+  '/signin-google',
   passport.authenticate('google', { scope: ['email', 'profile'] })
 );
 router.get(
@@ -49,7 +49,6 @@ router.get(
   }),
   AuthController.googleLoginCallback
 );
-
 
 router.get(
   '/signin-fb',
