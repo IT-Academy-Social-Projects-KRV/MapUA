@@ -15,16 +15,16 @@ type Props = {
   coordinate: latlngType;
 };
 
+const { REACT_APP_API_URI } = process.env;
+
 const CreateLocation = ({ coordinate }: Props) => {
   const ref = useRef<null | HTMLInputElement>();
-  const [filters, setFilters] = useState('');
 
   const [locationName, setLocationName] = useState('');
   const [description, setDescription] = useState('');
-  const [, setLinks] = useState<string[]>([]);
+  const [filters, setFilters] = useState('');
   const [files, setFiles] = useState<File[]>([]);
-
-  const proces = process.env.REACT_APP_API_URI;
+  // const [, setLinks] = useState<string[]>([]);
 
   const handleChange = (e: any): void => {
     setLocationName(e.target.value);
@@ -47,7 +47,7 @@ const CreateLocation = ({ coordinate }: Props) => {
       formData.append('filters', String(filters));
       formData.append('image', files[0]);
 
-      await axios.post(`${proces}locations/create`, formData, {
+      await axios.post(`${REACT_APP_API_URI}locations/create`, formData, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'multipart/form-data'
@@ -56,6 +56,7 @@ const CreateLocation = ({ coordinate }: Props) => {
 
       setLocationName('');
       setDescription('');
+      setFilters('');
       if (ref.current) {
         ref.current.value = '';
       }
@@ -64,7 +65,7 @@ const CreateLocation = ({ coordinate }: Props) => {
     }
   };
 
-  const onChangeAutocomlete = (e: any, value: any) => {
+  const onChangeAutocomplete = (e: any, value: any) => {
     setFilters(value);
   };
 
@@ -81,22 +82,22 @@ const CreateLocation = ({ coordinate }: Props) => {
     }
   };
 
-  const handleFormSubmit = async () => {
-    const formData = new FormData();
-
-    const urls = await Promise.all(
-      files.map(async file => {
-        formData.set('file', file);
-        const res = await fetch(`${process.env.REACT_APP_API_URI}uploadImage`, {
-          method: 'POST',
-          body: formData
-        });
-
-        return res.json();
-      })
-    );
-    setLinks(urls.map(itm => itm.url));
-  };
+  // const handleFormSubmit = async () => {
+  //   const formData = new FormData();
+  //
+  //   const urls = await Promise.all(
+  //     files.map(async file => {
+  //       formData.set('file', file);
+  //       const res = await fetch(`${process.env.REACT_APP_API_URI}uploadImage`, {
+  //         method: 'POST',
+  //         body: formData
+  //       });
+  //
+  //       return res.json();
+  //     })
+  //   );
+  //   setLinks(urls.map(itm => itm.url));
+  // };
 
   return (
     <form
@@ -141,7 +142,7 @@ const CreateLocation = ({ coordinate }: Props) => {
         options={getFiltersForUser()}
         getOptionLabel={option => option}
         filterSelectedOptions
-        onChange={(e, values) => onChangeAutocomlete(e, values)}
+        onChange={(e, values) => onChangeAutocomplete(e, values)}
         renderInput={params => (
           <TextField
             {...params}
@@ -159,9 +160,9 @@ const CreateLocation = ({ coordinate }: Props) => {
         ref={ref}
       />
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <Button variant="contained" component="span" onClick={handleFormSubmit}>
-          Upload
-        </Button>
+        {/* <Button variant="contained" component="span" onClick={handleFormSubmit}> */}
+        {/*  Upload */}
+        {/* </Button> */}
         <Button variant="contained" type="submit">
           Done and submit
         </Button>
