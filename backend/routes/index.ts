@@ -39,11 +39,6 @@ router.get('/locations/', LocationsController.getLocationsByZoom);
 
 router.put('/locations/comment', LocationsController.addLocationComments);
 
-router.post(
-  '/locations/add',
-  upload.array('image'),
-  LocationsController.addLocation
-);
 router.get(
   '/google',
   passport.authenticate('google', { scope: ['email', 'profile'] })
