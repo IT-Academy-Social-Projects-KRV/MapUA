@@ -9,7 +9,6 @@ export const mainFilters = [
     id: 2,
     forLoggedUser: false,
     type: 'Seasonal',
-    // cтворити форму з фільтрами - де я маю mainFilters обєднати перших 2 values прочекати його і додати в автокомліт
     values: ['winter', 'summer', 'spring', 'autumn', 'full year', 'seasonal']
   },
   {
