@@ -1,5 +1,5 @@
+import { resolveSoa } from 'dns';
 import { Response, Request } from 'express';
-import { TupleTypeReference } from 'typescript';
 import Location from '../models/Locations';
 import User from '../models/UserModel';
 
@@ -64,31 +64,45 @@ const LocationsController = {
     }
   },
 
-  //TODO - This is test controller
-  async addLocation(req: Request, res: Response) {
+  async addLocationComments(req: Request, res: Response) {
     try {
-      const { locationName, description, coordinates } = req.body;
+      const { id, comment } = req.body;
+      const commentProperties: string[] = [
+        'author',
+        'text',
+        'likes',
+        'dislikes',
+        'createdAt',
+        'updatedAt'
+      ];
+      let isFullComment: boolean = true;
 
-      const location = await Location.find({ coordinates: coordinates });
-      const imageUrls: string[] = [];
+      commentProperties.forEach(field => {
+        if (!Object.keys(comment).includes(field)) {
+          isFullComment = false;
+          return res
+            .status(410)
+            .json({ error: `comment doesn't have ${field} property` });
+        }
+      });
 
-      if (location.length === 0) {
-        Array.prototype.forEach.call(req.files, file => {
-          imageUrls.push(file.location);
-        });
+      if (isFullComment) {
+        const updateLocation = await Location.findByIdAndUpdate(
+          id,
+          {
+            $push: {
+              comments: comment
+            }
+          },
+          {
+            new: true
+          }
+        );
+        if (!updateLocation) {
+          return res.status(400).json({ error: "Location doesn't exist" });
+        }
 
-        const newLocation = new Location({
-          locationName: locationName,
-          coordinates: coordinates,
-          // here, we can save not only one url for the location image
-          // but rather an array of images
-          arrayPhotos: imageUrls,
-          description: description
-        });
-        const result = await newLocation.save(newLocation as any);
-        res.status(200).json(result);
-      } else {
-        res.status(400).json({ error: 'Data is present' });
+        return res.status(200).json(updateLocation.comments);
       }
     } catch (err: any) {
       return res.status(500).json({ error: err.message });
@@ -126,7 +140,7 @@ const LocationsController = {
 
   async postPersonalLocation(req: Request, res: Response) {
     try {
-      const { locationName, description, coordinates } = req.body;
+      const { locationName, description, coordinates, filters } = req.body;
 
       const location = await Location.find({ coordinates: coordinates });
 
@@ -146,7 +160,7 @@ const LocationsController = {
 
         const userLocation = new Location({
           locationName: locationName,
-          coordinates: coordinates,
+          coordinates: [+coordinates[0], +coordinates[1]],
           arrayPhotos: imageUrls,
           description: description,
           comments: [],
@@ -154,7 +168,7 @@ const LocationsController = {
             likes: [],
             dislikes: []
           },
-          filters: [],
+          filters: filters.split(','),
           author: _id
         });
 

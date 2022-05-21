@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 type ratingType = {
   likes: string[];
@@ -32,10 +32,10 @@ const schema = new mongoose.Schema({
   comments: { type: Array, default: [] },
   rating: {
     likes: { type: Array, default: [] },
-    dislikes: { type: Array, default: [] },
+    dislikes: { type: Array, default: [] }
   },
   filters: { type: Array, default: [] },
-  author: { type: String, required: true },
+  author: { type: String, required: true }
 });
 
-export default mongoose.model<ILocation>("Location", schema);
+export default mongoose.model<ILocation>('Location', schema);

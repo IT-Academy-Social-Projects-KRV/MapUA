@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
-import bcrypt from "bcrypt";
-import { userInfo } from "os";
+import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
+import { userInfo } from 'os';
 
 export interface IUser extends Document {
   email: string;
@@ -22,23 +22,23 @@ const schema = new mongoose.Schema(
     email: {
       type: String,
       required: true,
-      unique: true,
+      unique: true
     },
     googleId: {
       type: String
     },
     passwordHash: {
       type: String,
-      required: true,
+      required: true
     },
     displayName: {
-      type: String,
+      type: String
     },
     description: {
-      type: String,
+      type: String
     },
     imageUrl: {
-      type: String,
+      type: String
     },
     subscribers: {
       type: []
@@ -48,18 +48,18 @@ const schema = new mongoose.Schema(
     }
   },
   {
-    timestamps: true,
+    timestamps: true
   }
 );
-schema.pre("save", async function (next) {
+schema.pre('save', async function (next) {
   const user: IUser = this;
-  if(user.passwordHash){
+  if (user.passwordHash) {
     const hash = await bcrypt.hash(user.passwordHash, 10);
 
     user.passwordHash = hash;
     next();
-  }else{
-    next()
+  } else {
+    next();
   }
 });
 
@@ -70,4 +70,4 @@ schema.methods.isValidPassword = async function (password: string) {
   return compare;
 };
 
-export default mongoose.model<IUser>("User", schema);
+export default mongoose.model<IUser>('User', schema);

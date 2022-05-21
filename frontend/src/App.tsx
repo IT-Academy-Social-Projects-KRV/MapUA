@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import HomeScreen from 'screens/HomeScreen';
@@ -10,10 +10,20 @@ import Registration from 'components/Registration/Registration';
 import ComposeComponents from 'redux/components/ComposeComponents';
 import Profile from 'components/Profile/Profile';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
+import { useTypedDispatch } from './redux/hooks/useTypedDispatch';
 import './i18n/config';
 
+const accessToken = localStorage.getItem('accessToken');
+
 function App() {
-  const { isLogged } = useTypedSelector(state => state.userLogin);
+  const { isAuthorized } = useTypedSelector(state => state.userAuth);
+  const { checkIsUserAuthorized } = useTypedDispatch();
+  useEffect(() => {
+    if (accessToken) {
+      checkIsUserAuthorized(accessToken);
+    }
+  }, []);
+
   return (
     <BrowserRouter>
       <GlobalStyles
@@ -30,12 +40,22 @@ function App() {
       <NavBar />
       <Routes>
         <Route path="/" element={<HomeScreen />} />
-        <Route path="/registration" element={<Registration />} />
+        <Route
+          path="/registration"
+          element={
+            isAuthorized ? <Navigate to="/" replace /> : <Registration />
+          }
+        />
         <Route
           path="/login"
-          element={isLogged ? <Navigate to="/" replace /> : <Login />}
+          element={isAuthorized ? <Navigate to="/" replace /> : <Login />}
         />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route
+          path="/forgot-password"
+          element={
+            isAuthorized ? <Navigate to="/" replace /> : <ForgotPassword />
+          }
+        />
         <Route path="/test-redux-components" element={<ComposeComponents />} />
         <Route path="/profile" element={<Profile />} />
       </Routes>
