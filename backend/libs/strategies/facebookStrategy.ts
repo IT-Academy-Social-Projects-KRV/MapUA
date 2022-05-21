@@ -15,8 +15,8 @@ const facebookStrategy = new FacebookStrategy(
       const email = profile?.emails?.[0].value;
       let user = null;
 
-//       if (email) {
-//         user = await UserModel.findOne({ email });
+      if (email) {
+        user = await UserModel.findOne({ email });
 
         if (!user) {
           user = await UserModel.create({
@@ -40,4 +40,4 @@ const facebookStrategy = new FacebookStrategy(
   }
 );
 
-// export default facebookStrategy;
+export default facebookStrategy;

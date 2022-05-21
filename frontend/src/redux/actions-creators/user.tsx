@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
 import axios from 'axios';
-import { UserAction, UserActionTypes } from '../types/user';
+import { UserAction, UserActionTypes } from '../action-types/userActionTypes';
 
 const { REACT_APP_API_URI } = process.env;
 
