@@ -8,6 +8,7 @@ type UserDataType = {
   imageUrl: string;
   subscribers: string[];
   subscriptions: string[];
+  _id: string;
 };
 
 export interface UserState {
@@ -28,6 +29,7 @@ export enum UserActionTypes {
   FETCH_USER = 'FETCH_USER',
   FETCH_USER_SUCCESS = 'FETCH_USER_SUCCESS',
   FETCH_USER_ERROR = 'FETCH_USER_ERROR',
+  UPDATE_USER = 'UPDATE_USER',
 
   // Login
   USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST',
@@ -63,7 +65,13 @@ interface LogoutUserAction {
   type: UserActionTypes.USER_LOGOUT;
 }
 
+interface UpdateUserAction {
+  type: UserActionTypes.UPDATE_USER;
+  payload: Partial<UserDataType>;
+}
+
 export type UserAction =
+  | UpdateUserAction
   | FetchUserAction
   | FetchUserErrorAction
   | FetchUserSuccessAction
