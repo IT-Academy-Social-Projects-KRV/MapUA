@@ -1,4 +1,3 @@
-import { resolveSoa } from 'dns';
 import { Response, Request } from 'express';
 import Location from '../models/Locations';
 import User from '../models/UserModel';
@@ -44,9 +43,12 @@ const LocationsController = {
           locations.length < 50 ? locations.length : 50
         );
       }
+      if (!locations) {
+        return res.status(404).json({ error: req.t('locations_not_found') });
+      }
       return res.json({ locations });
     } catch (err: any) {
-      return res.status(500).json({ error: err.message });
+      return res.status(500).json({ error: req.t('server_error'), err });
     }
   },
   async getLocationById(req: Request, res: Response) {
@@ -56,14 +58,13 @@ const LocationsController = {
       const locations = await Location.findById(id);
 
       if (!locations) {
-        return res.status(400).json({ error: "Location doesn't exist" });
+        return res.status(400).json({ error: req.t('location_not_found') });
       }
       return res.json(locations);
     } catch (err: any) {
-      return res.status(500).json({ error: err.message });
+      return res.status(500).json({ error: req.t('server_error'), err });
     }
   },
-
   async addLocationComments(req: Request, res: Response) {
     try {
       const { id, comment } = req.body;
@@ -81,8 +82,8 @@ const LocationsController = {
         if (!Object.keys(comment).includes(field)) {
           isFullComment = false;
           return res
-            .status(410)
-            .json({ error: `comment doesn't have ${field} property` });
+            .status(400)
+            .json({ error: req.t('comment_not_have_properties'), field });
         }
       });
 
@@ -99,13 +100,12 @@ const LocationsController = {
           }
         );
         if (!updateLocation) {
-          return res.status(400).json({ error: "Location doesn't exist" });
+          return res.status(400).json({ error: req.t('location_not_found') });
         }
-
-        return res.status(200).json(updateLocation.comments);
+        return res.status(200).json({ message: req.t('comment_add_success') });
       }
     } catch (err: any) {
-      return res.status(500).json({ error: err.message });
+      return res.status(500).json({ error: req.t('server_error'), err });
     }
   },
   async changeLocationInfo(req: Request, res: Response) {
@@ -129,12 +129,14 @@ const LocationsController = {
           }
         );
 
-        res.sendStatus(200);
+        res
+          .status(200)
+          .json({ message: req.t('change_location_info_success') });
       } else {
-        res.status(400).json({ error: 'There is no such location!' });
+        res.status(400).json({ error: req.t('location_not_found') });
       }
     } catch (err: any) {
-      return res.status(500).json({ error: err.message });
+      return res.status(500).json({ error: req.t('server_error'), err });
     }
   },
 
@@ -155,7 +157,7 @@ const LocationsController = {
         const userData = await User.findById(_id);
 
         if (!userData) {
-          return res.status(400).json({ error: "User doesn't exist" });
+          return res.status(400).json({ error: req.t('user_not_exist') });
         }
 
         const userLocation = new Location({
@@ -174,12 +176,14 @@ const LocationsController = {
 
         const result = await userLocation.save();
 
-        return res.status(200).json(result);
+        return res
+          .status(200)
+          .json({ message: req.t('location_add_success'), result });
       } else {
-        res.status(400).json({ error: 'Data is present' });
+        res.status(400).json({ error: req.t('location_already_exist') });
       }
     } catch (err: any) {
-      return res.status(500).json({ error: err.message });
+      return res.status(500).json({ error: req.t('server_error'), err });
     }
   }
 };
