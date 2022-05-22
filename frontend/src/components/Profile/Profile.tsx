@@ -2,8 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Container } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import BigPopup from 'components/BigPopup';
-// import Map from 'components/Map/index';
 import ProfilePage from './ProfilePage';
 import { useTypedSelector } from '../../redux/hooks/useTypedSelector';
 import { useTypedDispatch } from '../../redux/hooks/useTypedDispatch';
@@ -38,7 +36,8 @@ function Profile() {
         email={data.email}
         displayName={data.displayName}
         createdAt={data.createdAt}
-        imageUrl
+        imageUrl={data.imageUrl}
+        description={data.description}
       />
     </Box>
   );

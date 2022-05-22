@@ -5,20 +5,20 @@ import {
   Box,
   TextField,
   Snackbar,
-  Alert
+  Alert,
+  Input
 } from '@mui/material';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import axios from 'axios';
 import { UserActionTypes } from 'redux/action-types/userActionTypes';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useDispatch } from 'react-redux';
-import { UserForm } from './types';
+import { UserForm } from 'redux/ts-types/user';
 import userImageNotFound from '../../static/user-image-not-found.png';
 import {
   ProfileAvatar,
   SaveButton,
   CancelButton,
-  LogoutButton,
   ProfileContentWrapper,
   ProfileFormWrapper,
   ProfileUsertWrapper,
@@ -32,7 +32,8 @@ interface ProfilePageProps {
   email: string;
   displayName: string;
   createdAt: Date | string;
-  imageUrl: any;
+  imageUrl: string;
+  description: string;
 }
 
 export default function ProfilePage({
@@ -43,11 +44,7 @@ export default function ProfilePage({
 }: ProfilePageProps) {
   const dispatch = useDispatch();
   const { handleSubmit, control, register } = useForm<UserForm>({
-    mode: 'onBlur',
-    defaultValues: {
-      displayName
-      // description
-    }
+    mode: 'onBlur'
   });
   const [showEditPanel, setShowEditPanel] = useState(false);
   const [userImage, setUserImage] = useState<File | null>();
@@ -122,13 +119,15 @@ export default function ProfilePage({
                   aria-label="avatar"
                   src={userAvatar.data.imageUrl}
                 />
-                Upload Photo
+                <Box sx={{ m: '2vh 0 2vh 10vh' }}> Upload Photo</Box>
                 <Box>
-                  <input
-                    type="file"
-                    {...register('imageUrl')}
-                    onChange={e => setUserImage(e.target?.files?.[0])}
-                  />
+                  <Button>
+                    <Input
+                      type="file"
+                      {...register('imageUrl')}
+                      onChange={(e: any) => setUserImage(e.target?.files?.[0])}
+                    />
+                  </Button>
                 </Box>
               </UploadBox>
               <Controller
@@ -185,9 +184,9 @@ export default function ProfilePage({
         <Typography variant="h5" component="h5" align="center">
           {email}
         </Typography>
-        <LogoutButton size="large" variant="contained">
+        <Button size="large" variant="contained">
           Logout
-        </LogoutButton>
+        </Button>
       </ProfileContentWrapper>
       <ProfileUsertWrapper>
         <BasicTabs

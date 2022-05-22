@@ -1,7 +1,6 @@
-import { Box, Avatar, TextField } from '@mui/material';
+import { Box, Avatar } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
-// import { Typography } from '@mui/material';
 
 export const ProfileFormWrapper = styled(Box)`
   box-sizing: border-box;
@@ -14,7 +13,6 @@ export const ProfileFormWrapper = styled(Box)`
 
 export const ProfileContentWrapper = styled(ProfileFormWrapper)`
   height: 70vh;
-  // flex-shrink: 2;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -44,14 +42,8 @@ export const ProfileAvatar = styled(Avatar)`
   width: 150px;
   height: 150px;
 `;
-export const FileField = styled(TextField)`
-  // dsd
-`;
 export const UploadBox = styled(Box)`
   margin: 0 0 3vh 4vh;
-`;
-export const LogoutButton = styled(Button)`
-  /* display: none; */
 `;
 export const CancelButton = styled(Button)`
   margin-left: 3.5vh;

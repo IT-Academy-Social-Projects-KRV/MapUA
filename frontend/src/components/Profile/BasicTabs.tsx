@@ -1,12 +1,10 @@
 import * as React from 'react';
-// import { useState } from 'react';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { Tabs, Tab, Typography, Box, TextField } from '@mui/material';
 import { Controller, Control } from 'react-hook-form';
-import { UserForm } from './types';
+import { UserForm } from 'redux/ts-types/user';
 
 interface TabPanelProps {
-  children?: any;
   index: number;
   value: number;
 }
@@ -15,7 +13,7 @@ const defaultProps = {
   children: 'Firt tab'
 };
 
-function TabPanel(props: TabPanelProps & typeof defaultProps) {
+function TabPanel(props: React.PropsWithChildren<TabPanelProps>) {
   const { children, value, index } = props;
   return (
     <Box
@@ -53,8 +51,7 @@ export default function BasicTabs({
   showEditPanel,
   control,
   handleDescription
-}: // setShow
-BasicTabsProps) {
+}: BasicTabsProps) {
   const [value, setValue] = React.useState(0);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);

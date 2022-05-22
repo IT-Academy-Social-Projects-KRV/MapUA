@@ -15,3 +15,8 @@ export type UserState = {
   loading: boolean;
   error: null | string;
 };
+export type UserForm = {
+  displayName: string;
+  description: string;
+  imageUrl: FileList;
+};
