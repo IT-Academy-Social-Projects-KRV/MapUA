@@ -23,12 +23,13 @@ i18n
     supportedLngs: ['en', 'ua'],
     fallbackLng: 'en',
     detection: {
-      order: ['path', 'cookie', 'htmlTag', 'localStorage', 'subdomain'],
-      caches: ['cookie']
+      order: ['localStorage', 'path', 'cookie', 'htmlTag', 'subdomain'],
+      caches: ['localStorage']
     },
     backend: {
-      loadPath: '/locales/{{lng}}/translation.json'
+      loadPath: './locales/{{lng}}/translation.json'
     },
+    // frontend/src/i18n/locales/en/translation.json
     react: { useSuspense: false }
   });
 
