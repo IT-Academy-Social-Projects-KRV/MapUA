@@ -2,12 +2,11 @@ import {
   UserAuthAction,
   UserAuthActionTypes
 } from 'redux/action-types/userAuthActionTypes';
-import { UserLoginState } from 'redux/ts-types/userAuth';
+import { UserAuthState } from 'redux/ts-types/userAuth';
 
-const initialState: UserLoginState = {
+const initialState: UserAuthState = {
   loading: false,
   error: null,
-  isLogged: false,
   isAuthorized: false,
   id: '',
   token: ''
@@ -16,13 +15,12 @@ const initialState: UserLoginState = {
 export const userLoginReducer = (
   state = initialState,
   action: UserAuthAction
-): UserLoginState => {
+): UserAuthState => {
   switch (action.type) {
     case UserAuthActionTypes.USER_LOGIN_REQUEST:
       return {
         loading: true,
         error: null,
-        isLogged: false,
         isAuthorized: false,
         id: '',
         token: ''
@@ -31,7 +29,6 @@ export const userLoginReducer = (
       return {
         loading: false,
         error: null,
-        isLogged: true,
         isAuthorized: true,
         // eslint-disable-next-line no-underscore-dangle
         id: action.payload.user._id,
@@ -41,7 +38,6 @@ export const userLoginReducer = (
       return {
         loading: false,
         error: action.payload,
-        isLogged: false,
         isAuthorized: false,
         id: '',
         token: ''
@@ -50,10 +46,9 @@ export const userLoginReducer = (
       return {
         loading: false,
         error: null,
-        isLogged: false,
+        isAuthorized: false,
         id: '',
-        token: '',
-        isAuthorized: false
+        token: ''
       };
 
     // Check if user authorized every time when component mounted
