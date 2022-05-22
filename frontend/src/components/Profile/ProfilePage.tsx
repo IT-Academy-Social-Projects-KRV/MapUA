@@ -1,6 +1,7 @@
 import React from 'react';
 import FormGroup from '@mui/material/FormGroup';
 import { Typography, FormControlLabel, Switch } from '@mui/material';
+import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import userImageNotFound from '../../static/user-image-not-found.png';
 
 import {
@@ -21,6 +22,7 @@ interface ProfilePageProps {
 
 export default function ProfilePage(props: ProfilePageProps) {
   const { email, displayName, createdAt } = props;
+  const { logout } = useTypedDispatch();
   return (
     <>
       <ProfileFormWrapper>
@@ -35,7 +37,7 @@ export default function ProfilePage(props: ProfilePageProps) {
           <Typography variant="h5" component="h5" align="center">
             {email}
           </Typography>
-          <ProfileButton size="large" variant="contained">
+          <ProfileButton onClick={logout} size="large" variant="contained">
             Logout
           </ProfileButton>
         </ProfileContentWrapper>

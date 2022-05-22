@@ -60,19 +60,6 @@ const LocationsController = {
       return res.status(404).json({ error: req.t('location_not_found') });
     }
   },
-  //TODO - This is test controller
-  async addLocation(req: Request, res: Response) {
-    try {
-      const { locationName, description, coordinates } = req.body;
-
-      const location = await Location.find({ coordinates: coordinates });
-      const imageUrls: string[] = [];
-
-      if (location.length === 0) {
-        Array.prototype.forEach.call(req.files, file => {
-          imageUrls.push(file.location);
-        });
-
         const newLocation = new Location({
           locationName: locationName,
           coordinates: coordinates,
@@ -129,7 +116,6 @@ const LocationsController = {
         if (!updateLocation) {
           return res.status(400).json({ error: req.t('location_not_found') });
         }
-
         return res.status(200).json({ message: req.t('comment_add_success') });
       }
     } catch (err: any) {
@@ -170,7 +156,7 @@ const LocationsController = {
 
   async postPersonalLocation(req: Request, res: Response) {
     try {
-      const { locationName, description, coordinates } = req.body;
+      const { locationName, description, coordinates, filters } = req.body;
 
       const location = await Location.find({ coordinates: coordinates });
 
@@ -190,7 +176,7 @@ const LocationsController = {
 
         const userLocation = new Location({
           locationName: locationName,
-          coordinates: coordinates,
+          coordinates: [+coordinates[0], +coordinates[1]],
           arrayPhotos: imageUrls,
           description: description,
           comments: [],
@@ -198,7 +184,7 @@ const LocationsController = {
             likes: [],
             dislikes: []
           },
-          filters: [],
+          filters: filters.split(','),
           author: _id
         });
 

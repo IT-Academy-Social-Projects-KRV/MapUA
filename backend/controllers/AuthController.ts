@@ -11,7 +11,7 @@ const AuthController = {
   async signUp(req: Request, res: Response, next: NextFunction) {
     try {
       await passport.authenticate(
-        'signup',
+        "signup",
         { session: false },
         async (err, user, info) => {
           if (err) throw err;
@@ -30,9 +30,10 @@ const AuthController = {
       return res.status(500).json({ error: req.t('server_error'), err });
     }
   },
+
   async signIn(req: Request, res: Response, next: NextFunction) {
     try {
-      await passport.authenticate('signin', async (err, user, info) => {
+      await passport.authenticate("signin", async (err, user, info) => {
         if (err) throw err;
         if (!user) {
           return res.status(400).json({ error: req.t('user_not_exist'), info });
