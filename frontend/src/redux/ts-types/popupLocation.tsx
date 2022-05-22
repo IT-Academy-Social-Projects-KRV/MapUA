@@ -3,14 +3,8 @@ export type Comment = {
   text: string;
   likes: string[];
   dislikes: string[];
-  createdAt: {
-    type: Date;
-    default: null;
-  };
-  updatedAt: {
-    type: Date;
-    default: null;
-  };
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type locationState = {

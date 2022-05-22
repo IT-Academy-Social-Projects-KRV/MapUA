@@ -24,8 +24,9 @@ const CommentSection = () => {
           bgcolor: 'background.paper'
         }}
       >
-        {isLogged && <CommentForm />}
-        {isLogged && <Divider variant="inset" component="li" />}
+        {isLogged && <CommentForm /> && (
+          <Divider variant="inset" component="li" />
+        )}
         {comments.map(({ text, author, createdAt }) => (
           <Comment
             key={author + text + createdAt.type}

@@ -12,18 +12,14 @@ const CommentForm = () => {
   const { _id } = useTypedSelector(state => state.popupLocation);
 
   const onSendComment = () => {
-    const commentDate = {
-      type: new Date(),
-      default: null
-    };
     /* eslint no-underscore-dangle: 0 */
     const commentBody: Comment = {
       author: userInfo.user._id,
       text: commentText,
       likes: [],
       dislikes: [],
-      createdAt: commentDate,
-      updatedAt: commentDate
+      createdAt:  new Date(),
+      updatedAt:  new Date(),
     };
     if (commentText) {
       sendComment(_id!, commentBody);

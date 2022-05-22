@@ -1,6 +1,5 @@
 import { Response, Request } from 'express';
 import User from '../models/UserModel';
-import Location from '../models/Locations';
 
 const UserController = {
   async getProfile(req: Request, res: Response) {
