@@ -244,8 +244,8 @@ paths:
         400:
           description: Bad Request. 1) User not found. 2) Wrong Password
 
-  /user:
-    put:
+  /profile:
+    patch:
       tags:
         - 'Users'
       summary: 'Change user data'

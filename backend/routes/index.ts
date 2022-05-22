@@ -64,7 +64,7 @@ router.get(
   }),
   AuthController.signInFacebook
 );
-router.put('/user',
+router. patch('/profile',
 upload.single('image'),
 UserController.changeUserData
 );
