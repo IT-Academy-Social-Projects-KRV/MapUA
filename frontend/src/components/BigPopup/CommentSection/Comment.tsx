@@ -18,9 +18,15 @@ interface Props {
 
 const Comment = ({ text, createdAt }: Props) => {
   const d = new Date(createdAt);
-  const formatedDate = `${d.getDate()}-${
-    d.getMonth() + 1
-  }-${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}`;
+  const day = d.getDate();
+  const month = d.getMonth() + 1;
+  const year = d.getFullYear();
+  const hour = d.getHours();
+  const minutes =
+    d.getMinutes() < 10 ? `0${d.getMinutes()}` : `${d.getMinutes()}`;
+
+  const formatedDate = `${day}-${month}-${year} ${hour}:${minutes}`;
+
   return (
     <ListItem alignItems="flex-start" sx={{ pl: 0 }}>
       <ListItemAvatar>

@@ -43,10 +43,12 @@ export const sendComment =
           comment
         }
       );
-      dispatch({
-        type: LocationActionTypes.ADD_COMMENT,
-        payload: response.data
-      });
+      if (response.status === 200) {
+        dispatch({
+          type: LocationActionTypes.ADD_COMMENT,
+          payload: comment
+        });
+      }
     } catch (e: any) {
       throw new Error(e);
     }

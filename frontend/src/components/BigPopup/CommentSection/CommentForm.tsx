@@ -22,6 +22,7 @@ const CommentForm = () => {
     };
     if (commentText) {
       sendComment(locationId!, commentBody);
+      setCommentText('');
     }
   };
 

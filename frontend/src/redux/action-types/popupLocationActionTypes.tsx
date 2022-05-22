@@ -24,7 +24,7 @@ interface EndLoadingLocationAction {
 
 interface AddCommentAction {
   type: LocationActionTypes.ADD_COMMENT;
-  payload: Comment[];
+  payload: Comment;
 }
 
 export type LocationActions =

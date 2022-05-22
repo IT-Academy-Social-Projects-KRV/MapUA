@@ -24,8 +24,11 @@ const CommentSection = () => {
           bgcolor: 'background.paper'
         }}
       >
-        {isAuthorized && <CommentForm /> && (
-          <Divider variant="inset" component="li" />
+        {isAuthorized && (
+          <>
+            <CommentForm />
+            <Divider variant="inset" component="li" />
+          </>
         )}
         {comments.map(({ text, author, createdAt }) => (
           <Comment
