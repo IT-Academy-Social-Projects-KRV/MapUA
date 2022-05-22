@@ -22,7 +22,7 @@ export type locationType = {
     dislikes: number;
   };
   coordinates: [number, number];
-  photoSrc: string;
+  arrayPhotos: string[];
   description: string;
   comments: string[];
 };
@@ -53,4 +53,15 @@ export type UserDataType = {
   imageUrl: string;
   subscribers: string[];
   subscriptions: string[];
+};
+
+export type LocationType = {
+  locationName: string;
+  coordinates: [number, number];
+  descripton: string;
+  arrayPhotos: [];
+};
+
+export type CoordinatesType = {
+  coordinate: [number, number];
 };

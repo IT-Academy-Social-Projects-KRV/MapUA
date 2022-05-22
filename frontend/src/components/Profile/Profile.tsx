@@ -8,18 +8,19 @@ import { useTypedDispatch } from '../../redux/hooks/useTypedDispatch';
 
 function Profile() {
   const navigate = useNavigate();
-
+  const { isAuthorized } = useTypedSelector(state => state.userAuth);
   const { data, error, loading } = useTypedSelector(state => state.user);
   const { fetchUser } = useTypedDispatch();
 
   useEffect(() => {
-    const accessToken = localStorage.getItem('accessToken');
-    if (accessToken) {
+    if (isAuthorized) {
+      const accessToken = localStorage.getItem('accessToken');
+      // @ts-ignore
       fetchUser(accessToken);
     } else {
       navigate('/');
     }
-  }, []);
+  }, [isAuthorized]);
 
   if (loading) {
     return <h1>Loading...</h1>;
