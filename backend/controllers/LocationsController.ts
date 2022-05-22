@@ -172,11 +172,11 @@ const LocationsController = {
           imageUrls.push(file.location);
         });
 
-        const _id = req.user;
-        const userData = await User.findById(_id);
+        const _id=req.user;
+        const userData=await User.findById(_id);
 
         if (!userData) {
-          return res.status(400).json({ error: "User doesn't exist" });
+          return res.status(400).json({error:"User doesn't exist" });
         }
 
         const userLocation = new Location({
@@ -193,7 +193,7 @@ const LocationsController = {
           author: _id
         });
 
-        const result = await userLocation.save();
+        const result=await userLocation.save();
 
         return res.status(200).json(result);
       } else {
