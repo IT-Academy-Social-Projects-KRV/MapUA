@@ -44,7 +44,7 @@ const LocationsController = {
         );
       }
       if (!locations) {
-        return res.status(404).json({ message: req.t('locations_not_found') });
+        return res.status(404).json({ error: req.t('locations_not_found') });
       }
       return res.json({ locations });
     } catch (err: any) {
@@ -54,27 +54,13 @@ const LocationsController = {
   async getLocationById(req: Request, res: Response) {
     try {
       const id = req.params.id;
+
       const locations = await Location.findById(id);
-      return res.json(locations);
-    } catch (err: any) {
-      return res.status(404).json({ error: req.t('location_not_found') });
-    }
-  },
-        const newLocation = new Location({
-          locationName: locationName,
-          coordinates: coordinates,
-          // here, we can save not only one url for the location image
-          // but rather an array of images
-          arrayPhotos: imageUrls,
-          description: description
-        });
-        const result = await newLocation.save(newLocation as any);
-        res
-          .status(200)
-          .json({ message: req.t('location_add_success'), result });
-      } else {
-        res.status(400).json({ error: req.t('location_already_exist') });
+
+      if (!locations) {
+        return res.status(400).json({ error: req.t('location_not_found') });
       }
+      return res.json(locations);
     } catch (err: any) {
       return res.status(500).json({ error: req.t('server_error'), err });
     }
