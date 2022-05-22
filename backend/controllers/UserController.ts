@@ -50,7 +50,7 @@ const UserController = {
         }
     );
     if (!changeData) {
-      return res.status(400).json({ error: "User doesn't exist123" });
+      return res.status(400).json({ error: "User doesn't exist" });
     }
     return res.status(200).json(changeData)
     
