@@ -19,12 +19,12 @@ const UserController = {
       });
 
       if (!userData) {
-        return res.status(400).json({ error: "User doesn't exist" });
+        return res.status(400).json({ error: req.t('user_not_exist') });
       }
 
       return res.status(200).json({ userData });
     } catch (err: any) {
-      return res.status(500).json({ error: err.message });
+      return res.status(500).json({ error: req.t('server_error'), err });
     }
   }
 };

@@ -32,7 +32,6 @@ export const userLoginReducer = (
         loading: false,
         error: null,
         isLogged: true,
-        id: action.payload.id,
         isAuthorized: true,
         // eslint-disable-next-line no-underscore-dangle
         id: action.payload.user._id,
@@ -53,11 +52,8 @@ export const userLoginReducer = (
         error: null,
         isLogged: false,
         id: '',
-        token: ''
-      };
-        isAuthorized: false,
-        id: '',
-        token: ''
+        token: '',
+        isAuthorized: false
       };
 
     // Check if user authorized every time when component mounted
