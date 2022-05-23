@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Tabs, Tab, Typography, Box } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -46,6 +47,8 @@ export default function BasicTabs() {
     setValue(newValue);
   };
 
+  const { t } = useTranslation();
+
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -54,9 +57,9 @@ export default function BasicTabs() {
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="description" {...a11yProps(0)} />
-          <Tab label="subscribers" {...a11yProps(1)} />
-          <Tab label="subscriptions" {...a11yProps(2)} />
+          <Tab label={t('profile.basicTabs.description')} {...a11yProps(0)} />
+          <Tab label={t('profile.basicTabs.subscribers')} {...a11yProps(1)} />
+          <Tab label={t('profile.basicTabs.subscriptions')} {...a11yProps(2)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>

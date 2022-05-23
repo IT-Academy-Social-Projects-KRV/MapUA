@@ -24,6 +24,7 @@ import {
   ListItemText,
   ListItemAvatar
 } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { locationType } from '../../../types';
 
 interface Props {
@@ -47,6 +48,8 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 function PointPopup({ location }: Props) {
+  const { t } = useTranslation();
+
   const [expanded, setExpanded] = useState(false);
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -110,7 +113,9 @@ function PointPopup({ location }: Props) {
               component="button"
               underline="none"
             >
-              <Typography variant="subtitle2">To share</Typography>
+              <Typography variant="subtitle2">
+                {t('pointPopUp.toShare')}
+              </Typography>
             </Link>
 
             <Link
@@ -119,7 +124,9 @@ function PointPopup({ location }: Props) {
               component="button"
               underline="none"
             >
-              <Typography variant="subtitle2">Add to visited</Typography>
+              <Typography variant="subtitle2">
+                {t('pointPopUp.addToVisited')}
+              </Typography>
             </Link>
 
             <Link
@@ -143,7 +150,7 @@ function PointPopup({ location }: Props) {
                 mt: 5
               }}
             >
-              This location created by:
+              {t('pointPopUp.locationCreatedBy')}
               <Avatar
                 sx={{ mt: -2 }}
                 aria-label="avtor"
@@ -183,7 +190,7 @@ function PointPopup({ location }: Props) {
                 borderBottom: '1px solid grey'
               }}
             >
-              Comments section
+              {t('pointPopUp.comentsSection')}
             </Typography>
             <List
               sx={{
@@ -202,7 +209,7 @@ function PointPopup({ location }: Props) {
                     multiline
                     rows={5}
                     id="your comment"
-                    placeholder="Add your comment"
+                    placeholder={t('pointPopUp.addComment')}
                     variant="outlined"
                     fullWidth
                   />
@@ -218,7 +225,7 @@ function PointPopup({ location }: Props) {
                     }}
                     endIcon={<SendOutlinedIcon />}
                   >
-                    Send
+                    {t('pointPopUp.send')}
                   </Button>
                 </FormControl>
               </Box>

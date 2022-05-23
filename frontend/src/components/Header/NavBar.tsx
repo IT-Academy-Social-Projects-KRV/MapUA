@@ -7,28 +7,28 @@ import { StyledAppBar, StyledStack } from './style';
 
 function NavBar() {
   const { isAuthorized } = useTypedSelector(state => state.userAuth);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
-  // const changeLanguage = (language: string) => () => {
-  //   i18n.changeLanguage(language);
-  // };
+  const changeLanguage = (language: string) => () => {
+    i18n.changeLanguage(language);
+  };
 
   return (
     <StyledAppBar>
       <StyledStack direction="row">
-        {/* <button type="button" onClick={changeLanguage('en')}>
+        <button type="button" onClick={changeLanguage('en')}>
           English
         </button>
         <button type="button" onClick={changeLanguage('ua')}>
           Українська
-        </button> */}
+        </button>
         <Link
           color="inherit"
           underline="none"
           component={RouterLink}
           to="/about_us"
         >
-          {t('common.aboutUs')}
+          {t('navBar.aboutUs')}
         </Link>
         <Link
           color="inherit"
@@ -36,10 +36,10 @@ function NavBar() {
           component={RouterLink}
           to="/news"
         >
-          News
+          {t('navBar.news')}
         </Link>
         <Link color="inherit" underline="none" component={RouterLink} to="/">
-          Map
+          {t('navBar.map')}
         </Link>
         {isAuthorized ? (
           <Link
@@ -48,7 +48,7 @@ function NavBar() {
             underline="none"
             component={RouterLink}
           >
-            My Profile
+            {t('navBar.myProfile')}
           </Link>
         ) : (
           <Link
@@ -57,7 +57,7 @@ function NavBar() {
             component={RouterLink}
             to="/login"
           >
-            Login
+            {t('common.login')}
           </Link>
         )}
       </StyledStack>

@@ -21,6 +21,7 @@ import {
   SubmitHandler,
   useFormState
 } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { emailValidation, passwordValidation } from 'utils/validation';
 import { PaperForm } from '../design/PaperForm';
 import { AuthFormWrapper } from '../design/AuthFormWrapper';
@@ -31,6 +32,8 @@ type SignUp = {
 };
 
 function Registration() {
+  const { t } = useTranslation();
+
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [visibleSucces, setVisibleSuccess] = useState(false);
@@ -73,13 +76,15 @@ function Registration() {
             <Box component="form" onSubmit={handleSubmit(onSubmit)}>
               <Stack spacing={4}>
                 <Typography align="center" variant="h4">
-                  Create profile
+                  {t('registration.createProfile')}
                 </Typography>
                 <Snackbar
                   anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                   open={visibleSucces}
                 >
-                  <Alert severity="success">Registration successful!</Alert>
+                  <Alert severity="success">
+                    {t('registration.regisrationSuccess')}
+                  </Alert>
                 </Snackbar>
                 <Snackbar
                   anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
@@ -93,7 +98,7 @@ function Registration() {
                   rules={emailValidation}
                   render={({ field }) => (
                     <TextField
-                      placeholder="Please enter your email"
+                      placeholder={t('common.enterYourEmail')}
                       label="Email"
                       autoComplete="current-email"
                       fullWidth
@@ -130,8 +135,8 @@ function Registration() {
                           )
                         }}
                         type={showPassword ? 'text' : 'password'}
-                        placeholder="Please enter your password"
-                        label="Password"
+                        placeholder={t('common.enterPassword')}
+                        label={t('common.password')}
                         autoComplete="current-password"
                         fullWidth
                         onChange={e => field.onChange(e)}
@@ -144,7 +149,7 @@ function Registration() {
                   />
                 </Box>
                 <Button fullWidth variant="contained" type="submit">
-                  Create
+                  {t('registration.create')}
                 </Button>
               </Stack>
             </Box>

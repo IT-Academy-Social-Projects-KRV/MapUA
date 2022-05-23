@@ -2,26 +2,28 @@ import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 import HttpApi from 'i18next-http-backend';
-// import translationEn from './locales/en/translation.json';
-// import translationUa from './locales/ua/translation.json';
+// import translationEn from '../public/locales/en/translation.json';
+// import translationUa from '../public/locales/ua/translation.json';
 
 i18n
   .use(initReactI18next)
-  .use(LanguageDetector)
   .use(HttpApi)
+  .use(LanguageDetector)
   .init({
     // resources: {
     //   en: {
-    //     translations: translationEn
+    //     translation: translationEn
     //   },
     //   ua: {
-    //     translations: translationUa
+    //     translation: translationUa
     //   }
     // },
-    // ns: ['translations'],
-    // defaultNS: 'translations',
+
     supportedLngs: ['en', 'ua'],
     fallbackLng: 'en',
+    // ns: ['translation'],
+    // defaultNS: 'translation',
+
     detection: {
       order: ['localStorage', 'path', 'cookie', 'htmlTag', 'subdomain'],
       caches: ['localStorage']
@@ -29,8 +31,11 @@ i18n
     backend: {
       loadPath: './locales/{{lng}}/translation.json'
     },
-    // frontend/src/i18n/locales/en/translation.json
-    react: { useSuspense: false }
+    // frontend/public/locales/en/translation.json
+    react: {
+      useSuspense: true
+    },
+    debug: true
   });
 
 i18n.languages = ['en', 'ua'];

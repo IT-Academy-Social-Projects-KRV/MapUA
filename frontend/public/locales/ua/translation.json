@@ -1,0 +1,78 @@
+{
+  "common": {
+    "login": "Увійти",
+    "enterYourEmail": "Будь ласка, введіть вашу електронну адресу",
+    "enterPassword": "Будь ласка, введіть ваш пароль",
+    "forgotPassword": "Забули пароль?",
+    "password": "Пароль",
+    "filters": "Фільтри"
+  },
+  "navBar": {
+    "aboutUs": "Про нас",
+    "news": "Новини",
+    "map": "Карта",
+    "logut": "Вийти",
+    "myProfile": "Мій кабінет"
+  },
+  "createLocation": {
+    "creatingLocation": "Створення локації",
+    "enterLocName": "Введіть назву локації",
+    "enterDescription": "Мінімум 3 стрічки",
+    "favorites": "Обрані",
+    "doneAndSubmit": "Додати локацію"
+  },
+  "profile": {
+    "basicTabs": {
+      "description": "Опис",
+      "subscribers": "Підписники",
+      "subscriptions": "Підписки"
+    },
+    "profile": {
+      "loading": "Завантаження..."
+    },
+    "profilePage": {
+      "nameIsUndefined": "Невідоме і'мя",
+      "creatingDate": "Дата створення:",
+      "logout": "Вийти",
+      "visited": "Відвідані",
+      "favorites": "Обрані",
+      "personal": "Особисті"
+    }
+  },
+  "forgotPassword": {
+    "sentPassword": "надіслати пароль",
+    "rememberPassword": "Я пам'ятаю пароль"
+  },
+  "login": {
+    "signInWithGoogle": "Увійти за допомогою google",
+    "signup": "Зареєструватися",
+    "or": "або"
+  },
+  "registration": {
+    "createProfile": "Створити профіль",
+    "regisrationSuccess": "Ви успішно створили профіль!",
+    "create": "Створити"
+  },
+  "utils": {
+    "vaidation": {
+      "emailCanNotBeEmpty": "Email не може бути порожнім",
+      "wrongEmail": "Невірний email",
+      "passwordCanNotBeEmpty": "Пароль не може бути порожнім",
+      "passwordErrorLength": "Пароль повинен містити більше ніж 3 та менше ніж 36 символів"
+    }
+  },
+  "map": {
+    "addLocation": "Додати локацію"
+  },
+  "pointPopUp": {
+    "toShare": "Поділитися",
+    "addToVisited": "Додати до відвіданих",
+    "locationCreatedBy": "Ця локація була створена:",
+    "comentsSection": "Коментарі",
+    "addComment": "Додати коментар",
+    "send": "Надіслати"
+  },
+  "searchForm": {
+    "search": "Пошук"
+  }
+}

@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Container } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import BigPopup from 'components/BigPopup';
 // import Map from 'components/Map/index';
 import ProfilePage from './ProfilePage';
@@ -15,6 +16,8 @@ function Profile() {
   const { data, error, loading } = useTypedSelector(state => state.user);
 
   const { fetchUser } = useTypedDispatch();
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (isAuthorized) {
@@ -35,7 +38,7 @@ function Profile() {
   };
 
   if (loading) {
-    return <h1>Loading...</h1>;
+    return <h1>{t('profile.profile.loading')}</h1>;
   }
   if (error) {
     return <h1>{error}</h1>;

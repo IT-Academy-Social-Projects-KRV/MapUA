@@ -5,6 +5,7 @@ import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { Box, Checkbox, ListItemText } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { StyledList } from './style';
@@ -14,6 +15,8 @@ type NestType = {
 };
 
 export default function NestedList() {
+  const { t } = useTranslation();
+
   const [open, setOpen] = useState(false);
   const [openNested, setOpenNested] = useState<NestType>({});
 
@@ -56,7 +59,7 @@ export default function NestedList() {
     <StyledList aria-labelledby="nested-list-subheader">
       <ListItemButton onClick={handleClick}>
         {open ? <ExpandLess /> : <ExpandMore />}
-        <ListItemText primary="Filters" />
+        <ListItemText primary={t('common.filters')} />
       </ListItemButton>
       <Collapse in={open} timeout="auto">
         <StyledList>

@@ -8,6 +8,7 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 import React, { useState, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { latlngType } from '../../../types';
 import { getFiltersForUser } from '../../static/mainFIlters';
 
@@ -19,6 +20,8 @@ const { REACT_APP_API_URI } = process.env;
 
 const CreateLocation = ({ coordinate }: Props) => {
   const ref = useRef<null | HTMLInputElement>();
+
+  const { t } = useTranslation();
 
   const [locationName, setLocationName] = useState('');
   const [description, setDescription] = useState('');
@@ -109,7 +112,7 @@ const CreateLocation = ({ coordinate }: Props) => {
         marginTop: '150px'
       }}
     >
-      <Typography>Creating location</Typography>
+      <Typography>{t('createLocation.creatingLocation')}</Typography>
 
       {/* <img
         src=""
@@ -124,7 +127,7 @@ const CreateLocation = ({ coordinate }: Props) => {
         type="text"
         value={locationName}
         onChange={handleChange}
-        placeholder="enter location name"
+        placeholder={t('createLocation.enterLocName')}
       />
 
       <TextareaAutosize
@@ -132,7 +135,7 @@ const CreateLocation = ({ coordinate }: Props) => {
         value={description}
         onChange={handleChangeDescription}
         minRows={3}
-        placeholder="Minimum 3 rows"
+        placeholder={t('createLocation.enterDescription')}
         style={{ width: 200 }}
       />
 
@@ -147,8 +150,8 @@ const CreateLocation = ({ coordinate }: Props) => {
           <TextField
             {...params}
             value={filters}
-            label="filterSelectedOptions"
-            placeholder="Favorites"
+            label={t('createLocation.filters')}
+            placeholder={t('createLocation.favorites')}
           />
         )}
       />
@@ -164,7 +167,7 @@ const CreateLocation = ({ coordinate }: Props) => {
         {/*  Upload */}
         {/* </Button> */}
         <Button variant="contained" type="submit">
-          Done and submit
+          {t('createLocation.doneAndSubmit')}
         </Button>
       </div>
     </form>

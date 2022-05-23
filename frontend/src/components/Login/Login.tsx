@@ -22,6 +22,7 @@ import {
 } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { useTranslation } from 'react-i18next';
 import { emailValidation, passwordValidation } from 'utils/validation';
 import { PaperForm } from '../design/PaperForm';
 import { AuthFormWrapper } from '../design/AuthFormWrapper';
@@ -37,6 +38,8 @@ function Login() {
     mode: 'onBlur'
   });
   const [showPassword, setShowPassword] = useState(false);
+
+  const { t } = useTranslation();
 
   const { isAuthorized } = useTypedSelector(state => state.userAuth);
   const navigate = useNavigate();
@@ -74,7 +77,7 @@ function Login() {
             <Box component="form" onSubmit={handleSubmit(onSubmit)}>
               <Stack spacing={4}>
                 <Typography align="center" variant="h4">
-                  Login
+                  {t('common.login')}
                 </Typography>
 
                 <Controller
@@ -83,7 +86,7 @@ function Login() {
                   rules={emailValidation}
                   render={({ field }) => (
                     <TextField
-                      placeholder="Please enter your email"
+                      placeholder={t('common.enterYourEmail')}
                       label="Email"
                       autoComplete="current-email"
                       fullWidth
@@ -119,8 +122,8 @@ function Login() {
                           </InputAdornment>
                         )
                       }}
-                      placeholder="Please enter your password"
-                      label="Password"
+                      placeholder={t('common.enterPassword')}
+                      label={t('common.password')}
                       type={showPassword ? 'text' : 'password'}
                       autoComplete="current-password"
                       fullWidth
@@ -139,14 +142,17 @@ function Login() {
                     component={RouterLink}
                     to="/forgot-password"
                   >
-                    Forgot the password?
+                    {t('common.forgotPassword')}
                   </Link>
                 </Typography>
                 <Button variant="contained" type="submit">
-                  Login
+                  {t('common.login')}
                 </Button>
-                <Divider>or</Divider>
-                <Button variant="contained">Sing in with google</Button>
+                <Divider> {t('login.or')}</Divider>
+                <Button variant="contained">
+                  {' '}
+                  {t('login.signInWithGoogle')}
+                </Button>
                 <Button variant="contained">
                   <Link
                     component={RouterLink}
@@ -154,7 +160,7 @@ function Login() {
                     color="inherit"
                     underline="none"
                   >
-                    Sign up
+                    {t('login.signup')}
                   </Link>
                 </Button>
               </Stack>
