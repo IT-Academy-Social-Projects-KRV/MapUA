@@ -1,17 +1,17 @@
-import { Response, Request } from "express";
-import User from "../models/UserModel";
+import { Response, Request } from 'express';
+import User from '../models/UserModel';
 
 const SubscriptionsController = {
   async getSubscriptions(req: Request, res: Response) {
     try {
       const _id = req.user;
-      
+
       const userData = await User.findById(_id, {
-        subscriptions: true,
+        subscriptions: true
       });
 
       if (!userData) {
-        return res.status(400).json({ error: "User doesn't exist" });
+        return res.status(400).json({ error: 'User doesnt exist' });
       }
 
       return res.status(200).json({ userData });
@@ -22,4 +22,3 @@ const SubscriptionsController = {
 };
 
 export default SubscriptionsController;
-

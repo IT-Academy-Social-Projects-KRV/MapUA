@@ -1,0 +1,18 @@
+{
+    "location_not_found": "Такої локації не існує",
+    "locations_not_found": "Не знайдено жодної локації",
+    "location_already_exist": "Така локація вже існує",
+    "comment_not_have_properties": "Коментар не має всіх потрібних даних",
+    "server_error": "Трапилась помилка на сервері",
+    "location_add_success": "Локація упсішно створена",
+    "comment_add_success": "Ваш коментар успішно доданий",
+    "change_location_info_success": "Інформація про локацію була успішно змінена",
+    "user_not_exist": "Такого користувача не існує",
+    "password_send_error": "Під час надсилання паролю трапилась помилка",
+    "password_send_success": "Пароль був успішно надісланий",
+    "token_not_provided": "Токен не був наданий",
+    "token_expired": "Термін дії токену закінчився",
+    "token_invalid": "Пошкоджений токен",
+    "token_malformed": "Неправильний токен",
+    "token_valid": "Правильний токен"
+}

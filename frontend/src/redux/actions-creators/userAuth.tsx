@@ -19,7 +19,6 @@ export const login =
         email,
         password
       });
-      console.log('response', response);
       dispatch({
         type: UserAuthActionTypes.USER_LOGIN_SUCCESS,
         payload: response.data

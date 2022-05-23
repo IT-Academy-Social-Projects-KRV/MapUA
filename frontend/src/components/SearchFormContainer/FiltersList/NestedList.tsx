@@ -21,19 +21,19 @@ export default function NestedList() {
     state => state.locationList.selectedFilters
   );
 
-  const { isLogged } = useTypedSelector(state => state.userAuth);
+  const { isAuthorized } = useTypedSelector(state => state.userAuth);
 
   const { applyFilter, fetchFilters, fetchFiltersWithoutAuth } =
     useTypedDispatch();
 
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
-    if (isLogged) {
+    if (isAuthorized) {
       fetchFilters(accessToken || '');
     } else {
       fetchFiltersWithoutAuth();
     }
-  }, [isLogged]);
+  }, [isAuthorized]);
 
   const filters = useTypedSelector(state => state.userFilters.filters);
 
