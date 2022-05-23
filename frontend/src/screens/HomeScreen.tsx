@@ -14,7 +14,6 @@ function HomeScreen() {
   const [isOpenLocacionForm, setIsOpenLocacionForm] = useState(false);
 
   const [location, setLocation] = useState<locationType | null>(null);
-  // eslint-disable-next-line no-unused-vars
   const [coordinate, setCoordinate] = useState<any>([]);
 
   const onOpenBigPopup = (locationData: locationType) => {

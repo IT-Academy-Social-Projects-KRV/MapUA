@@ -33,7 +33,6 @@ type SignIn = {
 };
 
 function Login() {
-  // eslint-disable-next-line no-unused-vars
   const location = useLocation();
   const { login, loginOAuth } = useTypedDispatch();
   const { handleSubmit, control } = useForm<SignIn>({
