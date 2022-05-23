@@ -25,6 +25,7 @@ router.get(
 
 router.get('/locations/', LocationsController.getLocationsByZoom);
 router.patch('/locations', LocationsController.changeLocationInfo);
+router.patch('/locations/:id', LocationsController.updateLocationById);
 router.get('/locations/:id', LocationsController.getLocationById);
 router.put('/locations/comment', LocationsController.addLocationComments);
 router.post(
@@ -64,11 +65,7 @@ router.get(
   }),
   AuthController.signInFacebook
 );
-router.patch('/profile',
-upload.single('image'),
-UserController.changeUserData
-);
-
+router.patch('/profile', upload.single('image'), UserController.changeUserData);
 
 router.get('/is-authenticated', AuthController.checkJwt);
 
