@@ -85,16 +85,16 @@ const CreateLocation = ({ coordinate }: Props) => {
     <form
       onSubmit={onSubmit}
       style={{
-        width: '300px',
+        width: '400px',
         height: '600px',
         textAlign: 'center',
-        marginTop: '100px'
+        margin: '36px'
       }}
     >
-      <Typography>Creating location</Typography>
+      <Typography variant="h4">Creating location</Typography>
 
       <Input
-        sx={{ marginTop: '20px' }}
+        sx={{ marginTop: '20px', width: '100%' }}
         type="text"
         value={locationName}
         onChange={handleChange}
@@ -106,8 +106,13 @@ const CreateLocation = ({ coordinate }: Props) => {
         value={description}
         onChange={handleChangeDescription}
         minRows={3}
-        placeholder="Minimum 3 rows"
-        style={{ marginTop: '20px' }}
+        placeholder="Description"
+        style={{
+          marginTop: '20px',
+          width: '100%',
+          resize: 'vertical',
+          minWidth: '30px'
+        }}
       />
 
       <Autocomplete
