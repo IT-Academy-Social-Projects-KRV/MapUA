@@ -71,11 +71,11 @@ router.get('/is-authenticated', AuthController.checkJwt);
 
 router.put(
   '/tougleFavorite/',
-  //passport.authenticate('jwt', { session: false }), 
+  passport.authenticate('jwt', { session: false }), 
   UserController.tougleFavorite);
 router.put(
   '/tougleVisited/',
-  //passport.authenticate('jwt', { session: false }), 
+  passport.authenticate('jwt', { session: false }), 
   UserController.tougleVisited);
 
 export default router;

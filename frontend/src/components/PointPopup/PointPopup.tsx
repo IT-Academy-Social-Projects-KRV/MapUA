@@ -49,6 +49,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 function PointPopup({ location }: Props) {
+  const accessToken = localStorage.getItem('accessToken');
   const userData = useTypedSelector(state => state.user);
   const locationData = useTypedSelector(state => state.popupLocation);
   const [locationIsFavorite, setLocationIsFavorite] = useState(
@@ -68,12 +69,11 @@ function PointPopup({ location }: Props) {
         /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
         idOfUser: userData.data._id,
         idOfLocation: locationData._id
-      } /* ,{
+      } ,{
       headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'multipart/form-data'
+        Authorization: `Bearer ${accessToken}`
       }
-    } */
+    }
     );
     if (result.status === 200) {
       setLocationIsFavorite(!locationIsFavorite);
@@ -86,6 +86,10 @@ function PointPopup({ location }: Props) {
         /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
         idOfUser: userData.data._id,
         idOfLocation: locationData._id
+      },{
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
       }
     );
     if (result.status === 200) {
@@ -172,10 +176,8 @@ function PointPopup({ location }: Props) {
               component="button"
               underline="none"
               onClick={handleVisitedClick}
-            >{locationIsVisited ?
-              <Typography variant="subtitle2"> Remove from visited</Typography>:
-              <Typography variant="subtitle2"> Add to visited</Typography>
-              }
+            >
+              <Typography variant="subtitle2"> {locationIsVisited ?"Remove from visited":"Add to visited"}</Typography>
             </Link>
 
             <Link
