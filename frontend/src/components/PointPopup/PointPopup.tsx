@@ -78,7 +78,6 @@ const PointPopup = () => {
       `${process.env.REACT_APP_API_URI}tougleFavorite`,
       {
         /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
-        idOfUser: userData.data._id,
         idOfLocation: infoLocation._id
       } ,{
       headers: {
@@ -95,7 +94,6 @@ const PointPopup = () => {
       `${process.env.REACT_APP_API_URI}tougleVisited`,
       {
         /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
-        idOfUser: userData.data._id,
         idOfLocation: infoLocation._id
       },{
         headers: {

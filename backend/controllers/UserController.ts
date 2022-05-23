@@ -32,8 +32,9 @@ const UserController = {
   },
   async tougleFavorite(req: Request, res: Response) {
     try {
-      let { idOfUser,idOfLocation } = req.body;
-      const userData = await User.findById(idOfUser,{favorite:1});
+      let {idOfLocation}  = req.body;
+      const _id = req.user;
+      const userData = await User.findById(_id,{favorite:1});
       const locationData = await Location.findById(idOfLocation);
       if(!locationData){
         return res.status(400).json({ error: "Location doesn't exist" });
@@ -55,7 +56,7 @@ const UserController = {
         return res.status(400).json({ error: "User doesn't exist" })
       }
       const changeData = await User.findByIdAndUpdate(
-        idOfUser,
+        _id,
         {
           $set: {
             favorite : userData.favorite
@@ -72,8 +73,9 @@ const UserController = {
   },
   async tougleVisited(req: Request, res: Response) {
     try {
-      let { idOfUser,idOfLocation } = req.body;
-      const userData = await User.findById(idOfUser,{visited:1});
+      let { idOfLocation} = req.body;
+      const _id = req.user;
+      const userData = await User.findById(_id,{visited:1});
       const locationData = await Location.findById(idOfLocation);
       if(!locationData){
         return res.status(400).json({ error: "Location doesn't exist" });
@@ -95,7 +97,7 @@ const UserController = {
         return res.status(400).json({ error: "User doesn't exist" })
       }
       const changeData = await User.findByIdAndUpdate(
-        idOfUser,
+        _id,
         {
           $set: {
             visited : userData.visited
