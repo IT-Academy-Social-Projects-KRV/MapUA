@@ -42,8 +42,8 @@ function HomeScreen() {
       />
 
       <BigPopupLocation
-        isOpen={isOpenLocacionForm}
-        toggleClose={() => setIsOpenLocacionForm(false)}
+        isOpen={isOpenLocationForm}
+        toggleClose={() => setIsOpenLocationForm(false)}
         setIsAddLocationActive={setIsAddLocationActive}
       >
         <CreateLocation coordinate={coordinate} />
@@ -57,7 +57,7 @@ function HomeScreen() {
           onOpenLocationForm={onOpenLocationForm}
           isAuth={isAuth}
           setCoordinate={setCoordinate}
-          isOpen={isOpenLocacionForm}
+          isOpen={isOpenLocationForm}
           showAddLocationButton={showAddLocationButton}
           setIsAddLocationActive={setIsAddLocationActive}
           isAddLocationActive={isAddLocationActive}
