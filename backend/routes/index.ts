@@ -1,17 +1,14 @@
 import express from 'express';
 import UserController from '../controllers/UserController';
+import SubscriptionsController from '../controllers/SubscriptionsController';
 import LocationsController from '../controllers/LocationsController';
 import AuthController from '../controllers/AuthController';
 import passport from '../libs/passport';
+import multer from 'multer';
 import { upload } from '../utils/upload';
 
 const router = express.Router();
 
-router.post(
-  '/get_profile_location',
-  passport.authenticate('jwt', { session: false }),
-  UserController.postUserLocation
-);
 router.get(
   '/profile',
   passport.authenticate('jwt', { session: false }),
@@ -20,15 +17,23 @@ router.get(
 router.post('/signup', AuthController.signUp);
 router.post('/signin', AuthController.signIn);
 router.post('/forgot-password', AuthController.forgotPassword);
-
-router.get('/locations/:id', LocationsController.getLocationById);
-router.patch('/locations/:id', LocationsController.updateLocationById);
-router.get('/locations/', LocationsController.getLocationsByZoom);
-router.post(
-  '/locations/add',
-  upload.array('image'),
-  LocationsController.addLocation
+router.get(
+  '/subscriptions',
+  passport.authenticate('jwt', { session: false }),
+  SubscriptionsController.getSubscriptions
 );
+
+router.get('/locations/', LocationsController.getLocationsByZoom);
+router.patch('/locations', LocationsController.changeLocationInfo);
+router.get('/locations/:id', LocationsController.getLocationById);
+router.put('/locations/comment', LocationsController.addLocationComments);
+router.post(
+  '/locations/create',
+  upload.array('image'),
+  passport.authenticate('jwt', { session: false }),
+  LocationsController.postPersonalLocation
+);
+
 router.get(
   '/google',
   passport.authenticate('google', { scope: ['email', 'profile'] })
@@ -43,8 +48,6 @@ router.get(
   }),
   AuthController.googleLoginCallback
 );
-
-router.patch('/locations', LocationsController.changeLocationInfo);
 
 router.get(
   '/signin-fb',
@@ -61,5 +64,7 @@ router.get(
   }),
   AuthController.signInFacebook
 );
+
+router.get('/is-authenticated', AuthController.checkJwt);
 
 export default router;

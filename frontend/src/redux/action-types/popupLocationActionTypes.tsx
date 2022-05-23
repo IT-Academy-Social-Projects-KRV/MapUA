@@ -1,17 +1,6 @@
+import { locationState } from 'redux/ts-types/popupLocation';
+
 /* eslint-disable no-unused-vars */
-export interface locationState {
-  _id: string;
-  locationName: string;
-  rating: {
-    likes: string[];
-    dislikes: string[];
-  };
-  coordinates: [number, number];
-  arrayPhotos: string[];
-  description: string;
-  comments: string[];
-  isLoading: boolean;
-}
 export enum LocationActionTypes {
   FETCH_lOCATION = 'FETCH_lOCATION',
   UPDATE_LOCATION = 'UPDATE_LOCATION',

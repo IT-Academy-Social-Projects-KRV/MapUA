@@ -1,6 +1,6 @@
 import { Response, Request } from 'express';
-import { TupleTypeReference } from 'typescript';
 import Location from '../models/Locations';
+import User from '../models/UserModel';
 
 const LocationsController = {
   async getLocationsByZoom(req: Request, res: Response) {
@@ -43,9 +43,12 @@ const LocationsController = {
           locations.length < 50 ? locations.length : 50
         );
       }
+      if (!locations) {
+        return res.status(404).json({ error: req.t('locations_not_found') });
+      }
       return res.json({ locations });
     } catch (err: any) {
-      return res.status(500).json({ error: err.message });
+      return res.status(500).json({ error: req.t('server_error'), err });
     }
   },
   async getLocationById(req: Request, res: Response) {
@@ -55,42 +58,54 @@ const LocationsController = {
       const locations = await Location.findById(id);
 
       if (!locations) {
-        return res.status(400).json({ error: "Location doesn't exist" });
+        return res.status(400).json({ error: req.t('location_not_found') });
       }
       return res.json(locations);
     } catch (err: any) {
-      return res.status(500).json({ error: err.message });
+      return res.status(500).json({ error: req.t('server_error'), err });
     }
   },
-
-  //TODO - This is test controller
-  async addLocation(req: Request, res: Response) {
+  async addLocationComments(req: Request, res: Response) {
     try {
-      const { locationName, description, coordinates } = req.body;
+      const { id, comment } = req.body;
+      const commentProperties: string[] = [
+        'author',
+        'text',
+        'likes',
+        'dislikes',
+        'createdAt',
+        'updatedAt'
+      ];
+      let isFullComment: boolean = true;
 
-      const location = await Location.find({ coordinates: coordinates });
-      const imageUrls: string[] = [];
+      commentProperties.forEach(field => {
+        if (!Object.keys(comment).includes(field)) {
+          isFullComment = false;
+          return res
+            .status(400)
+            .json({ error: req.t('comment_not_have_properties'), field });
+        }
+      });
 
-      if (location.length === 0) {
-        Array.prototype.forEach.call(req.files, file => {
-          imageUrls.push(file.location);
-        });
-
-        const newLocation = new Location({
-          locationName: locationName,
-          coordinates: coordinates,
-          // here, we can save not only one url for the location image
-          // but rather an array of images
-          arrayPhotos: imageUrls,
-          description: description
-        });
-        const result = await newLocation.save(newLocation as any);
-        res.status(200).json(result);
-      } else {
-        res.status(400).json({ error: 'Data is present' });
+      if (isFullComment) {
+        const updateLocation = await Location.findByIdAndUpdate(
+          id,
+          {
+            $push: {
+              comments: comment
+            }
+          },
+          {
+            new: true
+          }
+        );
+        if (!updateLocation) {
+          return res.status(400).json({ error: req.t('location_not_found') });
+        }
+        return res.status(200).json({ message: req.t('comment_add_success') });
       }
     } catch (err: any) {
-      return res.status(500).json({ error: err.message });
+      return res.status(500).json({ error: req.t('server_error'), err });
     }
   },
   async updateLocationById(req: Request, res: Response) {
@@ -105,7 +120,7 @@ const LocationsController = {
         { new: true }
       ).exec();
 
-      return res.json(location);
+      return res.status(200).json(location);
     } catch (err: any) {
       return res.status(500).json({ error: err.message });
     }
@@ -131,12 +146,61 @@ const LocationsController = {
           }
         );
 
-        res.sendStatus(200);
+        res
+          .status(200)
+          .json({ message: req.t('change_location_info_success') });
       } else {
-        res.status(400).json({ error: 'There is no such location!' });
+        res.status(400).json({ error: req.t('location_not_found') });
       }
     } catch (err: any) {
-      return res.status(500).json({ error: err.message });
+      return res.status(500).json({ error: req.t('server_error'), err });
+    }
+  },
+
+  async postPersonalLocation(req: Request, res: Response) {
+    try {
+      const { locationName, description, coordinates, filters } = req.body;
+
+      const location = await Location.find({ coordinates: coordinates });
+
+      const imageUrls: string[] = [];
+
+      if (location.length === 0) {
+        Array.prototype.forEach.call(req.files, file => {
+          imageUrls.push(file.location);
+        });
+
+        const _id = req.user;
+        const userData = await User.findById(_id);
+
+        if (!userData) {
+          return res.status(400).json({ error: req.t('user_not_exist') });
+        }
+
+        const userLocation = new Location({
+          locationName: locationName,
+          coordinates: [+coordinates[0], +coordinates[1]],
+          arrayPhotos: imageUrls,
+          description: description,
+          comments: [],
+          rating: {
+            likes: [],
+            dislikes: []
+          },
+          filters: filters.split(','),
+          author: _id
+        });
+
+        const result = await userLocation.save();
+
+        return res
+          .status(200)
+          .json({ message: req.t('location_add_success'), result });
+      } else {
+        res.status(400).json({ error: req.t('location_already_exist') });
+      }
+    } catch (err: any) {
+      return res.status(500).json({ error: req.t('server_error'), err });
     }
   }
 };

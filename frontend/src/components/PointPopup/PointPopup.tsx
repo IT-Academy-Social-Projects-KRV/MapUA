@@ -71,7 +71,7 @@ const PointPopup = () => {
     if (!isLogged) {
       return setNotification({
         type: 'warning',
-        message: 'Login to your account to be able to likes!'
+        message: 'Login to your account to be able to rate!'
       });
     }
     const updatedRating = { ...rating };
@@ -97,7 +97,7 @@ const PointPopup = () => {
     if (!isLogged) {
       return setNotification({
         type: 'warning',
-        message: 'Login to your account to be able to likes!'
+        message: 'Login to your account to be able to rate!'
       });
     }
     const updatedRating = { ...rating };
