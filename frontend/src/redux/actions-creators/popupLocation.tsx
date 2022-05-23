@@ -32,7 +32,7 @@ export const updatePopupLocation =
   (id: string | undefined, location: {}) =>
   async (dispatch: Dispatch<LocationActions>) => {
     try {
-      const url = `${REACT_APP_API_URI}/locations/${id}`;
+      const url = `${REACT_APP_API_URI}locations/${id}`;
       const { data } = await axios.patch(url, location);
 
       if (data) {
