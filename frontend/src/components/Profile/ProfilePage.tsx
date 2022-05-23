@@ -12,8 +12,9 @@ import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import axios from 'axios';
 import { UserActionTypes } from 'redux/action-types/userActionTypes';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
-import { useDispatch } from 'react-redux';
 import { UserForm } from 'redux/ts-types/user';
+import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
+import { useDispatch } from 'react-redux';
 import userImageNotFound from '../../static/user-image-not-found.png';
 import {
   ProfileAvatar,
@@ -40,30 +41,32 @@ export default function ProfilePage({
   id,
   email,
   displayName,
-  createdAt
+  createdAt,
+  description
 }: ProfilePageProps) {
-  const dispatch = useDispatch();
   const { handleSubmit, control, register } = useForm<UserForm>({
-    mode: 'onBlur'
+    mode: 'onBlur',
+    defaultValues: { displayName, description }
   });
+  const dispatch = useDispatch();
   const [showEditPanel, setShowEditPanel] = useState(false);
   const [userImage, setUserImage] = useState<File | null>();
   const userAvatar = useTypedSelector(state => state.user);
-  const [, setDescription] = useState('');
+  const [newDescription, setNewDescription] = useState(description);
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState(false);
+  const { logout } = useTypedDispatch();
   const handleDescription = (descriptionBasicTabs: any) => {
-    setDescription(descriptionBasicTabs);
+    setNewDescription(descriptionBasicTabs);
   };
   const onSubmit: SubmitHandler<UserForm> = async data => {
     const formData = new FormData();
     if (userImage) {
       formData.append('image', userImage);
     }
-
     formData.append('id', id);
     formData.append('displayName', data.displayName);
-    formData.append('description', data.description);
+    formData.append('description', newDescription);
 
     try {
       const response = await axios.patch(
@@ -82,7 +85,6 @@ export default function ProfilePage({
           payload: response.data
         });
         setShowEditPanel(false);
-        setTimeout(() => window.location.reload(), 500);
       }
     } catch (e: any) {
       setTimeout(() => setErrorMessage(''), 3000);
@@ -184,7 +186,7 @@ export default function ProfilePage({
         <Typography variant="h5" component="h5" align="center">
           {email}
         </Typography>
-        <Button size="large" variant="contained">
+        <Button size="large" onClick={logout} variant="contained">
           Logout
         </Button>
       </ProfileContentWrapper>
@@ -194,6 +196,7 @@ export default function ProfilePage({
           setShowEditPanel={setShowEditPanel}
           control={control}
           handleDescription={handleDescription}
+          newDescription={newDescription}
         />
       </ProfileUsertWrapper>
     </ProfileFormWrapper>
