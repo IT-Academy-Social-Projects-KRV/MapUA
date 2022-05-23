@@ -1,13 +1,5 @@
-import { styled } from '@mui/material/styles';
 import CommentSection from 'components/BigPopup/CommentSection/CommentSection';
-import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
-import Link from '@mui/material/Link';
 import React, { useState, MouseEvent, SyntheticEvent } from 'react';
-
 import {
   Avatar,
   Box,
@@ -15,17 +7,7 @@ import {
   CardContent,
   CardMedia,
   Collapse,
-  Avatar,
   Typography,
-  Box,
-  TextField,
-  FormControl,
-  Button,
-  List,
-  ListItem,
-  Divider,
-  ListItemText,
-  ListItemAvatar,
   Snackbar,
   Alert,
   AlertColor
@@ -37,7 +19,6 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 
