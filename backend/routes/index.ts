@@ -66,6 +66,11 @@ router.get(
   }),
   AuthController.signInFacebook
 );
+router.patch('/profile',
+upload.single('image'),
+UserController.changeUserData
+);
+
 
 router.get('/is-authenticated', AuthController.checkJwt);
 
