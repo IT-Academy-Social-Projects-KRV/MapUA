@@ -17,7 +17,6 @@ router.get(
 router.post('/signup', AuthController.signUp);
 router.post('/signin', AuthController.signIn);
 router.post('/forgot-password', AuthController.forgotPassword);
-
 router.get(
   '/subscriptions',
   passport.authenticate('jwt', { session: false }),
