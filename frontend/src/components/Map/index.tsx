@@ -90,11 +90,14 @@ function Map({
         <SearchFormContainer />
         {!isOpen && (
           <Button
-            onClick={() => {
-              setIsAddLocationActive(true);
+            onClick={e => {
+              console.log('onclick');
+              e.stopPropagation();
+              setIsAddLocationActive(prevState => !prevState);
             }}
             style={{
-              background: 'white',
+              background: isAddLocationActive ? 'red' : 'white',
+              color: isAddLocationActive ? 'white' : '#1976d2',
               zIndex: '10000',
               position: 'absolute',
               top: '15px',
@@ -102,7 +105,7 @@ function Map({
               padding: '8px'
             }}
           >
-            Add location
+            {isAddLocationActive ? 'Cancel' : 'Add location'}
           </Button>
         )}
       </MapContainer>
