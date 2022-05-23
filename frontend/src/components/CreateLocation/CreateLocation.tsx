@@ -36,8 +36,8 @@ const CreateLocation = ({ coordinate }: Props) => {
 
   const accessToken = localStorage.getItem('accessToken');
 
-  const onSubmit = async (e: any) => {
-    e.preventDefault();
+  const onSubmit = async () => {
+    // e.preventDefault();
     try {
       const formData = new FormData();
       formData.append('locationName', locationName);
@@ -106,7 +106,7 @@ const CreateLocation = ({ coordinate }: Props) => {
         width: '300px',
         height: '600px',
         textAlign: 'center',
-        marginTop: '150px'
+        marginTop: '100px'
       }}
     >
       <Typography>Creating location</Typography>
@@ -121,6 +121,7 @@ const CreateLocation = ({ coordinate }: Props) => {
         }}
       /> */}
       <Input
+        sx={{ marginTop: '20px' }}
         type="text"
         value={locationName}
         onChange={handleChange}
@@ -133,10 +134,11 @@ const CreateLocation = ({ coordinate }: Props) => {
         onChange={handleChangeDescription}
         minRows={3}
         placeholder="Minimum 3 rows"
-        style={{ width: 200 }}
+        style={{ marginTop: '20px' }}
       />
 
       <Autocomplete
+        sx={{ marginTop: '20px' }}
         multiple
         id="tags-outlined"
         options={getFiltersForUser()}
@@ -158,11 +160,9 @@ const CreateLocation = ({ coordinate }: Props) => {
         type="file"
         onChange={e => handleFilesChange(e)}
         ref={ref}
+        sx={{ padding: '20px' }}
       />
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        {/* <Button variant="contained" component="span" onClick={handleFormSubmit}> */}
-        {/*  Upload */}
-        {/* </Button> */}
         <Button variant="contained" type="submit">
           Done and submit
         </Button>
