@@ -96,14 +96,12 @@ function Map({
         <SearchFormContainer />
         {showAddLocationButton && !isOpen && (
           <Button
-            onClick={e => {
-              console.log('onclick');
-              e.stopPropagation();
-              setIsAddLocationActive(prevState => !prevState);
-            }}
+            onClick={() =>
+              setIsAddLocationActive((prevState: boolean) => !prevState)
+            }
             style={{
-              background: isAddLocationActive ? 'red' : 'white',
-              color: isAddLocationActive ? 'white' : '#1976d2',
+              background: isAddLocationActive ? 'yellow' : 'white',
+              color: isAddLocationActive ? 'black' : '#1976d2',
               zIndex: '10000',
               position: 'absolute',
               top: '15px',
@@ -111,7 +109,7 @@ function Map({
               padding: '8px'
             }}
           >
-            {isAddLocationActive ? 'Cancel' : 'Add location'}
+            {isAddLocationActive ? 'Choice coordinates' : 'Add location'}
           </Button>
         )}
       </MapContainer>
