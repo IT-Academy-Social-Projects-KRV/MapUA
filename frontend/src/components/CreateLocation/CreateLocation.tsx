@@ -88,10 +88,11 @@ const CreateLocation = ({ coordinate }: Props) => {
         width: '300px',
         height: '600px',
         textAlign: 'center',
-        marginTop: '100px'
+        marginTop: '100px',
+        padding: '20px'
       }}
     >
-      <Typography>Creating location</Typography>
+      <Typography variant="h5">Creating location</Typography>
 
       <Input
         sx={{ marginTop: '20px' }}
