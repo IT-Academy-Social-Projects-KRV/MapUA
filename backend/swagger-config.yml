@@ -11,150 +11,148 @@ servers:
     description: Local server for development
 
 components:
- schemas:
- 
+  schemas:
     Comment:
-     type: "object"
-     properties:
-      creationDate: 
-       type: "Date"
-      author:
-       type: "string"
-      text: 
-       type: "string"
-      likes: 
-       type: "array"
-       items:
-        type: "string"
-      dislikes: 
-       type: "array"
-       items:
-        type: "string"
-    
+      type: 'object'
+      properties:
+        creationDate:
+          type: 'Date'
+        author:
+          type: 'string'
+        text:
+          type: 'string'
+        likes:
+          type: 'array'
+          items:
+            type: 'string'
+        dislikes:
+          type: 'array'
+          items:
+            type: 'string'
+
     Users:
-       type: object
-       required:
-         - email
-         - passwordHash
-       properties:
-         id:
-             type: string
-             description: The auto-generated id of the user
-         email:
-             type: string
-             description: Name of the user
-         displayName:
-              type: string
-              description: Email of the user
-       example:
-           id: 1
-           email: anymail@gmail.com
-           displayName: Vasia Pupkin
+      type: object
+      required:
+        - email
+        - passwordHash
+      properties:
+        id:
+          type: string
+          description: The auto-generated id of the user
+        email:
+          type: string
+          description: Name of the user
+        displayName:
+          type: string
+          description: Email of the user
+      example:
+        id: 1
+        email: anymail@gmail.com
+        displayName: Vasia Pupkin
     Locations:
-       type: object
-       required:
-         - locationName
-         - account
-       properties:
-         locationName:
-             type: string
-             description: This is name
-         coordinates:
-             type: "array"
-             items:
-              type: "number"
-             description: Two coordinates in array
-         photoSrc:
-              type: string
-              description: Location photo
-         description:
-              type: string
-              description: Location description
-         comments:
-              type: "array"
-              items: 
-                $ref: "#/components/schemas/Comment"
-              description: Location comments
-         rating:
-              type: object
-              properties:
-               like:
-                type: number
-               dislike:
-                type: number
-              description: Location ratings
+      type: object
+      required:
+        - locationName
+        - account
+      properties:
+        locationName:
+          type: string
+          description: This is name
+        coordinates:
+          type: 'array'
+          items:
+            type: 'number'
+          description: Two coordinates in array
+        photoSrc:
+          type: string
+          description: Location photo
+        description:
+          type: string
+          description: Location description
+        comments:
+          type: 'array'
+          items:
+            $ref: '#/components/schemas/Comment'
+          description: Location comments
+        rating:
+          type: object
+          properties:
+            like:
+              type: number
+            dislike:
+              type: number
+          description: Location ratings
 
 tags:
- - name: Users
-   description: The users managing API
- - name: Locations
-   description: The locations managing API
+  - name: Users
+    description: The users managing API
+  - name: Locations
+    description: The locations managing API
 
 paths:
   /users:
-     get:
-       summary: returns the list of all users
-       tags: [Users]
-       responses:
-           200:
-             description: The list of the users
-             content:
-              aplication/json:
-                 schema:
-                   type: array
-                   items:
-                   $ref: "#/components/schemas/Users"
+    get:
+      summary: returns the list of all users
+      tags: [Users]
+      responses:
+        200:
+          description: The list of the users
+          content:
+            aplication/json:
+              schema:
+                type: array
+                items:
+                $ref: '#/components/schemas/Users'
   /locations/:id:
     get:
       summary: returns location by id
       tags: [Locations]
       responses:
-          200:
-            description: The location by id
-            content:
-              aplication/json:
-                schema:
-                  type: object
-                  items: [number]
-                  $ref: "#/components/schemas/Locations"
-          400:
-            description: Bad request. Location doesn`t find by id
+        200:
+          description: The location by id
+          content:
+            aplication/json:
+              schema:
+                type: object
+                items: [number]
+                $ref: '#/components/schemas/Locations'
+        400:
+          description: Bad request. Location doesn`t find by id
   /locations/comment:
     put:
       tags:
-      - "Locations"
-      summary: "Add location comment"
-      description: "Add new comment to location" 
+        - 'Locations'
+      summary: 'Add location comment'
+      description: 'Add new comment to location'
       parameters:
-      - in: "body"
-        name: "body"
-        description: "Location id and comment"
-        required: true
-        schema:
-          type: "object"
-          properties:
-           id:
-            type: "string"
-           comment:
-            type: "object"
+        - in: 'body'
+          name: 'body'
+          description: 'Location id and comment'
+          required: true
+          schema:
+            type: 'object'
             properties:
-            $ref: "#/components/schemas/Comment"
+              id:
+                type: 'string'
+              comment:
+                type: 'object'
+                properties:
+                $ref: '#/components/schemas/Comment'
       responses:
-        "200":
-          description: "successful operation, new comment is add" 
+        '200':
+          description: 'successful operation, new comment is add'
           content:
-           aplication/json:
-             schema:
-              type: "array"
-              items: 
-              $ref: "#/components/schemas/Comment"
-        "400":
+            aplication/json:
+              schema:
+                type: 'array'
+                items:
+                $ref: '#/components/schemas/Comment'
+        '400':
           description: "Location or comments doesn't exist"
-          
-        "401":
+
+        '401':
           description: "Location for apdate doesn't exist"
-       
-      
+
   /api/signup:
     post:
       summary: Register user using his email and password
@@ -173,33 +171,33 @@ paths:
                   example: whatever-string
       tags: [Users]
       responses:
-          200:
-            description: Registered user dictionary and accessToken
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    user:
-                      type: object
-                      properties:
-                        email:
-                          type: string
-                          example: vaasassddasddazzz@gmai.com
-                        _id:
-                          type: string
-                          example: 627380218b043204a17b6bb1
-                        createdAt:
-                          type: Date
-                          example: 2022-05-05T07:43:29.524Z
-                        updatedAt:
-                          type: Date
-                          example: 2022-05-05T07:43:29.524Z
-                    token:
-                      type: string
-                      example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjczODAyMThiMDQzMjA0YTE3YjZiYjEiLCJlbWFpbCI6InZhYXNhc3NkZGFzZGRhenp6QGdtYWkuY29tIiwiaWF0IjoxNjUxNzM2NjA5LCJleHAiOjE2NTE4MjMwMDl9.NLStXGRatNepZ852uVE67FhqKJK0WkZIv5p7V9Vn-mk
-          400:
-            description: Bad Request. User with such email already registered.
+        200:
+          description: Registered user dictionary and accessToken
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    type: object
+                    properties:
+                      email:
+                        type: string
+                        example: vaasassddasddazzz@gmai.com
+                      _id:
+                        type: string
+                        example: 627380218b043204a17b6bb1
+                      createdAt:
+                        type: Date
+                        example: 2022-05-05T07:43:29.524Z
+                      updatedAt:
+                        type: Date
+                        example: 2022-05-05T07:43:29.524Z
+                  token:
+                    type: string
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjczODAyMThiMDQzMjA0YTE3YjZiYjEiLCJlbWFpbCI6InZhYXNhc3NkZGFzZGRhenp6QGdtYWkuY29tIiwiaWF0IjoxNjUxNzM2NjA5LCJleHAiOjE2NTE4MjMwMDl9.NLStXGRatNepZ852uVE67FhqKJK0WkZIv5p7V9Vn-mk
+        400:
+          description: Bad Request. User with such email already registered.
   /api/signin:
     post:
       summary: Login user via his email and password
@@ -218,30 +216,66 @@ paths:
                   example: whatever-string
       tags: [Users]
       responses:
-          200:
-            description: Authorized user dictionary and accessToken
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    user:
-                      type: object
-                      properties:
-                        email:
-                          type: string
-                          example: vaasassddasddazzz@gmai.com
-                        _id:
-                          type: string
-                          example: 627380218b043204a17b6bb1
-                        createdAt:
-                          type: Date
-                          example: 2022-05-05T07:43:29.524Z
-                        updatedAt:
-                          type: Date
-                          example: 2022-05-05T07:43:29.524Z
-                    token:
-                      type: string
-                      example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjczODAyMThiMDQzMjA0YTE3YjZiYjEiLCJlbWFpbCI6InZhYXNhc3NkZGFzZGRhenp6QGdtYWkuY29tIiwiaWF0IjoxNjUxNzM2NjA5LCJleHAiOjE2NTE4MjMwMDl9.NLStXGRatNepZ852uVE67FhqKJK0WkZIv5p7V9Vn-mk
-          400:
-            description: Bad Request. 1) User not found. 2) Wrong Password
+        200:
+          description: Authorized user dictionary and accessToken
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    type: object
+                    properties:
+                      email:
+                        type: string
+                        example: vaasassddasddazzz@gmai.com
+                      _id:
+                        type: string
+                        example: 627380218b043204a17b6bb1
+                      createdAt:
+                        type: Date
+                        example: 2022-05-05T07:43:29.524Z
+                      updatedAt:
+                        type: Date
+                        example: 2022-05-05T07:43:29.524Z
+                  token:
+                    type: string
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjczODAyMThiMDQzMjA0YTE3YjZiYjEiLCJlbWFpbCI6InZhYXNhc3NkZGFzZGRhenp6QGdtYWkuY29tIiwiaWF0IjoxNjUxNzM2NjA5LCJleHAiOjE2NTE4MjMwMDl9.NLStXGRatNepZ852uVE67FhqKJK0WkZIv5p7V9Vn-mk
+        400:
+          description: Bad Request. 1) User not found. 2) Wrong Password
+
+  /profile:
+    patch:
+      tags:
+        - 'Users'
+      summary: 'Change user data'
+      description: 'Change user name, description, photo'
+      content:
+        aplication:
+      parameters:
+        - in: 'body'
+          name: 'body'
+          description: 'user name, description, photo'
+          required: true
+          schema:
+            type: 'object'
+            properties:
+              id:
+                type: 'string'
+              displayName:
+                type: 'string'
+              description:
+                type: 'string'
+              imageUrl:
+                type: 'File'
+      responses:
+        '200':
+          description: 'User data is changed'
+          content:
+            aplication/json:
+              schema:
+                type: 'object'
+                items:
+                $ref: '#/components/schemas/Users'
+        '400':
+          description: "User doesn't exist"
