@@ -13,7 +13,7 @@ function HomeScreen() {
 
   const [isAuth] = useState(true);
   const [isOpenLocationPopup, setIsOpenLocationPopup] = useState(false);
-  const [isOpenLocacionForm, setIsOpenLocacionForm] = useState(false);
+  const [isOpenLocationForm, setIsOpenLocationForm] = useState(false);
 
   const [location, setLocation] = useState<locationType | null>(null);
   const [coordinate, setCoordinate] = useState<any>([]);
@@ -27,7 +27,7 @@ function HomeScreen() {
   };
 
   const onOpenLocationForm = () => {
-    setIsOpenLocacionForm(true);
+    setIsOpenLocationForm(true);
   };
 
   return (

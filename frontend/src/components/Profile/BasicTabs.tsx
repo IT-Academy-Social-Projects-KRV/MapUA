@@ -45,20 +45,22 @@ type BasicTabsProps = {
   setShowEditPanel: Function;
   control: Control<UserForm>;
   handleDescription: Function;
+  newDescription: string;
 };
 
 export default function BasicTabs({
   showEditPanel,
   control,
-  handleDescription
+  handleDescription,
+  newDescription
 }: BasicTabsProps) {
   const [value, setValue] = React.useState(0);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-  const postDescription = (description: any) => {
-    handleDescription(description);
-  };
+  // const postDescription = (description: any) => {
+  //   handleDescription(description);
+  // };
   const userDescription = useTypedSelector(state => state.user);
   return (
     <Box sx={{ width: '100%' }}>
@@ -84,9 +86,9 @@ export default function BasicTabs({
                   placeholder="Please enter description"
                   label="Description"
                   fullWidth
-                  onChange={field.onChange}
+                  onChange={(e: any) => handleDescription(e.target.value)}
                   onBlur={field.onBlur}
-                  defaultValue={postDescription(field.value)}
+                  defaultValue={newDescription}
                   type="text"
                 />
               )}
@@ -97,7 +99,7 @@ export default function BasicTabs({
         <Box>
           <TabPanel value={value} index={0}>
             <Typography>
-              {userDescription.data.description || 'Description'}
+              {userDescription.data.description || 'There is no description'}
             </Typography>
           </TabPanel>
         </Box>
