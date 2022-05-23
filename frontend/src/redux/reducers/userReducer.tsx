@@ -7,6 +7,7 @@ import image from '../../static/image-not-found.jpg';
 
 const initialState: UserState = {
   data: {
+    _id:'', 
     email: '',
     createdAt: '',
     updatedAt: '',
@@ -14,7 +15,10 @@ const initialState: UserState = {
     description: '',
     imageUrl: image,
     subscribers: [],
-    subscriptions: []
+    subscriptions: [],
+    favorite:[],
+    visited:[],
+    personalLocations: []
   },
   loading: false,
   error: null

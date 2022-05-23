@@ -24,6 +24,8 @@ import {
   ListItemText,
   ListItemAvatar
 } from '@mui/material';
+import axios from 'axios';
+import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { locationType } from '../../../types';
 
 interface Props {
@@ -47,9 +49,48 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 function PointPopup({ location }: Props) {
+  const userData = useTypedSelector(state => state.user);
+  const locationData = useTypedSelector(state => state.popupLocation);
+  const [locationIsFavorite, setLocationIsFavorite] = useState(
+    locationData._id && userData.data.favorite.includes(locationData._id)
+  );
+  const [locationIsVisited, setLocationIsVisited] = useState(
+    locationData._id && userData.data.visited.includes(locationData._id)
+  );
   const [expanded, setExpanded] = useState(false);
   const handleExpandClick = () => {
     setExpanded(!expanded);
+  };
+  const handleFavoriteClick = async () => {
+    const result = await axios.put(
+      `${process.env.REACT_APP_API_URI}tougleFavorite`,
+      {
+        /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
+        idOfUser: userData.data._id,
+        idOfLocation: locationData._id
+      } /* ,{
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'multipart/form-data'
+      }
+    } */
+    );
+    if (result.status === 200) {
+      setLocationIsFavorite(!locationIsFavorite);
+    }
+  };
+  const handleVisitedClick = async () => {
+    const result = await axios.put(
+      `${process.env.REACT_APP_API_URI}tougleVisited`,
+      {
+        /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
+        idOfUser: userData.data._id,
+        idOfLocation: locationData._id
+      }
+    );
+    if (result.status === 200) {
+      setLocationIsVisited(!locationIsVisited);
+    }
   };
 
   return (
@@ -118,8 +159,23 @@ function PointPopup({ location }: Props) {
               href="/"
               component="button"
               underline="none"
-            >
-              <Typography variant="subtitle2">Add to visited</Typography>
+              onClick={handleFavoriteClick}
+            >{locationIsFavorite ? 
+                <Typography variant="subtitle2"> Remove from favorite</Typography>:
+                <Typography variant="subtitle2"> Add to favorite</Typography>
+              }
+            </Link>
+
+            <Link
+              sx={{ color: 'text.secondary' }}
+              href="/"
+              component="button"
+              underline="none"
+              onClick={handleVisitedClick}
+            >{locationIsVisited ?
+              <Typography variant="subtitle2"> Remove from visited</Typography>:
+              <Typography variant="subtitle2"> Add to visited</Typography>
+              }
             </Link>
 
             <Link
