@@ -11,7 +11,7 @@ import { locationType } from '../../types';
 function HomeScreen() {
   const [isAuth] = useState(true);
   const [isOpenLocationPopup, setIsOpenLocationPopup] = useState(false);
-  const [isOpenLocacionForm, setIsOpenLocacionForm] = useState(false);
+  const [isOpenLocationForm, setIsOpenLocationForm] = useState(false);
 
   const [location, setLocation] = useState<locationType | null>(null);
   const [coordinate, setCoordinate] = useState<any>([]);
@@ -22,7 +22,7 @@ function HomeScreen() {
   };
 
   const onOpenLocationForm = () => {
-    setIsOpenLocacionForm(true);
+    setIsOpenLocationForm(true);
   };
 
   return (
@@ -34,8 +34,8 @@ function HomeScreen() {
       />
 
       <BigPopupLocation
-        isOpen={isOpenLocacionForm}
-        toggleClose={() => setIsOpenLocacionForm(false)}
+        isOpen={isOpenLocationForm}
+        toggleClose={() => setIsOpenLocationForm(false)}
       >
         <CreateLocation coordinate={coordinate} />
       </BigPopupLocation>
@@ -48,7 +48,7 @@ function HomeScreen() {
           onOpenLocationForm={onOpenLocationForm}
           isAuth={isAuth}
           setCoordinate={setCoordinate}
-          isOpen={isOpenLocacionForm}
+          isOpen={isOpenLocationForm}
         />
       </Box>
     </Box>

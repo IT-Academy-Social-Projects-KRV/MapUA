@@ -52,12 +52,12 @@ export default function ProfilePage({
   const [showEditPanel, setShowEditPanel] = useState(false);
   const [userImage, setUserImage] = useState<File | null>();
   const userAvatar = useTypedSelector(state => state.user);
-  const [, setDescription] = useState('');
+  const [newDescription, setNewDescription] = useState(description);
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState(false);
   const { logout } = useTypedDispatch();
   const handleDescription = (descriptionBasicTabs: any) => {
-    setDescription(descriptionBasicTabs);
+    setNewDescription(descriptionBasicTabs);
   };
   const onSubmit: SubmitHandler<UserForm> = async data => {
     const formData = new FormData();
@@ -66,7 +66,7 @@ export default function ProfilePage({
     }
     formData.append('id', id);
     formData.append('displayName', data.displayName);
-    formData.append('description', data.description);
+    formData.append('description', newDescription);
 
     try {
       const response = await axios.patch(
@@ -196,6 +196,7 @@ export default function ProfilePage({
           setShowEditPanel={setShowEditPanel}
           control={control}
           handleDescription={handleDescription}
+          newDescription={newDescription}
         />
       </ProfileUsertWrapper>
     </ProfileFormWrapper>
