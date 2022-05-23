@@ -1,8 +1,19 @@
+import { styled } from '@mui/material/styles';
+import CommentSection from 'components/BigPopup/CommentSection/CommentSection';
+import IconButton, { IconButtonProps } from '@mui/material/IconButton';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
+import Link from '@mui/material/Link';
 import React, { useState, MouseEvent, SyntheticEvent } from 'react';
+
 import {
+  Avatar,
+  Box,
   Card,
-  CardMedia,
   CardContent,
+  CardMedia,
   Collapse,
   Avatar,
   Typography,
@@ -224,88 +235,7 @@ const PointPopup = () => {
           </IconButton>
         </CardContent>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <CardContent>
-            <Typography
-              variant="h6"
-              color="text.secondary"
-              sx={{
-                textAlign: 'center',
-                borderBottom: '1px solid grey'
-              }}
-            >
-              Comments section
-            </Typography>
-            <List>
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center'
-                }}
-              >
-                <FormControl variant="standard">
-                  <TextField
-                    multiline
-                    rows={5}
-                    id="your comment"
-                    placeholder="Add your comment"
-                    variant="outlined"
-                    fullWidth
-                  />
-
-                  <Button
-                    sx={{
-                      width: '25%',
-                      borderRadius: 10,
-                      alignSelf: 'center',
-                      mt: 2,
-                      color: 'black',
-                      mb: 3
-                    }}
-                    endIcon={<SendOutlinedIcon />}
-                  >
-                    Send
-                  </Button>
-                </FormControl>
-              </Box>
-              <Divider variant="inset" component="li" />
-              <ListItem alignItems="flex-start" sx={{ pl: 0 }}>
-                <ListItemAvatar>
-                  <Avatar
-                    alt="Vasya"
-                    src="https://cdn-icons-png.flaticon.com/512/147/147142.png"
-                  />
-                </ListItemAvatar>
-                <ListItemText
-                  primary="Nice place..."
-                  secondary={
-                    <Typography
-                      sx={{ display: 'inline' }}
-                      component="span"
-                      variant="body2"
-                      color="text.primary"
-                    />
-                  }
-                />
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    gap: 3,
-                    alignSelf: 'flex-end'
-                  }}
-                >
-                  <IconButton>
-                    <ThumbUpOutlinedIcon fontSize="small" />
-                  </IconButton>
-
-                  <IconButton>
-                    <ThumbDownAltOutlinedIcon fontSize="small" />
-                  </IconButton>
-                </Box>
-              </ListItem>
-            </List>
-          </CardContent>
+          <CommentSection />
         </Collapse>
         {snackbar}
       </Card>
