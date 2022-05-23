@@ -65,10 +65,6 @@ function Login() {
     control
   });
 
-  // const handleClickGoogle = () => {
-  //   window.open('http://localhost:3001/api/google', '_self');
-  // };
-
   const handleOAuth = (type: 'google' | 'facebook') => {
     if (type === 'google') {
       window.open(`${process.env.REACT_APP_API_URI}signin-google`, '_self');

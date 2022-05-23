@@ -1,7 +1,6 @@
-export type UserLoginState = {
+export type UserAuthState = {
   loading: boolean;
   error: {} | null;
-  isLogged: boolean;
   isAuthorized: boolean;
   id: string;
   token: string;

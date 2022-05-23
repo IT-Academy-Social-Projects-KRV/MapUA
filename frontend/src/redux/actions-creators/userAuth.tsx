@@ -16,6 +16,7 @@ export const login =
         dispatch({
           type: UserAuthActionTypes.USER_LOGIN_REQUEST
         });
+
         const response = await axios.post(`${REACT_APP_API_URI}signin`, {
           email,
           password
