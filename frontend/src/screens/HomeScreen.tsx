@@ -9,6 +9,8 @@ import CreateLocation from 'components/CreateLocation/CreateLocation';
 import { locationType } from '../../types';
 
 function HomeScreen() {
+  const [isAddLocationActive, setIsAddLocationActive] = useState(false);
+
   const [isAuth] = useState(true);
   const [isOpenLocationPopup, setIsOpenLocationPopup] = useState(false);
   const [isOpenLocationForm, setIsOpenLocationForm] = useState(false);
@@ -16,9 +18,12 @@ function HomeScreen() {
   const [location, setLocation] = useState<locationType | null>(null);
   const [coordinate, setCoordinate] = useState<any>([]);
 
+  const [showAddLocationButton, setShowAddLocationButton] = useState(true);
+
   const onOpenBigPopup = (locationData: locationType) => {
     setLocation(locationData);
     setIsOpenLocationPopup(true);
+    setShowAddLocationButton(false);
   };
 
   const onOpenLocationForm = () => {
@@ -29,13 +34,17 @@ function HomeScreen() {
     <Box sx={{ flexGrow: 1 }}>
       <BigPopup
         isOpen={isOpenLocationPopup}
-        toggleClose={() => setIsOpenLocationPopup(false)}
+        toggleClose={() => {
+          setIsOpenLocationPopup(false);
+          setShowAddLocationButton(true);
+        }}
         location={location}
       />
 
       <BigPopupLocation
         isOpen={isOpenLocationForm}
         toggleClose={() => setIsOpenLocationForm(false)}
+        setIsAddLocationActive={setIsAddLocationActive}
       >
         <CreateLocation coordinate={coordinate} />
       </BigPopupLocation>
@@ -49,6 +58,9 @@ function HomeScreen() {
           isAuth={isAuth}
           setCoordinate={setCoordinate}
           isOpen={isOpenLocationForm}
+          showAddLocationButton={showAddLocationButton}
+          setIsAddLocationActive={setIsAddLocationActive}
+          isAddLocationActive={isAddLocationActive}
         />
       </Box>
     </Box>
