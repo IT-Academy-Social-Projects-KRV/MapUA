@@ -41,15 +41,11 @@ const PointPopup = () => {
 
   const { updatePopupLocation } = useTypedDispatch();
 
-  const userLogin = useTypedSelector(state => state.userLogin);
+  const userAuth = useTypedSelector(state => state.userAuth);
   const infoLocation = useTypedSelector(state => state.popupLocation);
 
-  const {
-    isLogged,
-    userInfo: { user }
-  } = userLogin;
+  const { isAuthorized, id: userId } = userAuth;
 
-  const { _id: userId } = user;
   const { _id, rating, locationName, description, arrayPhotos } = infoLocation;
 
   const handleCloseNotification = (
@@ -66,51 +62,31 @@ const PointPopup = () => {
     setExpanded(!expanded);
   };
 
-  const handleLikes = (e: MouseEvent<HTMLButtonElement>) => {
+  const handleRating = (
+    e: MouseEvent<HTMLButtonElement>,
+    type: 'likes' | 'dislikes'
+  ) => {
     e.preventDefault();
-    if (!isLogged) {
+    if (!isAuthorized) {
       return setNotification({
         type: 'warning',
         message: 'Login to your account to be able to rate!'
       });
     }
+
     const updatedRating = { ...rating };
-    if (rating.likes.includes(userId)) {
-      updatedRating.likes = updatedRating.likes.filter(
+    if (rating[type].includes(userId)) {
+      updatedRating[type] = updatedRating[type].filter(
         value => value !== userId
       );
     } else {
-      updatedRating.likes.push(userId);
+      updatedRating[type].push(userId);
     }
 
-    if (rating.dislikes.includes(userId)) {
-      updatedRating.dislikes = updatedRating.dislikes.filter(
-        value => value !== userId
-      );
-    }
+    const inverseType = type === 'likes' ? 'dislikes' : 'likes';
 
-    return updatePopupLocation(_id, { rating: updatedRating });
-  };
-
-  const handleDislikes = (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    if (!isLogged) {
-      return setNotification({
-        type: 'warning',
-        message: 'Login to your account to be able to rate!'
-      });
-    }
-    const updatedRating = { ...rating };
-    if (rating.dislikes.includes(userId)) {
-      updatedRating.dislikes = updatedRating.dislikes.filter(
-        value => value !== userId
-      );
-    } else {
-      updatedRating.dislikes.push(userId);
-    }
-
-    if (rating.likes.includes(userId)) {
-      updatedRating.likes = updatedRating.likes.filter(
+    if (rating[inverseType].includes(userId)) {
+      updatedRating[inverseType] = updatedRating[inverseType].filter(
         value => value !== userId
       );
     }
@@ -168,7 +144,7 @@ const PointPopup = () => {
               pr: 10
             }}
           >
-            <IconButton onClick={handleLikes}>
+            <IconButton onClick={e => handleRating(e, 'likes')}>
               {rating.likes.includes(userId) ? (
                 <ThumbUpIcon
                   fontSize="small"
@@ -183,7 +159,7 @@ const PointPopup = () => {
               {rating.likes.length}
             </IconButton>
 
-            <IconButton onClick={handleDislikes}>
+            <IconButton onClick={e => handleRating(e, 'dislikes')}>
               {rating.dislikes.includes(userId) ? (
                 <ThumbDownIcon
                   fontSize="small"

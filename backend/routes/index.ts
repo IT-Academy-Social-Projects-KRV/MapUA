@@ -35,7 +35,7 @@ router.post(
 );
 
 router.get(
-  '/google',
+  '/signin-google',
   passport.authenticate('google', { scope: ['email', 'profile'] })
 );
 router.get(
@@ -64,6 +64,11 @@ router.get(
   }),
   AuthController.signInFacebook
 );
+router.patch('/profile',
+upload.single('image'),
+UserController.changeUserData
+);
+
 
 router.get('/is-authenticated', AuthController.checkJwt);
 
