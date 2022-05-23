@@ -5,11 +5,11 @@ import {
 import { locationState } from 'redux/ts-types/popupLocation';
 
 export const initialState: locationState = {
-  _id: ' aa',
+  _id: '',
   locationName: '',
   rating: {
-    likes: 0,
-    dislikes: 0
+    likes: [],
+    dislikes: []
   },
   coordinates: [0, 0],
   arrayPhotos: [],
@@ -23,6 +23,8 @@ export const popupLocationReducer = (
 ): locationState => {
   switch (action.type) {
     case LocationActionTypes.FETCH_lOCATION:
+      return { ...state, ...action.payload };
+    case LocationActionTypes.UPDATE_LOCATION:
       return { ...state, ...action.payload };
     case LocationActionTypes.LOADING_START:
       return { ...state, isLoading: true };

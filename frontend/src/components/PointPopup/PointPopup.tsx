@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import CommentSection from 'components/BigPopup/CommentSection/CommentSection';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
@@ -7,6 +6,8 @@ import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import Link from '@mui/material/Link';
+import React, { useState, MouseEvent, SyntheticEvent } from 'react';
+
 import {
   Avatar,
   Box,
@@ -14,35 +15,115 @@ import {
   CardContent,
   CardMedia,
   Collapse,
-  Typography
+  Avatar,
+  Typography,
+  Box,
+  TextField,
+  FormControl,
+  Button,
+  List,
+  ListItem,
+  Divider,
+  ListItemText,
+  ListItemAvatar,
+  Snackbar,
+  Alert,
+  AlertColor
 } from '@mui/material';
-import { locationType } from '../../../types';
+import IconButton from '@mui/material/IconButton';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
+import { useTypedSelector } from 'redux/hooks/useTypedSelector';
+import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 
-interface Props {
-  location: locationType;
+interface INotification {
+  type: AlertColor;
+  message: string;
 }
 
-interface ExpandMoreProps extends IconButtonProps {
-  expand: boolean;
-}
-
-const ExpandMore = styled((props: ExpandMoreProps) => {
-  const { expand, ...other } = props;
-  /* eslint-disable-next-line react/jsx-props-no-spreading */
-  return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-  marginLeft: 'auto',
-  transition: theme.transitions.create('transform', {
-    duration: theme.transitions.duration.shortest
-  })
-}));
-
-function PointPopup({ location }: Props) {
+const PointPopup = () => {
   const [expanded, setExpanded] = useState(false);
+  const [notification, setNotification] = useState<INotification | null>(null);
+
+  const { updatePopupLocation } = useTypedDispatch();
+
+  const userAuth = useTypedSelector(state => state.userAuth);
+  const infoLocation = useTypedSelector(state => state.popupLocation);
+
+  const { isAuthorized, id: userId } = userAuth;
+
+  const { _id, rating, locationName, description, arrayPhotos } = infoLocation;
+
+  const handleCloseNotification = (
+    e?: SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setNotification(null);
+  };
+
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  const handleRating = (
+    e: MouseEvent<HTMLButtonElement>,
+    type: 'likes' | 'dislikes'
+  ) => {
+    e.preventDefault();
+    if (!isAuthorized) {
+      return setNotification({
+        type: 'warning',
+        message: 'Login to your account to be able to rate!'
+      });
+    }
+
+    const updatedRating = { ...rating };
+    if (rating[type].includes(userId)) {
+      updatedRating[type] = updatedRating[type].filter(
+        value => value !== userId
+      );
+    } else {
+      updatedRating[type].push(userId);
+    }
+
+    const inverseType = type === 'likes' ? 'dislikes' : 'likes';
+
+    if (rating[inverseType].includes(userId)) {
+      updatedRating[inverseType] = updatedRating[inverseType].filter(
+        value => value !== userId
+      );
+    }
+
+    return updatePopupLocation(_id, { rating: updatedRating });
+  };
+
+  let snackbar;
+  if (notification) {
+    snackbar = (
+      <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        open={!!notification}
+        autoHideDuration={5000}
+        onClose={handleCloseNotification}
+      >
+        <Alert
+          onClose={handleCloseNotification}
+          severity={notification.type}
+          sx={{ width: '100%' }}
+        >
+          {notification.message}
+        </Alert>
+      </Snackbar>
+    );
+  }
 
   return (
     <Box>
@@ -54,8 +135,8 @@ function PointPopup({ location }: Props) {
             pb: 0
           }}
           component="img"
-          image={location.arrayPhotos[0]}
-          alt={location.locationName}
+          image={arrayPhotos[0]}
+          alt={locationName}
         />
 
         <Box>
@@ -64,7 +145,7 @@ function PointPopup({ location }: Props) {
             variant="h4"
             sx={{ pl: 5, pt: 2, mb: 2 }}
           >
-            {location.locationName}
+            {locationName}
           </Typography>
           <Box
             sx={{
@@ -74,54 +155,42 @@ function PointPopup({ location }: Props) {
               pr: 10
             }}
           >
-            <Typography variant="button">
-              <Link
-                href="/"
-                component="button"
-                underline="none"
-                sx={{ pr: 1.5 }}
-              >
+            <IconButton onClick={e => handleRating(e, 'likes')}>
+              {rating.likes.includes(userId) ? (
+                <ThumbUpIcon
+                  fontSize="small"
+                  sx={{ color: 'text.secondary' }}
+                />
+              ) : (
                 <ThumbUpOutlinedIcon
                   fontSize="small"
                   sx={{ color: 'text.secondary' }}
                 />
-              </Link>
-              {location.rating?.likes}
-            </Typography>
+              )}
+              {rating.likes.length}
+            </IconButton>
 
-            <Link href="/" component="button" underline="none">
-              <ThumbDownAltOutlinedIcon
-                fontSize="small"
-                sx={{ color: 'text.secondary' }}
-              />
-            </Link>
+            <IconButton onClick={e => handleRating(e, 'dislikes')}>
+              {rating.dislikes.includes(userId) ? (
+                <ThumbDownIcon
+                  fontSize="small"
+                  sx={{ color: 'text.secondary' }}
+                />
+              ) : (
+                <ThumbDownAltOutlinedIcon
+                  fontSize="small"
+                  sx={{ color: 'text.secondary' }}
+                />
+              )}
+              {rating.dislikes.length}
+            </IconButton>
 
-            <Link
-              sx={{ color: 'text.secondary' }}
-              href="/"
-              component="button"
-              underline="none"
-            >
-              <Typography variant="subtitle2">To share</Typography>
-            </Link>
+            <IconButton size="small">To share</IconButton>
 
-            <Link
-              sx={{ color: 'text.secondary' }}
-              href="/"
-              component="button"
-              underline="none"
-            >
-              <Typography variant="subtitle2">Add to visited</Typography>
-            </Link>
-
-            <Link
-              sx={{ color: 'text.secondary' }}
-              href="/"
-              component="button"
-              underline="none"
-            >
+            <IconButton size="small">Add to visited</IconButton>
+            <IconButton>
               <MoreHorizIcon />
-            </Link>
+            </IconButton>
           </Box>
         </Box>
 
@@ -152,25 +221,25 @@ function PointPopup({ location }: Props) {
                 border: '1px solid grey '
               }}
             >
-              {location.description}
+              {description}
             </Typography>
           </Box>
-          <ExpandMore
-            expand={expanded}
+          <IconButton
             onClick={handleExpandClick}
-            aria-expanded={expanded}
-            aria-label="show more"
-            sx={{ mt: 3 }}
+            sx={{
+              mt: 3,
+              transform: !expanded ? 'rotate(0deg)' : 'rotate(180deg)'
+            }}
           >
             <ExpandMoreIcon />
-          </ExpandMore>
+          </IconButton>
         </CardContent>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CommentSection />
         </Collapse>
+        {snackbar}
       </Card>
     </Box>
   );
-}
-
+};
 export default PointPopup;

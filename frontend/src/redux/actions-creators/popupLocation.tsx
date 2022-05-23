@@ -28,6 +28,24 @@ export const fetchPopupLocation =
     }
   };
 
+export const updatePopupLocation =
+  (id: string | undefined, location: {}) =>
+  async (dispatch: Dispatch<LocationActions>) => {
+    try {
+      const url = `${REACT_APP_API_URI}/locations/${id}`;
+      const { data } = await axios.patch(url, location);
+
+      if (data) {
+        dispatch({
+          type: LocationActionTypes.UPDATE_LOCATION,
+          payload: data
+        });
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
 export function startLoading(): LocationActions {
   return { type: LocationActionTypes.LOADING_START };
 }
