@@ -39,8 +39,7 @@ const CreateLocation = ({ coordinate }: Props) => {
 
   const accessToken = localStorage.getItem('accessToken');
 
-  const onSubmit = async (e: any) => {
-    e.preventDefault();
+  const onSubmit = async () => {
     try {
       const formData = new FormData();
       formData.append('locationName', locationName);
@@ -85,45 +84,20 @@ const CreateLocation = ({ coordinate }: Props) => {
     }
   };
 
-  // const handleFormSubmit = async () => {
-  //   const formData = new FormData();
-  //
-  //   const urls = await Promise.all(
-  //     files.map(async file => {
-  //       formData.set('file', file);
-  //       const res = await fetch(`${process.env.REACT_APP_API_URI}uploadImage`, {
-  //         method: 'POST',
-  //         body: formData
-  //       });
-  //
-  //       return res.json();
-  //     })
-  //   );
-  //   setLinks(urls.map(itm => itm.url));
-  // };
-
   return (
     <form
       onSubmit={onSubmit}
       style={{
-        width: '300px',
+        width: '400px',
         height: '600px',
         textAlign: 'center',
-        marginTop: '150px'
+        margin: '36px'
       }}
     >
       <Typography>{t('createLocation.creatingLocation')}</Typography>
 
-      {/* <img
-        src=""
-        alt=""
-        style={{
-          width: '200px',
-          height: '200px',
-          backgroundColor: 'white'
-        }}
-      /> */}
       <Input
+        sx={{ marginTop: '20px', width: '100%' }}
         type="text"
         value={locationName}
         onChange={handleChange}
@@ -136,10 +110,16 @@ const CreateLocation = ({ coordinate }: Props) => {
         onChange={handleChangeDescription}
         minRows={3}
         placeholder={t('createLocation.enterDescription')}
-        style={{ width: 200 }}
+        style={{
+          marginTop: '20px',
+          width: '100%',
+          resize: 'vertical',
+          minWidth: '30px'
+        }}
       />
 
       <Autocomplete
+        sx={{ marginTop: '20px' }}
         multiple
         id="tags-outlined"
         options={getFiltersForUser()}
@@ -161,12 +141,10 @@ const CreateLocation = ({ coordinate }: Props) => {
         type="file"
         onChange={e => handleFilesChange(e)}
         ref={ref}
+        sx={{ padding: '20px' }}
       />
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        {/* <Button variant="contained" component="span" onClick={handleFormSubmit}> */}
-        {/*  Upload */}
-        {/* </Button> */}
-        <Button variant="contained" type="submit">
+        <Button sx={{ marginTop: '20px' }} variant="contained" type="submit">
           {t('createLocation.doneAndSubmit')}
         </Button>
       </div>

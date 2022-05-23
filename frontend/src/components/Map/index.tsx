@@ -18,6 +18,9 @@ interface Props {
   isAuth: boolean;
   setCoordinate: Function;
   isOpen: boolean;
+  showAddLocationButton: boolean;
+  setIsAddLocationActive: Function;
+  isAddLocationActive: boolean;
 }
 
 function Map({
@@ -25,13 +28,16 @@ function Map({
   onOpenLocationForm,
   isAuth,
   setCoordinate,
-  isOpen
+  isOpen,
+  showAddLocationButton,
+  setIsAddLocationActive,
+  isAddLocationActive
 }: Props) {
   const { t } = useTranslation();
 
   const formRef = React.useRef<any>(null);
   const [coordinateByClick, SetCoordinateByClick] = useState<any>({});
-  const [isAddLocationActive, setIsAddLocationActive] = useState(false);
+  // const [isAddLocationActive, setIsAddLocationActive] = useState(false);
 
   const { bounds, locations, zoomPosition, locationName, selectedFilters } =
     useTypedSelector(state => state.locationList);
@@ -91,13 +97,14 @@ function Map({
           />
         ))}
         <SearchFormContainer />
-        {!isOpen && (
+        {showAddLocationButton && !isOpen && (
           <Button
-            onClick={() => {
-              setIsAddLocationActive(true);
-            }}
+            onClick={() =>
+              setIsAddLocationActive((prevState: boolean) => !prevState)
+            }
             style={{
-              background: 'white',
+              background: isAddLocationActive ? 'yellow' : 'white',
+              color: isAddLocationActive ? 'black' : '#1976d2',
               zIndex: '10000',
               position: 'absolute',
               top: '15px',
@@ -105,7 +112,9 @@ function Map({
               padding: '8px'
             }}
           >
-            {t('map.addLocation')}
+            {isAddLocationActive
+              ? 'Choice coordinates'
+              : `${t('map.addLocation')}`}
           </Button>
         )}
       </MapContainer>
