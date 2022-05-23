@@ -11,7 +11,7 @@ const AuthController = {
   async signUp(req: Request, res: Response, next: NextFunction) {
     try {
       await passport.authenticate(
-        "signup",
+        'signup',
         { session: false },
         async (err, user, info) => {
           if (err) throw err;
@@ -33,7 +33,7 @@ const AuthController = {
 
   async signIn(req: Request, res: Response, next: NextFunction) {
     try {
-      await passport.authenticate("signin", async (err, user, info) => {
+      await passport.authenticate('signin', async (err, user, info) => {
         if (err) throw err;
         if (!user) {
           return res.status(400).json({ error: req.t('user_not_exist'), info });
@@ -51,16 +51,16 @@ const AuthController = {
     }
   },
   async googleLoginCallback(req: Request, res: Response) {
-    console.log(req.user);
     if (!req.user) {
       return res
         .status(400)
         .json({ error: req.t('user_not_exist'), success: false });
     }
-    return res.json({
-      user: mapUserProps(req.user as IUser),
-      token: _tokenGeneration(req.user as IUser)
-    });
+
+    res.cookie('accessToken', _tokenGeneration(req.user as IUser));
+    res.cookie('userId', (req.user as IUser)._id.toString());
+
+    res.redirect(`${process.env.FRONTEND_HOST_URI}/login?oauth=1`);
   },
   async forgotPassword(req: Request, res: Response) {
     try {
@@ -103,10 +103,11 @@ const AuthController = {
         .status(400)
         .json({ error: req.t('user_not_exist'), success: false });
     }
-    return res.json({
-      user: mapUserProps(req.user as IUser),
-      token: _tokenGeneration(req.user as IUser)
-    });
+
+    res.cookie('accessToken', _tokenGeneration(req.user as IUser));
+    res.cookie('userId', (req.user as IUser)._id.toString());
+
+    res.redirect(`${process.env.FRONTEND_HOST_URI}/login?oauth=1`);
   },
   async checkJwt(req: Request, res: Response) {
     const token = req.headers['authorization']?.split(' ')?.[1];

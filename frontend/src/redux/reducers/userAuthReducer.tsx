@@ -46,8 +46,8 @@ export const userLoginReducer = (
       return {
         loading: false,
         error: null,
-        isAuthorized: false,
         id: '',
+        isAuthorized: false,
         token: ''
       };
 

@@ -17,7 +17,6 @@ router.get(
 router.post('/signup', AuthController.signUp);
 router.post('/signin', AuthController.signIn);
 router.post('/forgot-password', AuthController.forgotPassword);
-
 router.get(
   '/subscriptions',
   passport.authenticate('jwt', { session: false }),
@@ -36,7 +35,7 @@ router.post(
 );
 
 router.get(
-  '/google',
+  '/signin-google',
   passport.authenticate('google', { scope: ['email', 'profile'] })
 );
 router.get(
@@ -49,7 +48,6 @@ router.get(
   }),
   AuthController.googleLoginCallback
 );
-
 
 router.get(
   '/signin-fb',
@@ -66,6 +64,11 @@ router.get(
   }),
   AuthController.signInFacebook
 );
+router.patch('/profile',
+upload.single('image'),
+UserController.changeUserData
+);
+
 
 router.get('/is-authenticated', AuthController.checkJwt);
 

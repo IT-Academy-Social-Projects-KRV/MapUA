@@ -108,6 +108,23 @@ const LocationsController = {
       return res.status(500).json({ error: req.t('server_error'), err });
     }
   },
+  async updateLocationById(req: Request, res: Response) {
+    try {
+      const id = req.params.id;
+
+      const location = await Location.findByIdAndUpdate(
+        id,
+        {
+          $set: { ...req.body }
+        },
+        { new: true }
+      ).exec();
+
+      return res.status(200).json(location);
+    } catch (err: any) {
+      return res.status(500).json({ error: err.message });
+    }
+  },
   async changeLocationInfo(req: Request, res: Response) {
     try {
       const { _id, fields } = req.body;
