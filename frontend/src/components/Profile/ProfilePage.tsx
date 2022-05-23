@@ -66,8 +66,8 @@ export default function ProfilePage({
     formData.append('description', data.description);
 
     try {
-      const response = await axios.put(
-        `${process.env.REACT_APP_API_URI}user`,
+      const response = await axios.patch(
+        `${process.env.REACT_APP_API_URI}profile`,
         formData,
         {
           headers: {
