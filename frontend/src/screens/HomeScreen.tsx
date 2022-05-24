@@ -3,15 +3,13 @@ import React, { useState } from 'react';
 import { Box } from '@mui/material';
 import Map from 'components/Map/index';
 import BigPopup from 'components/BigPopup/index';
-
 import BigPopupLocation from 'components/design/BigPopupLocation';
 import CreateLocation from 'components/CreateLocation/CreateLocation';
 import { locationType } from '../../types';
 
 function HomeScreen() {
   const [isAddLocationActive, setIsAddLocationActive] = useState(false);
-
-  const [isAuth] = useState(true);
+  // const [isAuth] = useState(false);
   const [isOpenLocationPopup, setIsOpenLocationPopup] = useState(false);
   const [isOpenLocationForm, setIsOpenLocationForm] = useState(false);
 
@@ -55,7 +53,7 @@ function HomeScreen() {
         <Map
           onOpenBigPopup={onOpenBigPopup}
           onOpenLocationForm={onOpenLocationForm}
-          isAuth={isAuth}
+          // userAuth={userAuth}
           setCoordinate={setCoordinate}
           isOpen={isOpenLocationForm}
           showAddLocationButton={showAddLocationButton}

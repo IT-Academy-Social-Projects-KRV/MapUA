@@ -15,7 +15,6 @@ import L from 'leaflet';
 interface Props {
   onOpenBigPopup: Function;
   onOpenLocationForm: Function;
-  isAuth: boolean;
   setCoordinate: Function;
   isOpen: boolean;
   showAddLocationButton: boolean;
@@ -26,7 +25,6 @@ interface Props {
 function Map({
   onOpenBigPopup,
   onOpenLocationForm,
-  isAuth,
   setCoordinate,
   isOpen,
   showAddLocationButton,
@@ -34,11 +32,10 @@ function Map({
   isAddLocationActive
 }: Props) {
   const { t } = useTranslation();
+  const userAuth = useTypedSelector(state => state.userAuth.isAuthorized);
 
   const formRef = React.useRef<any>(null);
   const [coordinateByClick, SetCoordinateByClick] = useState<any>({});
-  // const [isAddLocationActive, setIsAddLocationActive] = useState(false);
-
   const { bounds, locations, zoomPosition, locationName, selectedFilters } =
     useTypedSelector(state => state.locationList);
   const debouncedValue = useDebounce(locationName, 1000);
@@ -97,7 +94,7 @@ function Map({
           />
         ))}
         <SearchFormContainer />
-        {showAddLocationButton && !isOpen && (
+        {userAuth && showAddLocationButton && !isOpen && (
           <Button
             onClick={() =>
               setIsAddLocationActive((prevState: boolean) => !prevState)
