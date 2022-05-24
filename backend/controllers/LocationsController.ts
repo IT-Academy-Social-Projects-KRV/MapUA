@@ -26,6 +26,8 @@ const LocationsController = {
         _id: l._id,
         coordinates: l.coordinates,
         name: l.locationName,
+        locationName: l.locationName,
+        arrayPhotos: l.arrayPhotos,
         filters: l.filters
       }));
       if (searchName) {

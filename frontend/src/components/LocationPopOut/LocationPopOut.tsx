@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import Typography from '@mui/material/Typography';
-import { CardMedia, CircularProgress } from '@mui/material';
+import { CardMedia } from '@mui/material';
 import { Marker } from 'react-leaflet';
 import L from 'leaflet';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
@@ -13,18 +13,21 @@ import img from '../../static/image-not-found.jpg';
 interface Props {
   id: string;
   coordinates: [number, number];
+  locationName: string;
+  arrayPhotos: string[];
   onOpenBigPopup: Function;
 }
 
-export function LocationPopOut({ id, coordinates, onOpenBigPopup }: Props) {
+export function LocationPopOut({
+  id,
+  coordinates,
+  locationName,
+  arrayPhotos,
+  onOpenBigPopup
+}: Props) {
   const locationData = useTypedSelector(state => state.popupLocation);
   const { isLoading } = locationData;
-  const { fetchPopupLocation, startLoading } = useTypedDispatch();
-
-  const onOpenTooltip = () => {
-    startLoading();
-    fetchPopupLocation(id);
-  };
+  const { fetchPopupLocation } = useTypedDispatch();
 
   return (
     <Marker
@@ -36,30 +39,22 @@ export function LocationPopOut({ id, coordinates, onOpenBigPopup }: Props) {
         click: e => {
           if (!isLoading) {
             e.originalEvent.stopPropagation();
+            fetchPopupLocation(id);
             onOpenBigPopup(locationData);
           }
-        },
-        tooltipopen: () => onOpenTooltip()
+        }
       }}
       position={coordinates}
     >
       <StyledTooltip>
         <StyledBox>
           <StyledMediaBox>
-            {isLoading ? (
-              <CircularProgress />
-            ) : (
-              <CardMedia
-                sx={{ borderRadius: '20px' }}
-                src={
-                  !locationData.arrayPhotos[0]
-                    ? img
-                    : locationData.arrayPhotos[0]
-                }
-                component="img"
-                alt={locationData.locationName}
-              />
-            )}
+            <CardMedia
+              sx={{ borderRadius: '20px' }}
+              src={!arrayPhotos[0] ? img : arrayPhotos[0]}
+              component="img"
+              alt={locationName}
+            />
           </StyledMediaBox>
           <Typography
             variant="h6"
@@ -67,7 +62,7 @@ export function LocationPopOut({ id, coordinates, onOpenBigPopup }: Props) {
             textAlign="center"
             color="inherit"
           >
-            {locationData.locationName}
+            {locationName}
           </Typography>
         </StyledBox>
       </StyledTooltip>
