@@ -41,7 +41,8 @@ export const fetchLocations =
         method: 'get',
         url,
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Accept-Language': localStorage.getItem('i18nextLng') || ''
         }
       };
       const { data } = await axios(options);

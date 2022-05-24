@@ -12,7 +12,11 @@ export const fetchPopupLocation =
   (id: string) => async (dispatch: Dispatch<LocationActions>) => {
     try {
       const url = `${REACT_APP_API_URI}locations/${id}`;
-      const { data } = await axios.get(url);
+      const { data } = await axios.get(url, {
+        headers: {
+          'Accept-Language': localStorage.getItem('i18nextLng') || ''
+        }
+      });
 
       if (data) {
         dispatch({
@@ -33,7 +37,11 @@ export const updatePopupLocation =
   async (dispatch: Dispatch<LocationActions>) => {
     try {
       const url = `${REACT_APP_API_URI}locations/${id}`;
-      const { data } = await axios.patch(url, location);
+      const { data } = await axios.patch(url, location, {
+        headers: {
+          'Accept-Language': localStorage.getItem('i18nextLng') || ''
+        }
+      });
 
       if (data) {
         dispatch({
@@ -59,6 +67,11 @@ export const sendComment =
         {
           id,
           comment
+        },
+        {
+          headers: {
+            'Accept-Language': localStorage.getItem('i18nextLng') || ''
+          }
         }
       );
       if (response.status === 200) {

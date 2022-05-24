@@ -10,7 +10,8 @@ export const fetchFilters =
       dispatch({ type: FiltersActionTypes.FETCH_FILTERS });
       const response = await axios.get(`${REACT_APP_API_URI}subscriptions`, {
         headers: {
-          Authorization: `Bearer ${accessToken}`
+          Authorization: `Bearer ${accessToken}`,
+          'Accept-Language': localStorage.getItem('i18nextLng') || ''
         }
       });
       dispatch({
