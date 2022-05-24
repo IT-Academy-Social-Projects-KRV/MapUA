@@ -131,7 +131,7 @@ export default function ProfilePage({
                   aria-label="avatar"
                   src={userAvatar.data.imageUrl}
                 />
-                <Box sx={{ m: '2vh 0 2vh 10vh' }}>
+                <Box sx={{ m: '2vh 0 2vh 14vh' }}>
                   {t('profile.profilePage.uploadPhoto')}
                 </Box>
                 <Box>
