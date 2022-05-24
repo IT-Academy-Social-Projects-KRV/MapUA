@@ -22,6 +22,7 @@ function NavBar() {
         <button type="button" onClick={changeLanguage('ua')}>
           Українська
         </button>
+        <languageSelect />
         <Link
           color="inherit"
           underline="none"
