@@ -24,7 +24,7 @@ function TabPanel(props: React.PropsWithChildren<TabPanelProps>) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+          <Typography component="span">{children}</Typography>
         </Box>
       )}
     </Box>
@@ -98,7 +98,7 @@ export default function BasicTabs({
       ) : (
         <Box>
           <TabPanel value={value} index={0}>
-            <Typography>
+            <Typography component="span">
               {userDescription.data.description || 'There is no description'}
             </Typography>
           </TabPanel>
