@@ -3,26 +3,16 @@ import { Link } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTranslation } from 'react-i18next';
+import LanguageSelect from 'components/LanguageSelect/LanguageSelect';
 import { StyledAppBar, StyledStack } from './style';
 
 function NavBar() {
   const { isAuthorized } = useTypedSelector(state => state.userAuth);
-  const { t, i18n } = useTranslation();
-
-  const changeLanguage = (language: string) => () => {
-    i18n.changeLanguage(language);
-  };
+  const { t } = useTranslation();
 
   return (
     <StyledAppBar>
       <StyledStack direction="row">
-        <button type="button" onClick={changeLanguage('en')}>
-          English
-        </button>
-        <button type="button" onClick={changeLanguage('ua')}>
-          Українська
-        </button>
-        <languageSelect />
         <Link
           color="inherit"
           underline="none"
@@ -61,6 +51,7 @@ function NavBar() {
             {t('common.login')}
           </Link>
         )}
+        <LanguageSelect />
       </StyledStack>
     </StyledAppBar>
   );
