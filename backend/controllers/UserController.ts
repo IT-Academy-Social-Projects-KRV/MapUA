@@ -37,7 +37,7 @@ const UserController = {
       const userData = await User.findById(_id,{favorite:1});
       const locationData = await Location.findById(idOfLocation);
       if(!locationData){
-        return res.status(400).json({ error: req.t('location_not_exist')});
+        return res.status(400).json({ error: req.t('location_not_found')});
       }
       if(userData){
         if(userData.favorite.includes(idOfLocation)){
@@ -78,7 +78,7 @@ const UserController = {
       const userData = await User.findById(_id,{visited:1});
       const locationData = await Location.findById(idOfLocation);
       if(!locationData){
-        return res.status(400).json({ error: req.t('location_not_exist')});
+        return res.status(400).json({ error: req.t('location_not_found')});
       }
       if(userData){
         if(userData.visited.includes(idOfLocation)){
