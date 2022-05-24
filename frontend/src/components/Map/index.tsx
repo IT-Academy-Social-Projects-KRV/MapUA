@@ -34,8 +34,6 @@ function Map({
 
   const formRef = React.useRef<any>(null);
   const [coordinateByClick, SetCoordinateByClick] = useState<any>({});
-  // const [isAddLocationActive, setIsAddLocationActive] = useState(false);
-
   const { bounds, locations, zoomPosition, locationName, selectedFilters } =
     useTypedSelector(state => state.locationList);
   const debouncedValue = useDebounce(locationName, 1000);
