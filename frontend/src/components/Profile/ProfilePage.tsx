@@ -80,6 +80,7 @@ export default function ProfilePage({
       );
       if (response.status === 200) {
         setSuccessMessage(true);
+        setTimeout(() => setSuccessMessage(false), 3000);
         dispatch({
           type: UserActionTypes.UPDATE_USER,
           payload: response.data
