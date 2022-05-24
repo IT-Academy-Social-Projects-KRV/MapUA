@@ -22,6 +22,8 @@ export interface ILocation extends Document {
   comments: commentType[];
   filters: string[];
   author: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const schema = new mongoose.Schema({
@@ -35,7 +37,9 @@ const schema = new mongoose.Schema({
     dislikes: { type: Array, default: [] }
   },
   filters: { type: Array, default: [] },
-  author: { type: String, required: true }
+  author: { type: String, required: true },
+  createdAt: { type: Date },
+  updatedAt: { type: Date }
 });
 
 export default mongoose.model<ILocation>('Location', schema);
