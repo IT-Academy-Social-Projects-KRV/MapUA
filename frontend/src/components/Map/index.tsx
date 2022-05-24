@@ -85,11 +85,14 @@ function Map({
         <TileLayer url="https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png" />
 
         <MyZoomComponent />
-        {locations.map(({ _id, coordinates }) => (
+        {/* eslint-disable-next-line @typescript-eslint/no-shadow */}
+        {locations.map(({ _id, coordinates, locationName, arrayPhotos }) => (
           <LocationPopOut
             key={_id}
             id={_id}
             coordinates={coordinates}
+            locationName={locationName}
+            arrayPhotos={arrayPhotos}
             onOpenBigPopup={onOpenBigPopup}
           />
         ))}
