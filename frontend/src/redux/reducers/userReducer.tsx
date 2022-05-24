@@ -16,8 +16,8 @@ const initialState: UserState = {
     imageUrl: image,
     subscribers: [],
     subscriptions: [],
-    favorite:[],
-    visited:[],
+    favorite: [],
+    visited: [],
     personalLocations: []
   },
   loading: false,
