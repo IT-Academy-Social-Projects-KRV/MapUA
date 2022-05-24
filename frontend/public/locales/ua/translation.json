@@ -11,7 +11,6 @@
     "aboutUs": "Про нас",
     "news": "Новини",
     "map": "Карта",
-    "logut": "Вийти",
     "myProfile": "Мій кабінет"
   },
   "createLocation": {
@@ -25,18 +24,25 @@
     "basicTabs": {
       "description": "Опис",
       "subscribers": "Підписники",
-      "subscriptions": "Підписки"
+      "subscriptions": "Підписки",
+      "enterDescription": "Будь ласка, введіть опис",
+      "noDescription": "Опис відсутній"
     },
     "profile": {
       "loading": "Завантаження..."
     },
     "profilePage": {
-      "nameIsUndefined": "Невідоме і'мя",
-      "creatingDate": "Дата створення:",
+      "lostNetwork": "Проблеми зі зв'язком",
+      "dataSuccessChanged": "Дані успішно змінено",
+      "uploadPhoto": "Завантажити Фото",
+      "enterName": "Будь ласка, введіть Ваше ім'я",
+      "name": "Ім'я",
+      "save": "Зберегти",
+      "cancel": "Відмінити",
+      "editProfile": "Редагувати Профіль",
+      "creationDate": "Дата створення:",
       "logout": "Вийти",
-      "visited": "Відвідані",
-      "favorites": "Обрані",
-      "personal": "Особисті"
+      "yourName": "Ваше ім'я:"
     }
   },
   "forgotPassword": {
@@ -45,12 +51,14 @@
   },
   "login": {
     "signInWithGoogle": "Увійти за допомогою google",
+    "signInWithFacebook": "Увійти за допомогою facebook",
     "signup": "Зареєструватися",
     "or": "або"
   },
   "registration": {
     "createProfile": "Створити профіль",
     "regisrationSuccess": "Ви успішно створили профіль!",
+    "regisrationFail": "Щось пішло не так",
     "create": "Створити"
   },
   "utils": {
@@ -62,17 +70,28 @@
     }
   },
   "map": {
+    "chooseCoordinates": "Виберіть координати",
     "addLocation": "Додати локацію"
   },
-  "pointPopUp": {
-    "toShare": "Поділитися",
-    "addToVisited": "Додати до відвіданих",
-    "locationCreatedBy": "Ця локація була створена:",
-    "comentsSection": "Коментарі",
-    "addComment": "Додати коментар",
-    "send": "Надіслати"
-  },
+  "filtersList": {},
   "searchForm": {
     "search": "Пошук"
+  },
+  "bigPopup": {
+    "commentSection": {
+      "commentForm": {
+        "addComment": "Додати коментар",
+        "send": "Надіслати"
+      },
+      "commentSection": {
+        "commentsSection": "Коментарі"
+      }
+    }
+  },
+  "pointPopUp": {
+    "message": "Увійдіть до свого кабінету, щоб мати можливість залишити відгук!",
+    "toShare": "Поділитися",
+    "addToVisited": "Додати до відвіданих",
+    "locationCreatedBy": "Локація створена:"
   }
 }

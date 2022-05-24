@@ -2,12 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Container } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-<<<<<<< HEAD
 import { useTranslation } from 'react-i18next';
-import BigPopup from 'components/BigPopup';
-// import Map from 'components/Map/index';
-=======
->>>>>>> develop
 import ProfilePage from './ProfilePage';
 import { useTypedSelector } from '../../redux/hooks/useTypedSelector';
 import { useTypedDispatch } from '../../redux/hooks/useTypedDispatch';

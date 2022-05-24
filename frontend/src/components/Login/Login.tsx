@@ -163,22 +163,17 @@ function Login() {
                   {t('common.login')}
                 </Button>
                 <Divider> {t('login.or')}</Divider>
-                <Button variant="contained">
-                  {' '}
-                  {t('login.signInWithGoogle')}
-                </Button>
-                <Divider>or</Divider>
                 <Button
                   variant="contained"
                   onClick={() => handleOAuth('google')}
                 >
-                  Sing in with google
+                  {t('login.signInWithGoogle')}
                 </Button>
                 <Button
                   variant="contained"
                   onClick={() => handleOAuth('facebook')}
                 >
-                  Sing in with facebook
+                  {t('login.signInWithFacebook')}
                 </Button>
                 <Button variant="contained">
                   <Link

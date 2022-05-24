@@ -53,7 +53,9 @@ function Registration() {
       }
     } catch (e: any) {
       setTimeout(() => setErrorMessage(''), 3000);
-      setErrorMessage(e.response.data?.error || 'Something went wrong');
+      setErrorMessage(
+        e.response.data?.error || `${t('registration.regisrationFail')}`
+      );
     }
   };
   const { errors } = useFormState({

@@ -130,7 +130,7 @@ const CreateLocation = ({ coordinate }: Props) => {
           <TextField
             {...params}
             value={filters}
-            label={t('createLocation.filters')}
+            label={t('common.filters')}
             placeholder={t('createLocation.favorites')}
           />
         )}

@@ -87,8 +87,8 @@ export default function BasicTabs({
               name="description"
               render={({ field }) => (
                 <TextField
-                  placeholder="Please enter description"
-                  label="Description"
+                  placeholder={t('profile.basicTabs.enterDescription')}
+                  label={t('profile.basicTabs.description')}
                   fullWidth
                   onChange={(e: any) => handleDescription(e.target.value)}
                   onBlur={field.onBlur}
@@ -103,7 +103,8 @@ export default function BasicTabs({
         <Box>
           <TabPanel value={value} index={0}>
             <Typography>
-              {userDescription.data.description || 'There is no description'}
+              {userDescription.data.description ||
+                `${t('profile.basicTabs.noDescription')}`}
             </Typography>
           </TabPanel>
         </Box>

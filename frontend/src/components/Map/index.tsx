@@ -113,7 +113,7 @@ function Map({
             }}
           >
             {isAddLocationActive
-              ? 'Choice coordinates'
+              ? `${t('map.chooseCoordinates')}`
               : `${t('map.addLocation')}`}
           </Button>
         )}

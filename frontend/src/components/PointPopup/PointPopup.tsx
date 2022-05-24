@@ -65,7 +65,7 @@ const PointPopup = () => {
     if (!isAuthorized) {
       return setNotification({
         type: 'warning',
-        message: 'Login to your account to be able to rate!'
+        message: `${t('pointPopUp.message')}`
       });
     }
 
@@ -169,9 +169,9 @@ const PointPopup = () => {
               {rating.dislikes.length}
             </IconButton>
 
-            <IconButton size="small">To share</IconButton>
+            <IconButton size="small">{t('pointPopUp.toShare')}</IconButton>
 
-            <IconButton size="small">Add to visited</IconButton>
+            <IconButton size="small">{t('pointPopUp.addToVisited')}</IconButton>
             <IconButton>
               <MoreHorizIcon />
             </IconButton>
