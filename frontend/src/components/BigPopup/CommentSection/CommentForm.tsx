@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { Box, Button, FormControl, TextField } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
 import { Comment } from '../../../redux/ts-types/popupLocation';
 
 const CommentForm = () => {
+  const { t } = useTranslation();
+
   const [commentText, setCommentText] = useState('');
   const { sendComment } = useTypedDispatch();
   const { id: userId } = useTypedSelector(state => state.userAuth);
@@ -39,7 +42,7 @@ const CommentForm = () => {
           multiline
           rows={5}
           id="your comment"
-          placeholder="Add your comment"
+          placeholder={t('bigPopup.commentSection.commentForm.addComment')}
           variant="outlined"
           fullWidth
           onChange={e => setCommentText(e.target.value)}
@@ -58,7 +61,7 @@ const CommentForm = () => {
           onClick={onSendComment}
           endIcon={<SendOutlinedIcon />}
         >
-          Send
+          {t('bigPopup.commentSection.commentForm.send')}
         </Button>
       </FormControl>
     </Box>

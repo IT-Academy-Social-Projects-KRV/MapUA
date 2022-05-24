@@ -12,6 +12,7 @@ import {
   Alert,
   AlertColor
 } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import IconButton from '@mui/material/IconButton';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -29,6 +30,8 @@ interface INotification {
 }
 
 const PointPopup = () => {
+  const { t } = useTranslation();
+
   const [expanded, setExpanded] = useState(false);
   const [notification, setNotification] = useState<INotification | null>(null);
 
@@ -36,6 +39,7 @@ const PointPopup = () => {
 
   const userAuth = useTypedSelector(state => state.userAuth);
   const userData = useTypedSelector(state => state.user);
+
   const infoLocation = useTypedSelector(state => state.popupLocation);
 
   const [locationIsFavorite, setLocationIsFavorite] = useState(
@@ -63,7 +67,7 @@ const PointPopup = () => {
     setExpanded(!expanded);
   };
   const handleFavoriteClick = async () => {
-    console.log(locationIsFavorite);
+    // console.log(locationIsFavorite);
     const result = await axios.put(
       `${process.env.REACT_APP_API_URI}tougleFavorite`,
       {
@@ -106,7 +110,7 @@ const PointPopup = () => {
     if (!isAuthorized) {
       return setNotification({
         type: 'warning',
-        message: 'Login to your account to be able to rate!'
+        message: `${t('pointPopUp.message')}`
       });
     }
 
@@ -225,16 +229,18 @@ const PointPopup = () => {
                 justifyContent: 'space-between'
               }}
             >
-              <IconButton size="small">To share</IconButton>
+              <IconButton size="small">{t('pointPopUp.toShare')}</IconButton>
 
               <IconButton size="small" onClick={handleFavoriteClick}>
                 {locationIsFavorite
-                  ? 'Remove from favorite'
-                  : 'Add to favorite'}
+                  ? `${t('pointPopUp.removeFromFavorite')}`
+                  : `${t('pointPopUp.addToFavorite')}`}
               </IconButton>
 
               <IconButton size="small" onClick={handleVisitedClick}>
-                {locationIsVisited ? 'Remove from visited' : 'Add to visited'}
+                {locationIsVisited
+                  ? `${t('pointPopUp.removeFromVisited')}`
+                  : `${t('pointPopUp.addToVisited')}`}
               </IconButton>
 
               <IconButton>
@@ -254,7 +260,7 @@ const PointPopup = () => {
                 mt: 5
               }}
             >
-              This location created by:
+              {t('pointPopUp.locationCreatedBy')}
               <Avatar
                 sx={{ mt: -2 }}
                 aria-label="avtor"

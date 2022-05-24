@@ -22,7 +22,6 @@ function HomeScreen() {
   const { fetchUser } = useTypedDispatch();
   const [showAddLocationButton, setShowAddLocationButton] = useState(true);
 
-
   const onOpenBigPopup = (locationData: locationType) => {
     setLocation(locationData);
     setIsOpenLocationPopup(true);

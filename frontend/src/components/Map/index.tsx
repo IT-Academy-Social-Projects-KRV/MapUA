@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Box, Button } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { LocationPopOut } from 'components/LocationPopOut/LocationPopOut';
 import SearchFormContainer from 'components/SearchFormContainer';
 import useDebounce from 'utils/useDebounce';
@@ -30,6 +31,7 @@ function Map({
   setIsAddLocationActive,
   isAddLocationActive
 }: Props) {
+  const { t } = useTranslation();
   const userAuth = useTypedSelector(state => state.userAuth.isAuthorized);
 
   const formRef = React.useRef<any>(null);
@@ -107,7 +109,9 @@ function Map({
               padding: '8px'
             }}
           >
-            {isAddLocationActive ? 'Choice coordinates' : 'Add location'}
+            {isAddLocationActive
+              ? `${t('map.chooseCoordinates')}`
+              : `${t('map.addLocation')}`}
           </Button>
         )}
       </MapContainer>

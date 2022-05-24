@@ -11,6 +11,7 @@ import {
   Grid,
   Link
 } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { Link as RouterLink } from 'react-router-dom';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { PaperForm } from '../design/PaperForm';
@@ -27,6 +28,8 @@ function ForgotPassword() {
   const [email, setEmail] = useState('');
   const [notification, setNotification] = useState<INotification | null>(null);
   const [loading, setLoading] = useState(false);
+
+  const { t } = useTranslation();
 
   const handleCloseNotification = (
     e?: SyntheticEvent | Event,
@@ -89,7 +92,7 @@ function ForgotPassword() {
             <Box component="form" onSubmit={sendEmail}>
               <Stack spacing={4}>
                 <Typography align="center" variant="h4">
-                  Forgot password?
+                  {t('common.forgotPassword')}
                 </Typography>
 
                 <TextField
@@ -98,7 +101,7 @@ function ForgotPassword() {
                   id="email"
                   required
                   value={email}
-                  placeholder="Please enter your email"
+                  placeholder={t('common.enterYourEmail')}
                   autoComplete="current-email"
                   fullWidth
                   onChange={e => setEmail(e.target.value)}
@@ -109,12 +112,12 @@ function ForgotPassword() {
                   type="submit"
                   variant="contained"
                 >
-                  sent password
+                  {t('forgotPassword.sentPassword')}
                 </LoadingButton>
 
                 <Typography align="right">
                   <Link to="/login" underline="none" component={RouterLink}>
-                    I remember password
+                    {t('forgotPassword.rememberPassword')}
                   </Link>
                 </Typography>
               </Stack>

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { Tabs, Tab, Typography, Box, TextField } from '@mui/material';
 import { Controller, Control } from 'react-hook-form';
@@ -58,6 +59,9 @@ export default function BasicTabs({
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
+  const { t } = useTranslation();
+
   // const postDescription = (description: any) => {
   //   handleDescription(description);
   // };
@@ -70,9 +74,9 @@ export default function BasicTabs({
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="description" {...a11yProps(0)} />
-          <Tab label="subscribers" {...a11yProps(1)} />
-          <Tab label="subscriptions" {...a11yProps(2)} />
+          <Tab label={t('profile.basicTabs.description')} {...a11yProps(0)} />
+          <Tab label={t('profile.basicTabs.subscribers')} {...a11yProps(1)} />
+          <Tab label={t('profile.basicTabs.subscriptions')} {...a11yProps(2)} />
         </Tabs>
       </Box>
       {showEditPanel ? (
@@ -83,8 +87,8 @@ export default function BasicTabs({
               name="description"
               render={({ field }) => (
                 <TextField
-                  placeholder="Please enter description"
-                  label="Description"
+                  placeholder={t('profile.basicTabs.enterDescription')}
+                  label={t('profile.basicTabs.description')}
                   fullWidth
                   onChange={(e: any) => handleDescription(e.target.value)}
                   onBlur={field.onBlur}
@@ -99,7 +103,8 @@ export default function BasicTabs({
         <Box>
           <TabPanel value={value} index={0}>
             <Typography component="span">
-              {userDescription.data.description || 'There is no description'}
+              {userDescription.data.description ||
+                `${t('profile.basicTabs.noDescription')}`}
             </Typography>
           </TabPanel>
         </Box>

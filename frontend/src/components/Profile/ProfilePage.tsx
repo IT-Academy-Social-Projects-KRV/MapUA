@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 import { UserActionTypes } from 'redux/action-types/userActionTypes';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { UserForm } from 'redux/ts-types/user';
@@ -60,6 +61,7 @@ export default function ProfilePage({
   const handleDescription = (descriptionBasicTabs: any) => {
     setNewDescription(descriptionBasicTabs);
   };
+  const { t } = useTranslation();
   const onSubmit: SubmitHandler<UserForm> = async data => {
     const formData = new FormData();
     if (userImage) {
@@ -90,7 +92,9 @@ export default function ProfilePage({
       }
     } catch (e: any) {
       setTimeout(() => setErrorMessage(''), 3000);
-      setErrorMessage(e.response.data?.error || 'Lost Network');
+      setErrorMessage(
+        e.response.data?.error || `${t('profile.profilePage.lostNetwork')}`
+      );
     }
   };
   const editData = () => {
@@ -106,14 +110,18 @@ export default function ProfilePage({
           anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
           open={successMessage}
         >
-          <Alert severity="success">Data successfuly changed</Alert>
+          <Alert severity="success">
+            {t('profile.profilePage.dataSuccessChanged')}
+          </Alert>
         </Snackbar>
+
         <Snackbar
           anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
           open={!!errorMessage}
         >
           <Alert severity="error">{errorMessage}</Alert>
         </Snackbar>
+
         {showEditPanel ? (
           <form onSubmit={handleSubmit(onSubmit)}>
             <Box>
@@ -123,7 +131,9 @@ export default function ProfilePage({
                   aria-label="avatar"
                   src={userAvatar.data.imageUrl}
                 />
-                <Box sx={{ m: '2vh 0 2vh 10vh' }}> Upload Photo</Box>
+                <Box sx={{ m: '2vh 0 2vh 10vh' }}>
+                  {t('profile.profilePage.uploadPhoto')}
+                </Box>
                 <Box>
                   <Button>
                     <Input
@@ -139,8 +149,8 @@ export default function ProfilePage({
                 name="displayName"
                 render={({ field }) => (
                   <TextField
-                    placeholder="Please enter your name"
-                    label="Name"
+                    placeholder={t('profile.profilePage.enterName')}
+                    label={t('profile.profilePage.name')}
                     fullWidth
                     onChange={field.onChange}
                     onBlur={field.onBlur}
@@ -151,14 +161,14 @@ export default function ProfilePage({
               />
               <SaveBox>
                 <SaveButton size="large" variant="contained" type="submit">
-                  Save
+                  {t('profile.profilePage.save')}
                 </SaveButton>
                 <CancelButton
                   size="large"
                   variant="contained"
                   onClick={closeEditData}
                 >
-                  Cancel
+                  {t('profile.profilePage.cancel')}
                 </CancelButton>
               </SaveBox>
             </Box>
@@ -175,26 +185,29 @@ export default function ProfilePage({
               component="h4"
               align="center"
             >
-              {displayName === undefined ? 'Your name' : displayName}
+              {displayName === undefined
+                ? `${t('profile.profilePage.yourName')}`
+                : displayName}
             </Typography>
+
             <EditButton
               sx={{ mt: '2vh' }}
               size="large"
               variant="contained"
               onClick={editData}
             >
-              Edit Profile
+              {t('profile.profilePage.editProfile')}
             </EditButton>
           </Box>
         )}
         <Typography variant="h5" component="h4" align="center">
-          Creation date: {createdAt}
+          {t('profile.profilePage.creationDate')} {createdAt}
         </Typography>
         <Typography variant="h5" component="h5" align="center">
           {email}
         </Typography>
         <Button size="large" onClick={logout} variant="contained">
-          Logout
+          {t('profile.profilePage.logout')}
         </Button>
       </ProfileContentWrapper>
       <ProfileUsertWrapper>
