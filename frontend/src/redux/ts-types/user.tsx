@@ -8,6 +8,9 @@ type UserDataType = {
   imageUrl: string;
   subscribers: string[];
   subscriptions: string[];
+  favorite: string[];
+  visited: string[];
+  personalLocations: string[];
 };
 
 export type UserState = {

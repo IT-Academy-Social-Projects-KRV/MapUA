@@ -92,6 +92,9 @@
     "message": "Login to your account to be able to rate!",
     "toShare": "To share",
     "addToVisited": "Add to visited",
-    "locationCreatedBy": "Location created by:"
+    "locationCreatedBy": "Location created by:",
+    "removeFromVisited": "Remove from visited",
+    "removeFromFavorite": "Remove from favorite",
+    "addToFavorite": "Add to favorite"
   }
 }
