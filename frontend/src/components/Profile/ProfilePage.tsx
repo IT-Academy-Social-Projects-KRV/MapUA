@@ -24,7 +24,8 @@ import {
   ProfileFormWrapper,
   ProfileUsertWrapper,
   SaveBox,
-  UploadBox
+  UploadBox,
+  EditButton
 } from './styles';
 import BasicTabs from './BasicTabs';
 
@@ -118,7 +119,7 @@ export default function ProfilePage({
             <Box>
               <UploadBox>
                 <ProfileAvatar
-                  sx={{ ml: '6vh' }}
+                  sx={{ ml: '11.5vh' }}
                   aria-label="avatar"
                   src={userAvatar.data.imageUrl}
                 />
@@ -176,9 +177,14 @@ export default function ProfilePage({
             >
               {displayName === undefined ? 'Your name' : displayName}
             </Typography>
-            <Button size="large" variant="contained" onClick={editData}>
+            <EditButton
+              sx={{ mt: '2vh' }}
+              size="large"
+              variant="contained"
+              onClick={editData}
+            >
               Edit Profile
-            </Button>
+            </EditButton>
           </Box>
         )}
         <Typography variant="h5" component="h4" align="center">

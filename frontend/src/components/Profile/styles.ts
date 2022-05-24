@@ -49,9 +49,12 @@ export const CancelButton = styled(Button)`
   margin-left: 3.5vh;
 `;
 export const SaveButton = styled(Button)`
-  margin: 0 0 0 6vh;
+  margin: 0 0 0 12vh;
 `;
 export const SaveBox = styled(Box)`
   display: flex;
   margin: 2vh 0 2vh 0;
+`;
+export const EditButton = styled(Button)`
+  margin: 1vh 0 0 2vh;
 `;
