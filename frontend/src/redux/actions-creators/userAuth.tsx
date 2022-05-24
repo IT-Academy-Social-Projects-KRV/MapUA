@@ -25,7 +25,7 @@ export const login =
         },
         {
           headers: {
-            'Accept-Language': 'ua'
+            'Accept-Language': localStorage.getItem('i18nextLng') || ''
           }
         }
       );
@@ -82,7 +82,8 @@ export const checkIsUserAuthorized =
       });
       const response = await axios.get(`${REACT_APP_API_URI}is-authenticated`, {
         headers: {
-          Authorization: `Bearer ${accessToken}`
+          Authorization: `Bearer ${accessToken}`,
+          'Accept-Language': localStorage.getItem('i18nextLng') || ''
         }
       });
       dispatch({
