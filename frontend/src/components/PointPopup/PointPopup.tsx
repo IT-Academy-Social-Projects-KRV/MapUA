@@ -12,6 +12,11 @@ import {
   Alert,
   AlertColor
 } from '@mui/material';
+import ShareIcon from '@mui/icons-material/Share';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import TourOutlinedIcon from '@mui/icons-material/TourOutlined';
+import TourIcon from '@mui/icons-material/Tour';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import IconButton from '@mui/material/IconButton';
@@ -188,7 +193,7 @@ const PointPopup = () => {
               sx={{
                 width: '100%',
                 display: 'flex',
-                justifyContent: 'space-evenly'
+                justifyContent: 'space-between'
               }}
             >
               <IconButton onClick={e => handleRating(e, 'likes')}>
@@ -220,27 +225,32 @@ const PointPopup = () => {
                 )}
                 {rating.dislikes.length}
               </IconButton>
-            </Box>
 
-            <Box
-              sx={{
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'space-between'
-              }}
-            >
-              <IconButton size="small">{t('pointPopUp.toShare')}</IconButton>
-
-              <IconButton size="small" onClick={handleFavoriteClick}>
-                {locationIsFavorite
-                  ? `${t('pointPopUp.removeFromFavorite')}`
-                  : `${t('pointPopUp.addToFavorite')}`}
+              <IconButton size="small" title={t('pointPopUp.toShare')}>
+                <ShareIcon />
               </IconButton>
 
-              <IconButton size="small" onClick={handleVisitedClick}>
-                {locationIsVisited
-                  ? `${t('pointPopUp.removeFromVisited')}`
-                  : `${t('pointPopUp.addToVisited')}`}
+              <IconButton
+                size="small"
+                onClick={handleFavoriteClick}
+                title={
+                  locationIsFavorite
+                    ? `${t('pointPopUp.removeFromFavorite')}`
+                    : `${t('pointPopUp.addToFavorite')}`
+                }
+              >
+                {locationIsFavorite ? <BookmarkIcon /> : <BookmarkBorderIcon />}
+              </IconButton>
+              <IconButton
+                size="small"
+                onClick={handleVisitedClick}
+                title={
+                  locationIsVisited
+                    ? `${t('pointPopUp.removeFromVisited')}`
+                    : `${t('pointPopUp.addToVisited')}`
+                }
+              >
+                {locationIsVisited ? <TourIcon /> : <TourOutlinedIcon />}
               </IconButton>
 
               <IconButton>
@@ -263,11 +273,15 @@ const PointPopup = () => {
               {t('pointPopUp.locationCreatedBy')}
               <Avatar
                 sx={{ mt: -2 }}
-                aria-label="avtor"
+                aria-label="author"
                 src="https://cdn-icons-png.flaticon.com/512/147/147142.png"
               />
-              <Typography>Vasya</Typography>
-              <Typography>June 22 2022</Typography>
+              {/* todo change to infoLocation.authorName */}
+              <Typography>{userData.data.displayName}</Typography>
+
+              <Typography>
+                {infoLocation.createdAt.toLocaleDateString()}
+              </Typography>
             </Box>
             <Typography
               variant="subtitle1"

@@ -18,5 +18,7 @@ export type locationState = {
   arrayPhotos: string[];
   description: string;
   comments: Comment[];
+  createdAt: Date;
+  updatedAt: Date;
   isLoading: boolean;
 };
