@@ -11,6 +11,8 @@ import {
 } from 'react-hook-form';
 import {
   Box,
+  Snackbar,
+  Alert,
   Divider,
   TextField,
   Button,
@@ -43,7 +45,9 @@ function Login() {
 
   const { t } = useTranslation();
 
-  const { isAuthorized } = useTypedSelector(state => state.userAuth);
+  const { isAuthorized, error } = useTypedSelector(state => state.userAuth);
+  console.log('error', error);
+  const errorMessage = error;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -93,6 +97,13 @@ function Login() {
                 <Typography align="center" variant="h4">
                   {t('common.login')}
                 </Typography>
+
+                <Snackbar
+                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                  open={!!errorMessage}
+                >
+                  <Alert severity="error">{errorMessage}</Alert>
+                </Snackbar>
 
                 <Controller
                   control={control}
