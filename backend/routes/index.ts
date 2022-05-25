@@ -17,7 +17,6 @@ router.get(
 router.post('/signup', AuthController.signUp);
 router.post('/signin', AuthController.signIn);
 router.post('/forgot-password', AuthController.forgotPassword);
-
 router.get(
   '/subscriptions',
   passport.authenticate('jwt', { session: false }),
@@ -26,6 +25,7 @@ router.get(
 
 router.get('/locations/', LocationsController.getLocationsByZoom);
 router.patch('/locations', LocationsController.changeLocationInfo);
+router.patch('/locations/:id', LocationsController.updateLocationById);
 router.get('/locations/:id', LocationsController.getLocationById);
 router.put('/locations/comment', LocationsController.addLocationComments);
 router.post(
@@ -65,12 +65,17 @@ router.get(
   }),
   AuthController.signInFacebook
 );
-router.patch('/profile',
-upload.single('image'),
-UserController.changeUserData
-);
-
+router.patch('/profile', upload.single('image'), UserController.changeUserData);
 
 router.get('/is-authenticated', AuthController.checkJwt);
+
+router.put(
+  '/tougleFavorite/',
+  passport.authenticate('jwt', { session: false }), 
+  UserController.tougleFavorite);
+router.put(
+  '/tougleVisited/',
+  passport.authenticate('jwt', { session: false }), 
+  UserController.tougleVisited);
 
 export default router;

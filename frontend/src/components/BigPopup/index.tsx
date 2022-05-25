@@ -1,9 +1,10 @@
 import React from 'react';
 import { Drawer } from '@mui/material';
 import Box from '@mui/material/Box';
-import PointPopup from 'components/PointPopup/PointPopup';
-import ArrowLeftIcon from '@mui/icons-material/ArrowBackIos';
 import IconButton from '@mui/material/IconButton';
+import ArrowLeftIcon from '@mui/icons-material/ArrowBackIos';
+import PointPopup from '../PointPopup/PointPopup';
+
 import { locationType } from '../../../types';
 
 interface PopupProps {
@@ -40,7 +41,7 @@ export default function BigPopup(props: PopupProps) {
             <ArrowLeftIcon />
           </IconButton>
           <Box sx={{ width: '35rem' }}>
-            <PointPopup location={location} />
+            <PointPopup />
           </Box>
         </Drawer>
       </Box>

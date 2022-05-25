@@ -1,11 +1,10 @@
 import { Box, Avatar } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
-// import { Typography } from '@mui/material';
 
 export const ProfileFormWrapper = styled(Box)`
   box-sizing: border-box;
-  height: 70vh;
+  height: 85vh;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -14,7 +13,6 @@ export const ProfileFormWrapper = styled(Box)`
 
 export const ProfileContentWrapper = styled(ProfileFormWrapper)`
   height: 70vh;
-  // flex-shrink: 2;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -43,8 +41,21 @@ export const ProfileFilterWrapper = styled(ProfileFormWrapper)`
 export const ProfileAvatar = styled(Avatar)`
   width: 150px;
   height: 150px;
+  margin: 0 auto;
 `;
-
-export const ProfileButton = styled(Button)`
-  // margin-left: 50px;
+export const UploadBox = styled(Box)`
+  margin: 0 0 3vh 4vh;
+`;
+export const CancelButton = styled(Button)`
+  margin: 0 auto;
+`;
+export const SaveButton = styled(Button)`
+  margin: 0 auto;
+`;
+export const SaveBox = styled(Box)`
+  display: flex;
+  margin: 2vh auto;
+`;
+export const EditButton = styled(Button)`
+  margin: 0 auto;
 `;

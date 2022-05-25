@@ -7,7 +7,7 @@ const LocationsController = {
     try {
       const center = JSON.parse(req.query.center as string);
       const bounds = JSON.parse(req.query.bounds as string);
-      const name = req.query.name as string;
+      const searchName = req.query.name as string;
       const filters = JSON.parse(req.query.filters as any);
       const height = +(bounds._northEast.lat - bounds._southWest.lat);
       const width = +(bounds._northEast.lng - bounds._southWest.lng);
@@ -26,11 +26,13 @@ const LocationsController = {
         _id: l._id,
         coordinates: l.coordinates,
         name: l.locationName,
+        locationName: l.locationName,
+        arrayPhotos: l.arrayPhotos,
         filters: l.filters
       }));
-      if (name) {
+      if (searchName) {
         locations = locations.filter(l => {
-          return l.name.toLocaleLowerCase().startsWith(name);
+          return l.name.toLowerCase().startsWith(searchName.toLowerCase());
         });
       }
       if (filters.length > 0) {
@@ -106,6 +108,23 @@ const LocationsController = {
       }
     } catch (err: any) {
       return res.status(500).json({ error: req.t('server_error'), err });
+    }
+  },
+  async updateLocationById(req: Request, res: Response) {
+    try {
+      const id = req.params.id;
+
+      const location = await Location.findByIdAndUpdate(
+        id,
+        {
+          $set: { ...req.body }
+        },
+        { new: true }
+      ).exec();
+
+      return res.status(200).json(location);
+    } catch (err: any) {
+      return res.status(500).json({ error: err.message });
     }
   },
   async changeLocationInfo(req: Request, res: Response) {

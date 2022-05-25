@@ -14,10 +14,13 @@ import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 
 import { Provider } from 'react-redux';
+// import { I18nextProvider } from 'react-i18next';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 import { store } from './redux/store';
+
+// import i18n from './i18n';
 
 // fix for popup icon
 const DefaultIcon = L.icon({
@@ -31,6 +34,7 @@ const root = createRoot(rootElement!);
 
 root.render(
   <React.StrictMode>
+    {/* <I18nextProvider i18n={i18n}> */}
     <ThemeProvider theme={theme}>
       <CoreThemeProvider theme={theme}>
         <CssBaseline />
@@ -39,6 +43,7 @@ root.render(
         </Provider>
       </CoreThemeProvider>
     </ThemeProvider>
+    {/* </I18nextProvider> */}
   </React.StrictMode>
 );
 

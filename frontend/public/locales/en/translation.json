@@ -1,0 +1,100 @@
+{
+  "common": {
+    "login": "Login",
+    "enterYourEmail": "Please enter your email",
+    "enterPassword": "Please enter your password",
+    "forgotPassword": "Forgot password?",
+    "password": "Password",
+    "filters": "Filters"
+  },
+  "navBar": {
+    "aboutUs": "About Us",
+    "news": "News",
+    "map": "Map",
+    "myProfile": "My profile"
+  },
+  "createLocation": {
+    "creatingLocation": "Creating location",
+    "enterLocName": "Enter location name",
+    "enterDescription": "Minimum 3 rows",
+    "favorites": "Favorites",
+    "doneAndSubmit": "Done and submit"
+  },
+  "profile": {
+    "basicTabs": {
+      "description": "Description",
+      "subscribers": "Subscribers",
+      "subscriptions": "Subscriptions",
+      "enterDescription": "Please enter description",
+      "noDescription": "There is no description"
+    },
+    "profile": {
+      "loading": "Loading..."
+    },
+    "profilePage": {
+      "lostNetwork": "Lost Network",
+      "dataSuccessChanged": "Data successfuly changed",
+      "uploadPhoto": "Upload Photo",
+      "enterName": "Please enter your name",
+      "name": "Name",
+      "save": "Save",
+      "cancel": "Cancel",
+      "editProfile": "Edit Profile",
+      "creationDate": "Creation date:",
+      "logout": "Logout",
+      "yourName": "Your name:"
+    }
+  },
+  "forgotPassword": {
+    "sentPassword": "sent password",
+    "rememberPassword": "I remember password"
+  },
+  "login": {
+    "signInWithGoogle": "Sing in with google",
+    "signInWithFacebook": "Sing in with facebook",
+    "signup": "Sign Up",
+    "or": "or"
+  },
+  "registration": {
+    "createProfile": "Create profile",
+    "regisrationSuccess": "Registration successful!",
+    "regisrationFail": "Something went wrong",
+    "create": "Create"
+  },
+  "utils": {
+    "vaidation": {
+      "emailCanNotBeEmpty": "Email can't be empty",
+      "wrongEmail": "Wrong email",
+      "passwordCanNotBeEmpty": "Password can't be empty",
+      "passwordErrorLength": "Password must be more then 3 and less or equal then 36"
+    }
+  },
+  "map": {
+    "chooseCoordinates": "Choose coordinates",
+    "addLocation": "Add location"
+  },
+  "filtersList": {},
+  "searchForm": {
+    "search": "search"
+  },
+  "bigPopup": {
+    "commentSection": {
+      "commentForm": {
+        "addComment": "Add your comment",
+        "send": "Send"
+      },
+      "commentSection": {
+        "commentsSection": "Comments section"
+      }
+    }
+  },
+  "pointPopUp": {
+    "message": "Login to your account to be able to rate!",
+    "toShare": "To share",
+    "addToVisited": "Add to visited",
+    "locationCreatedBy": "Location created by:",
+    "removeFromVisited": "Remove from visited",
+    "removeFromFavorite": "Remove from favorite",
+    "addToFavorite": "Add to favorite"
+  }
+}
