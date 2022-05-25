@@ -20,6 +20,9 @@ i18n
     react: {
       useSuspense: true
     },
+    interpolation: {
+      escapeValue: false
+    },
     debug: true
   });
 
