@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   Typography,
   Button,
   Box,
   TextField,
   Snackbar,
-  Alert,
-  Input
+  Alert
 } from '@mui/material';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import axios from 'axios';
@@ -16,6 +15,7 @@ import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { UserForm } from 'redux/ts-types/user';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useDispatch } from 'react-redux';
+import { HiddenInput } from 'components/design/HiddenInput';
 import userImageNotFound from '../../static/user-image-not-found.png';
 import {
   ProfileAvatar,
@@ -50,9 +50,10 @@ export default function ProfilePage({
     mode: 'onBlur',
     defaultValues: { displayName, description }
   });
+  const inputRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
   const [showEditPanel, setShowEditPanel] = useState(false);
-  const [userImage, setUserImage] = useState<File | null>();
+  const [userImage, setUserImage] = useState<File | null | Blob>(null);
   const userAvatar = useTypedSelector(state => state.user);
   const [newDescription, setNewDescription] = useState(description);
   const [errorMessage, setErrorMessage] = useState('');
@@ -129,19 +130,33 @@ export default function ProfilePage({
                 <ProfileAvatar
                   sx={{ ml: '11.5vh' }}
                   aria-label="avatar"
-                  src={userAvatar.data.imageUrl}
+                  src={
+                    (userImage && URL.createObjectURL(userImage)) ||
+                    userAvatar.data.imageUrl
+                  }
                 />
                 <Box sx={{ m: '2vh 0 2vh 14vh' }}>
                   {t('profile.profilePage.uploadPhoto')}
                 </Box>
                 <Box>
-                  <Button>
-                    <Input
+                  <label htmlFor="contained-button-file">
+                    <HiddenInput
+                      id="contained-button-file"
                       type="file"
                       {...register('imageUrl')}
-                      onChange={(e: any) => setUserImage(e.target?.files?.[0])}
+                      ref={inputRef}
+                      onChange={(e: any) => {
+                        setUserImage(e.target?.files?.[0] || '');
+                      }}
                     />
-                  </Button>
+                    <Button
+                      sx={{ mr: '10px' }}
+                      variant="contained"
+                      component="span"
+                    >
+                      Upload Image
+                    </Button>
+                  </label>
                 </Box>
               </UploadBox>
               <Controller

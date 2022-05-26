@@ -4,9 +4,11 @@ import {
   Typography,
   Button,
   Autocomplete,
-  TextField
+  TextField,
+  Box
 } from '@mui/material';
 import axios from 'axios';
+import { HiddenInput } from 'components/design/HiddenInput';
 import React, { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { latlngType } from '../../../types';
@@ -19,15 +21,16 @@ type Props = {
 const { REACT_APP_API_URI } = process.env;
 
 const CreateLocation = ({ coordinate }: Props) => {
-  const ref = useRef<null | HTMLInputElement>();
+  const ref = useRef<null | HTMLInputElement>(null);
+  const Imageref = useRef<null | HTMLInputElement>(null);
+  const [locationImageName, setlocationImageName] = useState<string>('');
 
   const { t } = useTranslation();
 
   const [locationName, setLocationName] = useState('');
   const [description, setDescription] = useState('');
   const [filters, setFilters] = useState('');
-  const [files, setFiles] = useState<File[]>([]);
-  // const [, setLinks] = useState<string[]>([]);
+  const [files, setFiles] = useState<any>([]);
 
   const handleChange = (e: any): void => {
     setLocationName(e.target.value);
@@ -95,7 +98,6 @@ const CreateLocation = ({ coordinate }: Props) => {
       }}
     >
       <Typography>{t('createLocation.creatingLocation')}</Typography>
-
       <Input
         sx={{ marginTop: '20px', width: '100%' }}
         type="text"
@@ -103,7 +105,6 @@ const CreateLocation = ({ coordinate }: Props) => {
         onChange={handleChange}
         placeholder={t('createLocation.enterLocName')}
       />
-
       <TextareaAutosize
         aria-label="minimum height"
         value={description}
@@ -117,7 +118,6 @@ const CreateLocation = ({ coordinate }: Props) => {
           minWidth: '30px'
         }}
       />
-
       <Autocomplete
         sx={{ marginTop: '20px' }}
         multiple
@@ -135,14 +135,30 @@ const CreateLocation = ({ coordinate }: Props) => {
           />
         )}
       />
-
-      <Input
-        id="contained-button-file"
-        type="file"
-        onChange={e => handleFilesChange(e)}
-        ref={ref}
-        sx={{ padding: '20px' }}
-      />
+      <Box>
+        <label htmlFor="contained-button-file">
+          <HiddenInput
+            id="contained-button-file"
+            type="file"
+            onChange={e => {
+              handleFilesChange(e);
+              setlocationImageName(
+                (Imageref.current?.files && Imageref.current?.files[0].name) ||
+                  ''
+              );
+            }}
+            ref={Imageref}
+          />
+          <Button
+            sx={{ m: '10px 10px 0px 0px ' }}
+            variant="contained"
+            component="span"
+          >
+            Upload Image
+          </Button>
+          <span>{locationImageName}</span>
+        </label>
+      </Box>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <Button sx={{ marginTop: '20px' }} variant="contained" type="submit">
           {t('createLocation.doneAndSubmit')}
