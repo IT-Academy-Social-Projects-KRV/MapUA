@@ -4,7 +4,8 @@ import { styled } from '@mui/material/styles';
 export const StyledAppBar = styled(AppBar)(({ theme }) => ({
   position: 'static',
   backgroundColor: theme.palette.primary.main,
-  padding: '20px 0 20px 0'
+  padding: '20px 0 20px 0',
+  zIndex: 1500
 }));
 
 export const StyledStack = styled(Stack)({

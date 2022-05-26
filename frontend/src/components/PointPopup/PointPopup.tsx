@@ -12,7 +12,13 @@ import {
   Alert,
   AlertColor
 } from '@mui/material';
+import ShareIcon from '@mui/icons-material/Share';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import TourOutlinedIcon from '@mui/icons-material/TourOutlined';
+import TourIcon from '@mui/icons-material/Tour';
 import { useTranslation } from 'react-i18next';
+import axios from 'axios';
 import IconButton from '@mui/material/IconButton';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
@@ -37,7 +43,16 @@ const PointPopup = () => {
   const { updatePopupLocation } = useTypedDispatch();
 
   const userAuth = useTypedSelector(state => state.userAuth);
+  const userData = useTypedSelector(state => state.user);
+
   const infoLocation = useTypedSelector(state => state.popupLocation);
+
+  const [locationIsFavorite, setLocationIsFavorite] = useState(
+    infoLocation._id && userData.data.favorite.includes(infoLocation._id)
+  );
+  const [locationIsVisited, setLocationIsVisited] = useState(
+    infoLocation._id && userData.data.visited.includes(infoLocation._id)
+  );
 
   const { isAuthorized, id: userId } = userAuth;
 
@@ -55,6 +70,41 @@ const PointPopup = () => {
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
+  };
+  const handleFavoriteClick = async () => {
+    // console.log(locationIsFavorite);
+    const result = await axios.put(
+      `${process.env.REACT_APP_API_URI}tougleFavorite`,
+      {
+        /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
+        idOfLocation: infoLocation._id
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        }
+      }
+    );
+    if (result.status === 200) {
+      setLocationIsFavorite(!locationIsFavorite);
+    }
+  };
+  const handleVisitedClick = async () => {
+    const result = await axios.put(
+      `${process.env.REACT_APP_API_URI}tougleVisited`,
+      {
+        /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
+        idOfLocation: infoLocation._id
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        }
+      }
+    );
+    if (result.status === 200) {
+      setLocationIsVisited(!locationIsVisited);
+    }
   };
 
   const handleRating = (
@@ -135,46 +185,78 @@ const PointPopup = () => {
             sx={{
               display: 'flex',
               justifyContent: 'end',
-              gap: 5,
-              pr: 10
+              flexDirection: 'column',
+              m: 3
             }}
           >
-            <IconButton onClick={e => handleRating(e, 'likes')}>
-              {rating.likes.includes(userId) ? (
-                <ThumbUpIcon
-                  fontSize="small"
-                  sx={{ color: 'text.secondary' }}
-                />
-              ) : (
-                <ThumbUpOutlinedIcon
-                  fontSize="small"
-                  sx={{ color: 'text.secondary' }}
-                />
-              )}
-              {rating.likes.length}
-            </IconButton>
+            <Box
+              sx={{
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'space-between'
+              }}
+            >
+              <IconButton onClick={e => handleRating(e, 'likes')}>
+                {rating.likes.includes(userId) ? (
+                  <ThumbUpIcon
+                    fontSize="small"
+                    sx={{ color: 'text.secondary' }}
+                  />
+                ) : (
+                  <ThumbUpOutlinedIcon
+                    fontSize="small"
+                    sx={{ color: 'text.secondary' }}
+                  />
+                )}
+                {rating.likes.length}
+              </IconButton>
 
-            <IconButton onClick={e => handleRating(e, 'dislikes')}>
-              {rating.dislikes.includes(userId) ? (
-                <ThumbDownIcon
-                  fontSize="small"
-                  sx={{ color: 'text.secondary' }}
-                />
-              ) : (
-                <ThumbDownAltOutlinedIcon
-                  fontSize="small"
-                  sx={{ color: 'text.secondary' }}
-                />
-              )}
-              {rating.dislikes.length}
-            </IconButton>
+              <IconButton onClick={e => handleRating(e, 'dislikes')}>
+                {rating.dislikes.includes(userId) ? (
+                  <ThumbDownIcon
+                    fontSize="small"
+                    sx={{ color: 'text.secondary' }}
+                  />
+                ) : (
+                  <ThumbDownAltOutlinedIcon
+                    fontSize="small"
+                    sx={{ color: 'text.secondary' }}
+                  />
+                )}
+                {rating.dislikes.length}
+              </IconButton>
 
-            <IconButton size="small">{t('pointPopUp.toShare')}</IconButton>
+              <IconButton size="small" title={t('pointPopUp.toShare')}>
+                <ShareIcon />
+              </IconButton>
 
-            <IconButton size="small">{t('pointPopUp.addToVisited')}</IconButton>
-            <IconButton>
-              <MoreHorizIcon />
-            </IconButton>
+              <IconButton
+                size="small"
+                onClick={handleFavoriteClick}
+                title={
+                  locationIsFavorite
+                    ? `${t('pointPopUp.removeFromFavorite')}`
+                    : `${t('pointPopUp.addToFavorite')}`
+                }
+              >
+                {locationIsFavorite ? <BookmarkIcon /> : <BookmarkBorderIcon />}
+              </IconButton>
+              <IconButton
+                size="small"
+                onClick={handleVisitedClick}
+                title={
+                  locationIsVisited
+                    ? `${t('pointPopUp.removeFromVisited')}`
+                    : `${t('pointPopUp.addToVisited')}`
+                }
+              >
+                {locationIsVisited ? <TourIcon /> : <TourOutlinedIcon />}
+              </IconButton>
+
+              <IconButton>
+                <MoreHorizIcon />
+              </IconButton>
+            </Box>
           </Box>
         </Box>
 
@@ -191,11 +273,15 @@ const PointPopup = () => {
               {t('pointPopUp.locationCreatedBy')}
               <Avatar
                 sx={{ mt: -2 }}
-                aria-label="avtor"
+                aria-label="author"
                 src="https://cdn-icons-png.flaticon.com/512/147/147142.png"
               />
-              <Typography>Vasya</Typography>
-              <Typography>June 22 2022</Typography>
+              {/* todo change to infoLocation.authorName */}
+              <Typography>{userData.data.displayName}</Typography>
+
+              <Typography>
+                {infoLocation.createdAt.toLocaleDateString()}
+              </Typography>
             </Box>
             <Typography
               variant="subtitle1"

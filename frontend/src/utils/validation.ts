@@ -13,7 +13,7 @@ export const emailValidation = {
   }
 };
 export const passwordValidation = {
-  required: "i18n.t('utils.validation.passwordCanNotBeEmpty')",
+  required: i18next.t('utils.validation.passwordCanNotBeEmpty'),
   validate: (value: string) => {
     if (value.length < 3 || value.length > 36) {
       return i18next.t('utils.validation.passwordErrorLength');

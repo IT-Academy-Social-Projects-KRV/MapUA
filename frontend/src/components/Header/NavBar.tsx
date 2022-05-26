@@ -1,57 +1,79 @@
-import React from 'react';
-import { Link } from '@mui/material';
+import React, { useState } from 'react';
+import { Link, Button, Box } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTranslation } from 'react-i18next';
-import LanguageSelect from 'components/LanguageSelect/LanguageSelect';
 import { StyledAppBar, StyledStack } from './style';
+
+const StyledLink: React.FC<React.PropsWithChildren<{ to: string }>> = ({
+  to,
+  children
+}) => (
+  <Link
+    style={{
+      display: 'flex',
+      alignItems: 'center'
+    }}
+    color="inherit"
+    underline="none"
+    component={RouterLink}
+    to={to}
+  >
+    {children}
+  </Link>
+);
+
+const StyledLangButton: React.FC<
+  React.PropsWithChildren<{ isChosen: boolean; onClick: any }>
+> = ({ isChosen, children, onClick }) => (
+  <Button
+    sx={{
+      color: 'white',
+      minWidth: 'fit-content',
+      borderBottom: isChosen ? '2px solid white' : 'none'
+    }}
+    onClick={onClick}
+  >
+    {children}
+  </Button>
+);
 
 function NavBar() {
   const { isAuthorized } = useTypedSelector(state => state.userAuth);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lng = localStorage.getItem('i18nextLng');
+  const [currentLanguage, setCurrentLanguage] = useState<any>(lng);
+  const changeLanguage = (language: string) => () => {
+    i18n.changeLanguage(language);
+    setCurrentLanguage(language);
+  };
 
   return (
     <StyledAppBar>
       <StyledStack direction="row">
-        <Link
-          color="inherit"
-          underline="none"
-          component={RouterLink}
-          to="/about_us"
-        >
-          {t('navBar.aboutUs')}
-        </Link>
-        <Link
-          color="inherit"
-          underline="none"
-          component={RouterLink}
-          to="/news"
-        >
-          {t('navBar.news')}
-        </Link>
-        <Link color="inherit" underline="none" component={RouterLink} to="/">
-          {t('navBar.map')}
-        </Link>
+        <StyledLink to="/about_us">{t('navBar.aboutUs')}</StyledLink>
+        <StyledLink to="/news">{t('navBar.news')}</StyledLink>
+        <StyledLink to="/">{t('navBar.map')}</StyledLink>
         {isAuthorized ? (
-          <Link
-            to="/profile"
-            color="inherit"
-            underline="none"
-            component={RouterLink}
-          >
-            {t('navBar.myProfile')}
-          </Link>
+          <StyledLink to="/profile">{t('navBar.myProfile')}</StyledLink>
         ) : (
-          <Link
-            color="inherit"
-            underline="none"
-            component={RouterLink}
-            to="/login"
-          >
-            {t('common.login')}
-          </Link>
+          <StyledLink to="/login">{t('common.login')}</StyledLink>
         )}
-        <LanguageSelect />
+        <Box>
+          <StyledLangButton
+            isChosen={currentLanguage === 'en'}
+            onClick={changeLanguage('en')}
+          >
+            EN
+          </StyledLangButton>
+          |
+          <StyledLangButton
+            isChosen={currentLanguage === 'ua'}
+            onClick={changeLanguage('ua')}
+          >
+            UA
+          </StyledLangButton>
+        </Box>
       </StyledStack>
     </StyledAppBar>
   );

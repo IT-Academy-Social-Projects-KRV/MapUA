@@ -41,17 +41,21 @@ export const ProfileFilterWrapper = styled(ProfileFormWrapper)`
 export const ProfileAvatar = styled(Avatar)`
   width: 150px;
   height: 150px;
+  margin: 0 auto;
 `;
 export const UploadBox = styled(Box)`
   margin: 0 0 3vh 4vh;
 `;
 export const CancelButton = styled(Button)`
-  margin-left: 3.5vh;
+  margin: 0 auto;
 `;
 export const SaveButton = styled(Button)`
-  margin: 0 0 0 6vh;
+  margin: 0 auto;
 `;
 export const SaveBox = styled(Box)`
   display: flex;
-  margin: 2vh 0 2vh 0;
+  margin: 2vh auto;
+`;
+export const EditButton = styled(Button)`
+  margin: 0 auto;
 `;

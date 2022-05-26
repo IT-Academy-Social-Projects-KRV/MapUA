@@ -11,7 +11,6 @@ import ComposeComponents from 'redux/components/ComposeComponents';
 import Profile from 'components/Profile/Profile';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from './redux/hooks/useTypedDispatch';
-// import './i18n';
 
 const accessToken = localStorage.getItem('accessToken');
 
@@ -25,7 +24,6 @@ function App() {
   }, []);
 
   return (
-    // <Suspense fallback={<div>Loading...</div>}>
     <BrowserRouter>
       <GlobalStyles
         styles={{
@@ -62,7 +60,6 @@ function App() {
       </Routes>
       <Footer />
     </BrowserRouter>
-    // </Suspense>
   );
 }
 
