@@ -1,5 +1,4 @@
 import i18next from 'i18next';
-// import i18n from '../i18n';
 
 export const emailValidation = {
   required: i18next.t('utils.validation.emailCanNotBeEmpty'),
