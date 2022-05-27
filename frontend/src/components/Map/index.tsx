@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Box, Button } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { LocationPopOut } from 'components/LocationPopOut/LocationPopOut';
 import SearchFormContainer from 'components/SearchFormContainer';
 import useDebounce from 'utils/useDebounce';
@@ -14,22 +15,27 @@ import L from 'leaflet';
 interface Props {
   onOpenBigPopup: Function;
   onOpenLocationForm: Function;
-  isAuth: boolean;
   setCoordinate: Function;
   isOpen: boolean;
+  showAddLocationButton: boolean;
+  setIsAddLocationActive: Function;
+  isAddLocationActive: boolean;
 }
 
 function Map({
   onOpenBigPopup,
   onOpenLocationForm,
-  isAuth,
   setCoordinate,
-  isOpen
+  isOpen,
+  showAddLocationButton,
+  setIsAddLocationActive,
+  isAddLocationActive
 }: Props) {
+  const { t } = useTranslation();
+  const userAuth = useTypedSelector(state => state.userAuth.isAuthorized);
+
   const formRef = React.useRef<any>(null);
   const [coordinateByClick, SetCoordinateByClick] = useState<any>({});
-  const [isAddLocationActive, setIsAddLocationActive] = useState(false);
-
   const { bounds, locations, zoomPosition, locationName, selectedFilters } =
     useTypedSelector(state => state.locationList);
   const debouncedValue = useDebounce(locationName, 1000);
@@ -79,22 +85,26 @@ function Map({
         <TileLayer url="https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png" />
 
         <MyZoomComponent />
-        {locations.map(({ _id, coordinates }) => (
+        {/* eslint-disable-next-line @typescript-eslint/no-shadow */}
+        {locations.map(({ _id, coordinates, locationName, arrayPhotos }) => (
           <LocationPopOut
             key={_id}
             id={_id}
             coordinates={coordinates}
+            locationName={locationName}
+            arrayPhotos={arrayPhotos}
             onOpenBigPopup={onOpenBigPopup}
           />
         ))}
         <SearchFormContainer />
-        {!isOpen && (
+        {userAuth && showAddLocationButton && !isOpen && (
           <Button
-            onClick={() => {
-              setIsAddLocationActive(true);
-            }}
+            onClick={() =>
+              setIsAddLocationActive((prevState: boolean) => !prevState)
+            }
             style={{
-              background: 'white',
+              background: isAddLocationActive ? 'yellow' : 'white',
+              color: isAddLocationActive ? 'black' : '#1976d2',
               zIndex: '10000',
               position: 'absolute',
               top: '15px',
@@ -102,7 +112,9 @@ function Map({
               padding: '8px'
             }}
           >
-            Add location
+            {isAddLocationActive
+              ? `${t('map.chooseCoordinates')}`
+              : `${t('map.addLocation')}`}
           </Button>
         )}
       </MapContainer>

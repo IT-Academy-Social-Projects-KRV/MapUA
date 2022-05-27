@@ -8,6 +8,7 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 import React, { useState, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { latlngType } from '../../../types';
 import { getFiltersForUser } from '../../static/mainFIlters';
 
@@ -19,6 +20,8 @@ const { REACT_APP_API_URI } = process.env;
 
 const CreateLocation = ({ coordinate }: Props) => {
   const ref = useRef<null | HTMLInputElement>();
+
+  const { t } = useTranslation();
 
   const [locationName, setLocationName] = useState('');
   const [description, setDescription] = useState('');
@@ -60,6 +63,7 @@ const CreateLocation = ({ coordinate }: Props) => {
       if (ref.current) {
         ref.current.value = '';
       }
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
@@ -82,49 +86,24 @@ const CreateLocation = ({ coordinate }: Props) => {
     }
   };
 
-  // const handleFormSubmit = async () => {
-  //   const formData = new FormData();
-  //
-  //   const urls = await Promise.all(
-  //     files.map(async file => {
-  //       formData.set('file', file);
-  //       const res = await fetch(`${process.env.REACT_APP_API_URI}uploadImage`, {
-  //         method: 'POST',
-  //         body: formData
-  //       });
-  //
-  //       return res.json();
-  //     })
-  //   );
-  //   setLinks(urls.map(itm => itm.url));
-  // };
-
   return (
     <form
       onSubmit={onSubmit}
       style={{
-        width: '300px',
+        width: '400px',
         height: '600px',
         textAlign: 'center',
-        marginTop: '150px'
+        margin: '36px'
       }}
     >
-      <Typography>Creating location</Typography>
+      <Typography>{t('createLocation.creatingLocation')}</Typography>
 
-      {/* <img
-        src=""
-        alt=""
-        style={{
-          width: '200px',
-          height: '200px',
-          backgroundColor: 'white'
-        }}
-      /> */}
       <Input
+        sx={{ marginTop: '20px', width: '100%' }}
         type="text"
         value={locationName}
         onChange={handleChange}
-        placeholder="enter location name"
+        placeholder={t('createLocation.enterLocName')}
       />
 
       <TextareaAutosize
@@ -132,11 +111,17 @@ const CreateLocation = ({ coordinate }: Props) => {
         value={description}
         onChange={handleChangeDescription}
         minRows={3}
-        placeholder="Minimum 3 rows"
-        style={{ width: 200 }}
+        placeholder={t('createLocation.enterDescription')}
+        style={{
+          marginTop: '20px',
+          width: '100%',
+          resize: 'vertical',
+          minWidth: '30px'
+        }}
       />
 
       <Autocomplete
+        sx={{ marginTop: '20px' }}
         multiple
         id="tags-outlined"
         options={getFiltersForUser()}
@@ -147,8 +132,8 @@ const CreateLocation = ({ coordinate }: Props) => {
           <TextField
             {...params}
             value={filters}
-            label="filterSelectedOptions"
-            placeholder="Favorites"
+            label={t('common.filters')}
+            placeholder={t('createLocation.favorites')}
           />
         )}
       />
@@ -158,13 +143,11 @@ const CreateLocation = ({ coordinate }: Props) => {
         type="file"
         onChange={e => handleFilesChange(e)}
         ref={ref}
+        sx={{ padding: '20px' }}
       />
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        {/* <Button variant="contained" component="span" onClick={handleFormSubmit}> */}
-        {/*  Upload */}
-        {/* </Button> */}
-        <Button variant="contained" type="submit">
-          Done and submit
+        <Button sx={{ marginTop: '20px' }} variant="contained" type="submit">
+          {t('createLocation.doneAndSubmit')}
         </Button>
       </div>
     </form>

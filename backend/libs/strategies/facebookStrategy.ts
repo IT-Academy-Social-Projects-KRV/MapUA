@@ -9,7 +9,7 @@ const facebookStrategy = new FacebookStrategy(
     callbackURL: `${process.env.HOST_URI}/api/signin/facebook/callback`,
     profileFields: ['id', 'emails', 'name', 'picture.type(large)']
   },
-  async (accessToken, refreshToken, profile, done) => {
+  async (accessToken:any, refreshToken:any, profile:any, done:any) => {
     try {
       console.log('profile', profile);
       const email = profile?.emails?.[0].value;

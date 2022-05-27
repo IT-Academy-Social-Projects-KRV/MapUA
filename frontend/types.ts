@@ -44,6 +44,7 @@ export type lightLocationType = {
 };
 
 export type UserDataType = {
+  _id: string;
   email: string;
   createdAt: Date | string;
   updatedAt: Date | string;
@@ -52,6 +53,9 @@ export type UserDataType = {
   imageUrl: string;
   subscribers: string[];
   subscriptions: string[];
+  favorite: string[];
+  visited: string[];
+  personalLocations: string[];
 };
 
 export type LocationType = {

@@ -1,0 +1,100 @@
+{
+  "common": {
+    "login": "Увійти",
+    "enterYourEmail": "Будь ласка, введіть вашу електронну адресу",
+    "enterPassword": "Будь ласка, введіть ваш пароль",
+    "forgotPassword": "Забули пароль?",
+    "password": "Пароль",
+    "filters": "Фільтри"
+  },
+  "navBar": {
+    "aboutUs": "Про нас",
+    "news": "Новини",
+    "map": "Карта",
+    "myProfile": "Мій кабінет"
+  },
+  "createLocation": {
+    "creatingLocation": "Створення локації",
+    "enterLocName": "Введіть назву локації",
+    "enterDescription": "Мінімум 3 стрічки",
+    "favorites": "Обрані",
+    "doneAndSubmit": "Додати локацію"
+  },
+  "profile": {
+    "basicTabs": {
+      "description": "Опис",
+      "subscribers": "Підписники",
+      "subscriptions": "Підписки",
+      "enterDescription": "Будь ласка, введіть опис",
+      "noDescription": "Опис відсутній"
+    },
+    "profile": {
+      "loading": "Завантаження..."
+    },
+    "profilePage": {
+      "lostNetwork": "Проблеми зі зв'язком",
+      "dataSuccessChanged": "Дані успішно змінено",
+      "uploadPhoto": "Завантажити Фото",
+      "enterName": "Будь ласка, введіть Ваше ім'я",
+      "name": "Ім'я",
+      "save": "Зберегти",
+      "cancel": "Відмінити",
+      "editProfile": "Редагувати Профіль",
+      "creationDate": "Дата створення:",
+      "logout": "Вийти",
+      "yourName": "Ваше ім'я:"
+    }
+  },
+  "forgotPassword": {
+    "sentPassword": "надіслати пароль",
+    "rememberPassword": "Я пам'ятаю пароль"
+  },
+  "login": {
+    "signInWithGoogle": "Увійти за допомогою google",
+    "signInWithFacebook": "Увійти за допомогою facebook",
+    "signup": "Зареєструватися",
+    "or": "або"
+  },
+  "registration": {
+    "createProfile": "Створити профіль",
+    "regisrationSuccess": "Ви успішно створили профіль!",
+    "regisrationFail": "Щось пішло не так",
+    "create": "Створити"
+  },
+  "utils": {
+    "validation": {
+      "emailCanNotBeEmpty": "Email не може бути порожнім",
+      "wrongEmail": "Невірний email",
+      "passwordCanNotBeEmpty": "Пароль не може бути порожнім",
+      "passwordErrorLength": "Пароль повинен містити більше ніж 3 та менше ніж 36 символів"
+    }
+  },
+  "map": {
+    "chooseCoordinates": "Виберіть координати",
+    "addLocation": "Додати локацію"
+  },
+  "filtersList": {},
+  "searchForm": {
+    "search": "Пошук"
+  },
+  "bigPopup": {
+    "commentSection": {
+      "commentForm": {
+        "addComment": "Додати коментар",
+        "send": "Надіслати"
+      },
+      "commentSection": {
+        "commentsSection": "Коментарі"
+      }
+    }
+  },
+  "pointPopUp": {
+    "message": "Увійдіть до свого кабінету, щоб мати можливість залишити відгук!",
+    "toShare": "Поділитися",
+    "addToVisited": "Додати до відвіданих",
+    "locationCreatedBy": "Локація створена:",
+    "removeFromVisited": "Видалити з відвіданих",
+    "removeFromFavorite": "Видалити з обраних",
+    "addToFavorite": "Додати до обраних"
+  }
+}

@@ -10,7 +10,8 @@ export const fetchUser =
       dispatch({ type: UserActionTypes.FETCH_USER });
       const response = await axios.get(`${REACT_APP_API_URI}profile`, {
         headers: {
-          Authorization: `Bearer ${accessToken}`
+          Authorization: `Bearer ${accessToken}`,
+          'Accept-Language': localStorage.getItem('i18nextLng') || ''
         }
       });
       dispatch({

@@ -4,7 +4,7 @@ import {
   ThemeProvider as CoreThemeProvider
 } from '@mui/material/styles';
 import 'leaflet/dist/leaflet.css';
-import React from 'react';
+import React, { Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
 import theme from 'theme';
 
@@ -19,6 +19,8 @@ import reportWebVitals from './reportWebVitals';
 
 import { store } from './redux/store';
 
+import './i18n';
+
 // fix for popup icon
 const DefaultIcon = L.icon({
   iconUrl: icon,
@@ -30,16 +32,18 @@ const rootElement = document.getElementById('root');
 const root = createRoot(rootElement!);
 
 root.render(
-  <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <CoreThemeProvider theme={theme}>
-        <CssBaseline />
-        <Provider store={store}>
-          <App />
-        </Provider>
-      </CoreThemeProvider>
-    </ThemeProvider>
-  </React.StrictMode>
+  <Suspense fallback={<div>Loading...</div>}>
+    <React.StrictMode>
+      <ThemeProvider theme={theme}>
+        <CoreThemeProvider theme={theme}>
+          <CssBaseline />
+          <Provider store={store}>
+            <App />
+          </Provider>
+        </CoreThemeProvider>
+      </ThemeProvider>
+    </React.StrictMode>
+  </Suspense>
 );
 
 reportWebVitals();

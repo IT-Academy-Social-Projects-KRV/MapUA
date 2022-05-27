@@ -1,4 +1,4 @@
-import React, { useEffect, useState, MouseEvent } from 'react';
+import React, { useEffect, useState, MouseEvent, SyntheticEvent } from 'react';
 import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
@@ -11,6 +11,8 @@ import {
 } from 'react-hook-form';
 import {
   Box,
+  Snackbar,
+  Alert,
   Divider,
   TextField,
   Button,
@@ -23,6 +25,7 @@ import {
 } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { useTranslation } from 'react-i18next';
 import { emailValidation, passwordValidation } from 'utils/validation';
 import { PaperForm } from '../design/PaperForm';
 import { AuthFormWrapper } from '../design/AuthFormWrapper';
@@ -40,7 +43,25 @@ function Login() {
   });
   const [showPassword, setShowPassword] = useState(false);
 
-  const { isAuthorized } = useTypedSelector(state => state.userAuth);
+  const { t } = useTranslation();
+
+  const { isAuthorized, error } = useTypedSelector(state => state.userAuth);
+  const [notification, setNotification] = useState<string | {} | null>(null);
+  useEffect(() => {
+    if (error) {
+      setNotification(error);
+    }
+  }, [error]);
+  const handleCloseNotification = (
+    e?: SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setNotification(null);
+  };
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -88,8 +109,19 @@ function Login() {
             <Box component="form" onSubmit={handleSubmit(onSubmit)}>
               <Stack spacing={4}>
                 <Typography align="center" variant="h4">
-                  Login
+                  {t('common.login')}
                 </Typography>
+
+                <Snackbar
+                  anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                  open={!!notification}
+                  autoHideDuration={3000}
+                  onClose={handleCloseNotification}
+                >
+                  <Alert onClose={handleCloseNotification} severity="error">
+                    {notification}
+                  </Alert>
+                </Snackbar>
 
                 <Controller
                   control={control}
@@ -97,7 +129,7 @@ function Login() {
                   rules={emailValidation}
                   render={({ field }) => (
                     <TextField
-                      placeholder="Please enter your email"
+                      placeholder={t('common.enterYourEmail')}
                       label="Email"
                       autoComplete="current-email"
                       fullWidth
@@ -133,8 +165,8 @@ function Login() {
                           </InputAdornment>
                         )
                       }}
-                      placeholder="Please enter your password"
-                      label="Password"
+                      placeholder={t('common.enterPassword')}
+                      label={t('common.password')}
                       type={showPassword ? 'text' : 'password'}
                       autoComplete="current-password"
                       fullWidth
@@ -153,24 +185,24 @@ function Login() {
                     component={RouterLink}
                     to="/forgot-password"
                   >
-                    Forgot the password?
+                    {t('common.forgotPassword')}
                   </Link>
                 </Typography>
                 <Button variant="contained" type="submit">
-                  Login
+                  {t('common.login')}
                 </Button>
-                <Divider>or</Divider>
+                <Divider> {t('login.or')}</Divider>
                 <Button
                   variant="contained"
                   onClick={() => handleOAuth('google')}
                 >
-                  Sing in with google
+                  {t('login.signInWithGoogle')}
                 </Button>
                 <Button
                   variant="contained"
                   onClick={() => handleOAuth('facebook')}
                 >
-                  Sing in with facebook
+                  {t('login.signInWithFacebook')}
                 </Button>
                 <Button variant="contained">
                   <Link
@@ -179,7 +211,7 @@ function Login() {
                     color="inherit"
                     underline="none"
                   >
-                    Sign up
+                    {t('login.signup')}
                   </Link>
                 </Button>
               </Stack>
