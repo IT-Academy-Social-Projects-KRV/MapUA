@@ -146,6 +146,7 @@ const CreateLocation = ({ coordinate }: Props) => {
               );
             }}
             ref={ref}
+            multiple
           />
           <Button
             sx={{ m: '10px 10px 0px 0px ' }}

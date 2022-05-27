@@ -186,7 +186,7 @@ export default function ProfilePage({
             </Box>
           </form>
         ) : (
-          <Box>
+          <UploadBox>
             <ProfileAvatar
               aria-label="avatar"
               src={userAvatar.data.imageUrl || userImageNotFound}
@@ -210,7 +210,7 @@ export default function ProfilePage({
             >
               {t('profile.profilePage.editProfile')}
             </EditButton>
-          </Box>
+          </UploadBox>
         )}
         <Typography variant="h5" component="h4" align="center">
           {t('profile.profilePage.creationDate')} {createdAt}
