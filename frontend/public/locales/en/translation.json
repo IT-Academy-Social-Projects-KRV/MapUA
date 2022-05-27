@@ -62,7 +62,7 @@
     "create": "Create"
   },
   "utils": {
-    "vaidation": {
+    "validation": {
       "emailCanNotBeEmpty": "Email can't be empty",
       "wrongEmail": "Wrong email",
       "passwordCanNotBeEmpty": "Password can't be empty",
