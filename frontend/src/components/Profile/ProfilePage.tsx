@@ -128,16 +128,13 @@ export default function ProfilePage({
             <Box>
               <UploadBox>
                 <ProfileAvatar
-                  sx={{ ml: '11.5vh' }}
                   aria-label="avatar"
                   src={
                     (userImage && URL.createObjectURL(userImage)) ||
                     userAvatar.data.imageUrl
                   }
                 />
-                <Box sx={{ m: '2vh 0 2vh 14vh' }}>
-                  {t('profile.profilePage.uploadPhoto')}
-                </Box>
+                <Box>{t('profile.profilePage.uploadPhoto')}</Box>
                 <Box>
                   <label htmlFor="contained-button-file">
                     <HiddenInput
@@ -150,7 +147,7 @@ export default function ProfilePage({
                       }}
                     />
                     <Button
-                      sx={{ mr: '10px' }}
+                      sx={{ mb: '10px' }}
                       variant="contained"
                       component="span"
                     >

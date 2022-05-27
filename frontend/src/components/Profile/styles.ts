@@ -44,7 +44,9 @@ export const ProfileAvatar = styled(Avatar)`
   margin: 0 auto;
 `;
 export const UploadBox = styled(Box)`
-  margin: 0 0 3vh 4vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 export const CancelButton = styled(Button)`
   margin: 0 auto;
