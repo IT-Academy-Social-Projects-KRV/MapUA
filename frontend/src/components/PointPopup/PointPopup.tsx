@@ -1,33 +1,17 @@
-<<<<<<< HEAD
-=======
 import CommentSection from 'components/BigPopup/CommentSection/CommentSection';
->>>>>>> 519b063ea3bc0a5e45c176e8e92205645c4834e6
 import React, { useState, MouseEvent, SyntheticEvent } from 'react';
 import {
   Avatar,
   Box,
-<<<<<<< HEAD
-  TextField,
-  FormControl,
-  Button,
-  List,
-  ListItem,
-  Divider,
-  ListItemText,
-  ListItemAvatar,
-=======
   Card,
   CardContent,
   CardMedia,
   Collapse,
   Typography,
->>>>>>> 519b063ea3bc0a5e45c176e8e92205645c4834e6
   Snackbar,
   Alert,
   AlertColor
 } from '@mui/material';
-<<<<<<< HEAD
-=======
 import ShareIcon from '@mui/icons-material/Share';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
@@ -35,7 +19,6 @@ import TourOutlinedIcon from '@mui/icons-material/TourOutlined';
 import TourIcon from '@mui/icons-material/Tour';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
->>>>>>> 519b063ea3bc0a5e45c176e8e92205645c4834e6
 import IconButton from '@mui/material/IconButton';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
@@ -43,10 +26,6 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-<<<<<<< HEAD
-import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
-=======
->>>>>>> 519b063ea3bc0a5e45c176e8e92205645c4834e6
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 
@@ -56,21 +35,14 @@ interface INotification {
 }
 
 const PointPopup = () => {
-<<<<<<< HEAD
-=======
   const { t } = useTranslation();
 
->>>>>>> 519b063ea3bc0a5e45c176e8e92205645c4834e6
   const [expanded, setExpanded] = useState(false);
   const [notification, setNotification] = useState<INotification | null>(null);
 
   const { updatePopupLocation } = useTypedDispatch();
 
   const userAuth = useTypedSelector(state => state.userAuth);
-<<<<<<< HEAD
-  const infoLocation = useTypedSelector(state => state.popupLocation);
-
-=======
   const userData = useTypedSelector(state => state.user);
 
   const infoLocation = useTypedSelector(state => state.popupLocation);
@@ -82,7 +54,6 @@ const PointPopup = () => {
     infoLocation._id && userData.data.visited.includes(infoLocation._id)
   );
 
->>>>>>> 519b063ea3bc0a5e45c176e8e92205645c4834e6
   const { isAuthorized, id: userId } = userAuth;
 
   const { _id, rating, locationName, description, arrayPhotos } = infoLocation;
@@ -188,58 +159,6 @@ const PointPopup = () => {
     );
   }
 
-  const handleRating = (
-    e: MouseEvent<HTMLButtonElement>,
-    type: 'likes' | 'dislikes'
-  ) => {
-    e.preventDefault();
-    if (!isAuthorized) {
-      return setNotification({
-        type: 'warning',
-        message: 'Login to your account to be able to rate!'
-      });
-    }
-
-    const updatedRating = { ...rating };
-    if (rating[type].includes(userId)) {
-      updatedRating[type] = updatedRating[type].filter(
-        value => value !== userId
-      );
-    } else {
-      updatedRating[type].push(userId);
-    }
-
-    const inverseType = type === 'likes' ? 'dislikes' : 'likes';
-
-    if (rating[inverseType].includes(userId)) {
-      updatedRating[inverseType] = updatedRating[inverseType].filter(
-        value => value !== userId
-      );
-    }
-
-    return updatePopupLocation(_id, { rating: updatedRating });
-  };
-
-  let snackbar;
-  if (notification) {
-    snackbar = (
-      <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        open={!!notification}
-        autoHideDuration={5000}
-        onClose={handleCloseNotification}
-      >
-        <Alert
-          onClose={handleCloseNotification}
-          severity={notification.type}
-          sx={{ width: '100%' }}
-        >
-          {notification.message}
-        </Alert>
-      </Snackbar>
-    );
-  }
-
   return (
     <Box>
       <Card>
@@ -270,44 +189,6 @@ const PointPopup = () => {
               m: 3
             }}
           >
-<<<<<<< HEAD
-            <IconButton onClick={e => handleRating(e, 'likes')}>
-              {rating.likes.includes(userId) ? (
-                <ThumbUpIcon
-                  fontSize="small"
-                  sx={{ color: 'text.secondary' }}
-                />
-              ) : (
-                <ThumbUpOutlinedIcon
-                  fontSize="small"
-                  sx={{ color: 'text.secondary' }}
-                />
-              )}
-              {rating.likes.length}
-            </IconButton>
-
-            <IconButton onClick={e => handleRating(e, 'dislikes')}>
-              {rating.dislikes.includes(userId) ? (
-                <ThumbDownIcon
-                  fontSize="small"
-                  sx={{ color: 'text.secondary' }}
-                />
-              ) : (
-                <ThumbDownAltOutlinedIcon
-                  fontSize="small"
-                  sx={{ color: 'text.secondary' }}
-                />
-              )}
-              {rating.dislikes.length}
-            </IconButton>
-
-            <IconButton size="small">To share</IconButton>
-
-            <IconButton size="small">Add to visited</IconButton>
-            <IconButton>
-              <MoreHorizIcon />
-            </IconButton>
-=======
             <Box
               sx={{
                 width: '100%',
@@ -376,7 +257,6 @@ const PointPopup = () => {
                 <MoreHorizIcon />
               </IconButton>
             </Box>
->>>>>>> 519b063ea3bc0a5e45c176e8e92205645c4834e6
           </Box>
         </Box>
 
@@ -425,92 +305,7 @@ const PointPopup = () => {
           </IconButton>
         </CardContent>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
-<<<<<<< HEAD
-          <CardContent>
-            <Typography
-              variant="h6"
-              color="text.secondary"
-              sx={{
-                textAlign: 'center',
-                borderBottom: '1px solid grey'
-              }}
-            >
-              Comments section
-            </Typography>
-            <List>
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center'
-                }}
-              >
-                <FormControl variant="standard">
-                  <TextField
-                    multiline
-                    rows={5}
-                    id="your comment"
-                    placeholder="Add your comment"
-                    variant="outlined"
-                    fullWidth
-                  />
-
-                  <Button
-                    sx={{
-                      width: '25%',
-                      borderRadius: 10,
-                      alignSelf: 'center',
-                      mt: 2,
-                      color: 'black',
-                      mb: 3
-                    }}
-                    endIcon={<SendOutlinedIcon />}
-                  >
-                    Send
-                  </Button>
-                </FormControl>
-              </Box>
-              <Divider variant="inset" component="li" />
-              <ListItem alignItems="flex-start" sx={{ pl: 0 }}>
-                <ListItemAvatar>
-                  <Avatar
-                    alt="Vasya"
-                    src="https://cdn-icons-png.flaticon.com/512/147/147142.png"
-                  />
-                </ListItemAvatar>
-                <ListItemText
-                  primary="Nice place..."
-                  secondary={
-                    <Typography
-                      sx={{ display: 'inline' }}
-                      component="span"
-                      variant="body2"
-                      color="text.primary"
-                    />
-                  }
-                />
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    gap: 3,
-                    alignSelf: 'flex-end'
-                  }}
-                >
-                  <IconButton>
-                    <ThumbUpOutlinedIcon fontSize="small" />
-                  </IconButton>
-
-                  <IconButton>
-                    <ThumbDownAltOutlinedIcon fontSize="small" />
-                  </IconButton>
-                </Box>
-              </ListItem>
-            </List>
-          </CardContent>
-=======
           <CommentSection />
->>>>>>> 519b063ea3bc0a5e45c176e8e92205645c4834e6
         </Collapse>
         {snackbar}
       </Card>

@@ -36,17 +36,12 @@ export const updatePopupLocation =
   (id: string | undefined, location: {}) =>
   async (dispatch: Dispatch<LocationActions>) => {
     try {
-<<<<<<< HEAD
-      const url = `${REACT_APP_API_URI}/locations/${id}`;
-      const { data } = await axios.patch(url, location);
-=======
       const url = `${REACT_APP_API_URI}locations/${id}`;
       const { data } = await axios.patch(url, location, {
         headers: {
           'Accept-Language': localStorage.getItem('i18nextLng') || ''
         }
       });
->>>>>>> 519b063ea3bc0a5e45c176e8e92205645c4834e6
 
       if (data) {
         dispatch({
