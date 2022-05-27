@@ -113,7 +113,8 @@ function Login() {
                 </Typography>
 
                 <Snackbar
-                  anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                  sx={{ zIndex: 10000 }}
                   open={!!notification}
                   autoHideDuration={3000}
                   onClose={handleCloseNotification}

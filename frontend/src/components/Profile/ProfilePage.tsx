@@ -26,7 +26,8 @@ import {
   ProfileUsertWrapper,
   SaveBox,
   UploadBox,
-  EditButton
+  EditButton,
+  TypographyDate
 } from './styles';
 import BasicTabs from './BasicTabs';
 
@@ -83,7 +84,6 @@ export default function ProfilePage({
       );
       if (response.status === 200) {
         setSuccessMessage(true);
-        setTimeout(() => setSuccessMessage(false), 3000);
         dispatch({
           type: UserActionTypes.UPDATE_USER,
           payload: response.data
@@ -91,7 +91,6 @@ export default function ProfilePage({
         setShowEditPanel(false);
       }
     } catch (e: any) {
-      setTimeout(() => setErrorMessage(''), 3000);
       setErrorMessage(
         e.response.data?.error || `${t('profile.profilePage.lostNetwork')}`
       );
@@ -103,23 +102,42 @@ export default function ProfilePage({
   const closeEditData = () => {
     setShowEditPanel(false);
   };
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setErrorMessage('');
+    setSuccessMessage(false);
+  };
+
   return (
     <ProfileFormWrapper>
       <ProfileContentWrapper>
         <Snackbar
           anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+          sx={{ zIndex: 10000 }}
           open={successMessage}
+          autoHideDuration={3000}
+          onClose={handleClose}
         >
-          <Alert severity="success">
+          <Alert severity="success" onClose={handleClose}>
             {t('profile.profilePage.dataSuccessChanged')}
           </Alert>
         </Snackbar>
 
         <Snackbar
           anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+          sx={{ zIndex: 10000 }}
           open={!!errorMessage}
+          onClose={handleClose}
+          autoHideDuration={3000}
         >
-          <Alert severity="error">{errorMessage}</Alert>
+          <Alert onClose={handleClose} severity="error">
+            {errorMessage}
+          </Alert>
         </Snackbar>
 
         {showEditPanel ? (
@@ -127,7 +145,6 @@ export default function ProfilePage({
             <Box>
               <UploadBox>
                 <ProfileAvatar
-                  sx={{ ml: '11.5vh' }}
                   aria-label="avatar"
                   src={userAvatar.data.imageUrl}
                 />
@@ -190,20 +207,15 @@ export default function ProfilePage({
                 : displayName}
             </Typography>
 
-            <EditButton
-              sx={{ mt: '2vh' }}
-              size="large"
-              variant="contained"
-              onClick={editData}
-            >
+            <EditButton size="large" variant="contained" onClick={editData}>
               {t('profile.profilePage.editProfile')}
             </EditButton>
           </Box>
         )}
-        <Typography variant="h5" component="h4" align="center">
+        <TypographyDate variant="h6">
           {t('profile.profilePage.creationDate')} {createdAt}
-        </Typography>
-        <Typography variant="h5" component="h5" align="center">
+        </TypographyDate>
+        <Typography variant="h6" component="h6" align="center">
           {email}
         </Typography>
         <Button size="large" onClick={logout} variant="contained">
