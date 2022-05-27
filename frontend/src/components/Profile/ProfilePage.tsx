@@ -16,7 +16,7 @@ import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { UserForm } from 'redux/ts-types/user';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useDispatch } from 'react-redux';
-import userImageNotFound from '../../static/user-image-not-found.png';
+import userImageNotFound from '../../static/404-Page.jpg';
 import {
   ProfileAvatar,
   SaveButton,
