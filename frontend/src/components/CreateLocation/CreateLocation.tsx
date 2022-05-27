@@ -22,7 +22,6 @@ const { REACT_APP_API_URI } = process.env;
 
 const CreateLocation = ({ coordinate }: Props) => {
   const ref = useRef<null | HTMLInputElement>(null);
-  const Imageref = useRef<null | HTMLInputElement>(null);
   const [locationImageName, setlocationImageName] = useState<string>('');
 
   const { t } = useTranslation();
@@ -143,11 +142,10 @@ const CreateLocation = ({ coordinate }: Props) => {
             onChange={e => {
               handleFilesChange(e);
               setlocationImageName(
-                (Imageref.current?.files && Imageref.current?.files[0].name) ||
-                  ''
+                (ref.current?.files && ref.current?.files[0].name) || ''
               );
             }}
-            ref={Imageref}
+            ref={ref}
           />
           <Button
             sx={{ m: '10px 10px 0px 0px ' }}
