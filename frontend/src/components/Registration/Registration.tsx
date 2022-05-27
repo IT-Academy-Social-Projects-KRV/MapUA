@@ -103,7 +103,11 @@ function Registration() {
                   autoHideDuration={3000}
                   onClose={handleCloseNotification}
                 >
-                  <Alert onClose={handleCloseNotification} severity="error">
+                  <Alert
+                    onClose={handleCloseNotification}
+                    severity="error"
+                    sx={{ mt: '1vh' }}
+                  >
                     {notification}
                   </Alert>
                 </Snackbar>
@@ -113,7 +117,11 @@ function Registration() {
                   open={!!visibleSucces}
                   onClose={handleCloseNotification}
                 >
-                  <Alert onClose={handleCloseNotification} severity="success">
+                  <Alert
+                    onClose={handleCloseNotification}
+                    severity="success"
+                    sx={{ mt: '1vh' }}
+                  >
                     {t('registration.regisrationSuccess')}
                   </Alert>
                 </Snackbar>

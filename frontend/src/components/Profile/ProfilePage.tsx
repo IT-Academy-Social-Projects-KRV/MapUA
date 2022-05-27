@@ -123,7 +123,7 @@ export default function ProfilePage({
           autoHideDuration={3000}
           onClose={handleClose}
         >
-          <Alert severity="success" onClose={handleClose}>
+          <Alert severity="success" onClose={handleClose} sx={{ mt: '4vh' }}>
             {t('profile.profilePage.dataSuccessChanged')}
           </Alert>
         </Snackbar>
@@ -135,7 +135,7 @@ export default function ProfilePage({
           onClose={handleClose}
           autoHideDuration={3000}
         >
-          <Alert onClose={handleClose} severity="error">
+          <Alert onClose={handleClose} severity="error" sx={{ mt: '4vh' }}>
             {errorMessage}
           </Alert>
         </Snackbar>

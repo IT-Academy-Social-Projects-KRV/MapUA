@@ -77,7 +77,7 @@ function ForgotPassword() {
         <Alert
           onClose={handleCloseNotification}
           severity={notification.type}
-          sx={{ width: '100%' }}
+          sx={{ width: '100%', mt: '4vh' }}
         >
           {notification.message}
         </Alert>

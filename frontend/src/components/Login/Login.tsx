@@ -119,7 +119,11 @@ function Login() {
                   autoHideDuration={3000}
                   onClose={handleCloseNotification}
                 >
-                  <Alert onClose={handleCloseNotification} severity="error">
+                  <Alert
+                    onClose={handleCloseNotification}
+                    severity="error"
+                    sx={{ mt: '1vh' }}
+                  >
                     {notification}
                   </Alert>
                 </Snackbar>
