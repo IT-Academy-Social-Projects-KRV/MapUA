@@ -39,7 +39,8 @@ const CreateLocation = ({ coordinate }: Props) => {
 
   const accessToken = localStorage.getItem('accessToken');
 
-  const onSubmit = async () => {
+  const onSubmit = async (e: any) => {
+    e.preventDefault();
     try {
       const formData = new FormData();
       formData.append('locationName', locationName);
@@ -62,6 +63,7 @@ const CreateLocation = ({ coordinate }: Props) => {
       if (ref.current) {
         ref.current.value = '';
       }
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
