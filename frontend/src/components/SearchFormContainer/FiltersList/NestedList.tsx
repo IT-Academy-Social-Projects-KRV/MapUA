@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { StyledList } from './style';
+import { createLocalizatioMainFilters } from '../../../static/mainFIlters';
 
 type NestType = {
   [key: number]: boolean;
@@ -17,6 +18,8 @@ type NestType = {
 export default function NestedList() {
   const { t } = useTranslation();
 
+  const filt = createLocalizatioMainFilters();
+  console.log(filt);
   const [open, setOpen] = useState(false);
   const [openNested, setOpenNested] = useState<NestType>({});
 

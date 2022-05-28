@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
 
-export const createLocalizatioMainFilters = () => {
+export const filters = () => {
   const { t } = useTranslation();
-  const localizationMainFilters = [
+  const arr = [
     {
       id: 1,
       forLoggedUser: false,
@@ -38,33 +38,5 @@ export const createLocalizatioMainFilters = () => {
       ]
     }
   ];
-  return localizationMainFilters;
+  return arr;
 };
-// export const mainFilters = createLocalizatioMainFilters();
-export const mainFilters = [
-  {
-    id: 1,
-    forLoggedUser: false,
-    type: 'Cost',
-    values: ['free', 'low cost', 'high cost']
-  },
-  {
-    id: 2,
-    forLoggedUser: false,
-    type: 'Seasonal',
-    values: ['winter', 'summer', 'spring', 'autumn', 'full year', 'seasonal']
-  },
-  {
-    id: 3,
-    forLoggedUser: true,
-    type: 'Personal',
-    values: ['visited', 'favorites', 'personal']
-  }
-];
-
-export const getFiltersForUser = () =>
-  mainFilters.reduce(
-    (prev, current) =>
-      current.forLoggedUser ? prev : [...prev, ...current.values],
-    [] as string[]
-  );
