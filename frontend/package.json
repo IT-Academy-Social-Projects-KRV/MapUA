@@ -5,6 +5,7 @@
   "dependencies": {
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
+    "@hookform/resolvers": "^2.8.10",
     "@mui/icons-material": "^5.6.1",
     "@mui/lab": "^5.0.0-alpha.80",
     "@mui/material": "^5.6.0",
@@ -14,6 +15,7 @@
     "@types/js-cookie": "^3.0.2",
     "@types/react-leaflet": "^2.8.2",
     "axios": "^0.27.2",
+    "formik": "^2.2.9",
     "husky": "^7.0.4",
     "i18next": "^21.8.2",
     "i18next-browser-languagedetector": "^6.1.4",
@@ -35,7 +37,8 @@
     "sass": "^1.50.0",
     "typescript": "^4.4.2",
     "uuid": "^8.3.2",
-    "web-vitals": "^2.1.0"
+    "web-vitals": "^2.1.0",
+    "yup": "^0.32.11"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -70,6 +73,7 @@
     "@types/react": "^17.0.20",
     "@types/react-dom": "^18.0.1",
     "@types/uuid": "^8.3.4",
+    "@types/yup": "^0.29.14",
     "@typescript-eslint/eslint-plugin": "^5.18.0",
     "@typescript-eslint/parser": "^5.18.0",
     "eslint": "^8.13.0",

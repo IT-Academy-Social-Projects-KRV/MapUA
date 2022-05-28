@@ -1,4 +1,4 @@
-import React, { useState, FormEvent, SyntheticEvent } from 'react';
+import React, { useState, SyntheticEvent } from 'react';
 import axios from 'axios';
 import {
   Box,
@@ -11,9 +11,17 @@ import {
   Grid,
   Link
 } from '@mui/material';
+import {
+  useForm,
+  Controller,
+  SubmitHandler,
+  useFormState
+} from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink } from 'react-router-dom';
 import LoadingButton from '@mui/lab/LoadingButton';
+import { ForgotPasswordSchema } from 'utils/validation';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { PaperForm } from '../design/PaperForm';
 import { AuthFormWrapper } from '../design/AuthFormWrapper';
 
@@ -24,10 +32,17 @@ interface INotification {
   message: string;
 }
 
+type EmailCheck = {
+  email: string;
+};
+
 function ForgotPassword() {
-  const [email, setEmail] = useState('');
   const [notification, setNotification] = useState<INotification | null>(null);
   const [loading, setLoading] = useState(false);
+  const { handleSubmit, control } = useForm<EmailCheck>({
+    mode: 'onBlur',
+    resolver: yupResolver(ForgotPasswordSchema)
+  });
 
   const { t } = useTranslation();
 
@@ -41,18 +56,15 @@ function ForgotPassword() {
     setNotification(null);
   };
 
-  const sendEmail = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const sendEmail: SubmitHandler<EmailCheck> = async ({ email }, e) => {
     setLoading(true);
 
     try {
-      const { data } = await axios.post(
-        `${REACT_APP_API_URI}/forgot-password`,
-        {
-          email
-        }
-      );
-      setEmail('');
+      const { data } = await axios.post(`${REACT_APP_API_URI}forgot-password`, {
+        email
+      });
+
+      e?.target.reset();
       setNotification({ type: 'success', message: data.message });
     } catch (error: any) {
       const message = error?.response?.data?.error
@@ -63,6 +75,10 @@ function ForgotPassword() {
       setLoading(false);
     }
   };
+
+  const { errors } = useFormState({
+    control
+  });
 
   let snackbar;
   if (notification) {
@@ -89,22 +105,30 @@ function ForgotPassword() {
       <Grid container justifyContent="center">
         <Grid item md={4}>
           <PaperForm>
-            <Box component="form" onSubmit={sendEmail}>
+            <Box component="form" onSubmit={handleSubmit(sendEmail)}>
               <Stack spacing={4}>
                 <Typography align="center" variant="h4">
                   {t('common.forgotPassword')}
                 </Typography>
 
-                <TextField
-                  label="Email"
-                  type="email"
-                  id="email"
-                  required
-                  value={email}
-                  placeholder={t('common.enterYourEmail')}
-                  autoComplete="current-email"
-                  fullWidth
-                  onChange={e => setEmail(e.target.value)}
+                <Controller
+                  control={control}
+                  name="email"
+                  render={({ field }) => (
+                    <TextField
+                      placeholder={t('common.enterYourEmail')}
+                      label="Email"
+                      autoComplete="current-email"
+                      fullWidth
+                      onChange={e => field.onChange(e)}
+                      onBlur={field.onBlur}
+                      defaultValue={field.value}
+                      error={!!errors.email?.message}
+                      helperText={t(
+                        !errors.email ? '' : String(errors.email.message)
+                      )}
+                    />
+                  )}
                 />
 
                 <LoadingButton

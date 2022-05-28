@@ -2,6 +2,7 @@ import React, { useEffect, useState, MouseEvent, SyntheticEvent } from 'react';
 import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import {
   useForm,
@@ -26,7 +27,7 @@ import {
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useTranslation } from 'react-i18next';
-import { emailValidation, passwordValidation } from 'utils/validation';
+import { AuthFormSchema } from 'utils/validation';
 import { PaperForm } from '../design/PaperForm';
 import { AuthFormWrapper } from '../design/AuthFormWrapper';
 
@@ -39,7 +40,8 @@ function Login() {
   const location = useLocation();
   const { login, loginOAuth } = useTypedDispatch();
   const { handleSubmit, control } = useForm<SignIn>({
-    mode: 'onBlur'
+    mode: 'onBlur',
+    resolver: yupResolver(AuthFormSchema)
   });
   const [showPassword, setShowPassword] = useState(false);
 
@@ -79,8 +81,9 @@ function Login() {
   }, []);
 
   const onSubmit: SubmitHandler<SignIn> = async ({ email, password }) => {
-    login(email, password);
+    login(email.toLowerCase(), password);
   };
+
   const { errors } = useFormState({
     control
   });
@@ -126,7 +129,6 @@ function Login() {
                 <Controller
                   control={control}
                   name="email"
-                  rules={emailValidation}
                   render={({ field }) => (
                     <TextField
                       placeholder={t('common.enterYourEmail')}
@@ -136,9 +138,11 @@ function Login() {
                       onChange={e => field.onChange(e)}
                       onBlur={field.onBlur}
                       defaultValue={field.value}
-                      type="text"
+                      type="email"
                       error={!!errors.email?.message}
-                      helperText={errors.email?.message}
+                      helperText={t(
+                        !errors.email ? '' : String(errors.email.message)
+                      )}
                     />
                   )}
                 />
@@ -146,7 +150,6 @@ function Login() {
                 <Controller
                   control={control}
                   name="password"
-                  rules={passwordValidation}
                   render={({ field }) => (
                     <TextField
                       InputProps={{
@@ -174,7 +177,9 @@ function Login() {
                       onBlur={field.onBlur}
                       defaultValue={field.value}
                       error={!!errors.password?.message}
-                      helperText={errors.password?.message}
+                      helperText={t(
+                        !errors.password ? '' : String(errors.password.message)
+                      )}
                     />
                   )}
                 />

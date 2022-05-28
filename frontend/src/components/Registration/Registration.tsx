@@ -13,6 +13,7 @@ import {
   Grid,
   Stack
 } from '@mui/material';
+import { yupResolver } from '@hookform/resolvers/yup';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {
@@ -22,7 +23,7 @@ import {
   useFormState
 } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { emailValidation, passwordValidation } from 'utils/validation';
+import { AuthFormSchema } from 'utils/validation';
 import { PaperForm } from '../design/PaperForm';
 import { AuthFormWrapper } from '../design/AuthFormWrapper';
 
@@ -39,7 +40,8 @@ function Registration() {
   const [visibleSucces, setVisibleSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const { handleSubmit, control } = useForm<SignUp>({
-    mode: 'onBlur'
+    mode: 'onBlur',
+    resolver: yupResolver(AuthFormSchema)
   });
   const onSubmit: SubmitHandler<SignUp> = async data => {
     try {
@@ -97,7 +99,6 @@ function Registration() {
                 <Controller
                   control={control}
                   name="email"
-                  rules={emailValidation}
                   render={({ field }) => (
                     <TextField
                       placeholder={t('common.enterYourEmail')}
@@ -107,9 +108,11 @@ function Registration() {
                       onChange={e => field.onChange(e)}
                       onBlur={field.onBlur}
                       defaultValue={field.value}
-                      type="text"
+                      type="email"
                       error={!!errors.email?.message}
-                      helperText={errors.email?.message}
+                      helperText={t(
+                        !errors.email ? '' : String(errors.email.message)
+                      )}
                     />
                   )}
                 />
@@ -117,7 +120,6 @@ function Registration() {
                   <Controller
                     control={control}
                     name="password"
-                    rules={passwordValidation}
                     render={({ field }) => (
                       <TextField
                         InputProps={{
@@ -145,7 +147,11 @@ function Registration() {
                         onBlur={field.onBlur}
                         defaultValue={field.value}
                         error={!!errors.password?.message}
-                        helperText={errors.password?.message}
+                        helperText={t(
+                          !errors.password
+                            ? ''
+                            : String(errors.password.message)
+                        )}
                       />
                     )}
                   />
