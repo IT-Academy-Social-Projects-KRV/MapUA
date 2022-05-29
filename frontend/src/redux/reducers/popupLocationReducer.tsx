@@ -44,6 +44,8 @@ export const popupLocationReducer = (
       return { ...state, isLoading: false };
     case LocationActionTypes.ADD_COMMENT:
       return { ...state, comments: [action.payload, ...state.comments] };
+    case LocationActionTypes.FETCH_COMMENTS:
+      return { ...state, comments: [...action.payload] };
     default:
       return state;
   }

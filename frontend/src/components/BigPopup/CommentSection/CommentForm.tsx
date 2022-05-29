@@ -15,8 +15,9 @@ const CommentForm = () => {
   const { _id: locationId } = useTypedSelector(state => state.popupLocation);
 
   const onSendComment = () => {
-    const commentBody: Comment = {
+    const commentBody: Comment<string> = {
       author: userId,
+      locationId: locationId || '',
       text: commentText,
       likes: [],
       dislikes: [],
@@ -24,7 +25,7 @@ const CommentForm = () => {
       updatedAt: new Date()
     };
     if (commentText) {
-      sendComment(locationId!, commentBody);
+      sendComment(commentBody);
       setCommentText('');
     }
   };

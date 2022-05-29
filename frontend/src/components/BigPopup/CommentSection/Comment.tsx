@@ -1,12 +1,12 @@
 import React from 'react';
 import {
-  ListItem,
-  ListItemText,
   Avatar,
-  ListItemAvatar,
-  Typography,
   Box,
-  Link
+  Link,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  Typography
 } from '@mui/material';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
@@ -14,9 +14,11 @@ import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
 interface Props {
   text: string;
   createdAt: Date;
+  displayName: string;
+  imageUrl: string;
 }
 
-const Comment = ({ text, createdAt }: Props) => {
+const Comment = ({ text, createdAt, displayName, imageUrl }: Props) => {
   const d = new Date(createdAt);
   const day = d.getDate();
   const month = d.getMonth() + 1;
@@ -30,22 +32,17 @@ const Comment = ({ text, createdAt }: Props) => {
   return (
     <ListItem alignItems="flex-start" sx={{ pl: 0 }}>
       <ListItemAvatar>
-        <Avatar
-          alt="Vasya"
-          src="https://cdn-icons-png.flaticon.com/512/147/147142.png"
-        />
+        <Avatar alt="Vasya" src={imageUrl} />
+        <Typography
+          sx={{ display: 'inline' }}
+          component="span"
+          variant="body2"
+          color="text.primary"
+        >
+          {displayName}
+        </Typography>
       </ListItemAvatar>
-      <ListItemText
-        primary={text}
-        secondary={
-          <Typography
-            sx={{ display: 'inline' }}
-            component="span"
-            variant="body2"
-            color="text.primary"
-          />
-        }
-      />
+      <ListItemText primary={text} />
       <Box
         sx={{
           display: 'flex',
@@ -57,7 +54,7 @@ const Comment = ({ text, createdAt }: Props) => {
         <Typography
           sx={{ display: 'inline' }}
           component="span"
-          variant="body2"
+          variant="caption"
           color="text.primary"
         >
           {formatedDate}

@@ -14,15 +14,15 @@ const schema = new mongoose.Schema({
   author: {
     type: Schema.Types.ObjectId,
     ref: 'User',
-    required: [true]
+    required: true
   },
   locationId: {
     type: Schema.Types.ObjectId,
-    required: [true]
+    required: true
   },
   text: {
     type: String,
-    required: [true]
+    required: true
   },
   likes: {
     type: Array

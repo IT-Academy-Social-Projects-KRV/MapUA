@@ -59,13 +59,11 @@ export function startLoading(): LocationActions {
 }
 
 export const sendComment =
-  (id: string, comment: Comment) =>
-  async (dispatch: Dispatch<LocationActions>) => {
+  (comment: Comment<string>) => async (dispatch: Dispatch<LocationActions>) => {
     try {
-      const response = await axios.put(
-        `${REACT_APP_API_URI}locations/comment`,
+      const { data } = await axios.post(
+        `${REACT_APP_API_URI}comments/create`,
         {
-          id,
           comment
         },
         {
@@ -74,10 +72,32 @@ export const sendComment =
           }
         }
       );
-      if (response.status === 200) {
+      if (data) {
         dispatch({
           type: LocationActionTypes.ADD_COMMENT,
-          payload: comment
+          payload: data
+        });
+      }
+    } catch (e: any) {
+      throw new Error(e);
+    }
+  };
+
+export const fetchComments =
+  (locationId: string) => async (dispatch: Dispatch<LocationActions>) => {
+    try {
+      const { data } = await axios.get(
+        `${REACT_APP_API_URI}comments/${locationId}`,
+        {
+          headers: {
+            'Accept-Language': localStorage.getItem('i18nextLng') || ''
+          }
+        }
+      );
+      if (data.length) {
+        dispatch({
+          type: LocationActionTypes.FETCH_COMMENTS,
+          payload: data
         });
       }
     } catch (e: any) {
