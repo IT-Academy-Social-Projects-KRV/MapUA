@@ -94,12 +94,10 @@ export const fetchComments =
           }
         }
       );
-      if (data.length) {
-        dispatch({
-          type: LocationActionTypes.FETCH_COMMENTS,
-          payload: data
-        });
-      }
+      dispatch({
+        type: LocationActionTypes.FETCH_COMMENTS,
+        payload: data
+      });
     } catch (e: any) {
       throw new Error(e);
     }
