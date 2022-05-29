@@ -8,17 +8,20 @@ export type Comment = {
 };
 
 export type locationState = {
-  _id?: string;
-  locationName: string;
-  rating: {
-    likes: string[];
-    dislikes: string[];
+  data: {
+    _id?: string;
+    locationName: string;
+    rating: {
+      likes: string[];
+      dislikes: string[];
+    };
+    coordinates: [number, number];
+    arrayPhotos: string[];
+    description: string;
+    comments: Comment[];
+    createdAt: Date;
+    updatedAt: Date;
   };
-  coordinates: [number, number];
-  arrayPhotos: string[];
-  description: string;
-  comments: Comment[];
-  createdAt: Date;
-  updatedAt: Date;
   isLoading: boolean;
+  error: Error | null;
 };

@@ -3,7 +3,7 @@ import { locationState, Comment } from 'redux/ts-types/popupLocation';
 /* eslint-disable no-unused-vars */
 
 export enum LocationActionTypes {
-  FETCH_lOCATION = 'FETCH_lOCATION',
+  FETCH_LOCATION = 'FETCH_LOCATION',
   UPDATE_LOCATION = 'UPDATE_LOCATION',
   LOADING_START = 'LOADING_START',
   LOADING_END = 'LOADING_END',
@@ -11,7 +11,7 @@ export enum LocationActionTypes {
 }
 
 interface FetchLocationAction {
-  type: LocationActionTypes.FETCH_lOCATION;
+  type: LocationActionTypes.FETCH_LOCATION;
   payload: locationState;
 }
 interface UpdateLocationAction {

@@ -20,7 +20,7 @@ export const fetchPopupLocation =
 
       if (data) {
         dispatch({
-          type: LocationActionTypes.FETCH_lOCATION,
+          type: LocationActionTypes.FETCH_LOCATION,
           payload: data
         });
         dispatch({
