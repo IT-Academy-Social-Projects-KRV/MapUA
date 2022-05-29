@@ -40,6 +40,9 @@ const schema = new mongoose.Schema({
   author: { type: String, required: true },
   createdAt: { type: Date },
   updatedAt: { type: Date }
+},
+{
+  timestamps: true
 });
 
 export default mongoose.model<ILocation>('Location', schema);
