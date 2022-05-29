@@ -40,8 +40,8 @@ export const login =
       dispatch({
         type: UserAuthActionTypes.USER_LOGIN_FAIL,
         payload:
-          error.response && error.response.data.massage
-            ? error.response.data.message
+          error.response && error.response.data.info.message
+            ? error.response.data.info.message
             : error.message
       });
     }

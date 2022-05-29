@@ -1,4 +1,4 @@
-import React, { useEffect, useState, MouseEvent } from 'react';
+import React, { useEffect, useState, MouseEvent, SyntheticEvent } from 'react';
 import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
@@ -11,6 +11,8 @@ import {
 } from 'react-hook-form';
 import {
   Box,
+  Snackbar,
+  Alert,
   Divider,
   TextField,
   Button,
@@ -43,7 +45,23 @@ function Login() {
 
   const { t } = useTranslation();
 
-  const { isAuthorized } = useTypedSelector(state => state.userAuth);
+  const { isAuthorized, error } = useTypedSelector(state => state.userAuth);
+  const [notification, setNotification] = useState<string | {} | null>(null);
+  useEffect(() => {
+    if (error) {
+      setNotification(error);
+    }
+  }, [error]);
+  const handleCloseNotification = (
+    e?: SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setNotification(null);
+  };
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -93,6 +111,17 @@ function Login() {
                 <Typography align="center" variant="h4">
                   {t('common.login')}
                 </Typography>
+
+                <Snackbar
+                  anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                  open={!!notification}
+                  autoHideDuration={3000}
+                  onClose={handleCloseNotification}
+                >
+                  <Alert onClose={handleCloseNotification} severity="error">
+                    {notification}
+                  </Alert>
+                </Snackbar>
 
                 <Controller
                   control={control}

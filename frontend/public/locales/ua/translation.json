@@ -62,7 +62,7 @@
     "create": "Створити"
   },
   "utils": {
-    "vaidation": {
+    "validation": {
       "emailCanNotBeEmpty": "Email не може бути порожнім",
       "wrongEmail": "Невірний email",
       "passwordCanNotBeEmpty": "Пароль не може бути порожнім",
