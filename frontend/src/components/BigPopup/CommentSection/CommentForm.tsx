@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
-import { Comment } from '../../../redux/ts-types/popupLocation';
+import { Comment } from '../../../redux/ts-types/locationComments';
 
 const CommentForm = () => {
   const { t } = useTranslation();

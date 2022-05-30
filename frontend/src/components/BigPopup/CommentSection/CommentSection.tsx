@@ -10,7 +10,7 @@ const CommentSection = () => {
   const { t } = useTranslation();
 
   const { _id: locationId } = useTypedSelector(state => state.popupLocation);
-  const { comments } = useTypedSelector(state => state.popupLocation);
+  const { comments } = useTypedSelector(state => state.locationComments);
   const { fetchComments } = useTypedDispatch();
   const { isAuthorized } = useTypedSelector(state => state.userAuth);
 
@@ -18,7 +18,7 @@ const CommentSection = () => {
     if (locationId) {
       fetchComments(locationId);
     }
-  }, []);
+  }, [locationId]);
 
   return (
     <CardContent>
