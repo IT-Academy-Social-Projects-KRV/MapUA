@@ -1,14 +1,21 @@
+import React, { useRef } from 'react';
+import axios from 'axios';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useTranslation } from 'react-i18next';
 import {
-  Input,
-  TextareaAutosize,
   Typography,
   Button,
   Autocomplete,
-  TextField
+  TextField,
+  Box
 } from '@mui/material';
-import axios from 'axios';
-import React, { useState, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
+import {
+  Controller,
+  useForm,
+  SubmitHandler,
+  useFormState
+} from 'react-hook-form';
+import { CreatingLocationSchema } from 'utils/validation';
 import { latlngType } from '../../../types';
 import { getFiltersForUser } from '../../static/mainFIlters';
 
@@ -16,39 +23,48 @@ type Props = {
   coordinate: latlngType;
 };
 
+type CreatingLocation = {
+  locationName: string;
+  locationDescription: string;
+  locationFilters: string[];
+  locationFile: File[];
+};
+
 const { REACT_APP_API_URI } = process.env;
 
 const CreateLocation = ({ coordinate }: Props) => {
-  const ref = useRef<null | HTMLInputElement>();
-
-  const { t } = useTranslation();
-
-  const [locationName, setLocationName] = useState('');
-  const [description, setDescription] = useState('');
-  const [filters, setFilters] = useState('');
-  const [files, setFiles] = useState<File[]>([]);
+  // const [files, setFiles] = useState<File[]>([]);
   // const [, setLinks] = useState<string[]>([]);
 
-  const handleChange = (e: any): void => {
-    setLocationName(e.target.value);
-  };
-
-  const handleChangeDescription = (e: any): void => {
-    setDescription(e.target.value);
-  };
+  const ref = useRef<null | HTMLInputElement>();
 
   const accessToken = localStorage.getItem('accessToken');
 
-  const onSubmit = async (e: any) => {
-    e.preventDefault();
+  const { handleSubmit, control, reset } = useForm<CreatingLocation>({
+    mode: 'onBlur',
+    resolver: yupResolver(CreatingLocationSchema)
+  });
+
+  const { errors } = useFormState({
+    control
+  });
+
+  const { t } = useTranslation();
+
+  const onSubmit: SubmitHandler<CreatingLocation> = async ({
+    locationName,
+    locationDescription,
+    locationFilters,
+    locationFile
+  }) => {
     try {
       const formData = new FormData();
       formData.append('locationName', locationName);
-      formData.append('description', description);
+      formData.append('description', locationDescription);
       formData.append('coordinates', String(coordinate.lat));
       formData.append('coordinates', String(coordinate.lng));
-      formData.append('filters', String(filters));
-      formData.append('image', files[0]);
+      formData.append('filters', String(locationFilters));
+      formData.append('image', locationFile[0]);
 
       await axios.post(`${REACT_APP_API_URI}locations/create`, formData, {
         headers: {
@@ -57,9 +73,7 @@ const CreateLocation = ({ coordinate }: Props) => {
         }
       });
 
-      setLocationName('');
-      setDescription('');
-      setFilters('');
+      reset();
       if (ref.current) {
         ref.current.value = '';
       }
@@ -69,26 +83,10 @@ const CreateLocation = ({ coordinate }: Props) => {
     }
   };
 
-  const onChangeAutocomplete = (e: any, value: any) => {
-    setFilters(value);
-  };
-
-  const handleFilesChange = (e: any) => {
-    const { files: filesLst } = e.currentTarget;
-    const filesListArr = [];
-
-    if (filesLst) {
-      for (let i = 0; i < filesLst.length; i += 1) {
-        filesListArr.push(filesLst[i]);
-      }
-
-      setFiles(filesListArr);
-    }
-  };
-
   return (
-    <form
-      onSubmit={onSubmit}
+    <Box
+      component="form"
+      onSubmit={handleSubmit(onSubmit)}
       style={{
         width: '400px',
         height: '600px',
@@ -98,59 +96,99 @@ const CreateLocation = ({ coordinate }: Props) => {
     >
       <Typography>{t('createLocation.creatingLocation')}</Typography>
 
-      <Input
-        sx={{ marginTop: '20px', width: '100%' }}
-        type="text"
-        value={locationName}
-        onChange={handleChange}
-        placeholder={t('createLocation.enterLocName')}
-      />
-
-      <TextareaAutosize
-        aria-label="minimum height"
-        value={description}
-        onChange={handleChangeDescription}
-        minRows={3}
-        placeholder={t('createLocation.enterDescription')}
-        style={{
-          marginTop: '20px',
-          width: '100%',
-          resize: 'vertical',
-          minWidth: '30px'
-        }}
-      />
-
-      <Autocomplete
-        sx={{ marginTop: '20px' }}
-        multiple
-        id="tags-outlined"
-        options={getFiltersForUser()}
-        getOptionLabel={option => option}
-        filterSelectedOptions
-        onChange={(e, values) => onChangeAutocomplete(e, values)}
-        renderInput={params => (
+      <Controller
+        control={control}
+        name="locationName"
+        render={({ field }) => (
           <TextField
-            {...params}
-            value={filters}
-            label={t('common.filters')}
-            placeholder={t('createLocation.favorites')}
+            {...field}
+            sx={{ marginTop: '20px', width: '100%' }}
+            type="text"
+            placeholder={t('createLocation.enterLocName')}
+            error={!!errors.locationName?.message}
+            helperText={t(
+              !errors.locationName ? '' : String(errors.locationName.message)
+            )}
           />
         )}
       />
 
-      <Input
-        id="contained-button-file"
-        type="file"
-        onChange={e => handleFilesChange(e)}
-        ref={ref}
-        sx={{ padding: '20px' }}
+      <Controller
+        control={control}
+        name="locationDescription"
+        render={({ field }) => (
+          <TextField
+            multiline
+            rows={5}
+            {...field}
+            placeholder={t('createLocation.enterDescription')}
+            style={{
+              marginTop: '20px',
+              width: '100%',
+              resize: 'vertical',
+              minWidth: '30px'
+            }}
+            error={!!errors.locationDescription?.message}
+            helperText={t(
+              !errors.locationDescription
+                ? ''
+                : String(errors.locationDescription.message)
+            )}
+          />
+        )}
       />
+
+      <Controller
+        defaultValue={[]}
+        control={control}
+        name="locationFilters"
+        render={({ field }) => (
+          <Autocomplete
+            {...field}
+            sx={{ marginTop: '20px' }}
+            multiple
+            options={getFiltersForUser()}
+            getOptionLabel={option => option}
+            filterSelectedOptions
+            onChange={(e, value) => field.onChange(value)}
+            renderInput={params => (
+              <TextField
+                {...params}
+                label={t('common.filters')}
+                error={!!errors.locationFilters}
+                helperText={t(
+                  !errors.locationFilters
+                    ? ''
+                    : t('utils.validation.locationDescriptionMinLengthError')
+                )}
+                placeholder={t('createLocation.favorites')}
+              />
+            )}
+          />
+        )}
+      />
+
+      <Controller
+        control={control}
+        name="locationFile"
+        render={({ field }) => (
+          <TextField
+            {...field}
+            type="file"
+            error={!!errors.locationFile}
+            onChange={e => field.onChange((e.target as HTMLInputElement).files)}
+            helperText={t('utils.validation.emptyLocationFileError')}
+            sx={{ padding: '20px' }}
+          />
+        )}
+      />
+
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <Button sx={{ marginTop: '20px' }} variant="contained" type="submit">
           {t('createLocation.doneAndSubmit')}
         </Button>
       </div>
-    </form>
+    </Box>
   );
 };
 

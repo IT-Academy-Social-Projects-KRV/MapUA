@@ -1,6 +1,6 @@
 import React, { useState, MouseEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import {
   TextField,
   Button,
@@ -13,15 +13,15 @@ import {
   Grid,
   Stack
 } from '@mui/material';
-import { yupResolver } from '@hookform/resolvers/yup';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {
   useForm,
   Controller,
   SubmitHandler,
   useFormState
 } from 'react-hook-form';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useTranslation } from 'react-i18next';
 import { AuthFormSchema } from 'utils/validation';
 import { PaperForm } from '../design/PaperForm';
@@ -33,16 +33,23 @@ type SignUp = {
 };
 
 function Registration() {
-  const { t } = useTranslation();
-
-  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [visibleSucces, setVisibleSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+
+  const navigate = useNavigate();
+
+  const { t } = useTranslation();
+
   const { handleSubmit, control } = useForm<SignUp>({
     mode: 'onBlur',
     resolver: yupResolver(AuthFormSchema)
   });
+
+  const { errors } = useFormState({
+    control
+  });
+
   const onSubmit: SubmitHandler<SignUp> = async data => {
     try {
       const response = await axios.post(
@@ -60,9 +67,6 @@ function Registration() {
       );
     }
   };
-  const { errors } = useFormState({
-    control
-  });
 
   const handleMouseDownPassword = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();

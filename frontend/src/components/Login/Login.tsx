@@ -37,23 +37,32 @@ type SignIn = {
 };
 
 function Login() {
+  const [notification, setNotification] = useState<string | {} | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
+
   const location = useLocation();
+  const navigate = useNavigate();
+
   const { login, loginOAuth } = useTypedDispatch();
+  const { isAuthorized, error } = useTypedSelector(state => state.userAuth);
+
   const { handleSubmit, control } = useForm<SignIn>({
     mode: 'onBlur',
     resolver: yupResolver(AuthFormSchema)
   });
-  const [showPassword, setShowPassword] = useState(false);
+
+  const { errors } = useFormState({
+    control
+  });
 
   const { t } = useTranslation();
 
-  const { isAuthorized, error } = useTypedSelector(state => state.userAuth);
-  const [notification, setNotification] = useState<string | {} | null>(null);
   useEffect(() => {
     if (error) {
       setNotification(error);
     }
   }, [error]);
+
   const handleCloseNotification = (
     e?: SyntheticEvent | Event,
     reason?: string
@@ -63,8 +72,6 @@ function Login() {
     }
     setNotification(null);
   };
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (isAuthorized) {
@@ -83,10 +90,6 @@ function Login() {
   const onSubmit: SubmitHandler<SignIn> = async ({ email, password }) => {
     login(email.toLowerCase(), password);
   };
-
-  const { errors } = useFormState({
-    control
-  });
 
   const handleOAuth = (type: 'google' | 'facebook') => {
     if (type === 'google') {

@@ -17,11 +17,11 @@ import {
   SubmitHandler,
   useFormState
 } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
-import { Link as RouterLink } from 'react-router-dom';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { ForgotPasswordSchema } from 'utils/validation';
+import { Link as RouterLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { ForgotPasswordSchema } from 'utils/validation';
 import { PaperForm } from '../design/PaperForm';
 import { AuthFormWrapper } from '../design/AuthFormWrapper';
 
@@ -39,9 +39,14 @@ type EmailCheck = {
 function ForgotPassword() {
   const [notification, setNotification] = useState<INotification | null>(null);
   const [loading, setLoading] = useState(false);
+
   const { handleSubmit, control } = useForm<EmailCheck>({
     mode: 'onBlur',
     resolver: yupResolver(ForgotPasswordSchema)
+  });
+
+  const { errors } = useFormState({
+    control
   });
 
   const { t } = useTranslation();
@@ -75,10 +80,6 @@ function ForgotPassword() {
       setLoading(false);
     }
   };
-
-  const { errors } = useFormState({
-    control
-  });
 
   let snackbar;
   if (notification) {
