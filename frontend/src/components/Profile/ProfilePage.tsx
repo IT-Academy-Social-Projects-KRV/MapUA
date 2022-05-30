@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import {
   Typography,
   Button,
@@ -15,7 +15,7 @@ import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { UserForm } from 'redux/ts-types/user';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useDispatch } from 'react-redux';
-import { HiddenInput } from 'components/design/HiddenInput';
+import UploadInputProfilePage from 'components/design/UploadInputProfilePage';
 import userImageNotFound from '../../static/user-image-not-found.png';
 import {
   ProfileAvatar,
@@ -35,7 +35,6 @@ interface ProfilePageProps {
   email: string;
   displayName: string;
   createdAt: Date | string;
-  imageUrl: string;
   description: string;
 }
 
@@ -50,7 +49,6 @@ export default function ProfilePage({
     mode: 'onBlur',
     defaultValues: { displayName, description }
   });
-  const inputRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
   const [showEditPanel, setShowEditPanel] = useState(false);
   const [userImage, setUserImage] = useState<File | null | Blob>(null);
@@ -134,27 +132,10 @@ export default function ProfilePage({
                     userAvatar.data.imageUrl
                   }
                 />
-                <Box>{t('profile.profilePage.uploadPhoto')}</Box>
-                <Box>
-                  <label htmlFor="contained-button-file">
-                    <HiddenInput
-                      id="contained-button-file"
-                      type="file"
-                      {...register('imageUrl')}
-                      ref={inputRef}
-                      onChange={(e: any) => {
-                        setUserImage(e.target?.files?.[0] || '');
-                      }}
-                    />
-                    <Button
-                      sx={{ mb: '10px' }}
-                      variant="contained"
-                      component="span"
-                    >
-                      Upload Image
-                    </Button>
-                  </label>
-                </Box>
+                <UploadInputProfilePage
+                  setUserImage={setUserImage}
+                  register={register}
+                />
               </UploadBox>
               <Controller
                 control={control}

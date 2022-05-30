@@ -40,7 +40,6 @@ function Profile() {
         email={data.email}
         displayName={data.displayName}
         createdAt={data.createdAt}
-        imageUrl={data.imageUrl}
         description={data.description}
       />
     </Box>

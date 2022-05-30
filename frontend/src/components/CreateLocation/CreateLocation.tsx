@@ -4,11 +4,10 @@ import {
   Typography,
   Button,
   Autocomplete,
-  TextField,
-  Box
+  TextField
 } from '@mui/material';
 import axios from 'axios';
-import { HiddenInput } from 'components/design/HiddenInput';
+import UploadInput from 'components/design/UploadInputCreateLocation';
 import React, { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { latlngType } from '../../../types';
@@ -41,7 +40,8 @@ const CreateLocation = ({ coordinate }: Props) => {
 
   const accessToken = localStorage.getItem('accessToken');
 
-  const onSubmit = async () => {
+  const onSubmit = async (e: any) => {
+    e.preventDefault();
     try {
       const formData = new FormData();
       formData.append('locationName', locationName);
@@ -134,30 +134,12 @@ const CreateLocation = ({ coordinate }: Props) => {
           />
         )}
       />
-      <Box>
-        <label htmlFor="contained-button-file">
-          <HiddenInput
-            id="contained-button-file"
-            type="file"
-            onChange={e => {
-              handleFilesChange(e);
-              setlocationImageName(
-                (ref.current?.files && ref.current?.files[0].name) || ''
-              );
-            }}
-            ref={ref}
-            multiple
-          />
-          <Button
-            sx={{ m: '10px 10px 0px 0px ' }}
-            variant="contained"
-            component="span"
-          >
-            Upload Image
-          </Button>
-          <span>{locationImageName}</span>
-        </label>
-      </Box>
+      <UploadInput
+        handleFilesChange={handleFilesChange}
+        setlocationImageName={setlocationImageName}
+        ref={ref}
+        locationImageName={locationImageName}
+      />
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <Button sx={{ marginTop: '20px' }} variant="contained" type="submit">
           {t('createLocation.doneAndSubmit')}
