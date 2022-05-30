@@ -18,7 +18,6 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import TourOutlinedIcon from '@mui/icons-material/TourOutlined';
 import TourIcon from '@mui/icons-material/Tour';
 import { useTranslation } from 'react-i18next';
-import axios from 'axios';
 import IconButton from '@mui/material/IconButton';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
@@ -28,6 +27,7 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
+import axios from 'services/axios';
 
 interface INotification {
   type: AlertColor;
@@ -72,36 +72,17 @@ const PointPopup = () => {
     setExpanded(!expanded);
   };
   const handleFavoriteClick = async () => {
-    // console.log(locationIsFavorite);
-    const result = await axios.put(
-      `${process.env.REACT_APP_API_URI}tougleFavorite`,
-      {
-        /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
-        idOfLocation: infoLocation._id
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-        }
-      }
-    );
+    const result = await axios.put(`tougleFavorite`, {
+      idOfLocation: infoLocation._id
+    });
     if (result.status === 200) {
       setLocationIsFavorite(!locationIsFavorite);
     }
   };
   const handleVisitedClick = async () => {
-    const result = await axios.put(
-      `${process.env.REACT_APP_API_URI}tougleVisited`,
-      {
-        /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
-        idOfLocation: infoLocation._id
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-        }
-      }
-    );
+    const result = await axios.put(`tougleVisited`, {
+      idOfLocation: infoLocation._id
+    });
     if (result.status === 200) {
       setLocationIsVisited(!locationIsVisited);
     }
