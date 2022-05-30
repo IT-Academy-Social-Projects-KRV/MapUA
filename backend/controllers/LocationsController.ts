@@ -57,7 +57,10 @@ const LocationsController = {
     try {
       const id = req.params.id;
 
-      const locations = await Location.findById(id);
+      const locations = await Location.findById(id).populate({
+        path: 'author',
+        select: 'displayName imageUrl'
+      });
 
       if (!locations) {
         return res.status(400).json({ error: req.t('location_not_found') });

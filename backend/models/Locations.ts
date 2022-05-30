@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
 type ratingType = {
   likes: string[];
@@ -21,7 +21,7 @@ export interface ILocation extends Document {
   rating: ratingType;
   comments: commentType[];
   filters: string[];
-  author: string;
+  author: mongoose.Types.ObjectId;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -37,7 +37,7 @@ const schema = new mongoose.Schema({
     dislikes: { type: Array, default: [] }
   },
   filters: { type: Array, default: [] },
-  author: { type: String, required: true },
+  author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   createdAt: { type: Date },
   updatedAt: { type: Date }
 });

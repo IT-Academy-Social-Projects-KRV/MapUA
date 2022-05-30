@@ -7,8 +7,9 @@ export type Comment = {
   updatedAt: Date;
 };
 
-export type locationState = {
+export interface locationState {
   _id?: string;
+  author: string;
   locationName: string;
   rating: {
     likes: string[];
