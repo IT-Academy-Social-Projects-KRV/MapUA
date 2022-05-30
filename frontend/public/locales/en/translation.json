@@ -96,5 +96,8 @@
     "removeFromVisited": "Remove from visited",
     "removeFromFavorite": "Remove from favorite",
     "addToFavorite": "Add to favorite"
+  },
+  "page404":{
+    "Return to main page":"Return to main page"
   }
 }

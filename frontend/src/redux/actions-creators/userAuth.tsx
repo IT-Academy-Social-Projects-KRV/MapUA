@@ -1,51 +1,38 @@
 /* eslint-disable prettier/prettier */
 import { Dispatch } from 'redux';
-import axios from 'axios';
 import {
   UserAuthAction,
   UserAuthActionTypes
 } from 'redux/action-types/userAuthActionTypes';
-
-const { REACT_APP_API_URI } = process.env;
+import axios from 'services/axios';
 
 // Login
 export const login =
   (email: string, password: string) =>
-  async (dispatch: Dispatch<UserAuthAction>) => {
-    try {
-      dispatch({
-        type: UserAuthActionTypes.USER_LOGIN_REQUEST
-      });
+    async (dispatch: Dispatch<UserAuthAction>) => {
+      try {
+        dispatch({
+          type: UserAuthActionTypes.USER_LOGIN_REQUEST
+        });
 
-      const response = await axios.post(
-        `${REACT_APP_API_URI}signin`,
-        {
-          email,
-          password
-        },
-        {
-          headers: {
-            'Accept-Language': localStorage.getItem('i18nextLng') || ''
-          }
-        }
-      );
+        const res = await axios.post(`signin`, { email, password });
 
-      dispatch({
-        type: UserAuthActionTypes.USER_LOGIN_SUCCESS,
-        payload: response.data
-      });
+        dispatch({
+          type: UserAuthActionTypes.USER_LOGIN_SUCCESS,
+          payload: res.data
+        });
 
-      localStorage.setItem('accessToken', response.data.token);
-    } catch (error: any) {
-      dispatch({
-        type: UserAuthActionTypes.USER_LOGIN_FAIL,
-        payload:
-          error.response && error.response.data.info.message
-            ? error.response.data.info.message
-            : error.message
-      });
-    }
-  };
+        localStorage.setItem('accessToken', res.data.token);
+      } catch (error: any) {
+        dispatch({
+          type: UserAuthActionTypes.USER_LOGIN_FAIL,
+          payload:
+            error.res && error.res.data.info.message
+              ? error.response.data.info.message
+              : error.message
+        });
+      }
+    };
 
 export const loginOAuth =
   (token: string, id: string) => async (dispatch: Dispatch<UserAuthAction>) => {
@@ -75,17 +62,12 @@ export const logout = () => async (dispatch: Dispatch<UserAuthAction>) => {
 
 // Check if user authorized every time when component mounted
 export const checkIsUserAuthorized =
-  (accessToken: string) => async (dispatch: Dispatch<UserAuthAction>) => {
+  () => async (dispatch: Dispatch<UserAuthAction>) => {
     try {
       dispatch({
         type: UserAuthActionTypes.IF_USER_AUTORIZED_REQUEST
       });
-      const response = await axios.get(`${REACT_APP_API_URI}is-authenticated`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          'Accept-Language': localStorage.getItem('i18nextLng') || ''
-        }
-      });
+      const response = await axios.get(`is-authenticated`);
       dispatch({
         type: UserAuthActionTypes.IF_USER_AUTORIZED_SUCCESS,
         payload: response.data.success
