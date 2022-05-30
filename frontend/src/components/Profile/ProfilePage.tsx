@@ -5,8 +5,7 @@ import {
   Box,
   TextField,
   Snackbar,
-  Alert,
-  Input
+  Alert
 } from '@mui/material';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import axios from 'axios';
@@ -16,6 +15,7 @@ import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { UserForm } from 'redux/ts-types/user';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useDispatch } from 'react-redux';
+import UploadInputProfilePage from 'components/design/UploadInputProfilePage';
 import userImageNotFound from '../../static/user-image-not-found.png';
 import {
   ProfileAvatar,
@@ -36,7 +36,6 @@ interface ProfilePageProps {
   email: string;
   displayName: string;
   createdAt: Date | string;
-  imageUrl: string;
   description: string;
 }
 
@@ -53,7 +52,7 @@ export default function ProfilePage({
   });
   const dispatch = useDispatch();
   const [showEditPanel, setShowEditPanel] = useState(false);
-  const [userImage, setUserImage] = useState<File | null>();
+  const [userImage, setUserImage] = useState<File | null | Blob>(null);
   const userAvatar = useTypedSelector(state => state.user);
   const [newDescription, setNewDescription] = useState(description);
   const [errorMessage, setErrorMessage] = useState('');
@@ -146,20 +145,15 @@ export default function ProfilePage({
               <UploadBox>
                 <ProfileAvatar
                   aria-label="avatar"
-                  src={userAvatar.data.imageUrl}
+                  src={
+                    (userImage && URL.createObjectURL(userImage)) ||
+                    userAvatar.data.imageUrl
+                  }
                 />
-                <Box sx={{ m: '2vh 0 2vh 14vh' }}>
-                  {t('profile.profilePage.uploadPhoto')}
-                </Box>
-                <Box>
-                  <Button>
-                    <Input
-                      type="file"
-                      {...register('imageUrl')}
-                      onChange={(e: any) => setUserImage(e.target?.files?.[0])}
-                    />
-                  </Button>
-                </Box>
+                <UploadInputProfilePage
+                  setUserImage={setUserImage}
+                  register={register}
+                />
               </UploadBox>
               <Controller
                 control={control}
@@ -191,7 +185,7 @@ export default function ProfilePage({
             </Box>
           </form>
         ) : (
-          <Box>
+          <UploadBox>
             <ProfileAvatar
               aria-label="avatar"
               src={userAvatar.data.imageUrl || userImageNotFound}
@@ -210,7 +204,7 @@ export default function ProfilePage({
             <EditButton size="large" variant="contained" onClick={editData}>
               {t('profile.profilePage.editProfile')}
             </EditButton>
-          </Box>
+          </UploadBox>
         )}
         <TypographyDate variant="h6">
           {t('profile.profilePage.creationDate')} {createdAt}
