@@ -1,6 +1,5 @@
 import React, { useState, MouseEvent, SyntheticEvent, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import {
   TextField,
@@ -24,6 +23,7 @@ import {
 } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { emailValidation, passwordValidation } from 'utils/validation';
+import axios from 'services/axios';
 import { PaperForm } from '../design/PaperForm';
 import { AuthFormWrapper } from '../design/AuthFormWrapper';
 
@@ -44,10 +44,7 @@ function Registration() {
   });
   const onSubmit: SubmitHandler<SignUp> = async data => {
     try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_API_URI}signup`,
-        data
-      );
+      const response = await axios.post(`signup`, data);
       if (response.status === 200) {
         setVisibleSuccess(true);
         setTimeout(() => setVisibleSuccess(false), 3000);

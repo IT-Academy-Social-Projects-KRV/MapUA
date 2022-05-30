@@ -8,13 +8,13 @@ import {
   Alert
 } from '@mui/material';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { UserActionTypes } from 'redux/action-types/userActionTypes';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { UserForm } from 'redux/ts-types/user';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useDispatch } from 'react-redux';
+import axios from 'services/axios';
 import UploadInputProfilePage from 'components/design/UploadInputProfilePage';
 import userImageNotFound from '../../static/user-image-not-found.png';
 import {
@@ -72,15 +72,11 @@ export default function ProfilePage({
     formData.append('description', newDescription);
 
     try {
-      const response = await axios.patch(
-        `${process.env.REACT_APP_API_URI}profile`,
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
+      const response = await axios.patch(`profile`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
         }
-      );
+      });
       if (response.status === 200) {
         setSuccessMessage(true);
         dispatch({

@@ -20,7 +20,7 @@ function App() {
   const { checkIsUserAuthorized } = useTypedDispatch();
   useEffect(() => {
     if (accessToken) {
-      checkIsUserAuthorized(accessToken);
+      checkIsUserAuthorized();
     }
   }, []);
 
