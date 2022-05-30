@@ -65,7 +65,7 @@ const CreateLocation = ({ coordinate }: Props) => {
         ref.current.value = '';
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
