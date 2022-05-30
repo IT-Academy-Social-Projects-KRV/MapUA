@@ -6,17 +6,15 @@ import {
   Autocomplete,
   TextField
 } from '@mui/material';
-import axios from 'axios';
 import React, { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import axios from 'services/axios';
 import { latlngType } from '../../../types';
 import { getFiltersForUser } from '../../static/mainFIlters';
 
 type Props = {
   coordinate: latlngType;
 };
-
-const { REACT_APP_API_URI } = process.env;
 
 const CreateLocation = ({ coordinate }: Props) => {
   const ref = useRef<null | HTMLInputElement>();
@@ -37,8 +35,6 @@ const CreateLocation = ({ coordinate }: Props) => {
     setDescription(e.target.value);
   };
 
-  const accessToken = localStorage.getItem('accessToken');
-
   const onSubmit = async (e: any) => {
     e.preventDefault();
     try {
@@ -50,9 +46,8 @@ const CreateLocation = ({ coordinate }: Props) => {
       formData.append('filters', String(filters));
       formData.append('image', files[0]);
 
-      await axios.post(`${REACT_APP_API_URI}locations/create`, formData, {
+      await axios.post(`locations/create`, formData, {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'multipart/form-data'
         }
       });
