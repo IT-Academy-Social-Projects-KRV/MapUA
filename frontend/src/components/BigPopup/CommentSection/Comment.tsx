@@ -14,11 +14,11 @@ import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
 interface Props {
   text: string;
   createdAt: Date;
-  displayName: string;
-  imageUrl: string;
+  authorsName: string;
+  authorsImage: string;
 }
 
-const Comment = ({ text, createdAt, displayName, imageUrl }: Props) => {
+const Comment = ({ text, createdAt, authorsName, authorsImage }: Props) => {
   const d = new Date(createdAt);
   const day = d.getDate();
   const month = d.getMonth() + 1;
@@ -32,14 +32,14 @@ const Comment = ({ text, createdAt, displayName, imageUrl }: Props) => {
   return (
     <ListItem alignItems="flex-start" sx={{ pl: 0 }}>
       <ListItemAvatar>
-        <Avatar alt="Vasya" src={imageUrl} />
+        <Avatar alt="Vasya" src={authorsImage} />
         <Typography
           sx={{ display: 'inline' }}
           component="span"
           variant="body2"
           color="text.primary"
         >
-          {displayName}
+          {authorsName}
         </Typography>
       </ListItemAvatar>
       <ListItemText primary={text} />

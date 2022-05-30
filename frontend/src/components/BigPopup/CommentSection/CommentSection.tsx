@@ -48,8 +48,8 @@ const CommentSection = () => {
             key={commentId}
             createdAt={createdAt}
             text={text}
-            imageUrl={author.imageUrl}
-            displayName={author.displayName}
+            authorsImage={author.imageUrl}
+            authorsName={author.displayName}
           />
         ))}
       </List>

@@ -25,10 +25,12 @@ const schema = new mongoose.Schema({
     required: true
   },
   likes: {
-    type: Array
+    type: Array,
+    default: []
   },
   dislikes: {
-    type: Array
+    type: Array,
+    default: []
   },
   createdAt: {
     type: Date
