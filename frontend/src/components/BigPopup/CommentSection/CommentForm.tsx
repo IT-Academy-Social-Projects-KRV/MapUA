@@ -17,7 +17,7 @@ const CommentForm = () => {
   const onSendComment = () => {
     const commentBody: Comment<string> = {
       author: userId,
-      locationId: locationId || '',
+      locationId: locationId!,
       text: commentText,
       likes: [],
       dislikes: [],
