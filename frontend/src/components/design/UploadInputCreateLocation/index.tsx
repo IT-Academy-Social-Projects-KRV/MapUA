@@ -28,10 +28,10 @@ const UploadInputCreateLocation = (props: UploadInputCreateLocationProps) => {
           ref={ref}
           multiple
         />
-        <Button sx={{ mr: '10px ' }} variant="contained" component="span">
+        <Button variant="contained" component="span">
           {t('profile.profilePage.uploadPhoto')}
         </Button>
-        <span>{locationImageName}</span>
+        <Box sx={{ mt: '10px' }}>{locationImageName}</Box>
       </label>
     </Box>
   );
