@@ -69,14 +69,15 @@ function ForgotPassword() {
     snackbar = (
       <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        sx={{ zIndex: 10000 }}
         open={!!notification}
-        autoHideDuration={5000}
+        autoHideDuration={3000}
         onClose={handleCloseNotification}
       >
         <Alert
           onClose={handleCloseNotification}
           severity={notification.type}
-          sx={{ width: '100%' }}
+          sx={{ width: '100%', mt: '4vh' }}
         >
           {notification.message}
         </Alert>

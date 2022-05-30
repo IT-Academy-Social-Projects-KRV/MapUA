@@ -64,6 +64,7 @@ const CreateLocation = ({ coordinate }: Props) => {
       if (ref.current) {
         ref.current.value = '';
       }
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }

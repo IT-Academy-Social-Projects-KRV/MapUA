@@ -62,7 +62,7 @@
     "create": "Створити"
   },
   "utils": {
-    "vaidation": {
+    "validation": {
       "emailCanNotBeEmpty": "Email не може бути порожнім",
       "wrongEmail": "Невірний email",
       "passwordCanNotBeEmpty": "Пароль не може бути порожнім",
@@ -96,5 +96,8 @@
     "removeFromVisited": "Видалити з відвіданих",
     "removeFromFavorite": "Видалити з обраних",
     "addToFavorite": "Додати до обраних"
+  },
+  "page404":{
+    "Return to main page":"Повернутися на головну сторінку"
   }
 }

@@ -62,7 +62,7 @@
     "create": "Create"
   },
   "utils": {
-    "vaidation": {
+    "validation": {
       "emailCanNotBeEmpty": "Email can't be empty",
       "wrongEmail": "Wrong email",
       "passwordCanNotBeEmpty": "Password can't be empty",
@@ -96,5 +96,8 @@
     "removeFromVisited": "Remove from visited",
     "removeFromFavorite": "Remove from favorite",
     "addToFavorite": "Add to favorite"
+  },
+  "page404":{
+    "Return to main page":"Return to main page"
   }
 }
