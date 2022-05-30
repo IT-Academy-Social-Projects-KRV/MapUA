@@ -3,7 +3,7 @@ import { useTypedSelector } from '../hooks/useTypedSelector';
 import { useTypedDispatch } from '../hooks/useTypedDispatch';
 
 function UserData() {
-  const { data, error, loading } = useTypedSelector(state => state.user);
+  const { data, error, loading } = useTypedSelector(state => state.userData);
   const { fetchUser } = useTypedDispatch();
 
   useEffect(() => {
@@ -19,9 +19,9 @@ function UserData() {
 
   return (
     <div>
-      <div>{`email: ${data.email}`}</div>
+      {/* <div>{`email: ${data.email}`}</div> */}
       <div>{`displayName: ${data.displayName}`}</div>
-      <div>{`createdAt: ${data.createdAt}`}</div>
+      {/* <div>{`createdAt: ${data.createdAt}`}</div> */}
     </div>
   );
 }

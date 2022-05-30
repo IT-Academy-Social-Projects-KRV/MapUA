@@ -6,7 +6,7 @@ import { locationState } from 'redux/ts-types/popupLocation';
 
 export const initialState: locationState = {
   data: {
-    _id: '',
+    locationId: '',
     locationName: '',
     rating: {
       likes: [],
@@ -39,16 +39,24 @@ export const popupLocationReducer = (
     case LocationActionTypes.UPDATE_LOCATION:
       return {
         ...state,
-        ...action.payload,
-        createdAt: new Date(action.payload.createdAt),
-        updatedAt: new Date(action.payload.updatedAt)
+        data: {
+          ...action.payload.data,
+          createdAt: new Date(action.payload.data.createdAt),
+          updatedAt: new Date(action.payload.data.updatedAt)
+        }
       };
     case LocationActionTypes.LOADING_START:
       return { ...state, isLoading: true };
     case LocationActionTypes.LOADING_END:
       return { ...state, isLoading: false };
     case LocationActionTypes.ADD_COMMENT:
-      return { ...state, comments: [action.payload, ...state.comments] };
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          comments: [action.payload, ...state.data.comments]
+        }
+      };
     default:
       return state;
   }

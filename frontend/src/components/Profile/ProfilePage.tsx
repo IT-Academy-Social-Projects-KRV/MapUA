@@ -53,7 +53,10 @@ export default function ProfilePage({
   const dispatch = useDispatch();
   const [showEditPanel, setShowEditPanel] = useState(false);
   const [userImage, setUserImage] = useState<File | null>();
-  const userAvatar = useTypedSelector(state => state.user);
+  const { imageUrl: userAvatar } = useTypedSelector(
+    state => state.userData.data
+  );
+
   const [newDescription, setNewDescription] = useState(description);
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState(false);
@@ -129,7 +132,7 @@ export default function ProfilePage({
                 <ProfileAvatar
                   sx={{ ml: '11.5vh' }}
                   aria-label="avatar"
-                  src={userAvatar.data.imageUrl}
+                  src={userAvatar}
                 />
                 <Box sx={{ m: '2vh 0 2vh 14vh' }}>
                   {t('profile.profilePage.uploadPhoto')}
@@ -177,7 +180,7 @@ export default function ProfilePage({
           <Box>
             <ProfileAvatar
               aria-label="avatar"
-              src={userAvatar.data.imageUrl || userImageNotFound}
+              src={userAvatar || userImageNotFound}
             />
             <Typography
               sx={{ mt: '3vh' }}

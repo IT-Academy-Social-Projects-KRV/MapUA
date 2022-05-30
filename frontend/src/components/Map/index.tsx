@@ -32,7 +32,9 @@ function Map({
   isAddLocationActive
 }: Props) {
   const { t } = useTranslation();
-  const userAuth = useTypedSelector(state => state.userAuth.isAuthorized);
+  const { data: isAuthorized } = useTypedSelector(
+    state => state.isUserAuthorized
+  );
 
   const formRef = React.useRef<any>(null);
   const [coordinateByClick, SetCoordinateByClick] = useState<any>({});
@@ -97,7 +99,7 @@ function Map({
           />
         ))}
         <SearchFormContainer />
-        {userAuth && showAddLocationButton && !isOpen && (
+        {isAuthorized && showAddLocationButton && !isOpen && (
           <Button
             onClick={() =>
               setIsAddLocationActive((prevState: boolean) => !prevState)

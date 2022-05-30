@@ -65,7 +65,7 @@ export default function BasicTabs({
   // const postDescription = (description: any) => {
   //   handleDescription(description);
   // };
-  const userDescription = useTypedSelector(state => state.user);
+  const userDescription = useTypedSelector(state => state.userData);
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>

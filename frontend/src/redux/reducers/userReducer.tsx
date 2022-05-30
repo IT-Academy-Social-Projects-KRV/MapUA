@@ -2,15 +2,15 @@ import {
   UserAction,
   UserActionTypes
 } from 'redux/action-types/userActionTypes';
-import { UserState } from 'redux/ts-types/user';
 import image from '../../static/image-not-found.jpg';
+import { InitialStateType } from '../ts-types';
+import { UserDataType } from '../../../types';
 
-const initialState: UserState = {
+const initialState: InitialStateType<UserDataType> = {
+  loading: false,
+  error: null,
   data: {
     _id: '',
-    email: '',
-    createdAt: '',
-    updatedAt: '',
     displayName: '',
     description: '',
     imageUrl: image,
@@ -19,15 +19,13 @@ const initialState: UserState = {
     favorite: [],
     visited: [],
     personalLocations: []
-  },
-  loading: false,
-  error: null
+  }
 };
 
-export const userReducer = (
+export const userDataReducer = (
   state = initialState,
   action: UserAction
-): UserState => {
+): InitialStateType<UserDataType> => {
   switch (action.type) {
     case UserActionTypes.FETCH_USER:
       return { loading: true, error: null, data: initialState.data };

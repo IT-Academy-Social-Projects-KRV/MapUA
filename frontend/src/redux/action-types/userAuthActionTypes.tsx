@@ -5,9 +5,9 @@ export enum UserAuthActionTypes {
   USER_LOGIN_FAIL = 'USER_LOGIN_FAIL',
   USER_LOGOUT = 'USER_LOGOUT',
   // Check if user authorized every time when component mounted
-  IF_USER_AUTORIZED_REQUEST = 'IF_USER_AUTORIZED_REQUEST',
-  IF_USER_AUTORIZED_SUCCESS = 'IF_USER_AUTORIZED_SUCCESS',
-  IF_USER_AUTORIZED_ERROR = 'IF_USER_AUTORIZED_ERROR'
+  IF_USER_AUTHORIZED_REQUEST = 'IF_USER_AUTHORIZED_REQUEST',
+  IF_USER_AUTHORIZED_SUCCESS = 'IF_USER_AUTHORIZED_SUCCESS',
+  IF_USER_AUTHORIZED_ERROR = 'IF_USER_AUTHORIZED_ERROR'
 }
 interface LoginUserRequestAction {
   type: UserAuthActionTypes.USER_LOGIN_REQUEST;
@@ -18,21 +18,20 @@ interface LoginUserSuccessAction {
 }
 interface LoginUserFailAction {
   type: UserAuthActionTypes.USER_LOGIN_FAIL;
-  payload: {};
 }
 interface LogoutUserAction {
   type: UserAuthActionTypes.USER_LOGOUT;
 }
 // Check if user authorized every time when component mounted
 interface IsUserAuthorizedRequestAction {
-  type: UserAuthActionTypes.IF_USER_AUTORIZED_REQUEST;
+  type: UserAuthActionTypes.IF_USER_AUTHORIZED_REQUEST;
 }
-interface IsUserAuthorizedSucsessAction {
-  type: UserAuthActionTypes.IF_USER_AUTORIZED_SUCCESS;
+interface IsUserAuthorizedSuccessAction {
+  type: UserAuthActionTypes.IF_USER_AUTHORIZED_SUCCESS;
   payload: boolean;
 }
 interface IsUserAuthorizedErrorAction {
-  type: UserAuthActionTypes.IF_USER_AUTORIZED_ERROR;
+  type: UserAuthActionTypes.IF_USER_AUTHORIZED_ERROR;
   payload: string;
 }
 export type UserAuthAction =
@@ -42,5 +41,5 @@ export type UserAuthAction =
   | LogoutUserAction
   // Check if user authorized every time when component mounted
   | IsUserAuthorizedRequestAction
-  | IsUserAuthorizedSucsessAction
+  | IsUserAuthorizedSuccessAction
   | IsUserAuthorizedErrorAction;

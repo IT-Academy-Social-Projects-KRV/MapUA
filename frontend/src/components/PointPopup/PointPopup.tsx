@@ -42,21 +42,31 @@ const PointPopup = () => {
 
   const { updatePopupLocation } = useTypedDispatch();
 
-  const userAuth = useTypedSelector(state => state.userAuth);
-  const userData = useTypedSelector(state => state.user);
+  const { data: isAuthorized } = useTypedSelector(
+    state => state.isUserAuthorized
+  );
+  const {
+    _id: userId,
+    favorite,
+    visited,
+    displayName
+  } = useTypedSelector(state => state.userData.data);
 
-  const infoLocation = useTypedSelector(state => state.popupLocation);
+  const {
+    locationId,
+    rating,
+    locationName,
+    description,
+    arrayPhotos,
+    createdAt
+  } = useTypedSelector(state => state.popupLocation.data);
 
   const [locationIsFavorite, setLocationIsFavorite] = useState(
-    infoLocation._id && userData.data.favorite.includes(infoLocation._id)
+    locationId && favorite.includes(locationId)
   );
   const [locationIsVisited, setLocationIsVisited] = useState(
-    infoLocation._id && userData.data.visited.includes(infoLocation._id)
+    locationId && visited.includes(locationId)
   );
-
-  const { isAuthorized, id: userId } = userAuth;
-
-  const { _id, rating, locationName, description, arrayPhotos } = infoLocation;
 
   const handleCloseNotification = (
     e?: SyntheticEvent | Event,
@@ -77,7 +87,7 @@ const PointPopup = () => {
       `${process.env.REACT_APP_API_URI}tougleFavorite`,
       {
         /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
-        idOfLocation: infoLocation._id
+        idOfLocation: locationId
       },
       {
         headers: {
@@ -94,7 +104,7 @@ const PointPopup = () => {
       `${process.env.REACT_APP_API_URI}tougleVisited`,
       {
         /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
-        idOfLocation: infoLocation._id
+        idOfLocation: locationId
       },
       {
         headers: {
@@ -136,7 +146,7 @@ const PointPopup = () => {
       );
     }
 
-    return updatePopupLocation(_id, { rating: updatedRating });
+    return updatePopupLocation(locationId, { rating: updatedRating });
   };
 
   let snackbar;
@@ -277,11 +287,9 @@ const PointPopup = () => {
                 src="https://cdn-icons-png.flaticon.com/512/147/147142.png"
               />
               {/* todo change to infoLocation.authorName */}
-              <Typography>{userData.data.displayName}</Typography>
+              <Typography>{displayName}</Typography>
 
-              <Typography>
-                {infoLocation.createdAt.toLocaleDateString()}
-              </Typography>
+              <Typography>{createdAt.toLocaleDateString()}</Typography>
             </Box>
             <Typography
               variant="subtitle1"

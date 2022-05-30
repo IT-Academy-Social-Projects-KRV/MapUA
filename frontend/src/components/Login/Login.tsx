@@ -45,7 +45,9 @@ function Login() {
 
   const { t } = useTranslation();
 
-  const { isAuthorized, error } = useTypedSelector(state => state.userAuth);
+  const { data: isAuthorized, error } = useTypedSelector(
+    state => state.isUserAuthorized
+  );
   const [notification, setNotification] = useState<string | {} | null>(null);
   useEffect(() => {
     if (error) {

@@ -18,7 +18,9 @@ function HomeScreen() {
   const [location, setLocation] = useState<locationType | null>(null);
   const [coordinate, setCoordinate] = useState<any>([]);
 
-  const { isAuthorized } = useTypedSelector(state => state.userAuth);
+  const { data: isAuthorized } = useTypedSelector(
+    state => state.isUserAuthorized
+  );
   const { fetchUser } = useTypedDispatch();
   const [showAddLocationButton, setShowAddLocationButton] = useState(true);
 

@@ -9,7 +9,7 @@ export type Comment = {
 
 export type locationState = {
   data: {
-    _id?: string;
+    locationId?: string;
     locationName: string;
     rating: {
       likes: string[];

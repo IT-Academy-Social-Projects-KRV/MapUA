@@ -11,8 +11,8 @@ const CommentForm = () => {
 
   const [commentText, setCommentText] = useState('');
   const { sendComment } = useTypedDispatch();
-  const { id: userId } = useTypedSelector(state => state.userAuth);
-  const { _id: locationId } = useTypedSelector(state => state.popupLocation);
+  const { _id: userId } = useTypedSelector(state => state.userData.data);
+  const { locationId } = useTypedSelector(state => state.popupLocation.data);
 
   const onSendComment = () => {
     const commentBody: Comment = {

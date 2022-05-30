@@ -15,7 +15,9 @@ import { useTypedDispatch } from './redux/hooks/useTypedDispatch';
 const accessToken = localStorage.getItem('accessToken');
 
 function App() {
-  const { isAuthorized } = useTypedSelector(state => state.userAuth);
+  const { data: isAuthorized } = useTypedSelector(
+    state => state.isUserAuthorized
+  );
   const { checkIsUserAuthorized } = useTypedDispatch();
   useEffect(() => {
     if (accessToken) {

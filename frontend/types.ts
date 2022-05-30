@@ -45,9 +45,6 @@ export type lightLocationType = {
 
 export type UserDataType = {
   _id: string;
-  email: string;
-  createdAt: Date | string;
-  updatedAt: Date | string;
   displayName: string;
   description: string;
   imageUrl: string;
@@ -61,7 +58,7 @@ export type UserDataType = {
 export type LocationType = {
   locationName: string;
   coordinates: [number, number];
-  descripton: string;
+  description: string;
   arrayPhotos: [];
 };
 

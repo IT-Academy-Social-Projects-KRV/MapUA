@@ -8,8 +8,10 @@ import Comment from './Comment';
 const CommentSection = () => {
   const { t } = useTranslation();
 
-  const { comments } = useTypedSelector(state => state.popupLocation);
-  const { isAuthorized } = useTypedSelector(state => state.userAuth);
+  const { comments } = useTypedSelector(state => state.popupLocation.data);
+  const { data: isAuthorized } = useTypedSelector(
+    state => state.isUserAuthorized
+  );
   return (
     <CardContent>
       <Typography

@@ -78,7 +78,7 @@ export const checkIsUserAuthorized =
   (accessToken: string) => async (dispatch: Dispatch<UserAuthAction>) => {
     try {
       dispatch({
-        type: UserAuthActionTypes.IF_USER_AUTORIZED_REQUEST
+        type: UserAuthActionTypes.IF_USER_AUTHORIZED_REQUEST
       });
       const response = await axios.get(`${REACT_APP_API_URI}is-authenticated`, {
         headers: {
@@ -87,12 +87,12 @@ export const checkIsUserAuthorized =
         }
       });
       dispatch({
-        type: UserAuthActionTypes.IF_USER_AUTORIZED_SUCCESS,
+        type: UserAuthActionTypes.IF_USER_AUTHORIZED_SUCCESS,
         payload: response.data.success
       });
     } catch (e) {
       dispatch({
-        type: UserAuthActionTypes.IF_USER_AUTORIZED_ERROR,
+        type: UserAuthActionTypes.IF_USER_AUTHORIZED_ERROR,
         payload: 'An error occurred while loading user data'
       });
     }

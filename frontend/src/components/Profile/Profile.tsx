@@ -9,8 +9,15 @@ import { useTypedDispatch } from '../../redux/hooks/useTypedDispatch';
 
 function Profile() {
   const navigate = useNavigate();
-  const { isAuthorized } = useTypedSelector(state => state.userAuth);
-  const { data, error, loading } = useTypedSelector(state => state.user);
+  const { data: isAuthorized } = useTypedSelector(
+    state => state.isUserAuthorized
+  );
+  const { data, error, loading } = useTypedSelector(state => state.userData);
+  const {
+    data: privateData,
+    error: pError,
+    loading: pLoading
+  } = useTypedSelector(state => state.privateUserData);
   const { fetchUser } = useTypedDispatch();
 
   const { t } = useTranslation();
@@ -25,10 +32,10 @@ function Profile() {
     }
   }, [isAuthorized]);
 
-  if (loading) {
+  if (loading || pLoading) {
     return <h1>{t('profile.profile.loading')}</h1>;
   }
-  if (error) {
+  if (error || pError) {
     return <h1>{error}</h1>;
   }
 
@@ -37,9 +44,9 @@ function Profile() {
       <ProfilePage
         // eslint-disable-next-line no-underscore-dangle
         id={data._id}
-        email={data.email}
+        email={privateData.email}
         displayName={data.displayName}
-        createdAt={data.createdAt}
+        createdAt={privateData.createdAt}
         imageUrl={data.imageUrl}
         description={data.description}
       />

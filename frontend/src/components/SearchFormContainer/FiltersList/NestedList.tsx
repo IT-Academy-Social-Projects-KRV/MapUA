@@ -24,7 +24,9 @@ export default function NestedList() {
     state => state.locationList.selectedFilters
   );
 
-  const { isAuthorized } = useTypedSelector(state => state.userAuth);
+  const { data: isAuthorized } = useTypedSelector(
+    state => state.isUserAuthorized
+  );
 
   const { applyFilter, fetchFilters, fetchFiltersWithoutAuth } =
     useTypedDispatch();

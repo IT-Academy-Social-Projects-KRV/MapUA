@@ -2,66 +2,55 @@ import {
   UserAuthAction,
   UserAuthActionTypes
 } from 'redux/action-types/userAuthActionTypes';
-import { UserAuthState } from 'redux/ts-types/userAuth';
+import { InitialStateType } from '../ts-types';
 
-const initialState: UserAuthState = {
+const initialState: InitialStateType<boolean> = {
   loading: false,
   error: null,
-  isAuthorized: false,
-  id: '',
-  token: ''
+  data: false
 };
 
-export const userLoginReducer = (
+export const isUserAuthorizedReducer = (
   state = initialState,
   action: UserAuthAction
-): UserAuthState => {
+): InitialStateType<boolean> => {
   switch (action.type) {
     case UserAuthActionTypes.USER_LOGIN_REQUEST:
       return {
         loading: true,
         error: null,
-        isAuthorized: false,
-        id: '',
-        token: ''
+        data: false
       };
     case UserAuthActionTypes.USER_LOGIN_SUCCESS:
       return {
         loading: false,
         error: null,
-        isAuthorized: true,
-        // eslint-disable-next-line no-underscore-dangle
-        id: action.payload.user._id,
-        token: action.payload.token
+        data: true
       };
     case UserAuthActionTypes.USER_LOGIN_FAIL:
       return {
         loading: false,
-        error: action.payload,
-        isAuthorized: false,
-        id: '',
-        token: ''
+        error: 'error has occurred on login', // todo add translation
+        data: false
       };
     case UserAuthActionTypes.USER_LOGOUT:
       return {
         loading: false,
         error: null,
-        id: '',
-        isAuthorized: false,
-        token: ''
+        data: false
       };
 
     // Check if user authorized every time when component mounted
-    case UserAuthActionTypes.IF_USER_AUTORIZED_REQUEST:
+    case UserAuthActionTypes.IF_USER_AUTHORIZED_REQUEST:
       return {
         ...state,
         loading: true
       };
-    case UserAuthActionTypes.IF_USER_AUTORIZED_SUCCESS:
+    case UserAuthActionTypes.IF_USER_AUTHORIZED_SUCCESS:
       return {
         ...state,
         loading: false,
-        isAuthorized: true
+        data: true
       };
     default:
       return state;
