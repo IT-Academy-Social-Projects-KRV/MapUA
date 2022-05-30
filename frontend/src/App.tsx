@@ -9,6 +9,7 @@ import ForgotPassword from 'components/ForgotPassword/ForgotPassword';
 import Registration from 'components/Registration/Registration';
 import ComposeComponents from 'redux/components/ComposeComponents';
 import Profile from 'components/Profile/Profile';
+import Page404 from 'components/Page_404/Page404';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from './redux/hooks/useTypedDispatch';
 
@@ -57,6 +58,7 @@ function App() {
         />
         <Route path="/test-redux-components" element={<ComposeComponents />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/*" element={<Page404 />} />
       </Routes>
       <Footer />
     </BrowserRouter>
