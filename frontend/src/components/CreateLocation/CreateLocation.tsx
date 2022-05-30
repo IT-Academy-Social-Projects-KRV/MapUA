@@ -137,7 +137,6 @@ const CreateLocation = ({ coordinate }: Props) => {
       <UploadInput
         handleFilesChange={handleFilesChange}
         setlocationImageName={setlocationImageName}
-        ref={ref}
         locationImageName={locationImageName}
       />
       <div style={{ display: 'flex', flexDirection: 'column' }}>

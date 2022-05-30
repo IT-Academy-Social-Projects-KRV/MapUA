@@ -3,7 +3,13 @@ import React, { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { HiddenInput } from '../HiddenInput';
 
-const UploadInputCreateLocation = (props: any) => {
+type UploadInputCreateLocationProps = {
+  handleFilesChange: Function;
+  setlocationImageName: Function;
+  locationImageName: string;
+};
+
+const UploadInputCreateLocation = (props: UploadInputCreateLocationProps) => {
   const { t } = useTranslation();
   const ref = useRef<null | HTMLInputElement>(null);
   const { handleFilesChange, setlocationImageName, locationImageName } = props;

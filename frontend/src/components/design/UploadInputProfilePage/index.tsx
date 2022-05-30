@@ -3,7 +3,12 @@ import React, { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { HiddenInput } from '../HiddenInput';
 
-const UploadInputProfilePage = (props: any) => {
+type UploadInputProfilePageProps = {
+  register: Function;
+  setUserImage: Function;
+};
+
+const UploadInputProfilePage = (props: UploadInputProfilePageProps) => {
   const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement>(null);
   const { register, setUserImage } = props;
