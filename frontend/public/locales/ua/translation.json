@@ -99,9 +99,11 @@
   },
   "mainFilters":{
     "cost":"Вартість",
-    "costValues":{"free":"безкоштовно",
+    "costValues":{
+      "free":"безкоштовно",
        "lowCost":"низька вартість", 
-       "highCost":"висока вартість"},
+       "highCost":"висока вартість"
+      },
     "seasonal":"Сезон роботи локації",
    "seasonalValues":{
      "winter":"зима",

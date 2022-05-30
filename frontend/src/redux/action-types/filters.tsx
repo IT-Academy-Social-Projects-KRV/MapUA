@@ -27,6 +27,7 @@ export enum FiltersActionTypes {
 
 interface FetchFiltersAction {
   type: FiltersActionTypes.FETCH_FILTERS;
+  payload: FiltersList;
 }
 
 interface FetchFiltersSuccessAction {
@@ -41,6 +42,7 @@ interface FetchFiltersErrorAction {
 
 interface FetchFiltersWithoutAuth {
   type: FiltersActionTypes.FETCH_FILTERS_WITHOUT_AUTH;
+  payload: FiltersList;
 }
 
 export type FiltersAction =

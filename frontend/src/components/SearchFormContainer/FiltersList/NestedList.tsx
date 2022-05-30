@@ -8,8 +8,8 @@ import { Box, Checkbox, ListItemText } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
+import { mainFilters, mainFiltersUa } from '../../../static/mainFIlters';
 import { StyledList } from './style';
-import { createLocalizatioMainFilters } from '../../../static/mainFIlters';
 
 type NestType = {
   [key: number]: boolean;
@@ -17,11 +17,11 @@ type NestType = {
 
 export default function NestedList() {
   const { t } = useTranslation();
+  const currentLanguage = localStorage.getItem('i18nextLng');
 
-  const filt = createLocalizatioMainFilters();
-  console.log(filt);
   const [open, setOpen] = useState(false);
   const [openNested, setOpenNested] = useState<NestType>({});
+  const [selectedFiltersUa, setSelectedFiltersUa] = useState<string[]>([]);
 
   const selectedFilters = useTypedSelector(
     state => state.locationList.selectedFilters
@@ -35,19 +35,48 @@ export default function NestedList() {
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
     if (isAuthorized) {
-      fetchFilters(accessToken || '');
+      fetchFilters(accessToken || '', t);
     } else {
-      fetchFiltersWithoutAuth();
+      fetchFiltersWithoutAuth(t);
     }
-  }, [isAuthorized]);
+  }, [isAuthorized, currentLanguage]);
 
   const filters = useTypedSelector(state => state.userFilters.filters);
+  const AddSelectedFiltersUaLogic = (selectedValue: string) => {
+    if (selectedFiltersUa.some(f => f === selectedValue)) {
+      setSelectedFiltersUa(selectedFiltersUa.filter(f => f !== selectedValue));
+    } else {
+      setSelectedFiltersUa([...selectedFiltersUa, selectedValue]);
+    }
+  };
+  const OnChange = (selectedValue: string, filterId: number, index: number) => {
+    let value: string = selectedValue;
+    if (currentLanguage === 'ua') {
+      AddSelectedFiltersUaLogic(selectedValue);
+      value = mainFilters[filterId - 1].values[index];
+    }
 
-  const OnChange = (value: string) => {
+    if (currentLanguage === 'en') {
+      AddSelectedFiltersUaLogic(mainFiltersUa[filterId - 1].values[index]);
+    }
+
     if (selectedFilters.some(f => f === value)) {
       applyFilter(selectedFilters.filter(f => f !== value));
     } else {
       applyFilter([...selectedFilters, value]);
+    }
+  };
+
+  const OnChaked = (nestedFilter: any) => {
+    switch (currentLanguage) {
+      case 'ua':
+        return selectedFiltersUa.some(f => f === nestedFilter);
+
+      case 'en':
+        return selectedFilters.some(f => f === nestedFilter);
+
+      default:
+        return false;
     }
   };
 
@@ -76,13 +105,13 @@ export default function NestedList() {
                 <StyledList>
                   {filter.values?.map((nestedFilter: any, index: number) => (
                     <ListItemButton
-                      onClick={() => OnChange(nestedFilter)}
+                      onClick={() => OnChange(nestedFilter, filter.id, index)}
                       // eslint-disable-next-line react/no-array-index-key
                       key={index}
                       className="pl-4"
                     >
                       <Checkbox
-                        checked={selectedFilters.some(f => f === nestedFilter)}
+                        checked={OnChaked(nestedFilter)}
                         edge="start"
                         onChange={() => null}
                         value={nestedFilter}

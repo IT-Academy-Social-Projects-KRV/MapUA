@@ -1,7 +1,4 @@
-import { useTranslation } from 'react-i18next';
-
-export const createLocalizatioMainFilters = () => {
-  const { t } = useTranslation();
+export const createLocalizatioMainFilters = (t: any) => {
   const localizationMainFilters = [
     {
       id: 1,
@@ -40,7 +37,7 @@ export const createLocalizatioMainFilters = () => {
   ];
   return localizationMainFilters;
 };
-// export const mainFilters = createLocalizatioMainFilters();
+
 export const mainFilters = [
   {
     id: 1,
@@ -68,3 +65,23 @@ export const getFiltersForUser = () =>
       current.forLoggedUser ? prev : [...prev, ...current.values],
     [] as string[]
   );
+export const mainFiltersUa = [
+  {
+    id: 1,
+    forLoggedUser: false,
+    type: 'Cost',
+    values: ['безкоштовно', 'низька вартість', 'висока вартість']
+  },
+  {
+    id: 2,
+    forLoggedUser: false,
+    type: 'Seasonal',
+    values: ['зима', 'літо', 'весна', 'осінь', 'цілий рік', 'сезоно']
+  },
+  {
+    id: 3,
+    forLoggedUser: true,
+    type: 'Personal',
+    values: ['відвідані', 'улюблені', 'персональні']
+  }
+];

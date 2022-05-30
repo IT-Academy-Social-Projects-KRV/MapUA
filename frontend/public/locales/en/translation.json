@@ -101,8 +101,8 @@
     "cost":"Cost",
     "costValues":{
       "free":"free",
-       "lowCost":"low сost", 
-       "highCost":"hight cost"},
+       "lowCost":"low cost", 
+       "highCost":"high cost"},
    "seasonal":"Seasonal",
    "seasonalValues":{
      "winter":"winter",

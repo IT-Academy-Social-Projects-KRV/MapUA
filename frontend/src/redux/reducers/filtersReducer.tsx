@@ -3,7 +3,6 @@ import {
   FiltersActionTypes,
   FiltersState
 } from '../action-types/filters';
-import { mainFilters } from '../../static/mainFIlters';
 
 const initialState: FiltersState = {
   filters: [],
@@ -11,30 +10,28 @@ const initialState: FiltersState = {
   error: null
 };
 
-const mainFilterLength = mainFilters.length;
-
 export const filterReducer = (
   state = initialState,
   action: FiltersAction
 ): FiltersState => {
   switch (action.type) {
     case FiltersActionTypes.FETCH_FILTERS:
-      return { loading: true, error: null, filters: [...mainFilters] };
+      return { loading: true, error: null, filters: [...action.payload] };
     case FiltersActionTypes.FETCH_FILTERS_WITHOUT_AUTH:
       return {
         loading: false,
         error: null,
-        filters: [...mainFilters.filter(f => f.forLoggedUser === false)]
+        filters: [...action.payload.filter(f => f.forLoggedUser === false)]
       };
     case FiltersActionTypes.FETCH_FILTERS_SUCCESS:
       return {
         loading: false,
         error: null,
         filters: [
-          // ...state.filters,
-          ...mainFilters,
+          ...state.filters,
+
           {
-            id: mainFilterLength + 1,
+            id: state.filters.length + 1,
             forLoggedUser: true,
             type: 'Subscriptions',
             values: action.payload
@@ -42,11 +39,7 @@ export const filterReducer = (
         ]
       };
     case FiltersActionTypes.FETCH_FILTERS_ERROR:
-      return {
-        loading: false,
-        error: action.payload,
-        filters: [...mainFilters]
-      };
+      return { ...state, loading: false, error: action.payload };
     default:
       return state;
   }
