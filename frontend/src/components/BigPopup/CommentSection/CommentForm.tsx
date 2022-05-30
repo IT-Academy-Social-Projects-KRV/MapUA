@@ -20,9 +20,7 @@ const CommentForm = () => {
       locationId: locationId!,
       text: commentText,
       likes: [],
-      dislikes: [],
-      createdAt: new Date(),
-      updatedAt: new Date()
+      dislikes: []
     };
     if (commentText) {
       sendComment(commentBody);

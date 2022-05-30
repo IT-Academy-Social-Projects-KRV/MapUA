@@ -10,34 +10,31 @@ interface IComment {
   updatedAt: Date;
 }
 
-const schema = new mongoose.Schema({
-  author: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
+const schema = new mongoose.Schema(
+  {
+    author: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true
+    },
+    locationId: {
+      type: Schema.Types.ObjectId,
+      required: true
+    },
+    text: {
+      type: String,
+      required: true
+    },
+    likes: {
+      type: Array,
+      default: []
+    },
+    dislikes: {
+      type: Array,
+      default: []
+    }
   },
-  locationId: {
-    type: Schema.Types.ObjectId,
-    required: true
-  },
-  text: {
-    type: String,
-    required: true
-  },
-  likes: {
-    type: Array,
-    default: []
-  },
-  dislikes: {
-    type: Array,
-    default: []
-  },
-  createdAt: {
-    type: Date
-  },
-  updatedAt: {
-    type: Date
-  }
-});
+  { timestamps: true }
+);
 
 export default mongoose.model<IComment>('Comments', schema);

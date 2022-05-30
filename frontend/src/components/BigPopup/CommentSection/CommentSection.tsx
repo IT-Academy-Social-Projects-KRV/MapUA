@@ -46,7 +46,7 @@ const CommentSection = () => {
         {comments.map(({ _id: commentId, text, author, createdAt }) => (
           <Comment
             key={commentId}
-            createdAt={createdAt}
+            createdAt={createdAt!}
             text={text}
             authorsImage={author.imageUrl}
             authorsName={author.displayName}

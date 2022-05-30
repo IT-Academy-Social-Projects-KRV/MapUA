@@ -5,8 +5,8 @@ export type Comment<T> = {
   text: string;
   likes: string[];
   dislikes: string[];
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 export type AuthorInfo = {
