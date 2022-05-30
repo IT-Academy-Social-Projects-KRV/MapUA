@@ -73,7 +73,8 @@
       "locationNameMinLengthError": "Назва локації має містити не менше 3 символів",
       "locationNameMaxLengthError": "Назва локації має містити не більше 50 символів",
       "emptyLocationDescriptionError": "Опис локації не може бути порожнім",
-      "locationDescriptionMinLengthError": "Опис локації повинен містити не менше 25 символів"
+      "locationDescriptionMinLengthError": "Опис локації повинен містити не менше 25 символів",
+      "emptyLocationFiltersError": "Виберіть хоча б один фільтр"
     }
   },
   "map": {

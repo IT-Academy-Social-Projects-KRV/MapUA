@@ -74,7 +74,7 @@
       "locationNameMaxLengthError": "Location name must be less than 50 symbols",
       "emptyLocationDescriptionError": "Location description can't be empty",
       "locationDescriptionMinLengthError": "Location description must be at least 25 symbols long",
-      "emptyLocationFileError": "no File"
+      "emptyLocationFiltersError": "Please select at least one filter"
     }
   },
   "map": {

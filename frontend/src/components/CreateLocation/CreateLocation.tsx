@@ -1,5 +1,6 @@
-import React, { useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import axios from 'axios';
+import UploadInput from 'components/design/UploadInputCreateLocation';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTranslation } from 'react-i18next';
 import {
@@ -27,15 +28,13 @@ type CreatingLocation = {
   locationName: string;
   locationDescription: string;
   locationFilters: string[];
-  locationFile: File[];
 };
 
 const { REACT_APP_API_URI } = process.env;
 
 const CreateLocation = ({ coordinate }: Props) => {
-  // const [files, setFiles] = useState<File[]>([]);
-  // const [, setLinks] = useState<string[]>([]);
-
+  const [files, setFiles] = useState<File[]>([]);
+  const [locationImageName, setlocationImageName] = useState<string>('');
   const ref = useRef<null | HTMLInputElement>();
 
   const accessToken = localStorage.getItem('accessToken');
@@ -54,8 +53,7 @@ const CreateLocation = ({ coordinate }: Props) => {
   const onSubmit: SubmitHandler<CreatingLocation> = async ({
     locationName,
     locationDescription,
-    locationFilters,
-    locationFile
+    locationFilters
   }) => {
     try {
       const formData = new FormData();
@@ -64,7 +62,7 @@ const CreateLocation = ({ coordinate }: Props) => {
       formData.append('coordinates', String(coordinate.lat));
       formData.append('coordinates', String(coordinate.lng));
       formData.append('filters', String(locationFilters));
-      formData.append('image', locationFile[0]);
+      formData.append('image', files[0]);
 
       await axios.post(`${REACT_APP_API_URI}locations/create`, formData, {
         headers: {
@@ -80,6 +78,19 @@ const CreateLocation = ({ coordinate }: Props) => {
       window.location.reload();
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const handleFilesChange = (e: any) => {
+    const { files: filesLst } = e.currentTarget;
+    const filesListArr = [];
+
+    if (filesLst) {
+      for (let i = 0; i < filesLst.length; i += 1) {
+        filesListArr.push(filesLst[i]);
+      }
+
+      setFiles(filesListArr);
     }
   };
 
@@ -159,7 +170,7 @@ const CreateLocation = ({ coordinate }: Props) => {
                 helperText={t(
                   !errors.locationFilters
                     ? ''
-                    : t('utils.validation.locationDescriptionMinLengthError')
+                    : t('utils.validation.emptyLocationFiltersError')
                 )}
                 placeholder={t('createLocation.favorites')}
               />
@@ -168,19 +179,10 @@ const CreateLocation = ({ coordinate }: Props) => {
         )}
       />
 
-      <Controller
-        control={control}
-        name="locationFile"
-        render={({ field }) => (
-          <TextField
-            {...field}
-            type="file"
-            error={!!errors.locationFile}
-            onChange={e => field.onChange((e.target as HTMLInputElement).files)}
-            helperText={t('utils.validation.emptyLocationFileError')}
-            sx={{ padding: '20px' }}
-          />
-        )}
+      <UploadInput
+        handleFilesChange={handleFilesChange}
+        setlocationImageName={setlocationImageName}
+        locationImageName={locationImageName}
       />
 
       <div style={{ display: 'flex', flexDirection: 'column' }}>

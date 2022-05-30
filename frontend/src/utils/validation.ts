@@ -33,6 +33,5 @@ export const CreatingLocationSchema = yup.object().shape({
     .string()
     .min(25, 'utils.validation.locationDescriptionMinLengthError')
     .required('utils.validation.emptyLocationDescriptionError'),
-  locationFile: yup.mixed().required('utils.validation.emptyLocationFileError'),
   locationFilters: yup.array().of(yup.string()).min(1)
 });
