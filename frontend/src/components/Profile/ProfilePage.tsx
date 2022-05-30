@@ -31,21 +31,18 @@ import {
 } from './styles';
 import BasicTabs from './BasicTabs';
 
-interface ProfilePageProps {
-  id: string;
-  email: string;
-  displayName: string;
-  createdAt: Date | string;
-  description: string;
-}
+// interface ProfilePageProps {
+//   id: string;
+//   email: string;
+//   displayName: string;
+//   createdAt: Date | string;
+//   description: string;
+// }
 
-export default function ProfilePage({
-  id,
-  email,
-  displayName,
-  createdAt,
-  description
-}: ProfilePageProps) {
+export default function ProfilePage() {
+  const {
+    data: { _id: id, email, displayName, createdAt, description }
+  } = useTypedSelector(state => state.user);
   const { handleSubmit, control, register } = useForm<UserForm>({
     mode: 'onBlur',
     defaultValues: { displayName, description }
@@ -203,7 +200,8 @@ export default function ProfilePage({
           </UploadBox>
         )}
         <TypographyDate variant="h6">
-          {t('profile.profilePage.creationDate')} {createdAt}
+          {t('profile.profilePage.creationDate')}{' '}
+          {new Date(createdAt).toLocaleDateString('en-GB')}
         </TypographyDate>
         <Typography variant="h6" component="h6" align="center">
           {email}
