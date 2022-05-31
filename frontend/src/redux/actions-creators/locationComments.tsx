@@ -1,9 +1,9 @@
-import axios from 'axios';
 import { Dispatch } from 'redux';
 import {
   LocationCommentsActions,
   LocationCommentsActionTypes
 } from 'redux/action-types/locationCommentsActionTypes';
+import axios from 'services/axios';
 import { Comment } from '../ts-types/locationComments';
 
 const { REACT_APP_API_URI } = process.env;
@@ -12,17 +12,7 @@ export const sendComment =
   (comment: Comment<string>) =>
   async (dispatch: Dispatch<LocationCommentsActions>) => {
     try {
-      const { data } = await axios.post(
-        `${REACT_APP_API_URI}comments/create`,
-        {
-          comment
-        },
-        {
-          headers: {
-            'Accept-Language': localStorage.getItem('i18nextLng') || ''
-          }
-        }
-      );
+      const { data } = await axios.post('comments/create', { comment });
       if (data) {
         dispatch({
           type: LocationCommentsActionTypes.ADD_COMMENT,
@@ -38,14 +28,7 @@ export const fetchComments =
   (locationId: string) =>
   async (dispatch: Dispatch<LocationCommentsActions>) => {
     try {
-      const { data } = await axios.get(
-        `${REACT_APP_API_URI}comments/${locationId}`,
-        {
-          headers: {
-            'Accept-Language': localStorage.getItem('i18nextLng') || ''
-          }
-        }
-      );
+      const { data } = await axios.get(`comments/${locationId}`);
       dispatch({
         type: LocationCommentsActionTypes.FETCH_COMMENTS,
         payload: data

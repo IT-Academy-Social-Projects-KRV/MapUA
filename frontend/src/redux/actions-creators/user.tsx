@@ -1,19 +1,13 @@
 import { Dispatch } from 'redux';
-import axios from 'axios';
+import axios from 'services/axios';
 import { UserAction, UserActionTypes } from '../action-types/userActionTypes';
-
-const { REACT_APP_API_URI } = process.env;
 
 export const fetchUser =
   (accessToken: string) => async (dispatch: Dispatch<UserAction>) => {
     try {
       dispatch({ type: UserActionTypes.FETCH_USER });
-      const response = await axios.get(`${REACT_APP_API_URI}profile`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          'Accept-Language': localStorage.getItem('i18nextLng') || ''
-        }
-      });
+      localStorage.setItem('accessToken', accessToken);
+      const response = await axios.get(`profile`, {});
       dispatch({
         type: UserActionTypes.FETCH_USER_SUCCESS,
         payload: response.data.userData
