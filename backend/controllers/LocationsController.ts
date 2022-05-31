@@ -160,6 +160,33 @@ const LocationsController = {
     } catch (err: any) {
       return res.status(500).json({ error: req.t('server_error'), err });
     }
+  },
+
+  async deleteLocation(req: Request, res: Response) {
+    try {
+      const { locationId } = req.body;
+      const location = await Location.findById(locationId);
+      if (!location) {
+        return res.status(400).json({ error: req.t('location_not_found') });
+      }
+
+      const _id = req.user;
+      const userData = await User.findById(_id);
+
+      if (!userData) {
+        return res.status(400).json({ error: req.t('user_not_exist') });
+      }
+
+      if (location.author === _id) {
+        Location.deleteOne({ _id: locationId });
+
+        return res.status(200).json({ message: req.t('location_del_success') });
+      } else {
+        res.status(400).json({ error: req.t('location_del_error') });
+      }
+    } catch (err: any) {
+      return res.status(500).json({ error: req.t('server_error'), err });
+    }
   }
 };
 
