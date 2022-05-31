@@ -30,6 +30,25 @@ const UserController = {
       return res.status(500).json({ error: req.t('server_error'), err });
     }
   },
+  async getPrivateData(req: Request, res: Response) {
+    try {
+      const _id = req.user;
+
+      const privateUserData = await User.findById(_id, {
+        email: true,
+        createdAt: true,
+        updatedAt: true,
+      });
+
+      if (!privateUserData) {
+        return res.status(400).json({ error: req.t('user_not_exist') });
+      }
+
+      return res.status(200).json({ privateUserData });
+    } catch (err: any) {
+      return res.status(500).json({ error: req.t('server_error'), err });
+    }
+  },
   async tougleFavorite(req: Request, res: Response) {
     try {
       let {idOfLocation}  = req.body;
@@ -137,7 +156,7 @@ const UserController = {
       return res.status(400).json({ error: "User doesn't exist" });
     }
     return res.status(200).json(changeData)
-    
+
     } catch(err: any) {
       return res.status(500).json({ error: err.message });
     }
