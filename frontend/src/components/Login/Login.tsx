@@ -1,34 +1,25 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState, MouseEvent, SyntheticEvent } from 'react';
 import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
-import {
-  useForm,
-  Controller,
-  SubmitHandler,
-  useFormState
-} from 'react-hook-form';
+import { useForm, SubmitHandler, useFormState } from 'react-hook-form';
 import {
   Box,
   Snackbar,
   Alert,
   Divider,
-  TextField,
   Button,
   Typography,
   Link,
-  InputAdornment,
-  IconButton,
   Grid,
   Stack
 } from '@mui/material';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useTranslation } from 'react-i18next';
-import { emailValidation, passwordValidation } from 'utils/validation';
 import { PaperForm } from '../design/PaperForm';
 import { AuthFormWrapper } from '../design/AuthFormWrapper';
+import { LoginControllers } from './LoginControllers/LoginControllers';
 
 type SignIn = {
   email: string;
@@ -81,6 +72,7 @@ function Login() {
   const onSubmit: SubmitHandler<SignIn> = async ({ email, password }) => {
     login(email, password);
   };
+
   const { errors } = useFormState({
     control
   });
@@ -122,61 +114,10 @@ function Login() {
                     {notification}
                   </Alert>
                 </Snackbar>
-
-                <Controller
-                  control={control}
-                  name="email"
-                  rules={emailValidation}
-                  render={({ field }) => (
-                    <TextField
-                      placeholder={t('common.enterYourEmail')}
-                      label="Email"
-                      autoComplete="current-email"
-                      fullWidth
-                      onChange={e => field.onChange(e)}
-                      onBlur={field.onBlur}
-                      defaultValue={field.value}
-                      type="text"
-                      error={!!errors.email?.message}
-                      helperText={errors.email?.message}
-                    />
-                  )}
-                />
-
-                <Controller
-                  control={control}
-                  name="password"
-                  rules={passwordValidation}
-                  render={({ field }) => (
-                    <TextField
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton
-                              onClick={handleClickShowPassword}
-                              onMouseDown={handleMouseDownPassword}
-                            >
-                              {showPassword ? (
-                                <VisibilityOff />
-                              ) : (
-                                <Visibility />
-                              )}
-                            </IconButton>
-                          </InputAdornment>
-                        )
-                      }}
-                      placeholder={t('common.enterPassword')}
-                      label={t('common.password')}
-                      type={showPassword ? 'text' : 'password'}
-                      autoComplete="current-password"
-                      fullWidth
-                      onChange={e => field.onChange(e)}
-                      onBlur={field.onBlur}
-                      defaultValue={field.value}
-                      error={!!errors.password?.message}
-                      helperText={errors.password?.message}
-                    />
-                  )}
+                <LoginControllers
+                  handleClickShowPassword={handleClickShowPassword}
+                  handleMouseDownPassword={handleMouseDownPassword}
+                  showPassword={showPassword}
                 />
 
                 <Typography sx={{ my: 4 }} align="right">
