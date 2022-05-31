@@ -5,7 +5,6 @@ import LocationsController from '../controllers/LocationsController';
 import AuthController from '../controllers/AuthController';
 import CommentsController from '../controllers/CommentsController';
 import passport from '../libs/passport';
-import multer from 'multer';
 import { upload } from '../utils/upload';
 
 const router = express.Router();
@@ -74,11 +73,13 @@ router.get('/is-authenticated', AuthController.checkJwt);
 
 router.put(
   '/tougleFavorite/',
-  passport.authenticate('jwt', { session: false }), 
-  UserController.tougleFavorite);
+  passport.authenticate('jwt', { session: false }),
+  UserController.tougleFavorite
+);
 router.put(
   '/tougleVisited/',
-  passport.authenticate('jwt', { session: false }), 
-  UserController.tougleVisited);
+  passport.authenticate('jwt', { session: false }),
+  UserController.tougleVisited
+);
 
 export default router;
