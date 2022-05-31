@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
-import { Comment } from '../../../redux/ts-types/popupLocation';
+import { Comment } from '../../../../types';
 
 const CommentForm = () => {
   const { t } = useTranslation();
@@ -12,7 +12,9 @@ const CommentForm = () => {
   const [commentText, setCommentText] = useState('');
   const { sendComment } = useTypedDispatch();
   const { _id: userId } = useTypedSelector(state => state.userData.data);
-  const { locationId } = useTypedSelector(state => state.popupLocation.data);
+  const { _id: locationId } = useTypedSelector(
+    state => state.popupLocation.data
+  );
 
   const onSendComment = () => {
     const commentBody: Comment = {

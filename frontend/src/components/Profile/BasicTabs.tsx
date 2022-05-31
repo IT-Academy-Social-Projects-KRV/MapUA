@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { Tabs, Tab, Typography, Box, TextField } from '@mui/material';
 import { Controller, Control } from 'react-hook-form';
-import { UserForm } from 'redux/ts-types/user';
+import { UserForm } from '../../../types';
 
 interface TabPanelProps {
   index: number;

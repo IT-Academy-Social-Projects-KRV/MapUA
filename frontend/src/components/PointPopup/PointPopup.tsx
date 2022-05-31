@@ -53,7 +53,7 @@ const PointPopup = () => {
   } = useTypedSelector(state => state.userData.data);
 
   const {
-    locationId,
+    _id: locationId,
     rating,
     locationName,
     description,

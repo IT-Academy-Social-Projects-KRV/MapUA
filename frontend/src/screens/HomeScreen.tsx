@@ -21,7 +21,7 @@ function HomeScreen() {
   const { data: isAuthorized } = useTypedSelector(
     state => state.isUserAuthorized
   );
-  const { fetchUser } = useTypedDispatch();
+  const { fetchUserData } = useTypedDispatch();
   const [showAddLocationButton, setShowAddLocationButton] = useState(true);
 
   const onOpenBigPopup = (locationData: locationType) => {
@@ -38,7 +38,7 @@ function HomeScreen() {
     if (isAuthorized) {
       const accessToken = localStorage.getItem('accessToken');
       // @ts-ignore
-      fetchUser(accessToken);
+      fetchUserData(accessToken);
     }
   }, [isAuthorized]);
 

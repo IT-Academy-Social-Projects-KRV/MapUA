@@ -4,10 +4,10 @@ import { useTypedDispatch } from '../hooks/useTypedDispatch';
 
 function UserData() {
   const { data, error, loading } = useTypedSelector(state => state.userData);
-  const { fetchUser } = useTypedDispatch();
+  const { fetchUserData } = useTypedDispatch();
 
   useEffect(() => {
-    fetchUser(localStorage.getItem('accessToken') || '');
+    fetchUserData(localStorage.getItem('accessToken') || '');
   }, []);
 
   if (loading) {

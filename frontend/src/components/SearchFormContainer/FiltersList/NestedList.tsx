@@ -21,32 +21,35 @@ export default function NestedList() {
   const [openNested, setOpenNested] = useState<NestType>({});
 
   const selectedFilters = useTypedSelector(
-    state => state.locationList.selectedFilters
+    state => state.mapInfo.selectedFilters
   );
-
+  const { subscriptions } = useTypedSelector(state => state.userData.data);
   const { data: isAuthorized } = useTypedSelector(
     state => state.isUserAuthorized
   );
 
-  const { applyFilter, fetchFilters, fetchFiltersWithoutAuth } =
-    useTypedDispatch();
+  const {
+    setFilters,
+    setAuthorizedListOfFiltersOptions,
+    setUnauthorizedListOfFiltersOptions
+  } = useTypedDispatch();
 
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
     if (isAuthorized) {
-      fetchFilters(accessToken || '');
+      setAuthorizedListOfFiltersOptions(subscriptions);
     } else {
-      fetchFiltersWithoutAuth();
+      setUnauthorizedListOfFiltersOptions();
     }
   }, [isAuthorized]);
 
-  const filters = useTypedSelector(state => state.userFilters.filters);
+  const filters = useTypedSelector(state => state.filtersList.filters);
 
   const OnChange = (value: string) => {
     if (selectedFilters.some(f => f === value)) {
-      applyFilter(selectedFilters.filter(f => f !== value));
+      setFilters(selectedFilters.filter(f => f !== value));
     } else {
-      applyFilter([...selectedFilters, value]);
+      setFilters([...selectedFilters, value]);
     }
   };
 

@@ -54,6 +54,7 @@ function Login() {
       setNotification(error);
     }
   }, [error]);
+
   const handleCloseNotification = (
     e?: SyntheticEvent | Event,
     reason?: string
@@ -80,9 +81,6 @@ function Login() {
     }
   }, []);
 
-  const onSubmit: SubmitHandler<SignIn> = async ({ email, password }) => {
-    login(email, password);
-  };
   const { errors } = useFormState({
     control
   });
@@ -101,6 +99,10 @@ function Login() {
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
+  };
+
+  const onSubmit: SubmitHandler<SignIn> = async ({ email, password }) => {
+    login(email, password);
   };
 
   return (
@@ -212,6 +214,7 @@ function Login() {
                     to="/registration"
                     color="inherit"
                     underline="none"
+                    sx={{ width: '100%' }}
                   >
                     {t('login.signup')}
                   </Link>
