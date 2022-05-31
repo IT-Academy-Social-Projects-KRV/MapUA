@@ -6,8 +6,6 @@ interface IComment {
   text: string;
   likes: string[];
   dislikes: string[];
-  createdAt: Date;
-  updatedAt: Date;
 }
 
 const schema = new mongoose.Schema(
