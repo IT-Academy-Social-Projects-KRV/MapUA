@@ -1,4 +1,4 @@
-import { locationState, Comment } from 'redux/ts-types/popupLocation';
+import { locationState } from 'redux/ts-types/popupLocation';
 
 /* eslint-disable no-unused-vars */
 
@@ -6,8 +6,7 @@ export enum LocationActionTypes {
   FETCH_lOCATION = 'FETCH_lOCATION',
   UPDATE_LOCATION = 'UPDATE_LOCATION',
   LOADING_START = 'LOADING_START',
-  LOADING_END = 'LOADING_END',
-  ADD_COMMENT = 'ADD_COMMENT'
+  LOADING_END = 'LOADING_END'
 }
 
 interface FetchLocationAction {
@@ -26,14 +25,8 @@ interface EndLoadingLocationAction {
   type: LocationActionTypes.LOADING_END;
 }
 
-interface AddCommentAction {
-  type: LocationActionTypes.ADD_COMMENT;
-  payload: Comment;
-}
-
 export type LocationActions =
   | FetchLocationAction
   | UpdateLocationAction
   | StartLoadingLocationAction
-  | EndLoadingLocationAction
-  | AddCommentAction;
+  | EndLoadingLocationAction;

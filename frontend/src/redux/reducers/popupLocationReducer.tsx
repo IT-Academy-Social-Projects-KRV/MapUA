@@ -14,7 +14,6 @@ export const initialState: locationState = {
   coordinates: [0, 0],
   arrayPhotos: [],
   description: '',
-  comments: [],
   createdAt: new Date(),
   updatedAt: new Date(),
   isLoading: false
@@ -42,8 +41,6 @@ export const popupLocationReducer = (
       return { ...state, isLoading: true };
     case LocationActionTypes.LOADING_END:
       return { ...state, isLoading: false };
-    case LocationActionTypes.ADD_COMMENT:
-      return { ...state, comments: [action.payload, ...state.comments] };
     default:
       return state;
   }

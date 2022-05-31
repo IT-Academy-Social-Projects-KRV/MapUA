@@ -4,7 +4,7 @@ import {
   LocationActionTypes
 } from 'redux/action-types/popupLocationActionTypes';
 import axios from 'services/axios';
-import { Comment } from '../ts-types/popupLocation';
+
 
 export const fetchPopupLocation =
   (id: string) => async (dispatch: Dispatch<LocationActions>) => {
@@ -45,22 +45,3 @@ export const updatePopupLocation =
 export function startLoading(): LocationActions {
   return { type: LocationActionTypes.LOADING_START };
 }
-
-export const sendComment =
-  (id: string, comment: Comment) =>
-  async (dispatch: Dispatch<LocationActions>) => {
-    try {
-      const response = await axios.put(`locations/comment`, {
-        id,
-        comment
-      });
-      if (response.status === 200) {
-        dispatch({
-          type: LocationActionTypes.ADD_COMMENT,
-          payload: comment
-        });
-      }
-    } catch (e: any) {
-      throw new Error(e);
-    }
-  };
