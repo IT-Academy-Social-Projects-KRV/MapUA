@@ -1,12 +1,12 @@
 import { Avatar, IconButton, Typography, Box } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import React, { FC } from 'react';
+import React, { FC, MouseEventHandler } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 
 type Props = {
   description: string;
-  handleExpandClick: Function;
+  handleExpandClick: MouseEventHandler<HTMLButtonElement>;
   expanded: boolean;
 };
 
@@ -53,7 +53,7 @@ export const CardComponent: FC<Props> = ({
         </Typography>
       </Box>
       <IconButton
-        onClick={handleExpandClick()}
+        onClick={handleExpandClick}
         sx={{
           mt: 3,
           transform: !expanded ? 'rotate(0deg)' : 'rotate(180deg)'
