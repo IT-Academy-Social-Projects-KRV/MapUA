@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
-import { Box, Container } from '@mui/material';
+import React, { useEffect } from 'react';
+import { Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import ProfilePage from './ProfilePage';
@@ -40,7 +40,7 @@ function Profile() {
         email={data.email}
         displayName={data.displayName}
         createdAt={data.createdAt}
-        imageUrl={data.imageUrl}
+        // imageUrl={data.imageUrl}
         description={data.description}
       />
     </Box>
