@@ -4,13 +4,14 @@ import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Box, Button } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { LocationPopOut } from 'components/LocationPopOut/LocationPopOut';
 import SearchFormContainer from 'components/SearchFormContainer';
 import useDebounce from 'utils/useDebounce';
 
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import L from 'leaflet';
+import Locations from './Locations/Locations';
+import MyZoomComponent from './ZoomComponent';
 
 interface Props {
   onOpenBigPopup: Function;
@@ -23,20 +24,20 @@ interface Props {
 }
 
 function Map({
-  onOpenBigPopup,
   onOpenLocationForm,
   setCoordinate,
   isOpen,
   showAddLocationButton,
   setIsAddLocationActive,
-  isAddLocationActive
+  isAddLocationActive,
+  onOpenBigPopup
 }: Props) {
   const { t } = useTranslation();
   const userAuth = useTypedSelector(state => state.userAuth.isAuthorized);
 
   const formRef = React.useRef<any>(null);
-  const [coordinateByClick, SetCoordinateByClick] = useState<any>({});
-  const { bounds, locations, zoomPosition, locationName, selectedFilters } =
+  const [, SetCoordinateByClick] = useState<any>({});
+  const { bounds, zoomPosition, locationName, selectedFilters } =
     useTypedSelector(state => state.locationList);
   const debouncedValue = useDebounce(locationName, 1000);
   const { setBounds, setZoomPosition, fetchLocations } = useTypedDispatch();
@@ -49,32 +50,6 @@ function Map({
     L.DomEvent.disableScrollPropagation(formRef.current);
   }, []);
 
-  function MyZoomComponent() {
-    const prev = bounds;
-    const map = useMapEvents({
-      zoom: e => {
-        if (!isAddLocationActive) {
-          setZoomPosition(e.target.getCenter());
-          setBounds({ ...prev, ...map.getBounds() });
-        }
-      },
-      dragend: e => {
-        if (!isAddLocationActive) {
-          setZoomPosition(e.target.getCenter());
-          setBounds({ ...prev, ...map.getBounds() });
-        }
-      },
-      click: e => {
-        if (isAddLocationActive) {
-          SetCoordinateByClick(e.latlng);
-          onOpenLocationForm();
-          setCoordinate(e.latlng);
-        }
-      }
-    });
-    return null;
-  }
-
   return (
     <Box sx={{ height: '100%', width: '100%' }} ref={formRef}>
       <MapContainer
@@ -84,19 +59,20 @@ function Map({
       >
         <TileLayer url="https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png" />
 
-        <MyZoomComponent />
-        {/* eslint-disable-next-line @typescript-eslint/no-shadow */}
-        {locations.map(({ _id, coordinates, locationName, arrayPhotos }) => (
-          <LocationPopOut
-            key={_id}
-            id={_id}
-            coordinates={coordinates}
-            locationName={locationName}
-            arrayPhotos={arrayPhotos}
-            onOpenBigPopup={onOpenBigPopup}
-          />
-        ))}
+        <MyZoomComponent
+          bounds={bounds}
+          isAddLocationActive={isAddLocationActive}
+          setZoomPosition={setZoomPosition}
+          setBounds={setBounds}
+          SetCoordinateByClick={SetCoordinateByClick}
+          onOpenLocationForm={onOpenLocationForm}
+          setCoordinate={setCoordinate}
+        />
+
+        <Locations onOpenBigPopup={onOpenBigPopup} />
+
         <SearchFormContainer />
+
         {userAuth && showAddLocationButton && !isOpen && (
           <Button
             onClick={() =>
