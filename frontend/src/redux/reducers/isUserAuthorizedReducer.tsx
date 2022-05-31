@@ -1,10 +1,10 @@
 import {
   UserAuthAction,
-  UserAuthActionTypes
-} from 'redux/action-types/userAuthActionTypes';
-import { InitialStateType } from '../ts-types';
+  IsUserAuthorizedActionTypes
+} from 'redux/action-types/isUserAuthorizedActionTypes';
+import { isUserAuthorizedStateType } from '../ts-types';
 
-const initialState: InitialStateType<boolean> = {
+const initialState: isUserAuthorizedStateType = {
   loading: false,
   error: null,
   data: false
@@ -13,44 +13,49 @@ const initialState: InitialStateType<boolean> = {
 export const isUserAuthorizedReducer = (
   state = initialState,
   action: UserAuthAction
-): InitialStateType<boolean> => {
+): isUserAuthorizedStateType => {
   switch (action.type) {
-    case UserAuthActionTypes.USER_LOGIN_REQUEST:
+    case IsUserAuthorizedActionTypes.LOGIN_USER_LOADING:
       return {
         loading: true,
         error: null,
         data: false
       };
-    case UserAuthActionTypes.USER_LOGIN_SUCCESS:
+    case IsUserAuthorizedActionTypes.LOGIN_USER_SUCCESS:
       return {
         loading: false,
         error: null,
         data: true
       };
-    case UserAuthActionTypes.USER_LOGIN_FAIL:
+    case IsUserAuthorizedActionTypes.LOGIN_USER_ERROR:
       return {
         loading: false,
         error: 'error has occurred on login', // todo add translation
         data: false
       };
-    case UserAuthActionTypes.USER_LOGOUT:
+    case IsUserAuthorizedActionTypes.LOGOUT_USER:
       return {
         loading: false,
         error: null,
         data: false
       };
 
-    // Check if user authorized every time when component mounted
-    case UserAuthActionTypes.IF_USER_AUTHORIZED_REQUEST:
+    case IsUserAuthorizedActionTypes.CHECK_USER_TOKEN_LOADING:
       return {
         ...state,
         loading: true
       };
-    case UserAuthActionTypes.IF_USER_AUTHORIZED_SUCCESS:
+    case IsUserAuthorizedActionTypes.CHECK_USER_TOKEN_SUCCESS:
       return {
         ...state,
         loading: false,
         data: true
+      };
+    case IsUserAuthorizedActionTypes.CHECK_USER_TOKEN_ERROR:
+      return {
+        loading: false,
+        error: action.payload,
+        data: false
       };
     default:
       return state;

@@ -2,11 +2,14 @@ import {
   LocationActions,
   LocationActionTypes
 } from 'redux/action-types/popupLocationActionTypes';
-import { locationState } from 'redux/ts-types/popupLocation';
+import { popupLocationStateType } from '../ts-types';
 
-export const initialState: locationState = {
+export const initialState: popupLocationStateType = {
+  loading: false,
+  error: null,
   data: {
-    locationId: '',
+    author: '',
+    _id: '',
     locationName: '',
     rating: {
       likes: [],
@@ -18,45 +21,58 @@ export const initialState: locationState = {
     comments: [],
     createdAt: new Date(),
     updatedAt: new Date()
-  },
-  isLoading: false,
-  error: null
+  }
 };
+
 export const popupLocationReducer = (
   state = initialState,
   action: LocationActions
-): locationState => {
+): popupLocationStateType => {
   switch (action.type) {
-    case LocationActionTypes.FETCH_LOCATION:
+    case LocationActionTypes.FETCH_LOCATION_LOADING:
+      return { loading: true, error: null, data: initialState.data };
+    case LocationActionTypes.FETCH_LOCATION_SUCCESS:
       return {
-        ...state,
+        loading: false,
+        error: null,
         data: {
-          ...action.payload.data,
-          createdAt: new Date(action.payload.data.createdAt),
-          updatedAt: new Date(action.payload.data.updatedAt)
+          ...action.payload,
+          createdAt: new Date(action.payload.createdAt),
+          updatedAt: new Date(action.payload.updatedAt)
         }
       };
-    case LocationActionTypes.UPDATE_LOCATION:
+    case LocationActionTypes.FETCH_LOCATION_ERROR:
+      return { loading: false, error: action.payload, data: initialState.data };
+
+    case LocationActionTypes.UPDATE_LOCATION_LOADING:
+      return { ...state, loading: true, error: null };
+    case LocationActionTypes.UPDATE_LOCATION_SUCCESS:
       return {
-        ...state,
+        loading: false,
+        error: null,
         data: {
-          ...action.payload.data,
-          createdAt: new Date(action.payload.data.createdAt),
-          updatedAt: new Date(action.payload.data.updatedAt)
+          ...action.payload,
+          createdAt: new Date(action.payload.createdAt),
+          updatedAt: new Date(action.payload.updatedAt)
         }
       };
-    case LocationActionTypes.LOADING_START:
-      return { ...state, isLoading: true };
-    case LocationActionTypes.LOADING_END:
-      return { ...state, isLoading: false };
-    case LocationActionTypes.ADD_COMMENT:
+    case LocationActionTypes.UPDATE_LOCATION_ERROR:
+      return { ...state, loading: false, error: action.payload };
+
+    case LocationActionTypes.ADD_COMMENT_LOADING:
+      return { ...state, loading: true, error: null };
+    case LocationActionTypes.ADD_COMMENT_SUCCESS:
       return {
-        ...state,
+        loading: false,
+        error: null,
         data: {
           ...state.data,
           comments: [action.payload, ...state.data.comments]
         }
       };
+    case LocationActionTypes.ADD_COMMENT_ERROR:
+      return { ...state, loading: false, error: action.payload };
+
     default:
       return state;
   }

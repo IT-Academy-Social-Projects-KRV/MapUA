@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 import { isUserAuthorizedReducer } from './isUserAuthorizedReducer';
-import { userDataReducer } from './userReducer';
+import { userDataReducer } from './userDataReducer';
 import { privateUserDataReducer } from './privateUserDataReducer';
 import { popupLocationReducer } from './popupLocationReducer';
 import { locationsListReducer } from './locationListReducer';
 import { mapInfoReducer } from './mapInfoReducer';
-import { filterReducer } from './filtersReducer';
+import { listOfFiltersOptionsReducer } from './listOfFiltersOptionsReducer';
 
 export const rootReducer = combineReducers({
   isUserAuthorized: isUserAuthorizedReducer,
@@ -14,7 +14,7 @@ export const rootReducer = combineReducers({
   popupLocation: popupLocationReducer,
   locationList: locationsListReducer,
   mapInfo: mapInfoReducer,
-  userFilters: filterReducer
+  filtersList: listOfFiltersOptionsReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
