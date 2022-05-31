@@ -1,15 +1,5 @@
-export type Comment = {
-  author: string;
-  text: string;
-  likes: string[];
-  dislikes: string[];
-  createdAt: Date;
-  updatedAt: Date;
-};
-
-export interface locationState {
+export type locationState = {
   _id?: string;
-  author: string;
   locationName: string;
   rating: {
     likes: string[];
@@ -18,7 +8,6 @@ export interface locationState {
   coordinates: [number, number];
   arrayPhotos: string[];
   description: string;
-  comments: Comment[];
   createdAt: Date;
   updatedAt: Date;
   isLoading: boolean;
