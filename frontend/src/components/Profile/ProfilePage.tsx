@@ -11,7 +11,7 @@ import {
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
-import { UserDataActionTypes } from 'redux/action-types/userDataActionTypes';
+import { UserActionTypes } from 'redux/action-types/userActionTypes';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useDispatch } from 'react-redux';
@@ -80,7 +80,7 @@ export default function ProfilePage() {
         setSuccessMessage(true);
         setTimeout(() => setSuccessMessage(false), 3000);
         dispatch({
-          type: UserDataActionTypes.UPDATE_USER_DATA_LOADING,
+          type: UserDataActionTypes.UPDATE_USER_DATA_SUCCESS,
           payload: response.data
         });
         setShowEditPanel(false);
