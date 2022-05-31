@@ -1,6 +1,9 @@
 import { Dispatch } from 'redux';
 import axios from 'axios';
-import { createLocalizatioMainFilters } from '../../static/mainFIlters';
+import {
+  createLocalizatioMainFilters,
+  createSubscriptionsTranslation
+} from '../../static/mainFIlters';
 import { FiltersAction, FiltersActionTypes } from '../action-types/filters';
 
 const { REACT_APP_API_URI } = process.env;
@@ -21,7 +24,12 @@ export const fetchFilters =
       });
       dispatch({
         type: FiltersActionTypes.FETCH_FILTERS_SUCCESS,
-        payload: response.data.userData.subscriptions
+        payload: {
+          id: 4,
+          forLoggedUser: true,
+          type: createSubscriptionsTranslation(t),
+          values: response.data.userData.subscriptions
+        }
       });
     } catch (e) {
       dispatch({
@@ -31,14 +39,6 @@ export const fetchFilters =
     }
   };
 
-// export const fetchFiltersWithoutAuth =
-//   () => async (dispatch: Dispatch<FiltersAction>) => {
-//     const { t } = useTranslation();
-//     dispatch({
-//       type: FiltersActionTypes.FETCH_FILTERS_WITHOUT_AUTH,
-//       payload: createLocalizatioMainFilters(t)
-//     });
-//   };
 export function fetchFiltersWithoutAuth(t: any) {
   return {
     type: FiltersActionTypes.FETCH_FILTERS_WITHOUT_AUTH,

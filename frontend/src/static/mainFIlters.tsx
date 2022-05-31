@@ -85,3 +85,7 @@ export const mainFiltersUa = [
     values: ['відвідані', 'улюблені', 'персональні']
   }
 ];
+// eslint-disable-next-line arrow-body-style
+export const createSubscriptionsTranslation = (t: any) => {
+  return t('mainFilters.subscriptions');
+};

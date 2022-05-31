@@ -31,10 +31,7 @@ export const filterReducer = (
           ...state.filters,
 
           {
-            id: state.filters.length + 1,
-            forLoggedUser: true,
-            type: 'Subscriptions',
-            values: action.payload
+            ...action.payload
           }
         ]
       };

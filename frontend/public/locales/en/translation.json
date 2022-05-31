@@ -117,7 +117,8 @@
      "visited":"visited",
      "favorites":"favorites",
      "personal":"personal"
-   }
+   },
+   "subscriptions":"Subscriptions"
 
   }
 }

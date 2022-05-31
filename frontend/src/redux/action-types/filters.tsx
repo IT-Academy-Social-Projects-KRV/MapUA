@@ -32,7 +32,7 @@ interface FetchFiltersAction {
 
 interface FetchFiltersSuccessAction {
   type: FiltersActionTypes.FETCH_FILTERS_SUCCESS;
-  payload: SubscriptionsDataType;
+  payload: FiltersDataType;
 }
 
 interface FetchFiltersErrorAction {
