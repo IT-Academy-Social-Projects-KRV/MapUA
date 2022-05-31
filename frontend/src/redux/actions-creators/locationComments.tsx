@@ -6,8 +6,6 @@ import {
 import axios from 'services/axios';
 import { Comment } from '../ts-types/locationComments';
 
-const { REACT_APP_API_URI } = process.env;
-
 export const sendComment =
   (comment: Comment<string>) =>
   async (dispatch: Dispatch<LocationCommentsActions>) => {
