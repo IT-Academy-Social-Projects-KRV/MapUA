@@ -22,27 +22,25 @@ export interface ILocation extends Document {
   comments: commentType[];
   filters: string[];
   author: string;
-  createdAt: Date;
-  updatedAt: Date;
 }
 
-const schema = new mongoose.Schema({
-  locationName: { type: String, required: true },
-  coordinates: [],
-  arrayPhotos: { type: Array, required: false },
-  description: { type: String },
-  comments: { type: Array, default: [] },
-  rating: {
-    likes: { type: Array, default: [] },
-    dislikes: { type: Array, default: [] }
+const schema = new mongoose.Schema(
+  {
+    locationName: { type: String, required: true },
+    coordinates: [],
+    arrayPhotos: { type: Array, required: false },
+    description: { type: String },
+    comments: { type: Array, default: [] },
+    rating: {
+      likes: { type: Array, default: [] },
+      dislikes: { type: Array, default: [] }
+    },
+    filters: { type: Array, default: [] },
+    author: { type: String, required: true }
   },
-  filters: { type: Array, default: [] },
-  author: { type: String, required: true },
-  createdAt: { type: Date },
-  updatedAt: { type: Date }
-},
-{
-  timestamps: true
-});
+  {
+    timestamps: true
+  }
+);
 
 export default mongoose.model<ILocation>('Location', schema);
