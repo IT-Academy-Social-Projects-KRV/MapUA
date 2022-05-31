@@ -1,39 +1,63 @@
-import { locationState, Comment } from 'redux/ts-types/popupLocation';
+import { locationType, Comment } from '../../../types';
 
 /* eslint-disable no-unused-vars */
-
 export enum LocationActionTypes {
-  FETCH_LOCATION = 'FETCH_LOCATION',
-  UPDATE_LOCATION = 'UPDATE_LOCATION',
-  LOADING_START = 'LOADING_START',
-  LOADING_END = 'LOADING_END',
-  ADD_COMMENT = 'ADD_COMMENT'
+  FETCH_LOCATION_LOADING = 'FETCH_LOCATION_LOADING',
+  FETCH_LOCATION_SUCCESS = 'FETCH_LOCATION_SUCCESS',
+  FETCH_LOCATION_ERROR = 'FETCH_LOCATION_ERROR',
+
+  UPDATE_LOCATION_LOADING = 'UPDATE_LOCATION_LOADING',
+  UPDATE_LOCATION_SUCCESS = 'UPDATE_LOCATION_SUCCESS',
+  UPDATE_LOCATION_ERROR = 'UPDATE_LOCATION_ERROR',
+
+  ADD_COMMENT_LOADING = 'ADD_COMMENT_LOADING',
+  ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS',
+  ADD_COMMENT_ERROR = 'ADD_COMMENT_ERROR'
 }
 
-interface FetchLocationAction {
-  type: LocationActionTypes.FETCH_LOCATION;
-  payload: locationState;
+interface FetchLocationLoadingAction {
+  type: LocationActionTypes.FETCH_LOCATION_LOADING;
 }
-interface UpdateLocationAction {
-  type: LocationActionTypes.UPDATE_LOCATION;
-  payload: locationState;
+interface FetchLocationSuccessAction {
+  type: LocationActionTypes.FETCH_LOCATION_SUCCESS;
+  payload: locationType;
 }
-interface StartLoadingLocationAction {
-  type: LocationActionTypes.LOADING_START;
-}
-
-interface EndLoadingLocationAction {
-  type: LocationActionTypes.LOADING_END;
+interface FetchLocationErrorAction {
+  type: LocationActionTypes.FETCH_LOCATION_ERROR;
+  payload: string;
 }
 
-interface AddCommentAction {
-  type: LocationActionTypes.ADD_COMMENT;
+interface UpdateLocationLoadingAction {
+  type: LocationActionTypes.UPDATE_LOCATION_LOADING;
+}
+interface UpdateLocationSuccessAction {
+  type: LocationActionTypes.UPDATE_LOCATION_SUCCESS;
+  payload: locationType;
+}
+interface UpdateLocationErrorAction {
+  type: LocationActionTypes.UPDATE_LOCATION_ERROR;
+  payload: string;
+}
+
+interface AddCommentLoadingAction {
+  type: LocationActionTypes.ADD_COMMENT_LOADING;
+}
+interface AddCommentSuccessAction {
+  type: LocationActionTypes.ADD_COMMENT_SUCCESS;
   payload: Comment;
+}
+interface AddCommentErrorAction {
+  type: LocationActionTypes.ADD_COMMENT_ERROR;
+  payload: string;
 }
 
 export type LocationActions =
-  | FetchLocationAction
-  | UpdateLocationAction
-  | StartLoadingLocationAction
-  | EndLoadingLocationAction
-  | AddCommentAction;
+  | FetchLocationLoadingAction
+  | FetchLocationSuccessAction
+  | FetchLocationErrorAction
+  | UpdateLocationLoadingAction
+  | UpdateLocationSuccessAction
+  | UpdateLocationErrorAction
+  | AddCommentLoadingAction
+  | AddCommentSuccessAction
+  | AddCommentErrorAction;
