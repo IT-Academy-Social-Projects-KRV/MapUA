@@ -5,7 +5,6 @@ import {
 } from 'redux/action-types/popupLocationActionTypes';
 import axios from 'services/axios';
 
-
 export const fetchPopupLocation =
   (id: string) => async (dispatch: Dispatch<LocationActions>) => {
     try {
