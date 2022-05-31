@@ -1,9 +1,9 @@
 import { Box, Typography } from '@mui/material';
 import React, { FC } from 'react';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
+import { useTranslation } from 'react-i18next';
 import userImageNotFound from '../../../static/image-not-found.jpg';
 import { EditButton, ProfileAvatar } from '../styles';
-import { useTranslation } from 'react-i18next';
 
 type Props = {
   displayName: string;
