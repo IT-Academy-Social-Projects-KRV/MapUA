@@ -1,7 +1,6 @@
 import CommentSection from 'components/BigPopup/CommentSection/CommentSection';
 import React, { useState, MouseEvent, SyntheticEvent } from 'react';
 import {
-  Avatar,
   Box,
   Card,
   CardContent,
@@ -12,22 +11,12 @@ import {
   Alert,
   AlertColor
 } from '@mui/material';
-import ShareIcon from '@mui/icons-material/Share';
-import BookmarkIcon from '@mui/icons-material/Bookmark';
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
-import TourOutlinedIcon from '@mui/icons-material/TourOutlined';
-import TourIcon from '@mui/icons-material/Tour';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
-import IconButton from '@mui/material/IconButton';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
-import ThumbDownIcon from '@mui/icons-material/ThumbDown';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
+import { CardComponent } from './СardComponent/CardComponent';
+import { IconsComponent } from './IconsComponent/IconsComponent';
 
 interface INotification {
   type: AlertColor;
@@ -196,113 +185,23 @@ const PointPopup = () => {
                 justifyContent: 'space-between'
               }}
             >
-              <IconButton onClick={e => handleRating(e, 'likes')}>
-                {rating.likes.includes(userId) ? (
-                  <ThumbUpIcon
-                    fontSize="small"
-                    sx={{ color: 'text.secondary' }}
-                  />
-                ) : (
-                  <ThumbUpOutlinedIcon
-                    fontSize="small"
-                    sx={{ color: 'text.secondary' }}
-                  />
-                )}
-                {rating.likes.length}
-              </IconButton>
-
-              <IconButton onClick={e => handleRating(e, 'dislikes')}>
-                {rating.dislikes.includes(userId) ? (
-                  <ThumbDownIcon
-                    fontSize="small"
-                    sx={{ color: 'text.secondary' }}
-                  />
-                ) : (
-                  <ThumbDownAltOutlinedIcon
-                    fontSize="small"
-                    sx={{ color: 'text.secondary' }}
-                  />
-                )}
-                {rating.dislikes.length}
-              </IconButton>
-
-              <IconButton size="small" title={t('pointPopUp.toShare')}>
-                <ShareIcon />
-              </IconButton>
-
-              <IconButton
-                size="small"
-                onClick={handleFavoriteClick}
-                title={
-                  locationIsFavorite
-                    ? `${t('pointPopUp.removeFromFavorite')}`
-                    : `${t('pointPopUp.addToFavorite')}`
-                }
-              >
-                {locationIsFavorite ? <BookmarkIcon /> : <BookmarkBorderIcon />}
-              </IconButton>
-              <IconButton
-                size="small"
-                onClick={handleVisitedClick}
-                title={
-                  locationIsVisited
-                    ? `${t('pointPopUp.removeFromVisited')}`
-                    : `${t('pointPopUp.addToVisited')}`
-                }
-              >
-                {locationIsVisited ? <TourIcon /> : <TourOutlinedIcon />}
-              </IconButton>
-
-              <IconButton>
-                <MoreHorizIcon />
-              </IconButton>
+              <IconsComponent
+                handleRating={handleRating}
+                handleFavoriteClick={handleFavoriteClick}
+                locationIsFavorite={locationIsFavorite}
+                locationIsVisited={locationIsVisited}
+                handleVisitedClick={handleVisitedClick}
+              />
             </Box>
           </Box>
         </Box>
 
         <CardContent>
-          <Box>
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                gap: 5,
-                mt: 5
-              }}
-            >
-              {t('pointPopUp.locationCreatedBy')}
-              <Avatar
-                sx={{ mt: -2 }}
-                aria-label="author"
-                src="https://cdn-icons-png.flaticon.com/512/147/147142.png"
-              />
-              {/* todo change to infoLocation.authorName */}
-              <Typography>{userData.data.displayName}</Typography>
-
-              <Typography>
-                {infoLocation.createdAt.toLocaleDateString()}
-              </Typography>
-            </Box>
-            <Typography
-              variant="subtitle1"
-              sx={{
-                mt: 5,
-                p: 3,
-                border: '1px solid grey '
-              }}
-            >
-              {description}
-            </Typography>
-          </Box>
-          <IconButton
-            onClick={handleExpandClick}
-            sx={{
-              mt: 3,
-              transform: !expanded ? 'rotate(0deg)' : 'rotate(180deg)'
-            }}
-          >
-            <ExpandMoreIcon />
-          </IconButton>
+          <CardComponent
+            description={description}
+            handleExpandClick={handleExpandClick}
+            expanded={expanded}
+          />
         </CardContent>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CommentSection />
