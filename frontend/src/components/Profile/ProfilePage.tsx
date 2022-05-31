@@ -11,9 +11,8 @@ import {
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
-import { UserActionTypes } from 'redux/action-types/userActionTypes';
+import { UserDataActionTypes } from 'redux/action-types/userDataActionTypes';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
-import { UserForm } from 'redux/ts-types/user';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useDispatch } from 'react-redux';
 import userImageNotFound from '../../static/user-image-not-found.png';
@@ -29,23 +28,21 @@ import {
   EditButton
 } from './styles';
 import BasicTabs from './BasicTabs';
+import { UserForm } from '../../../types';
 
-interface ProfilePageProps {
-  id: string;
-  email: string;
-  displayName: string;
-  createdAt: Date | string;
-  imageUrl: string;
-  description: string;
-}
+export default function ProfilePage() {
+  const { t } = useTranslation();
+  const { deleteUserData, logout } = useTypedDispatch();
+  const {
+    _id: id,
+    displayName,
+    description,
+    imageUrl: userAvatar
+  } = useTypedSelector(state => state.userData.data);
+  const { email, createdAt, updatedAt } = useTypedSelector(
+    state => state.privateUserData.data
+  );
 
-export default function ProfilePage({
-  id,
-  email,
-  displayName,
-  createdAt,
-  description
-}: ProfilePageProps) {
   const { handleSubmit, control, register } = useForm<UserForm>({
     mode: 'onBlur',
     defaultValues: { displayName, description }
@@ -53,18 +50,13 @@ export default function ProfilePage({
   const dispatch = useDispatch();
   const [showEditPanel, setShowEditPanel] = useState(false);
   const [userImage, setUserImage] = useState<File | null>();
-  const { imageUrl: userAvatar } = useTypedSelector(
-    state => state.userData.data
-  );
 
   const [newDescription, setNewDescription] = useState(description);
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState(false);
-  const { logout } = useTypedDispatch();
   const handleDescription = (descriptionBasicTabs: any) => {
     setNewDescription(descriptionBasicTabs);
   };
-  const { t } = useTranslation();
   const onSubmit: SubmitHandler<UserForm> = async data => {
     const formData = new FormData();
     if (userImage) {
@@ -88,7 +80,7 @@ export default function ProfilePage({
         setSuccessMessage(true);
         setTimeout(() => setSuccessMessage(false), 3000);
         dispatch({
-          type: UserActionTypes.UPDATE_USER,
+          type: UserDataActionTypes.UPDATE_USER_DATA_LOADING,
           payload: response.data
         });
         setShowEditPanel(false);
@@ -206,10 +198,20 @@ export default function ProfilePage({
         <Typography variant="h5" component="h4" align="center">
           {t('profile.profilePage.creationDate')} {createdAt}
         </Typography>
+        <Typography variant="h5" component="h4" align="center">
+          {t('profile.profilePage.updateDate')} {updatedAt}
+        </Typography>
         <Typography variant="h5" component="h5" align="center">
           {email}
         </Typography>
-        <Button size="large" onClick={logout} variant="contained">
+        <Button
+          size="large"
+          onClick={() => {
+            deleteUserData();
+            logout();
+          }}
+          variant="contained"
+        >
           {t('profile.profilePage.logout')}
         </Button>
       </ProfileContentWrapper>

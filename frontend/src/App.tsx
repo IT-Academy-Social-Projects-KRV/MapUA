@@ -12,18 +12,23 @@ import Profile from 'components/Profile/Profile';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from './redux/hooks/useTypedDispatch';
 
-const accessToken = localStorage.getItem('accessToken');
-
 function App() {
+  let accessToken = localStorage.getItem('accessToken');
+
   const { data: isAuthorized } = useTypedSelector(
     state => state.isUserAuthorized
   );
-  const { checkIsUserAuthorized } = useTypedDispatch();
+  const { checkIsUserAuthorized, fetchUserData } = useTypedDispatch();
+
   useEffect(() => {
+    accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
       checkIsUserAuthorized(accessToken);
     }
-  }, []);
+    if (accessToken && isAuthorized) {
+      fetchUserData(accessToken);
+    }
+  }, [isAuthorized]);
 
   return (
     <BrowserRouter>

@@ -9,8 +9,6 @@ const UserController = {
 
       const userData = await User.findById(_id, {
         email: true,
-        createdAt: true,
-        updatedAt: true,
         displayName: true,
         description: true,
         imageUrl: true,
