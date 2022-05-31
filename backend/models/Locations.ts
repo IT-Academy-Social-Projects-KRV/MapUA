@@ -13,8 +13,6 @@ export interface ILocation extends Document {
   rating: ratingType;
   filters: string[];
   author: mongoose.Types.ObjectId;
-  createdAt: Date;
-  updatedAt: Date;
 }
 
 const schema = new mongoose.Schema(
