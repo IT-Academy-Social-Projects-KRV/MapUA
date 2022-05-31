@@ -45,18 +45,24 @@ const PointPopup = () => {
   const userAuth = useTypedSelector(state => state.userAuth);
   const userData = useTypedSelector(state => state.user);
 
-  const infoLocation = useTypedSelector(state => state.popupLocation);
+  const {
+    _id: locationId,
+    rating,
+    locationName,
+    description,
+    arrayPhotos,
+    createdAt,
+    author
+  } = useTypedSelector(state => state.popupLocation);
 
   const [locationIsFavorite, setLocationIsFavorite] = useState(
-    infoLocation._id && userData.data.favorite.includes(infoLocation._id)
+    locationId && userData.data.favorite.includes(locationId)
   );
   const [locationIsVisited, setLocationIsVisited] = useState(
-    infoLocation._id && userData.data.visited.includes(infoLocation._id)
+    locationId && userData.data.visited.includes(locationId)
   );
 
   const { isAuthorized, id: userId } = userAuth;
-
-  const { _id, rating, locationName, description, arrayPhotos } = infoLocation;
 
   const handleCloseNotification = (
     e?: SyntheticEvent | Event,
@@ -73,7 +79,7 @@ const PointPopup = () => {
   };
   const handleFavoriteClick = async () => {
     const result = await axios.put(`tougleFavorite`, {
-      idOfLocation: infoLocation._id
+      idOfLocation: locationId
     });
     if (result.status === 200) {
       setLocationIsFavorite(!locationIsFavorite);
@@ -81,7 +87,7 @@ const PointPopup = () => {
   };
   const handleVisitedClick = async () => {
     const result = await axios.put(`tougleVisited`, {
-      idOfLocation: infoLocation._id
+      idOfLocation: locationId
     });
     if (result.status === 200) {
       setLocationIsVisited(!locationIsVisited);
@@ -117,7 +123,7 @@ const PointPopup = () => {
       );
     }
 
-    return updatePopupLocation(_id, { rating: updatedRating });
+    return updatePopupLocation(locationId, { rating: updatedRating });
   };
 
   let snackbar;
@@ -255,14 +261,11 @@ const PointPopup = () => {
               <Avatar
                 sx={{ mt: -2 }}
                 aria-label="author"
-                src="https://cdn-icons-png.flaticon.com/512/147/147142.png"
+                src={author?.imageUrl}
               />
-              {/* todo change to infoLocation.authorName */}
-              <Typography>{userData.data.displayName}</Typography>
+              <Typography>{author?.displayName}</Typography>
 
-              <Typography>
-                {infoLocation.createdAt.toLocaleDateString()}
-              </Typography>
+              <Typography>{createdAt.toLocaleDateString()}</Typography>
             </Box>
             <Typography
               variant="subtitle1"

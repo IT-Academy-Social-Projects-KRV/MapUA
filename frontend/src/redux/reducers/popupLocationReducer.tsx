@@ -2,11 +2,13 @@ import {
   LocationActions,
   LocationActionTypes
 } from 'redux/action-types/popupLocationActionTypes';
+import { AuthorInfo } from 'redux/ts-types/locationComments';
 import { locationState } from 'redux/ts-types/popupLocation';
 
 export const initialState: locationState = {
   _id: '',
   locationName: '',
+  author: {} as AuthorInfo,
   rating: {
     likes: [],
     dislikes: []

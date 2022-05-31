@@ -1,5 +1,8 @@
+import { AuthorInfo } from "./locationComments";
+
 export type locationState = {
   _id?: string;
+  author?: AuthorInfo;
   locationName: string;
   rating: {
     likes: string[];

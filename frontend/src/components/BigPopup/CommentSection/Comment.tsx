@@ -19,15 +19,7 @@ interface Props {
 }
 
 const Comment = ({ text, createdAt, authorsName, authorsImage }: Props) => {
-  const d = new Date(createdAt);
-  const day = d.getDate();
-  const month = d.getMonth() + 1;
-  const year = d.getFullYear();
-  const hour = d.getHours();
-  const minutes =
-    d.getMinutes() < 10 ? `0${d.getMinutes()}` : `${d.getMinutes()}`;
-
-  const formatedDate = `${day}-${month}-${year} ${hour}:${minutes}`;
+  const date = new Date(createdAt);
 
   return (
     <ListItem alignItems="flex-start" sx={{ pl: 0 }}>
@@ -57,7 +49,7 @@ const Comment = ({ text, createdAt, authorsName, authorsImage }: Props) => {
           variant="caption"
           color="text.primary"
         >
-          {formatedDate}
+          {date.toLocaleDateString()}
         </Typography>
         <Link
           href="/"
