@@ -11,9 +11,9 @@ import {
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
-import { UserActionTypes } from 'redux/action-types/userActionTypes';
+
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
-import { UserForm } from 'redux/ts-types/user';
+
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useDispatch } from 'react-redux';
 import userImageNotFound from '../../static/user-image-not-found.png';
@@ -29,6 +29,9 @@ import {
   EditButton
 } from './styles';
 import BasicTabs from './BasicTabs';
+
+import { UserForm } from '../../../types';
+import { UserDataActionTypes } from 'redux/action-types/userDataActionTypes';
 
 interface ProfilePageProps {
   id: string;
@@ -88,7 +91,7 @@ export default function ProfilePage({
         setSuccessMessage(true);
         setTimeout(() => setSuccessMessage(false), 3000);
         dispatch({
-          type: UserActionTypes.UPDATE_USER,
+          type: UserDataActionTypes.UPDATE_USER_DATA_SUCCESS,
           payload: response.data
         });
         setShowEditPanel(false);
