@@ -1,7 +1,8 @@
 import { useMapEvents } from 'react-leaflet';
+import { boundsType } from '../../../../types';
 
 interface Props {
-  bounds: any;
+  bounds: boundsType;
   isAddLocationActive: boolean;
   setZoomPosition: Function;
   setBounds: Function;
