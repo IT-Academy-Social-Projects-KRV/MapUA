@@ -1,0 +1,66 @@
+import { Avatar, IconButton, Typography, Box } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import React, { FC } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useTypedSelector } from 'redux/hooks/useTypedSelector';
+
+type Props = {
+  description: string;
+  handleExpandClick: Function;
+  expanded: boolean;
+};
+
+export const CardComponent: FC<Props> = ({
+  description,
+  handleExpandClick,
+  expanded
+}) => {
+  const infoLocation = useTypedSelector(state => state.popupLocation);
+  const userData = useTypedSelector(state => state.user);
+  const { t } = useTranslation();
+
+  return (
+    <>
+      <Box>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            gap: 5,
+            mt: 5
+          }}
+        >
+          {t('pointPopUp.locationCreatedBy')}
+          <Avatar
+            sx={{ mt: -2 }}
+            aria-label="author"
+            src="https://cdn-icons-png.flaticon.com/512/147/147142.png"
+          />
+          {/* todo change to infoLocation.authorName */}
+          <Typography>{userData.data.displayName}</Typography>
+
+          <Typography>{infoLocation.createdAt.toLocaleDateString()}</Typography>
+        </Box>
+        <Typography
+          variant="subtitle1"
+          sx={{
+            mt: 5,
+            p: 3,
+            border: '1px solid grey '
+          }}
+        >
+          {description}
+        </Typography>
+      </Box>
+      <IconButton
+        onClick={handleExpandClick()}
+        sx={{
+          mt: 3,
+          transform: !expanded ? 'rotate(0deg)' : 'rotate(180deg)'
+        }}
+      >
+        <ExpandMoreIcon />
+      </IconButton>
+    </>
+  );
+};
