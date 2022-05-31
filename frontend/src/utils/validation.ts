@@ -35,3 +35,10 @@ export const CreatingLocationSchema = yup.object().shape({
     .required('utils.validation.emptyLocationDescriptionError'),
   locationFilters: yup.array().of(yup.string()).min(1)
 });
+
+export const CommentSectionSchema = yup.object().shape({
+  commentText: yup
+    .string()
+    .min(3, 'utils.validation.commentTextMinLengthError')
+    .required('utils.validation.emptyCommentTextError')
+});
