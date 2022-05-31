@@ -1,41 +1,28 @@
 import React, { useState } from 'react';
-import {
-  Typography,
-  Button,
-  Box,
-  TextField,
-  Snackbar,
-  Alert,
-  Input
-} from '@mui/material';
-import { useForm, SubmitHandler, Controller } from 'react-hook-form';
+import { Typography, Button, Snackbar, Alert } from '@mui/material';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { UserActionTypes } from 'redux/action-types/userActionTypes';
-import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { UserForm } from 'redux/ts-types/user';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useDispatch } from 'react-redux';
-import userImageNotFound from '../../static/user-image-not-found.png';
+
 import {
-  ProfileAvatar,
-  SaveButton,
-  CancelButton,
   ProfileContentWrapper,
   ProfileFormWrapper,
-  ProfileUsertWrapper,
-  SaveBox,
-  UploadBox,
-  EditButton
+  ProfileUsertWrapper
 } from './styles';
 import BasicTabs from './BasicTabs';
+import { SaveGroup } from './SaveGroup/SaveGroup';
+import { EditGroup } from './EditGroup/EditGroup';
 
 interface ProfilePageProps {
   id: string;
   email: string;
   displayName: string;
   createdAt: Date | string;
-  imageUrl: string;
+  // imageUrl: string;
   description: string;
 }
 
@@ -46,14 +33,13 @@ export default function ProfilePage({
   createdAt,
   description
 }: ProfilePageProps) {
-  const { handleSubmit, control, register } = useForm<UserForm>({
+  const { control } = useForm<UserForm>({
     mode: 'onBlur',
     defaultValues: { displayName, description }
   });
   const dispatch = useDispatch();
   const [showEditPanel, setShowEditPanel] = useState(false);
   const [userImage, setUserImage] = useState<File | null>();
-  const userAvatar = useTypedSelector(state => state.user);
   const [newDescription, setNewDescription] = useState(description);
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState(false);
@@ -123,82 +109,15 @@ export default function ProfilePage({
         </Snackbar>
 
         {showEditPanel ? (
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Box>
-              <UploadBox>
-                <ProfileAvatar
-                  sx={{ ml: '11.5vh' }}
-                  aria-label="avatar"
-                  src={userAvatar.data.imageUrl}
-                />
-                <Box sx={{ m: '2vh 0 2vh 14vh' }}>
-                  {t('profile.profilePage.uploadPhoto')}
-                </Box>
-                <Box>
-                  <Button>
-                    <Input
-                      type="file"
-                      {...register('imageUrl')}
-                      onChange={(e: any) => setUserImage(e.target?.files?.[0])}
-                    />
-                  </Button>
-                </Box>
-              </UploadBox>
-              <Controller
-                control={control}
-                name="displayName"
-                render={({ field }) => (
-                  <TextField
-                    placeholder={t('profile.profilePage.enterName')}
-                    label={t('profile.profilePage.name')}
-                    fullWidth
-                    onChange={field.onChange}
-                    onBlur={field.onBlur}
-                    defaultValue={field.value}
-                    type="text"
-                  />
-                )}
-              />
-              <SaveBox>
-                <SaveButton size="large" variant="contained" type="submit">
-                  {t('profile.profilePage.save')}
-                </SaveButton>
-                <CancelButton
-                  size="large"
-                  variant="contained"
-                  onClick={closeEditData}
-                >
-                  {t('profile.profilePage.cancel')}
-                </CancelButton>
-              </SaveBox>
-            </Box>
-          </form>
+          <SaveGroup
+            onSubmit={onSubmit}
+            displayName={displayName}
+            description={displayName}
+            closeEditData={closeEditData}
+            setUserImage={setUserImage}
+          />
         ) : (
-          <Box>
-            <ProfileAvatar
-              aria-label="avatar"
-              src={userAvatar.data.imageUrl || userImageNotFound}
-            />
-            <Typography
-              sx={{ mt: '3vh' }}
-              variant="h5"
-              component="h4"
-              align="center"
-            >
-              {displayName === undefined
-                ? `${t('profile.profilePage.yourName')}`
-                : displayName}
-            </Typography>
-
-            <EditButton
-              sx={{ mt: '2vh' }}
-              size="large"
-              variant="contained"
-              onClick={editData}
-            >
-              {t('profile.profilePage.editProfile')}
-            </EditButton>
-          </Box>
+          <EditGroup displayName={displayName} editData={editData} />
         )}
         <Typography variant="h5" component="h4" align="center">
           {t('profile.profilePage.creationDate')} {createdAt}
