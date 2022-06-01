@@ -2,33 +2,41 @@ import React, { useState, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {
+  TextField,
   Button,
   Typography,
   Box,
   Snackbar,
   Alert,
+  InputAdornment,
+  IconButton,
   Grid,
   Stack
 } from '@mui/material';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import {
+  useForm,
+  Controller,
+  SubmitHandler,
+  useFormState
+} from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { emailValidation, passwordValidation } from 'utils/validation';
 import { PaperForm } from '../design/PaperForm';
 import { AuthFormWrapper } from '../design/AuthFormWrapper';
-import { Controllers } from './Controllers/Controllers';
 
 type SignUp = {
   email: string;
   password: string;
 };
-
 function Registration() {
   const { t } = useTranslation();
-
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [visibleSucces, setVisibleSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const { handleSubmit } = useForm<SignUp>({
+  const { handleSubmit, control } = useForm<SignUp>({
     mode: 'onBlur'
   });
   const onSubmit: SubmitHandler<SignUp> = async data => {
@@ -48,15 +56,16 @@ function Registration() {
       );
     }
   };
+  const { errors } = useFormState({
+    control
+  });
 
   const handleMouseDownPassword = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
   };
-
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
-
   return (
     <AuthFormWrapper>
       <Grid container justifyContent="center">
@@ -81,11 +90,63 @@ function Registration() {
                 >
                   <Alert severity="error">{errorMessage}</Alert>
                 </Snackbar>
-                <Controllers
-                  handleClickShowPassword={handleClickShowPassword}
-                  handleMouseDownPassword={handleMouseDownPassword}
-                  showPassword={showPassword}
+                <Controller
+                  control={control}
+                  name="email"
+                  rules={emailValidation}
+                  render={({ field }) => (
+                    <TextField
+                      placeholder={t('common.enterYourEmail')}
+                      label="Email"
+                      autoComplete="current-email"
+                      fullWidth
+                      onChange={e => field.onChange(e)}
+                      onBlur={field.onBlur}
+                      defaultValue={field.value}
+                      type="text"
+                      error={!!errors.email?.message}
+                      helperText={errors.email?.message}
+                    />
+                  )}
                 />
+
+                <Box sx={{ my: 4 }}>
+                  <Controller
+                    control={control}
+                    name="password"
+                    rules={passwordValidation}
+                    render={({ field }) => (
+                      <TextField
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <IconButton
+                                onClick={handleClickShowPassword}
+                                onMouseDown={handleMouseDownPassword}
+                              >
+                                {showPassword ? (
+                                  <VisibilityOff />
+                                ) : (
+                                  <Visibility />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          )
+                        }}
+                        type={showPassword ? 'text' : 'password'}
+                        placeholder={t('common.enterPassword')}
+                        label={t('common.password')}
+                        autoComplete="current-password"
+                        fullWidth
+                        onChange={e => field.onChange(e)}
+                        onBlur={field.onBlur}
+                        defaultValue={field.value}
+                        error={!!errors.password?.message}
+                        helperText={errors.password?.message}
+                      />
+                    )}
+                  />
+                </Box>
                 <Button fullWidth variant="contained" type="submit">
                   {t('registration.create')}
                 </Button>
@@ -97,5 +158,4 @@ function Registration() {
     </AuthFormWrapper>
   );
 }
-
 export default Registration;
