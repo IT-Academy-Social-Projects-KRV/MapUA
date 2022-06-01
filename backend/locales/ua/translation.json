@@ -22,16 +22,17 @@
     },
     "location_comments": {
         "comment_add_success": "Ваш коментар успішно доданий",
-        "comment_not_have_properties": "Коментар немає всіх потрібних даних"
+        "comment_not_have_properties": "Коментар немає всіх потрібних даних",
+        "comment_length_error": "Коментар має містити мінімум 5 та максимум 50 символів"
     },
     "user_profile": {
         "change_user_info_success": "Дані успішно змінені",
-        "change_user_info_error_name": "Ім'я має мати мінімум 3 та максимум 20 символів",
+        "change_user_info_error_name": "Ім'я має мати мінімум 5 та максимум 20 символів",
         "change_user_info_error_description": "Ім'я має мати мінімум 5 та максимум 50 символів"
     },
     "add_location": {
-        "add_location_name_error": "Назва локації має містити мінімум 5 та максимум 30 символів",
-        "add_location_description_error": "Опис локації має містити мінімум 5 та максимум 30 символів",
+        "add_location_name_error": "Назва локації має містити мінімум 5 та максимум 20 символів",
+        "add_location_description_error": "Опис локації має містити мінімум 10 та максимум 50 символів",
         "add_location_coordinates_error": "Задані невірні координати локації"
     },
     "jwt_token": {

@@ -50,8 +50,9 @@ export const CommentSchema = [
   body('comment.text')
     .exists({ checkFalsy: true })
     .isString()
+    .isLength({ min: 5, max: 50 })
     .withMessage((value, { req, location, path }) => {
-      return req.t('location_comments.comment_not_have_properties', {
+      return req.t('location_comments.comment_length_error', {
         value,
         location,
         path
@@ -101,7 +102,7 @@ export const updateLocationLikesSchema = [
 export const postPersonalLocationSchema = [
   body('locationName')
     .isString()
-    .isLength({ min: 5 })
+    .isLength({ min: 5, max: 20 })
     .withMessage((value, { req, location, path }) => {
       return req.t('add_location.add_location_name_error', {
         value,
@@ -111,7 +112,7 @@ export const postPersonalLocationSchema = [
     }),
   body('description')
     .isString()
-    .isLength({ min: 15, max: 50 })
+    .isLength({ min: 10, max: 50 })
     .withMessage((value, { req, location, path }) => {
       return req.t('add_location.add_location_description_error', {
         value,
@@ -134,7 +135,7 @@ export const userDataSchema = [
   body('id').exists({ checkFalsy: true }).withMessage('Invalid id'),
   body('displayName')
     .isString()
-    .isLength({ min: 3, max: 20 })
+    .isLength({ min: 5, max: 20 })
     .withMessage((value, { req, location, path }) => {
       return req.t('user_profile.change_user_info_error_name', {
         value,
