@@ -24,7 +24,8 @@ function App() {
   useEffect(() => {
     accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
-      checkIsUserAuthorized();
+      console.log('check in app');
+      checkIsUserAuthorized(accessToken);
     }
     if (accessToken && isAuthorized) {
       fetchUserData(accessToken);

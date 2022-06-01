@@ -5,7 +5,8 @@ import {
   IsUserAuthorizedActionTypes
 } from 'redux/action-types/isUserAuthorizedActionTypes';
 import axios from 'axios';
-import axios1 from 'services/axios';
+
+const { REACT_APP_API_URI } = process.env;
 
 export const login =
   (email: string, password: string) =>
@@ -15,8 +16,20 @@ export const login =
         type: IsUserAuthorizedActionTypes.LOGIN_USER_LOADING
       });
 
-      const response = await axios.post(`signin`, { email, password });
+      const response = await axios.post(
+        `${REACT_APP_API_URI}signin`,
+        {
+          email,
+          password
+        },
+        {
+          headers: {
+            'Accept-Language': localStorage.getItem('i18nextLng') || ''
+          }
+        }
+      );
 
+      console.log(response);
       dispatch({
         type: IsUserAuthorizedActionTypes.LOGIN_USER_SUCCESS,
         payload: response.data
@@ -54,12 +67,19 @@ export const loginOAuth =
     localStorage.setItem('accessToken', token);
   };
 
-export const checkIsUserAuthorized = () => async (dispatch: Dispatch<isUserAuthorizedAction>) => {
+export const checkIsUserAuthorized = (accessToken: string) => async (dispatch: Dispatch<isUserAuthorizedAction>) => {
     try {
       dispatch({
         type: IsUserAuthorizedActionTypes.CHECK_USER_TOKEN_LOADING
       });
-      const response = await axios1.get(`is-authenticated`);
+
+      const response = await axios.get(`${REACT_APP_API_URI}is-authenticated`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Accept-Language': localStorage.getItem('i18nextLng') || ''
+        }
+      });
+
       if (response.status === 200)
         dispatch({
           type: IsUserAuthorizedActionTypes.CHECK_USER_TOKEN_SUCCESS
