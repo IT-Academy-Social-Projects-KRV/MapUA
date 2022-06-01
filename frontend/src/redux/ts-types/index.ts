@@ -8,12 +8,14 @@ import {
 
 export type InitialStateType<T> = {
   loading: boolean;
-  error: null | string | {} | Error;
+  error: null | string | Error;
+  success: boolean;
   data: T;
 };
 
 // Async
 export type isUserAuthorizedStateType = InitialStateType<boolean>;
+export type createLocationStateType = InitialStateType<boolean>;
 export type userDataStateType = InitialStateType<UserDataType>;
 export type privateUserDataStateType = InitialStateType<PrivateUserDataType>;
 export type locationListStateType = InitialStateType<locationType[]>;
