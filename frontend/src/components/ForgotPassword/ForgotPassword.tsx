@@ -1,5 +1,4 @@
 import React, { useState, FormEvent, SyntheticEvent } from 'react';
-import axios from 'axios';
 import {
   Box,
   TextField,
@@ -14,10 +13,9 @@ import {
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink } from 'react-router-dom';
 import LoadingButton from '@mui/lab/LoadingButton';
+import axios from 'services/axios';
 import { PaperForm } from '../design/PaperForm';
 import { AuthFormWrapper } from '../design/AuthFormWrapper';
-
-const { REACT_APP_API_URI } = process.env;
 
 interface INotification {
   type: AlertColor;
@@ -46,12 +44,7 @@ function ForgotPassword() {
     setLoading(true);
 
     try {
-      const { data } = await axios.post(
-        `${REACT_APP_API_URI}/forgot-password`,
-        {
-          email
-        }
-      );
+      const { data } = await axios().post(`forgot-password`, { email });
       setEmail('');
       setNotification({ type: 'success', message: data.message });
     } catch (error: any) {
@@ -69,14 +62,15 @@ function ForgotPassword() {
     snackbar = (
       <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        sx={{ zIndex: 10000 }}
         open={!!notification}
-        autoHideDuration={5000}
+        autoHideDuration={3000}
         onClose={handleCloseNotification}
       >
         <Alert
           onClose={handleCloseNotification}
           severity={notification.type}
-          sx={{ width: '100%' }}
+          sx={{ width: '100%', mt: '4vh' }}
         >
           {notification.message}
         </Alert>

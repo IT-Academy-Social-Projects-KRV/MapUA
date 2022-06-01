@@ -1,6 +1,6 @@
-import React, { useState, MouseEvent } from 'react';
+import React, { useState, MouseEvent, SyntheticEvent, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import {
   TextField,
   Button,
@@ -23,6 +23,7 @@ import {
 } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { emailValidation, passwordValidation } from 'utils/validation';
+import axios from 'services/axios';
 import { PaperForm } from '../design/PaperForm';
 import { AuthFormWrapper } from '../design/AuthFormWrapper';
 
@@ -35,31 +36,43 @@ function Registration() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [visibleSucces, setVisibleSuccess] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [notification, setNotification] = useState<string | {} | null>(null);
   const { handleSubmit, control } = useForm<SignUp>({
     mode: 'onBlur'
   });
   const onSubmit: SubmitHandler<SignUp> = async data => {
     try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_API_URI}signup`,
-        data
-      );
+      const response = await axios().post(`signup`, data);
       if (response.status === 200) {
         setVisibleSuccess(true);
-        setTimeout(() => navigate('/login'), 1500);
+        setTimeout(() => setVisibleSuccess(false), 3000);
+        setTimeout(() => navigate('/login'), 2000);
       }
     } catch (e: any) {
-      setTimeout(() => setErrorMessage(''), 3000);
-      setErrorMessage(
-        e.response.data?.error || `${t('registration.regisrationFail')}`
+      setNotification(
+        e.response.data?.info.message || `${t('registration.regisrationFail')}`
       );
     }
+  };
+  const { error } = useTypedSelector(state => state.isUserAuthorized);
+  useEffect(() => {
+    if (error) {
+      setNotification(error);
+    }
+  }, [error]);
+  const handleCloseNotification = (
+    e?: SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setVisibleSuccess(false);
+    setNotification(null);
   };
   const { errors } = useFormState({
     control
   });
-
   const handleMouseDownPassword = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
   };
@@ -78,17 +91,32 @@ function Registration() {
                 </Typography>
                 <Snackbar
                   anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                  open={visibleSucces}
+                  sx={{ zIndex: 10000 }}
+                  open={!!notification}
+                  autoHideDuration={3000}
+                  onClose={handleCloseNotification}
                 >
-                  <Alert severity="success">
-                    {t('registration.regisrationSuccess')}
+                  <Alert
+                    onClose={handleCloseNotification}
+                    severity="error"
+                    sx={{ mt: '1vh' }}
+                  >
+                    {notification}
                   </Alert>
                 </Snackbar>
                 <Snackbar
                   anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                  open={!!errorMessage}
+                  sx={{ zIndex: 10000 }}
+                  open={!!visibleSucces}
+                  onClose={handleCloseNotification}
                 >
-                  <Alert severity="error">{errorMessage}</Alert>
+                  <Alert
+                    onClose={handleCloseNotification}
+                    severity="success"
+                    sx={{ mt: '1vh' }}
+                  >
+                    {t('registration.regisrationSuccess')}
+                  </Alert>
                 </Snackbar>
                 <Controller
                   control={control}

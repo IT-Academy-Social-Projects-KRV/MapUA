@@ -6,28 +6,65 @@ import {
   Autocomplete,
   TextField
 } from '@mui/material';
-import axios from 'axios';
-import React, { useState, useRef } from 'react';
+import UploadInput from 'components/design/UploadInputCreateLocation';
+import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { latlngType } from '../../../types';
 import { getFiltersForUser } from '../../static/mainFIlters';
+import { useTypedSelector } from '../../redux/hooks/useTypedSelector';
+import { useTypedDispatch } from '../../redux/hooks/useTypedDispatch';
 
 type Props = {
+  closeBigPopup: Function;
   coordinate: latlngType;
+  setIsAddLocationActive: Function;
 };
 
-const { REACT_APP_API_URI } = process.env;
-
-const CreateLocation = ({ coordinate }: Props) => {
+const CreateLocation = ({
+  coordinate,
+  closeBigPopup,
+  setIsAddLocationActive
+}: Props) => {
   const ref = useRef<null | HTMLInputElement>();
-
   const { t } = useTranslation();
 
+  const {
+    data: success,
+    // loading,
+    error
+  } = useTypedSelector(state => state.createLocation);
+  const {
+    bounds,
+    locationName: searchName,
+    selectedFilters
+  } = useTypedSelector(state => state.mapInfo);
+  const { createLocation, fetchLocations } = useTypedDispatch();
+
+  const [locationImageName, setlocationImageName] = useState<string>('');
   const [locationName, setLocationName] = useState('');
   const [description, setDescription] = useState('');
   const [filters, setFilters] = useState('');
-  const [files, setFiles] = useState<File[]>([]);
-  // const [, setLinks] = useState<string[]>([]);
+  const [files, setFiles] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (error) {
+      alert(error);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (success) {
+      fetchLocations(bounds, searchName, selectedFilters);
+      closeBigPopup();
+      setIsAddLocationActive(false);
+      setLocationName('');
+      setDescription('');
+      setFilters('');
+      if (ref.current) {
+        ref.current.value = '';
+      }
+    }
+  }, [success]);
 
   const handleChange = (e: any): void => {
     setLocationName(e.target.value);
@@ -35,38 +72,6 @@ const CreateLocation = ({ coordinate }: Props) => {
 
   const handleChangeDescription = (e: any): void => {
     setDescription(e.target.value);
-  };
-
-  const accessToken = localStorage.getItem('accessToken');
-
-  const onSubmit = async (e: any) => {
-    e.preventDefault();
-    try {
-      const formData = new FormData();
-      formData.append('locationName', locationName);
-      formData.append('description', description);
-      formData.append('coordinates', String(coordinate.lat));
-      formData.append('coordinates', String(coordinate.lng));
-      formData.append('filters', String(filters));
-      formData.append('image', files[0]);
-
-      await axios.post(`${REACT_APP_API_URI}locations/create`, formData, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-
-      setLocationName('');
-      setDescription('');
-      setFilters('');
-      if (ref.current) {
-        ref.current.value = '';
-      }
-      window.location.reload();
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   const onChangeAutocomplete = (e: any, value: any) => {
@@ -86,6 +91,19 @@ const CreateLocation = ({ coordinate }: Props) => {
     }
   };
 
+  const onSubmit = async (e: any) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('locationName', locationName);
+    formData.append('description', description);
+    formData.append('coordinates', String(coordinate.lat));
+    formData.append('coordinates', String(coordinate.lng));
+    formData.append('filters', String(filters));
+    formData.append('image', files[0]);
+
+    createLocation(formData);
+  };
+
   return (
     <form
       onSubmit={onSubmit}
@@ -97,7 +115,6 @@ const CreateLocation = ({ coordinate }: Props) => {
       }}
     >
       <Typography>{t('createLocation.creatingLocation')}</Typography>
-
       <Input
         sx={{ marginTop: '20px', width: '100%' }}
         type="text"
@@ -105,7 +122,6 @@ const CreateLocation = ({ coordinate }: Props) => {
         onChange={handleChange}
         placeholder={t('createLocation.enterLocName')}
       />
-
       <TextareaAutosize
         aria-label="minimum height"
         value={description}
@@ -119,7 +135,6 @@ const CreateLocation = ({ coordinate }: Props) => {
           minWidth: '30px'
         }}
       />
-
       <Autocomplete
         sx={{ marginTop: '20px' }}
         multiple
@@ -137,13 +152,10 @@ const CreateLocation = ({ coordinate }: Props) => {
           />
         )}
       />
-
-      <Input
-        id="contained-button-file"
-        type="file"
-        onChange={e => handleFilesChange(e)}
-        ref={ref}
-        sx={{ padding: '20px' }}
+      <UploadInput
+        handleFilesChange={handleFilesChange}
+        setlocationImageName={setlocationImageName}
+        locationImageName={locationImageName}
       />
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <Button sx={{ marginTop: '20px' }} variant="contained" type="submit">

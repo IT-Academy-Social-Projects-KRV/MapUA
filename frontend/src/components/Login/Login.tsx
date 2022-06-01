@@ -10,7 +10,6 @@ import {
   SubmitHandler,
   useFormState
 } from 'react-hook-form';
-// import { useForm, SubmitHandler, useFormState } from 'react-hook-form';
 import {
   Box,
   Snackbar,
@@ -48,13 +47,16 @@ function Login() {
 
   const { t } = useTranslation();
 
-  const { isAuthorized, error } = useTypedSelector(state => state.userAuth);
+  const { data: isAuthorized, error } = useTypedSelector(
+    state => state.isUserAuthorized
+  );
   const [notification, setNotification] = useState<string | {} | null>(null);
   useEffect(() => {
     if (error) {
       setNotification(error);
     }
   }, [error]);
+
   const handleCloseNotification = (
     e?: SyntheticEvent | Event,
     reason?: string
@@ -81,10 +83,6 @@ function Login() {
     }
   }, []);
 
-  const onSubmit: SubmitHandler<SignIn> = async ({ email, password }) => {
-    login(email, password);
-  };
-
   const { errors } = useFormState({
     control
   });
@@ -105,6 +103,10 @@ function Login() {
     setShowPassword(!showPassword);
   };
 
+  const onSubmit: SubmitHandler<SignIn> = ({ email, password }) => {
+    login(email, password);
+  };
+
   return (
     <AuthFormWrapper>
       <Grid container justifyContent="center">
@@ -117,12 +119,17 @@ function Login() {
                 </Typography>
 
                 <Snackbar
-                  anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                  sx={{ zIndex: 10000 }}
                   open={!!notification}
                   autoHideDuration={3000}
                   onClose={handleCloseNotification}
                 >
-                  <Alert onClose={handleCloseNotification} severity="error">
+                  <Alert
+                    onClose={handleCloseNotification}
+                    severity="error"
+                    sx={{ mt: '1vh' }}
+                  >
                     {notification}
                   </Alert>
                 </Snackbar>
@@ -214,6 +221,7 @@ function Login() {
                     to="/registration"
                     color="inherit"
                     underline="none"
+                    sx={{ width: '100%' }}
                   >
                     {t('login.signup')}
                   </Link>

@@ -6,6 +6,7 @@ import { Box, Button } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import SearchFormContainer from 'components/SearchFormContainer';
 import useDebounce from 'utils/useDebounce';
+import { v4 } from 'uuid';
 
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
@@ -33,28 +34,36 @@ function Map({
   onOpenBigPopup
 }: Props) {
   const { t } = useTranslation();
-  const userAuth = useTypedSelector(state => state.userAuth.isAuthorized);
+  const { data: isAuthorized } = useTypedSelector(
+    state => state.isUserAuthorized
+  );
+  const {
+    bounds,
+    locationName: searchName,
+    selectedFilters
+  } = useTypedSelector(state => state.mapInfo);
 
   const formRef = React.useRef<any>(null);
   const [, SetCoordinateByClick] = useState<any>({});
-  const { bounds, zoomPosition, locationName, selectedFilters } =
-    useTypedSelector(state => state.locationList);
-  const debouncedValue = useDebounce(locationName, 1000);
-  const { setBounds, setZoomPosition, fetchLocations } = useTypedDispatch();
-  useEffect(() => {
-    fetchLocations(zoomPosition, bounds, debouncedValue, selectedFilters);
-  }, [bounds, debouncedValue, JSON.stringify(selectedFilters)]);
+  const debouncedValue = useDebounce(searchName, 1000);
+  const { setBounds, fetchLocations } = useTypedDispatch();
 
   useEffect(() => {
     L.DomEvent.disableClickPropagation(formRef.current);
     L.DomEvent.disableScrollPropagation(formRef.current);
   }, []);
+  useEffect(() => {
+    fetchLocations(bounds, debouncedValue, selectedFilters);
+  }, [bounds, debouncedValue, JSON.stringify(selectedFilters)]);
 
   return (
     <Box sx={{ height: '100%', width: '100%' }} ref={formRef}>
       <MapContainer
         center={[48.978189, 31.982826]}
         zoom={6}
+        minZoom={4}
+        maxZoom={16}
+        worldCopyJump
         style={{ height: '100%', width: '100vw' }}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png" />
@@ -62,7 +71,6 @@ function Map({
         <MyZoomComponent
           bounds={bounds}
           isAddLocationActive={isAddLocationActive}
-          setZoomPosition={setZoomPosition}
           setBounds={setBounds}
           SetCoordinateByClick={SetCoordinateByClick}
           onOpenLocationForm={onOpenLocationForm}
@@ -73,7 +81,7 @@ function Map({
 
         <SearchFormContainer />
 
-        {userAuth && showAddLocationButton && !isOpen && (
+        {isAuthorized && showAddLocationButton && !isOpen && (
           <Button
             onClick={() =>
               setIsAddLocationActive((prevState: boolean) => !prevState)
