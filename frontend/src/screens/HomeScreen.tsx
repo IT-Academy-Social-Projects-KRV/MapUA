@@ -44,6 +44,7 @@ function HomeScreen() {
         <CreateLocation
           coordinate={coordinate}
           closeBigPopup={() => setIsOpenLocationForm(false)}
+          setIsAddLocationActive={setIsAddLocationActive}
         />
       </BigPopupLocation>
       <Box

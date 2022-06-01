@@ -16,9 +16,14 @@ import { useTypedDispatch } from '../../redux/hooks/useTypedDispatch';
 type Props = {
   closeBigPopup: Function;
   coordinate: latlngType;
+  setIsAddLocationActive: Function;
 };
 
-const CreateLocation = ({ coordinate, closeBigPopup }: Props) => {
+const CreateLocation = ({
+  coordinate,
+  closeBigPopup,
+  setIsAddLocationActive
+}: Props) => {
   const ref = useRef<null | HTMLInputElement>();
   const { t } = useTranslation();
 
@@ -49,6 +54,7 @@ const CreateLocation = ({ coordinate, closeBigPopup }: Props) => {
     if (success) {
       fetchLocations(bounds, searchName, selectedFilters);
       closeBigPopup();
+      setIsAddLocationActive(false);
       setLocationName('');
       setDescription('');
       setFilters('');
