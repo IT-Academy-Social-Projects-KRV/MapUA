@@ -6,6 +6,7 @@ import {
   Autocomplete,
   TextField
 } from '@mui/material';
+import UploadInput from 'components/design/UploadInputCreateLocation';
 import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { latlngType } from '../../../types';
@@ -39,10 +40,11 @@ const CreateLocation = ({
   } = useTypedSelector(state => state.mapInfo);
   const { createLocation, fetchLocations } = useTypedDispatch();
 
+  const [locationImageName, setlocationImageName] = useState<string>('');
   const [locationName, setLocationName] = useState('');
   const [description, setDescription] = useState('');
   const [filters, setFilters] = useState('');
-  const [files, setFiles] = useState<File[]>([]);
+  const [files, setFiles] = useState<any[]>([]);
 
   useEffect(() => {
     if (error) {
@@ -113,7 +115,6 @@ const CreateLocation = ({
       }}
     >
       <Typography>{t('createLocation.creatingLocation')}</Typography>
-
       <Input
         sx={{ marginTop: '20px', width: '100%' }}
         type="text"
@@ -121,7 +122,6 @@ const CreateLocation = ({
         onChange={handleChange}
         placeholder={t('createLocation.enterLocName')}
       />
-
       <TextareaAutosize
         aria-label="minimum height"
         value={description}
@@ -135,7 +135,6 @@ const CreateLocation = ({
           minWidth: '30px'
         }}
       />
-
       <Autocomplete
         sx={{ marginTop: '20px' }}
         multiple
@@ -153,13 +152,10 @@ const CreateLocation = ({
           />
         )}
       />
-
-      <Input
-        id="contained-button-file"
-        type="file"
-        onChange={e => handleFilesChange(e)}
-        ref={ref}
-        sx={{ padding: '20px' }}
+      <UploadInput
+        handleFilesChange={handleFilesChange}
+        setlocationImageName={setlocationImageName}
+        locationImageName={locationImageName}
       />
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <Button sx={{ marginTop: '20px' }} variant="contained" type="submit">

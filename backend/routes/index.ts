@@ -3,6 +3,7 @@ import UserController from '../controllers/UserController';
 import SubscriptionsController from '../controllers/SubscriptionsController';
 import LocationsController from '../controllers/LocationsController';
 import AuthController from '../controllers/AuthController';
+import CommentsController from '../controllers/CommentsController';
 import passport from '../libs/passport';
 import multer from 'multer';
 import { upload } from '../utils/upload';
@@ -41,13 +42,15 @@ router.get('/locations/', LocationsController.getLocationsByZoom);
 router.patch('/locations', LocationsController.changeLocationInfo);
 router.patch('/locations/:id', LocationsController.updateLocationById);
 router.get('/locations/:id', LocationsController.getLocationById);
-router.put('/locations/comment', LocationsController.addLocationComments);
 router.post(
   '/locations/create',
   upload.array('image'),
   passport.authenticate('jwt', { session: false }),
   LocationsController.postPersonalLocation
 );
+
+router.post('/comments/create', CommentsController.createLocationComment);
+router.get('/comments/:locationId', CommentsController.getLocationComments);
 
 router.get(
   '/signin-google',

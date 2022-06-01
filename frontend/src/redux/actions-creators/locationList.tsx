@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from 'services/axios';
 import { Dispatch } from 'redux';
 import {
   LocationListActions,

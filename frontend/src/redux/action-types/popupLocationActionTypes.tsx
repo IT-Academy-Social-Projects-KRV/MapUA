@@ -1,4 +1,4 @@
-import { locationType, Comment } from '../../../types';
+import { locationType } from '../../../types';
 
 /* eslint-disable no-unused-vars */
 export enum LocationActionTypes {
@@ -71,18 +71,6 @@ interface UpdateLocationErrorAction {
   payload: string;
 }
 
-interface AddCommentLoadingAction {
-  type: LocationActionTypes.ADD_COMMENT_LOADING;
-}
-interface AddCommentSuccessAction {
-  type: LocationActionTypes.ADD_COMMENT_SUCCESS;
-  payload: Comment;
-}
-interface AddCommentErrorAction {
-  type: LocationActionTypes.ADD_COMMENT_ERROR;
-  payload: string;
-}
-
 export type LocationActions =
   | FetchLocationLoadingAction
   | FetchLocationSuccessAction
@@ -95,7 +83,4 @@ export type LocationActions =
   | ToggleFavoriteFieldErrorAction
   | UpdateLocationLoadingAction
   | UpdateLocationSuccessAction
-  | UpdateLocationErrorAction
-  | AddCommentLoadingAction
-  | AddCommentSuccessAction
-  | AddCommentErrorAction;
+  | UpdateLocationErrorAction;

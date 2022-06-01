@@ -3,15 +3,16 @@ import {
   LocationActionTypes
 } from 'redux/action-types/popupLocationActionTypes';
 import { popupLocationStateType } from '../ts-types';
+import { AuthorInfoType } from '../../../types';
 
 export const initialState: popupLocationStateType = {
   loading: false,
   error: null,
   success: false,
   data: {
-    author: '',
     _id: '',
     locationName: '',
+    author: {} as AuthorInfoType,
     rating: {
       likes: [],
       dislikes: []
@@ -19,7 +20,6 @@ export const initialState: popupLocationStateType = {
     coordinates: [0, 0],
     arrayPhotos: [],
     description: '',
-    comments: [],
     createdAt: new Date(),
     updatedAt: new Date()
   }
@@ -76,27 +76,6 @@ export const popupLocationReducer = (
         error: action.payload,
         success: false
       };
-
-    case LocationActionTypes.ADD_COMMENT_LOADING:
-      return { ...state, loading: true, error: null, success: false };
-    case LocationActionTypes.ADD_COMMENT_SUCCESS:
-      return {
-        loading: false,
-        error: null,
-        data: {
-          ...state.data,
-          comments: [action.payload, ...state.data.comments]
-        },
-        success: true
-      };
-    case LocationActionTypes.ADD_COMMENT_ERROR:
-      return {
-        ...state,
-        loading: false,
-        error: action.payload,
-        success: false
-      };
-
     default:
       return state;
   }

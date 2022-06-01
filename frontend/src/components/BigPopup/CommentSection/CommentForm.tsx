@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
-import { Comment } from '../../../../types';
+import { CommentType } from '../../../../types';
 
 const CommentForm = () => {
   const { t } = useTranslation();
@@ -17,16 +17,15 @@ const CommentForm = () => {
   );
 
   const onSendComment = () => {
-    const commentBody: Comment = {
+    const commentBody: CommentType<string> = {
       author: userId,
+      locationId: locationId!,
       text: commentText,
       likes: [],
-      dislikes: [],
-      createdAt: new Date(),
-      updatedAt: new Date()
+      dislikes: []
     };
     if (commentText) {
-      sendComment(locationId!, commentBody);
+      sendComment(commentBody);
       setCommentText('');
     }
   };

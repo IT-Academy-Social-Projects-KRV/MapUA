@@ -1,11 +1,9 @@
-import axios from 'axios';
+import axios from 'services/axios';
 import { Dispatch } from 'redux';
 import {
   CreateLocationAction,
   CreateLocationActionTypes
 } from '../action-types/createLocationActionTypes';
-
-const { REACT_APP_API_URI } = process.env;
 
 export const createLocation =
   (formData: FormData) => async (dispatch: Dispatch<CreateLocationAction>) => {
@@ -14,10 +12,19 @@ export const createLocation =
         type: CreateLocationActionTypes.CREATE_LOCATION_LOADING
       });
 
-      const accessToken = localStorage.getItem('accessToken');
-      await axios.post(`${REACT_APP_API_URI}locations/create`, formData, {
+      // const options = {
+      //   method: 'get',
+      //   url,
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     'Accept-Language': localStorage.getItem('i18nextLng') || ''
+      //   }
+      // };
+      // const { data } = await axios(options);
+      // const { data } = await axios.post('comments/create', { comment });
+
+      await axios.post('locations/create', formData, {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'multipart/form-data'
         }
       });

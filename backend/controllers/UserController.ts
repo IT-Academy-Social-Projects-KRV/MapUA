@@ -58,14 +58,12 @@ const UserController = {
       }
       if (userData) {
         if (userData.favorite.includes(idOfLocation)) {
-
-          let index = userData.favorite.findIndex((el) => {
+          let index = userData.favorite.findIndex(el  => {
             if (el === idOfLocation) {
               return el;
             }
           });
           userData.favorite.splice(index, 1);
-
         } else {
           userData.favorite.push(idOfLocation);
         }
@@ -100,13 +98,12 @@ const UserController = {
       if (userData) {
         if (userData.visited.includes(idOfLocation)) {
 
-          let index = userData.visited.findIndex((el) => {
+          let index = userData.visited.findIndex(el  => {
             if (el === idOfLocation) {
               return el;
             }
           });
           userData.visited.splice(index, 1);
-
         } else {
           userData.visited.push(idOfLocation);
         }
@@ -151,10 +148,9 @@ const UserController = {
         }
       );
       if (!changeData) {
-        return res.status(400).json({ error: 'User doesn\'t exist' });
+        return res.status(400).json({ error: "User doesn't exist" });
       }
       return res.status(200).json(changeData);
-
     } catch (err: any) {
       return res.status(500).json({ error: err.message });
     }

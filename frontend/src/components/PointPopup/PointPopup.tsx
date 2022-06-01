@@ -48,8 +48,7 @@ const PointPopup = () => {
   const {
     _id: userId,
     favorite,
-    visited,
-    displayName
+    visited
   } = useTypedSelector(state => state.userData.data);
 
   const {
@@ -58,7 +57,8 @@ const PointPopup = () => {
     locationName,
     description,
     arrayPhotos,
-    createdAt
+    createdAt,
+    author
   } = useTypedSelector(state => state.popupLocation.data);
 
   const handleCloseNotification = (
@@ -257,10 +257,9 @@ const PointPopup = () => {
               <Avatar
                 sx={{ mt: -2 }}
                 aria-label="author"
-                src="https://cdn-icons-png.flaticon.com/512/147/147142.png"
+                src={author?.imageUrl}
               />
-              {/* todo change to infoLocation.authorName */}
-              <Typography>{displayName}</Typography>
+              <Typography>{author?.displayName}</Typography>
 
               <Typography>{createdAt.toLocaleDateString()}</Typography>
             </Box>

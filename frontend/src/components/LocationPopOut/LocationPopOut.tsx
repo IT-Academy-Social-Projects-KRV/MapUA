@@ -50,7 +50,7 @@ export function LocationPopOut({
         <StyledBox>
           <StyledMediaBox>
             <CardMedia
-              sx={{ borderRadius: '20px' }}
+              sx={{ borderRadius: '20px', height: '100%' }}
               src={!arrayPhotos[0] ? img : arrayPhotos[0]}
               component="img"
               alt={locationName}

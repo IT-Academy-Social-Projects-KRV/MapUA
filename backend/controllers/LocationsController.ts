@@ -54,55 +54,15 @@ const LocationsController = {
     try {
       const id = req.params.id;
 
-      const locations = await Location.findById(id);
+      const locations = await Location.findById(id).populate({
+        path: 'author',
+        select: 'displayName imageUrl'
+      });
 
       if (!locations) {
         return res.status(400).json({ error: req.t('location_not_found') });
       }
       return res.json(locations);
-    } catch (err: any) {
-      return res.status(500).json({ error: req.t('server_error'), err });
-    }
-  },
-  async addLocationComments(req: Request, res: Response) {
-    try {
-      const { id, comment } = req.body;
-      const commentProperties: string[] = [
-        'author',
-        'text',
-        'likes',
-        'dislikes',
-        'createdAt',
-        'updatedAt'
-      ];
-      let isFullComment: boolean = true;
-
-      commentProperties.forEach(field => {
-        if (!Object.keys(comment).includes(field)) {
-          isFullComment = false;
-          return res
-            .status(400)
-            .json({ error: req.t('comment_not_have_properties'), field });
-        }
-      });
-
-      if (isFullComment) {
-        const updateLocation = await Location.findByIdAndUpdate(
-          id,
-          {
-            $push: {
-              comments: comment
-            }
-          },
-          {
-            new: true
-          }
-        );
-        if (!updateLocation) {
-          return res.status(400).json({ error: req.t('location_not_found') });
-        }
-        return res.status(200).json({ message: req.t('comment_add_success') });
-      }
     } catch (err: any) {
       return res.status(500).json({ error: req.t('server_error'), err });
     }
@@ -171,7 +131,6 @@ const LocationsController = {
 
         const _id = req.user;
         const userData = await User.findById(_id);
-
         if (!userData) {
           return res.status(400).json({ error: req.t('user_not_exist') });
         }
@@ -181,7 +140,6 @@ const LocationsController = {
           coordinates: [+coordinates[0], +coordinates[1]],
           arrayPhotos: imageUrls,
           description: description,
-          comments: [],
           rating: {
             likes: [],
             dislikes: []
@@ -189,9 +147,7 @@ const LocationsController = {
           filters: filters.split(','),
           author: _id
         });
-
         const result = await userLocation.save();
-
         return res
           .status(200)
           .json({ message: req.t('location_add_success'), result });

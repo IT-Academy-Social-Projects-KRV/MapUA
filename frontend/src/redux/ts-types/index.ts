@@ -3,7 +3,9 @@ import {
   locationType,
   PrivateUserDataType,
   UserDataType,
-  FiltersDataType
+  FiltersDataType,
+  CommentType,
+  AuthorInfoType
 } from '../../../types';
 
 export type InitialStateType<T> = {
@@ -20,7 +22,9 @@ export type userDataStateType = InitialStateType<UserDataType>;
 export type privateUserDataStateType = InitialStateType<PrivateUserDataType>;
 export type locationListStateType = InitialStateType<locationType[]>;
 export type popupLocationStateType = InitialStateType<locationType>;
-
+export type locationCommentsStateType = {
+  comments: CommentType<AuthorInfoType>[];
+};
 // Sync
 export type listOfFiltersOptionsStateType = {
   filters: FiltersDataType[];

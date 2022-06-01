@@ -58,6 +58,7 @@ function Map({
 
   function MyZoomComponent() {
     const prev = bounds;
+
     const map = useMapEvents({
       zoom: () => {
         if (!isAddLocationActive) {
@@ -85,6 +86,9 @@ function Map({
       <MapContainer
         center={[48.978189, 31.982826]}
         zoom={6}
+        minZoom={4}
+        maxZoom={16}
+        worldCopyJump
         style={{ height: '100%', width: '100vw' }}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png" />

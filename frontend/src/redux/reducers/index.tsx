@@ -7,6 +7,7 @@ import { locationsListReducer } from './locationListReducer';
 import { mapInfoReducer } from './mapInfoReducer';
 import { listOfFiltersOptionsReducer } from './listOfFiltersOptionsReducer';
 import { createLocationReducer } from './createLocationReducer';
+import { locationCommentsReducer } from './locationCommentsReducer';
 
 export const rootReducer = combineReducers({
   isUserAuthorized: isUserAuthorizedReducer,
@@ -16,7 +17,8 @@ export const rootReducer = combineReducers({
   locationList: locationsListReducer,
   mapInfo: mapInfoReducer,
   filtersList: listOfFiltersOptionsReducer,
-  createLocation: createLocationReducer
+  createLocation: createLocationReducer,
+  locationComments: locationCommentsReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

@@ -1,12 +1,11 @@
 /* eslint-disable prettier/prettier */
 import { Dispatch } from 'redux';
-import axios from 'axios';
 import {
   isUserAuthorizedAction,
   IsUserAuthorizedActionTypes
 } from 'redux/action-types/isUserAuthorizedActionTypes';
-
-const { REACT_APP_API_URI } = process.env;
+import axios from 'axios';
+import axios1 from 'services/axios';
 
 export const login =
   (email: string, password: string) =>
@@ -16,18 +15,7 @@ export const login =
         type: IsUserAuthorizedActionTypes.LOGIN_USER_LOADING
       });
 
-      const response = await axios.post(
-        `${REACT_APP_API_URI}signin`,
-        {
-          email,
-          password
-        },
-        {
-          headers: {
-            'Accept-Language': localStorage.getItem('i18nextLng') || ''
-          }
-        }
-      );
+      const response = await axios.post(`signin`, { email, password });
 
       dispatch({
         type: IsUserAuthorizedActionTypes.LOGIN_USER_SUCCESS,
@@ -66,18 +54,12 @@ export const loginOAuth =
     localStorage.setItem('accessToken', token);
   };
 
-export const checkIsUserAuthorized =
-  (accessToken: string) => async (dispatch: Dispatch<isUserAuthorizedAction>) => {
+export const checkIsUserAuthorized = () => async (dispatch: Dispatch<isUserAuthorizedAction>) => {
     try {
       dispatch({
         type: IsUserAuthorizedActionTypes.CHECK_USER_TOKEN_LOADING
       });
-      const response = await axios.get(`${REACT_APP_API_URI}is-authenticated`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          'Accept-Language': localStorage.getItem('i18nextLng') || ''
-        }
-      });
+      const response = await axios1.get(`is-authenticated`);
       if (response.status === 200)
         dispatch({
           type: IsUserAuthorizedActionTypes.CHECK_USER_TOKEN_SUCCESS

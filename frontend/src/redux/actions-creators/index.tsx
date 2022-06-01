@@ -6,6 +6,7 @@ import * as FiltersActionCreators from './listOfFiltersOptions';
 import * as UserAuthActionCreators from './isUserAuthorized';
 import * as MapInfoActionCreators from './mapInfo';
 import * as CreateLocationActionCreator from './createLocation';
+import * as LocationCommentsActionCreators from './locationComments';
 
 export default {
   ...UserActionCreators,
@@ -15,5 +16,6 @@ export default {
   ...UserAuthActionCreators,
   ...FiltersActionCreators,
   ...MapInfoActionCreators,
-  ...CreateLocationActionCreator
+  ...CreateLocationActionCreator,
+  ...LocationCommentsActionCreators
 };

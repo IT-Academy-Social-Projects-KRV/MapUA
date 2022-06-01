@@ -19,7 +19,7 @@ function Profile() {
   );
   const { error: privateUserError, loading: privateUserLoading } =
     useTypedSelector(state => state.privateUserData);
-  const { fetchPrivateUserData, deletePrivateUserData } = useTypedDispatch();
+  const { fetchPrivateUserData } = useTypedDispatch();
 
   useEffect(() => {
     if (!isAuthLoading) {
@@ -30,9 +30,6 @@ function Profile() {
         navigate('/');
       }
     }
-    return () => {
-      deletePrivateUserData();
-    };
   }, [isAuthorized]);
 
   if (userLoading || privateUserLoading) {
