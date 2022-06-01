@@ -60,7 +60,7 @@ const UserController = {
       }
       if (userData) {
         if (userData.favorite.includes(idOfLocation)) {
-          let index = userData.favorite.findIndex(el  => {
+          let index = userData.favorite.findIndex(el => {
             if (el === idOfLocation) {
               return el;
             }
@@ -103,8 +103,7 @@ const UserController = {
       }
       if (userData) {
         if (userData.visited.includes(idOfLocation)) {
-
-          let index = userData.visited.findIndex(el  => {
+          let index = userData.visited.findIndex(el => {
             if (el === idOfLocation) {
               return el;
             }
@@ -136,14 +135,12 @@ const UserController = {
   },
   async changeUserData(req: Request, res: Response) {
     try {
-      let { id, displayName, description } = req.body;
-      let newUserData = {};
+      let { id, ...newUserData } = req.body;
 
       const imageUrl: any = req.file;
       if (imageUrl) {
         newUserData = {
-          displayName,
-          description,
+          ...newUserData,
           imageUrl: imageUrl.location
         };
       }
