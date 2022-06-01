@@ -1,9 +1,10 @@
 import React, { FC, MouseEventHandler } from 'react';
-import { Box, Button, Input, TextField } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTranslation } from 'react-i18next';
+import { UserForm } from '../../../../types';
 import {
   CancelButton,
   ProfileAvatar,
@@ -11,7 +12,6 @@ import {
   SaveButton,
   UploadBox
 } from '../styles';
-import { UserForm } from '../../../../types';
 import UploadInputProfilePage from 'components/design/UploadInputProfilePage';
 
 type Props = {
