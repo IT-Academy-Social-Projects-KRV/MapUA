@@ -83,12 +83,12 @@ router.get(
 router.get('/is-authenticated', AuthController.checkJwt);
 
 router.put(
-  '/tougleFavorite/',
+  '/toggleFavorite/',
   passport.authenticate('jwt', { session: false }),
-  UserController.tougleFavorite);
+  UserController.toggleFavorite);
 router.put(
-  '/tougleVisited/',
+  '/toggleVisited/',
   passport.authenticate('jwt', { session: false }),
-  UserController.tougleVisited);
+  UserController.toggleVisited);
 
 export default router;
