@@ -13,16 +13,23 @@ import Page404 from 'components/Page_404/Page404';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from './redux/hooks/useTypedDispatch';
 
-const accessToken = localStorage.getItem('accessToken');
-
 function App() {
-  const { isAuthorized } = useTypedSelector(state => state.userAuth);
-  const { checkIsUserAuthorized } = useTypedDispatch();
+  let accessToken = localStorage.getItem('accessToken');
+
+  const { data: isAuthorized } = useTypedSelector(
+    state => state.isUserAuthorized
+  );
+  const { checkIsUserAuthorized, fetchUserData } = useTypedDispatch();
+
   useEffect(() => {
+    accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
-      checkIsUserAuthorized(accessToken);
+      checkIsUserAuthorized();
     }
-  }, []);
+    if (accessToken && isAuthorized) {
+      fetchUserData(accessToken);
+    }
+  }, [isAuthorized]);
 
   return (
     <BrowserRouter>

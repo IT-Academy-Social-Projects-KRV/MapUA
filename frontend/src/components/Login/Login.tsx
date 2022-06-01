@@ -45,13 +45,16 @@ function Login() {
 
   const { t } = useTranslation();
 
-  const { isAuthorized, error } = useTypedSelector(state => state.userAuth);
+  const { data: isAuthorized, error } = useTypedSelector(
+    state => state.isUserAuthorized
+  );
   const [notification, setNotification] = useState<string | {} | null>(null);
   useEffect(() => {
     if (error) {
       setNotification(error);
     }
   }, [error]);
+
   const handleCloseNotification = (
     e?: SyntheticEvent | Event,
     reason?: string
@@ -78,9 +81,6 @@ function Login() {
     }
   }, []);
 
-  const onSubmit: SubmitHandler<SignIn> = async ({ email, password }) => {
-    login(email, password);
-  };
   const { errors } = useFormState({
     control
   });
@@ -99,6 +99,10 @@ function Login() {
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
+  };
+
+  const onSubmit: SubmitHandler<SignIn> = ({ email, password }) => {
+    login(email, password);
   };
 
   return (
@@ -215,6 +219,7 @@ function Login() {
                     to="/registration"
                     color="inherit"
                     underline="none"
+                    sx={{ width: '100%' }}
                   >
                     {t('login.signup')}
                   </Link>

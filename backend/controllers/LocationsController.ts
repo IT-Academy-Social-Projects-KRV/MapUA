@@ -5,21 +5,18 @@ import User from '../models/UserModel';
 const LocationsController = {
   async getLocationsByZoom(req: Request, res: Response) {
     try {
-      const center = JSON.parse(req.query.center as string);
       const bounds = JSON.parse(req.query.bounds as string);
       const searchName = req.query.name as string;
       const filters = JSON.parse(req.query.filters as any);
-      const height = +(bounds._northEast.lat - bounds._southWest.lat);
-      const width = +(bounds._northEast.lng - bounds._southWest.lng);
       let locations = (
         await Location.find({
           'coordinates.0': {
-            $gt: center.lat - height,
-            $lt: center.lat + height
+            $gt: bounds._southWest.lat,
+            $lt: bounds._northEast.lat
           },
           'coordinates.1': {
-            $gt: center.lng - width,
-            $lt: center.lng + width
+            $gt: bounds._southWest.lng,
+            $lt: bounds._northEast.lng
           }
         })
       ).map(l => ({
@@ -59,7 +56,10 @@ const LocationsController = {
     try {
       const id = req.params.id;
 
-      const locations = await Location.findById(id);
+      const locations = await Location.findById(id).populate({
+        path: 'author',
+        select: 'displayName imageUrl'
+      });
 
       if (!locations) {
         return res
@@ -168,7 +168,6 @@ const LocationsController = {
 
         const _id = req.user;
         const userData = await User.findById(_id);
-
         if (!userData) {
           return res.status(400).json({ error: req.t('auth.user_not_exist') });
         }
@@ -178,7 +177,6 @@ const LocationsController = {
           coordinates: [+coordinates[0], +coordinates[1]],
           arrayPhotos: imageUrls,
           description: description,
-          comments: [],
           rating: {
             likes: [],
             dislikes: []
@@ -186,9 +184,7 @@ const LocationsController = {
           filters: filters.split(','),
           author: _id
         });
-
         await userLocation.save();
-
         return res
           .status(200)
           .json({ message: req.t('locations_list.location_add_success') });

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Typography,
   Button,
@@ -8,13 +8,9 @@ import {
   Alert
 } from '@mui/material';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import axios from 'axios';
 import { useTranslation } from 'react-i18next';
-import { UserActionTypes } from 'redux/action-types/userActionTypes';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
-import { UserForm } from 'redux/ts-types/user';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
-import { useDispatch } from 'react-redux';
 import UploadInputProfilePage from 'components/design/UploadInputProfilePage';
 import userImageNotFound from '../../static/user-image-not-found.png';
 import {
@@ -30,39 +26,51 @@ import {
   TypographyDate
 } from './styles';
 import BasicTabs from './BasicTabs';
+import { UserForm } from '../../../types';
 
-interface ProfilePageProps {
-  id: string;
-  email: string;
-  displayName: string;
-  createdAt: Date | string;
-  description: string;
-}
+export default function ProfilePage() {
+  const { t } = useTranslation();
+  const { updateUserData, deleteUserData, deletePrivateUserData, logout } =
+    useTypedDispatch();
+  const {
+    success: updateSuccess,
+    error: updateError,
+    data: { _id: id, displayName, description, imageUrl: userAvatar }
+  } = useTypedSelector(state => state.userData);
+  const { email, createdAt, updatedAt } = useTypedSelector(
+    state => state.privateUserData.data
+  );
 
-export default function ProfilePage({
-  id,
-  email,
-  displayName,
-  createdAt,
-  description
-}: ProfilePageProps) {
   const { handleSubmit, control, register } = useForm<UserForm>({
     mode: 'onBlur',
     defaultValues: { displayName, description }
   });
-  const dispatch = useDispatch();
   const [showEditPanel, setShowEditPanel] = useState(false);
   const [userImage, setUserImage] = useState<File | null | Blob>(null);
-  const userAvatar = useTypedSelector(state => state.user);
   const [newDescription, setNewDescription] = useState(description);
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState(false);
-  const { logout } = useTypedDispatch();
-  const handleDescription = (descriptionBasicTabs: any) => {
-    setNewDescription(descriptionBasicTabs);
-  };
-  const { t } = useTranslation();
-  const onSubmit: SubmitHandler<UserForm> = async data => {
+
+  useEffect(() => {
+    if (updateError) {
+      setTimeout(() => setErrorMessage(''), 3000);
+      setErrorMessage(
+        (typeof updateError === 'string' ? updateError : updateError.message) ||
+          `${t('profile.profilePage.lostNetwork')}`
+      );
+    }
+  }, [updateError]);
+
+  useEffect(() => {
+    if (updateSuccess) {
+      setSuccessMessage(true);
+      setTimeout(() => setSuccessMessage(false), 3000);
+      setShowEditPanel(false);
+    }
+  }, [updateSuccess]);
+
+  const onSubmit: SubmitHandler<UserForm> = async (data, event) => {
+    event?.preventDefault();
     const formData = new FormData();
     if (userImage) {
       formData.append('image', userImage);
@@ -71,29 +79,7 @@ export default function ProfilePage({
     formData.append('displayName', data.displayName);
     formData.append('description', newDescription);
 
-    try {
-      const response = await axios.patch(
-        `${process.env.REACT_APP_API_URI}profile`,
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        }
-      );
-      if (response.status === 200) {
-        setSuccessMessage(true);
-        dispatch({
-          type: UserActionTypes.UPDATE_USER,
-          payload: response.data
-        });
-        setShowEditPanel(false);
-      }
-    } catch (e: any) {
-      setErrorMessage(
-        e.response.data?.error || `${t('profile.profilePage.lostNetwork')}`
-      );
-    }
+    updateUserData(formData);
   };
   const editData = () => {
     setShowEditPanel(true);
@@ -146,8 +132,7 @@ export default function ProfilePage({
                 <ProfileAvatar
                   aria-label="avatar"
                   src={
-                    (userImage && URL.createObjectURL(userImage)) ||
-                    userAvatar.data.imageUrl
+                    (userImage && URL.createObjectURL(userImage)) || userAvatar
                   }
                 />
                 <UploadInputProfilePage
@@ -188,7 +173,7 @@ export default function ProfilePage({
           <UploadBox>
             <ProfileAvatar
               aria-label="avatar"
-              src={userAvatar.data.imageUrl || userImageNotFound}
+              src={userAvatar || userImageNotFound}
             />
             <Typography
               sx={{ mt: '3vh' }}
@@ -206,13 +191,28 @@ export default function ProfilePage({
             </EditButton>
           </UploadBox>
         )}
+
         <TypographyDate variant="h6">
-          {t('profile.profilePage.creationDate')} {createdAt}
+          {t('profile.profilePage.creationDate')}{' '}
+          {new Date(createdAt).toLocaleDateString('en-GB')}
         </TypographyDate>
+        <TypographyDate variant="h6">
+          {t('profile.profilePage.updateDate')}{' '}
+          {new Date(updatedAt).toLocaleDateString('en-GB')}
+        </TypographyDate>
+
         <Typography variant="h6" component="h6" align="center">
           {email}
         </Typography>
-        <Button size="large" onClick={logout} variant="contained">
+        <Button
+          size="large"
+          onClick={() => {
+            deleteUserData();
+            deletePrivateUserData();
+            logout();
+          }}
+          variant="contained"
+        >
           {t('profile.profilePage.logout')}
         </Button>
       </ProfileContentWrapper>
@@ -220,8 +220,8 @@ export default function ProfilePage({
         <BasicTabs
           showEditPanel={showEditPanel}
           setShowEditPanel={setShowEditPanel}
+          setNewDescription={setNewDescription}
           control={control}
-          handleDescription={handleDescription}
           newDescription={newDescription}
         />
       </ProfileUsertWrapper>

@@ -3,6 +3,7 @@ import UserController from '../controllers/UserController';
 import SubscriptionsController from '../controllers/SubscriptionsController';
 import LocationsController from '../controllers/LocationsController';
 import AuthController from '../controllers/AuthController';
+import CommentsController from '../controllers/CommentsController';
 import passport from '../libs/passport';
 import multer from 'multer';
 import { upload } from '../utils/upload';
@@ -23,6 +24,7 @@ router.get(
   passport.authenticate('jwt', { session: false }),
   UserController.getProfile
 );
+
 router.post('/signup', userAuthSchema, validateRequest, AuthController.signUp);
 router.post('/signin', userAuthSchema, validateRequest, AuthController.signIn);
 router.post(
@@ -31,6 +33,20 @@ router.post(
   validateRequest,
   AuthController.forgotPassword
 );
+
+
+router.get(
+  '/private-user-data',
+  passport.authenticate('jwt', { session: false }),
+  UserController.getPrivateData
+);
+router.patch(
+  '/private-user-data',
+  upload.single('image'),
+  passport.authenticate('jwt', { session: false })
+  // UserController.changePrivateUserData
+);
+
 router.get(
   '/subscriptions',
   passport.authenticate('jwt', { session: false }),
@@ -60,6 +76,9 @@ router.post(
   passport.authenticate('jwt', { session: false }),
   LocationsController.postPersonalLocation
 );
+
+router.post('/comments/create', CommentsController.createLocationComment);
+router.get('/comments/:locationId', CommentsController.getLocationComments);
 
 router.get(
   '/signin-google',
@@ -102,14 +121,12 @@ router.patch(
 router.get('/is-authenticated', AuthController.checkJwt);
 
 router.put(
-  '/tougleFavorite/',
+  '/toggleFavorite/',
   passport.authenticate('jwt', { session: false }),
-  UserController.tougleFavorite
-);
+  UserController.toggleFavorite);
 router.put(
-  '/tougleVisited/',
+  '/toggleVisited/',
   passport.authenticate('jwt', { session: false }),
-  UserController.tougleVisited
-);
+  UserController.toggleVisited);
 
 export default router;

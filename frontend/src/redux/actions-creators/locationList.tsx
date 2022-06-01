@@ -1,79 +1,45 @@
-import axios from 'axios';
+import axios from 'services/axios';
 import { Dispatch } from 'redux';
 import {
   LocationListActions,
-  LocationsListActionsType
+  LocationListActionsType
 } from 'redux/action-types/locationListActionTypes';
-import { boundsType, latlngType } from '../../../types';
+import { boundsType } from '../../../types';
 
 const { REACT_APP_API_URI } = process.env;
 
 export const fetchLocations =
-  (
-    zoomPosition: latlngType,
-    bounds: boundsType,
-    locationName?: string,
-    filters?: string[]
-  ) =>
+  (bounds: boundsType, locationName?: string, filters?: string[]) =>
   async (dispatch: Dispatch<LocationListActions>) => {
     try {
-      let url = `${REACT_APP_API_URI}locations/?center=${JSON.stringify(
-        zoomPosition
-      )}&bounds=${JSON.stringify(bounds)}`;
-      if (locationName) {
-        url = `${REACT_APP_API_URI}locations/?center=${JSON.stringify(
-          zoomPosition
-        )}&bounds=${JSON.stringify(bounds)}&name=${locationName}`;
-      }
-      if (filters) {
-        url = `${REACT_APP_API_URI}locations/?center=${JSON.stringify(
-          zoomPosition
-        )}&bounds=${JSON.stringify(bounds)}&filters=${JSON.stringify(filters)}`;
-      }
-      if (filters && locationName) {
-        url = `${REACT_APP_API_URI}locations/?center=${JSON.stringify(
-          zoomPosition
-        )}&bounds=${JSON.stringify(
-          bounds
-        )}&name=${locationName}&filters=${JSON.stringify(filters)}`;
-      }
+      dispatch({
+        type: LocationListActionsType.FETCH_LOCATION_LIST_LOADING
+      });
+
+      let url = `${REACT_APP_API_URI}locations/?bounds=${JSON.stringify(
+        bounds
+      )}`;
+      if (locationName) url += `&name=${locationName}`;
+      if (filters) url += `&filters=${JSON.stringify(filters)}`;
+
       const options = {
-        method: 'get',
-        url,
         headers: {
           'Content-Type': 'application/json',
           'Accept-Language': localStorage.getItem('i18nextLng') || ''
         }
       };
-      const { data } = await axios(options);
+      const { data } = await axios().get(url, options);
       if (data && data.locations && typeof data.locations === typeof []) {
         dispatch({
-          type: LocationsListActionsType.FETCH_LOCATIONS,
+          type: LocationListActionsType.FETCH_LOCATION_LIST_SUCCESS,
           payload: data.locations
         });
       }
-    } catch (e: any) {
-      throw new Error(e);
+    } catch (error: any) {
+      console.error(error);
+      dispatch({
+        type: LocationListActionsType.FETCH_LOCATION_LIST_ERROR,
+        payload: 'Could not get location list'
+      });
     }
   };
-export function setBounds(bounds: boundsType): LocationListActions {
-  return { type: LocationsListActionsType.SET_BOUNDS, payload: bounds };
-}
-export function setZoomPosition(zoomPosition: latlngType): LocationListActions {
-  return {
-    type: LocationsListActionsType.SET_ZOOM_POSITION,
-    payload: zoomPosition
-  };
-}
-export function getLocationName(locationName: string): LocationListActions {
-  return {
-    type: LocationsListActionsType.GET_LOCATION_NAME,
-    payload: locationName
-  };
-}
-export function applyFilter(filter: string[]): LocationListActions {
-  return {
-    type: LocationsListActionsType.APPLY_FILTER,
-    payload: filter
-  };
-}

@@ -9,8 +9,6 @@ const UserController = {
 
       const userData = await User.findById(_id, {
         email: true,
-        createdAt: true,
-        updatedAt: true,
         displayName: true,
         description: true,
         imageUrl: true,
@@ -30,7 +28,26 @@ const UserController = {
       return res.status(500).json({ error: req.t('other.server_error'), err });
     }
   },
-  async tougleFavorite(req: Request, res: Response) {
+  async getPrivateData(req: Request, res: Response) {
+    try {
+      const _id = req.user;
+
+      const privateUserData = await User.findById(_id, {
+        email: true,
+        createdAt: true,
+        updatedAt: true
+      });
+
+      if (!privateUserData) {
+        return res.status(400).json({ error: req.t('user_not_exist') });
+      }
+
+      return res.status(200).json({ privateUserData });
+    } catch (err: any) {
+      return res.status(500).json({ error: req.t('server_error'), err });
+    }
+  },
+  async toggleFavorite(req: Request, res: Response) {
     try {
       let { idOfLocation } = req.body;
       const _id = req.user;
@@ -43,7 +60,7 @@ const UserController = {
       }
       if (userData) {
         if (userData.favorite.includes(idOfLocation)) {
-          let index = userData.favorite.findIndex(el => {
+          let index = userData.favorite.findIndex(el  => {
             if (el === idOfLocation) {
               return el;
             }
@@ -73,7 +90,7 @@ const UserController = {
       return res.status(500).json({ error: req.t('other.server_error'), err });
     }
   },
-  async tougleVisited(req: Request, res: Response) {
+  async toggleVisited(req: Request, res: Response) {
     try {
       let { idOfLocation } = req.body;
       const _id = req.user;
@@ -86,7 +103,8 @@ const UserController = {
       }
       if (userData) {
         if (userData.visited.includes(idOfLocation)) {
-          let index = userData.visited.findIndex(el => {
+
+          let index = userData.visited.findIndex(el  => {
             if (el === idOfLocation) {
               return el;
             }
