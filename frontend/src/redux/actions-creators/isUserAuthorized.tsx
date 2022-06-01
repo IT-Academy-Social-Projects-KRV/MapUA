@@ -2,7 +2,7 @@
 import { Dispatch } from 'redux';
 import axios from 'axios';
 import {
-  UserAuthAction,
+  isUserAuthorizedAction,
   IsUserAuthorizedActionTypes
 } from 'redux/action-types/isUserAuthorizedActionTypes';
 
@@ -10,7 +10,7 @@ const { REACT_APP_API_URI } = process.env;
 
 export const login =
   (email: string, password: string) =>
-  async (dispatch: Dispatch<UserAuthAction>) => {
+  async (dispatch: Dispatch<isUserAuthorizedAction>) => {
     try {
       dispatch({
         type: IsUserAuthorizedActionTypes.LOGIN_USER_LOADING
@@ -48,7 +48,7 @@ export const login =
   };
 
 export const loginOAuth =
-  (token: string, id: string) => async (dispatch: Dispatch<UserAuthAction>) => {
+  (token: string, id: string) => async (dispatch: Dispatch<isUserAuthorizedAction>) => {
     dispatch({
       type: IsUserAuthorizedActionTypes.LOGIN_USER_LOADING
     });
@@ -67,7 +67,7 @@ export const loginOAuth =
   };
 
 export const checkIsUserAuthorized =
-  (accessToken: string) => async (dispatch: Dispatch<UserAuthAction>) => {
+  (accessToken: string) => async (dispatch: Dispatch<isUserAuthorizedAction>) => {
     try {
       dispatch({
         type: IsUserAuthorizedActionTypes.CHECK_USER_TOKEN_LOADING
@@ -92,7 +92,7 @@ export const checkIsUserAuthorized =
     }
   };
 
-export const logout = () => async (dispatch: Dispatch<UserAuthAction>) => {
+export const logout = () => async (dispatch: Dispatch<isUserAuthorizedAction>) => {
   dispatch({
     type: IsUserAuthorizedActionTypes.LOGOUT_USER
   });

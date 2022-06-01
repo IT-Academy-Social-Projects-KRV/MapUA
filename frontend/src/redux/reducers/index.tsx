@@ -6,6 +6,7 @@ import { popupLocationReducer } from './popupLocationReducer';
 import { locationsListReducer } from './locationListReducer';
 import { mapInfoReducer } from './mapInfoReducer';
 import { listOfFiltersOptionsReducer } from './listOfFiltersOptionsReducer';
+import { createLocationReducer } from './createLocationReducer';
 
 export const rootReducer = combineReducers({
   isUserAuthorized: isUserAuthorizedReducer,
@@ -14,7 +15,8 @@ export const rootReducer = combineReducers({
   popupLocation: popupLocationReducer,
   locationList: locationsListReducer,
   mapInfo: mapInfoReducer,
-  filtersList: listOfFiltersOptionsReducer
+  filtersList: listOfFiltersOptionsReducer,
+  createLocation: createLocationReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

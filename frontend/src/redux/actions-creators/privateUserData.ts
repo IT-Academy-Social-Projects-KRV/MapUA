@@ -25,11 +25,12 @@ export const fetchPrivateUserData =
           }
         }
       );
-      if (response.status === 200)
+      if (response.status === 200) {
         dispatch({
           type: PrivateUserDataActionTypes.FETCH_PRIVATE_USER_DATA_SUCCESS,
           payload: response.data.privateUserData
         });
+      }
     } catch (error: any) {
       console.error(error);
       dispatch({

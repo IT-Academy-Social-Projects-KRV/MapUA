@@ -6,6 +6,14 @@ export enum LocationActionTypes {
   FETCH_LOCATION_SUCCESS = 'FETCH_LOCATION_SUCCESS',
   FETCH_LOCATION_ERROR = 'FETCH_LOCATION_ERROR',
 
+  TOGGLE_VISITED_FIELD_LOADING = 'TOGGLE_VISITED_FIELD_LOADING',
+  TOGGLE_VISITED_FIELD_SUCCESS = 'TOGGLE_VISITED_FIELD_SUCCESS',
+  TOGGLE_VISITED_FIELD_ERROR = 'TOGGLE_VISITED_FIELD_ERROR',
+
+  TOGGLE_FAVORITE_FIELD_LOADING = 'TOGGLE_FAVORITE_FIELD_LOADING',
+  TOGGLE_FAVORITE_FIELD_SUCCESS = 'TOGGLE_FAVORITE_FIELD_SUCCESS',
+  TOGGLE_FAVORITE_FIELD_ERROR = 'TOGGLE_FAVORITE_FIELD_ERROR',
+
   UPDATE_LOCATION_LOADING = 'UPDATE_LOCATION_LOADING',
   UPDATE_LOCATION_SUCCESS = 'UPDATE_LOCATION_SUCCESS',
   UPDATE_LOCATION_ERROR = 'UPDATE_LOCATION_ERROR',
@@ -24,6 +32,30 @@ interface FetchLocationSuccessAction {
 }
 interface FetchLocationErrorAction {
   type: LocationActionTypes.FETCH_LOCATION_ERROR;
+  payload: string;
+}
+
+interface ToggleVisitedFieldLoadingAction {
+  type: LocationActionTypes.TOGGLE_VISITED_FIELD_LOADING;
+}
+interface ToggleVisitedFieldSuccessAction {
+  type: LocationActionTypes.TOGGLE_VISITED_FIELD_SUCCESS;
+  payload: locationType;
+}
+interface ToggleVisitedFieldErrorAction {
+  type: LocationActionTypes.TOGGLE_VISITED_FIELD_ERROR;
+  payload: string;
+}
+
+interface ToggleFavoriteFieldLoadingAction {
+  type: LocationActionTypes.TOGGLE_FAVORITE_FIELD_LOADING;
+}
+interface ToggleFavoriteFieldSuccessAction {
+  type: LocationActionTypes.TOGGLE_FAVORITE_FIELD_SUCCESS;
+  payload: locationType;
+}
+interface ToggleFavoriteFieldErrorAction {
+  type: LocationActionTypes.TOGGLE_FAVORITE_FIELD_ERROR;
   payload: string;
 }
 
@@ -55,6 +87,12 @@ export type LocationActions =
   | FetchLocationLoadingAction
   | FetchLocationSuccessAction
   | FetchLocationErrorAction
+  | ToggleVisitedFieldLoadingAction
+  | ToggleVisitedFieldSuccessAction
+  | ToggleVisitedFieldErrorAction
+  | ToggleFavoriteFieldLoadingAction
+  | ToggleFavoriteFieldSuccessAction
+  | ToggleFavoriteFieldErrorAction
   | UpdateLocationLoadingAction
   | UpdateLocationSuccessAction
   | UpdateLocationErrorAction

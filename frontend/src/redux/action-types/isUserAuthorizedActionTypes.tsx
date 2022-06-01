@@ -34,7 +34,7 @@ interface CheckUserTokenErrorAction {
 interface LogoutUserAction {
   type: IsUserAuthorizedActionTypes.LOGOUT_USER;
 }
-export type UserAuthAction =
+export type isUserAuthorizedAction =
   | LoginUserLoadingAction
   | LoginUserSuccessAction
   | LoginUserErrorAction

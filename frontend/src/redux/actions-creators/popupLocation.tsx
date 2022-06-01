@@ -5,6 +5,10 @@ import {
   LocationActionTypes
 } from 'redux/action-types/popupLocationActionTypes';
 import { Comment } from '../../../types';
+import {
+  UserDataAction,
+  UserDataActionTypes
+} from '../action-types/userDataActionTypes';
 
 const { REACT_APP_API_URI } = process.env;
 
@@ -33,6 +37,82 @@ export const fetchPopupLocation =
       dispatch({
         type: LocationActionTypes.FETCH_LOCATION_ERROR,
         payload: 'could not get location'
+        // error.response && error.response.data.info.message
+        //   ? error.response.data.info.message
+        //   : error.message
+      });
+    }
+  };
+
+export const toggleVisitedField =
+  (locationId: string) =>
+  async (dispatch: Dispatch<LocationActions | UserDataAction>) => {
+    try {
+      dispatch({
+        type: LocationActionTypes.TOGGLE_VISITED_FIELD_LOADING
+      });
+
+      const response = await axios.put(
+        `${REACT_APP_API_URI}toggleVisited`,
+        {
+          idOfLocation: locationId
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+          }
+        }
+      );
+
+      if (response.status === 200) {
+        dispatch({
+          type: UserDataActionTypes.UPDATE_USER_DATA_SUCCESS,
+          payload: response.data
+        });
+      }
+    } catch (error: any) {
+      console.error(error);
+      dispatch({
+        type: LocationActionTypes.TOGGLE_VISITED_FIELD_ERROR,
+        payload: 'Could not toggle visited field'
+        // error.response && error.response.data.info.message
+        //   ? error.response.data.info.message
+        //   : error.message
+      });
+    }
+  };
+
+export const toggleFavoriteField =
+  (locationId: string) =>
+  async (dispatch: Dispatch<LocationActions | UserDataAction>) => {
+    try {
+      dispatch({
+        type: LocationActionTypes.TOGGLE_FAVORITE_FIELD_LOADING
+      });
+
+      const response = await axios.put(
+        `${process.env.REACT_APP_API_URI}toggleFavorite`,
+        {
+          idOfLocation: locationId
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+          }
+        }
+      );
+
+      if (response.status === 200) {
+        dispatch({
+          type: UserDataActionTypes.UPDATE_USER_DATA_SUCCESS,
+          payload: response.data
+        });
+      }
+    } catch (error: any) {
+      console.error(error);
+      dispatch({
+        type: LocationActionTypes.TOGGLE_FAVORITE_FIELD_ERROR,
+        payload: 'Could not toggle favorite field'
         // error.response && error.response.data.info.message
         //   ? error.response.data.info.message
         //   : error.message
