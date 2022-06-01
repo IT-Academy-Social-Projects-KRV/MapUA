@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Typography,
   Button,
@@ -9,12 +9,9 @@ import {
   Input
 } from '@mui/material';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import axios from 'axios';
 import { useTranslation } from 'react-i18next';
-import { UserActionTypes } from 'redux/action-types/userActionTypes';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
-import { useDispatch } from 'react-redux';
 import userImageNotFound from '../../static/user-image-not-found.png';
 import {
   ProfileAvatar,
@@ -32,13 +29,12 @@ import { UserForm } from '../../../types';
 
 export default function ProfilePage() {
   const { t } = useTranslation();
-  const { deleteUserData, logout } = useTypedDispatch();
+  const { updateUserData, deleteUserData, logout } = useTypedDispatch();
   const {
-    _id: id,
-    displayName,
-    description,
-    imageUrl: userAvatar
-  } = useTypedSelector(state => state.userData.data);
+    success: updateSuccess,
+    error: updateError,
+    data: { _id: id, displayName, description, imageUrl: userAvatar }
+  } = useTypedSelector(state => state.userData);
   const { email, createdAt, updatedAt } = useTypedSelector(
     state => state.privateUserData.data
   );
@@ -47,17 +43,35 @@ export default function ProfilePage() {
     mode: 'onBlur',
     defaultValues: { displayName, description }
   });
-  const dispatch = useDispatch();
   const [showEditPanel, setShowEditPanel] = useState(false);
   const [userImage, setUserImage] = useState<File | null>();
 
   const [newDescription, setNewDescription] = useState(description);
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState(false);
-  const handleDescription = (descriptionBasicTabs: any) => {
-    setNewDescription(descriptionBasicTabs);
-  };
-  const onSubmit: SubmitHandler<UserForm> = async data => {
+
+  useEffect(() => {
+    if (updateError) {
+      console.log('error');
+      setTimeout(() => setErrorMessage(''), 3000);
+      setErrorMessage(
+        (typeof updateError === 'string' ? updateError : updateError.message) ||
+          `${t('profile.profilePage.lostNetwork')}`
+      );
+    }
+  }, [updateError]);
+
+  useEffect(() => {
+    if (updateSuccess) {
+      console.log('success');
+      setSuccessMessage(true);
+      setTimeout(() => setSuccessMessage(false), 3000);
+      setShowEditPanel(false);
+    }
+  }, [updateSuccess]);
+
+  const onSubmit: SubmitHandler<UserForm> = async (data, event) => {
+    event?.preventDefault();
     const formData = new FormData();
     if (userImage) {
       formData.append('image', userImage);
@@ -66,31 +80,7 @@ export default function ProfilePage() {
     formData.append('displayName', data.displayName);
     formData.append('description', newDescription);
 
-    try {
-      const response = await axios.patch(
-        `${process.env.REACT_APP_API_URI}profile`,
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        }
-      );
-      if (response.status === 200) {
-        setSuccessMessage(true);
-        setTimeout(() => setSuccessMessage(false), 3000);
-        dispatch({
-          type: UserDataActionTypes.UPDATE_USER_DATA_SUCCESS,
-          payload: response.data
-        });
-        setShowEditPanel(false);
-      }
-    } catch (e: any) {
-      setTimeout(() => setErrorMessage(''), 3000);
-      setErrorMessage(
-        e.response.data?.error || `${t('profile.profilePage.lostNetwork')}`
-      );
-    }
+    updateUserData(formData);
   };
   const editData = () => {
     setShowEditPanel(true);
@@ -195,12 +185,16 @@ export default function ProfilePage() {
             </EditButton>
           </Box>
         )}
+
         <Typography variant="h5" component="h4" align="center">
-          {t('profile.profilePage.creationDate')} {createdAt}
+          {t('profile.profilePage.creationDate')}{' '}
+          {new Date(createdAt).toLocaleDateString()}
         </Typography>
         <Typography variant="h5" component="h4" align="center">
-          {t('profile.profilePage.updateDate')} {updatedAt}
+          {t('profile.profilePage.updateDate')}{' '}
+          {new Date(updatedAt).toLocaleDateString()}
         </Typography>
+
         <Typography variant="h5" component="h5" align="center">
           {email}
         </Typography>
@@ -219,8 +213,8 @@ export default function ProfilePage() {
         <BasicTabs
           showEditPanel={showEditPanel}
           setShowEditPanel={setShowEditPanel}
+          setNewDescription={setNewDescription}
           control={control}
-          handleDescription={handleDescription}
           newDescription={newDescription}
         />
       </ProfileUsertWrapper>

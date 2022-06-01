@@ -18,7 +18,6 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import TourOutlinedIcon from '@mui/icons-material/TourOutlined';
 import TourIcon from '@mui/icons-material/Tour';
 import { useTranslation } from 'react-i18next';
-import axios from 'axios';
 import IconButton from '@mui/material/IconButton';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
@@ -40,7 +39,8 @@ const PointPopup = () => {
   const [expanded, setExpanded] = useState(false);
   const [notification, setNotification] = useState<INotification | null>(null);
 
-  const { updatePopupLocation } = useTypedDispatch();
+  const { updatePopupLocation, toggleVisitedField, toggleFavoriteField } =
+    useTypedDispatch();
 
   const { data: isAuthorized } = useTypedSelector(
     state => state.isUserAuthorized
@@ -61,13 +61,6 @@ const PointPopup = () => {
     createdAt
   } = useTypedSelector(state => state.popupLocation.data);
 
-  const [locationIsFavorite, setLocationIsFavorite] = useState(
-    locationId && favorite.includes(locationId)
-  );
-  const [locationIsVisited, setLocationIsVisited] = useState(
-    locationId && visited.includes(locationId)
-  );
-
   const handleCloseNotification = (
     e?: SyntheticEvent | Event,
     reason?: string
@@ -81,40 +74,12 @@ const PointPopup = () => {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  const handleFavoriteClick = async () => {
-    // console.log(locationIsFavorite);
-    const result = await axios.put(
-      `${process.env.REACT_APP_API_URI}tougleFavorite`,
-      {
-        /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
-        idOfLocation: locationId
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-        }
-      }
-    );
-    if (result.status === 200) {
-      setLocationIsFavorite(!locationIsFavorite);
-    }
+
+  const handleFavoriteClick = () => {
+    if (isAuthorized) toggleFavoriteField(locationId);
   };
-  const handleVisitedClick = async () => {
-    const result = await axios.put(
-      `${process.env.REACT_APP_API_URI}tougleVisited`,
-      {
-        /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
-        idOfLocation: locationId
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-        }
-      }
-    );
-    if (result.status === 200) {
-      setLocationIsVisited(!locationIsVisited);
-    }
+  const handleVisitedClick = () => {
+    if (isAuthorized) toggleVisitedField(locationId);
   };
 
   const handleRating = (
@@ -244,23 +209,31 @@ const PointPopup = () => {
                 size="small"
                 onClick={handleFavoriteClick}
                 title={
-                  locationIsFavorite
+                  favorite.includes(locationId)
                     ? `${t('pointPopUp.removeFromFavorite')}`
                     : `${t('pointPopUp.addToFavorite')}`
                 }
               >
-                {locationIsFavorite ? <BookmarkIcon /> : <BookmarkBorderIcon />}
+                {favorite.includes(locationId) ? (
+                  <BookmarkIcon />
+                ) : (
+                  <BookmarkBorderIcon />
+                )}
               </IconButton>
               <IconButton
                 size="small"
                 onClick={handleVisitedClick}
                 title={
-                  locationIsVisited
+                  visited.includes(locationId)
                     ? `${t('pointPopUp.removeFromVisited')}`
                     : `${t('pointPopUp.addToVisited')}`
                 }
               >
-                {locationIsVisited ? <TourIcon /> : <TourOutlinedIcon />}
+                {visited.includes(locationId) ? (
+                  <TourIcon />
+                ) : (
+                  <TourOutlinedIcon />
+                )}
               </IconButton>
 
               <IconButton>

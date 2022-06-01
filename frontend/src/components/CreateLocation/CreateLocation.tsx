@@ -6,28 +6,57 @@ import {
   Autocomplete,
   TextField
 } from '@mui/material';
-import axios from 'axios';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { latlngType } from '../../../types';
 import { getFiltersForUser } from '../../static/mainFIlters';
+import { useTypedSelector } from '../../redux/hooks/useTypedSelector';
+import { useTypedDispatch } from '../../redux/hooks/useTypedDispatch';
 
 type Props = {
+  closeBigPopup: Function;
   coordinate: latlngType;
 };
 
-const { REACT_APP_API_URI } = process.env;
-
-const CreateLocation = ({ coordinate }: Props) => {
+const CreateLocation = ({ coordinate, closeBigPopup }: Props) => {
   const ref = useRef<null | HTMLInputElement>();
-
   const { t } = useTranslation();
+
+  const {
+    data: success,
+    // loading,
+    error
+  } = useTypedSelector(state => state.createLocation);
+  const {
+    bounds,
+    locationName: searchName,
+    selectedFilters
+  } = useTypedSelector(state => state.mapInfo);
+  const { createLocation, fetchLocations } = useTypedDispatch();
 
   const [locationName, setLocationName] = useState('');
   const [description, setDescription] = useState('');
   const [filters, setFilters] = useState('');
   const [files, setFiles] = useState<File[]>([]);
-  // const [, setLinks] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (error) {
+      alert(error);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (success) {
+      fetchLocations(bounds, searchName, selectedFilters);
+      closeBigPopup();
+      setLocationName('');
+      setDescription('');
+      setFilters('');
+      if (ref.current) {
+        ref.current.value = '';
+      }
+    }
+  }, [success]);
 
   const handleChange = (e: any): void => {
     setLocationName(e.target.value);
@@ -35,36 +64,6 @@ const CreateLocation = ({ coordinate }: Props) => {
 
   const handleChangeDescription = (e: any): void => {
     setDescription(e.target.value);
-  };
-
-  const accessToken = localStorage.getItem('accessToken');
-
-  const onSubmit = async () => {
-    try {
-      const formData = new FormData();
-      formData.append('locationName', locationName);
-      formData.append('description', description);
-      formData.append('coordinates', String(coordinate.lat));
-      formData.append('coordinates', String(coordinate.lng));
-      formData.append('filters', String(filters));
-      formData.append('image', files[0]);
-
-      await axios.post(`${REACT_APP_API_URI}locations/create`, formData, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-
-      setLocationName('');
-      setDescription('');
-      setFilters('');
-      if (ref.current) {
-        ref.current.value = '';
-      }
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   const onChangeAutocomplete = (e: any, value: any) => {
@@ -82,6 +81,19 @@ const CreateLocation = ({ coordinate }: Props) => {
 
       setFiles(filesListArr);
     }
+  };
+
+  const onSubmit = async (e: any) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('locationName', locationName);
+    formData.append('description', description);
+    formData.append('coordinates', String(coordinate.lat));
+    formData.append('coordinates', String(coordinate.lng));
+    formData.append('filters', String(filters));
+    formData.append('image', files[0]);
+
+    createLocation(formData);
   };
 
   return (
