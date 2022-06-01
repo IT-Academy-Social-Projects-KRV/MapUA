@@ -1,18 +1,47 @@
 {
-    "location_not_found": "Location not found",
-    "locations_not_found": "Locations not found",
-    "location_already_exist": "Location already exist",
-    "comment_not_have_properties": "Comment doesn't have all needed properties",
-    "server_error": "Server error",
-    "location_add_success": "Location added successfully",
-    "comment_add_success": "Your comment added successfully",
-    "change_location_info_success": "Location info was successfully changed",
-    "user_not_exist": "User not found",
-    "password_send_error": "An error occurred while sending the password",
-    "password_send_success": "Password was sent successfully",
-    "token_not_provided": "Token wasn't provided",
-    "token_expired": "Token was expired.",
-    "token_invalid": "Token is malformed",
-    "token_malformed": "Token is invalid",
-    "token_valid": "Token is valid"
+    "auth": {
+        "invalid_email": "Please enter valid email",
+        "invalid_password_length": "Password must be at least 6 characters long",
+        "user_already_exists": "User with such email already registered",
+        "user_not_exist": "User not found",
+        "invalid_password": "Invalid password"
+    },
+    "forgot_password": {
+        "password_send_error": "An error occurred while sending the password",
+        "password_send_success": "Password was sent successfully"
+    },
+    "locations_list": {
+        "location_not_found": "Location not found",
+        "locations_not_found": "Locations not found",
+        "location_already_exist": "Location already exist",
+        "location_add_success": "Location added successfully",
+        "update_location_success": "Location info was successfully changed",
+        "rate_location_success": "You successfully rated location",
+        "toggle_favourite": "You successfully marked location as favourite",
+        "toggle_visited": "You successfully marked location as visited"
+    },
+    "location_comments": {
+        "comment_not_have_properties": "Comment doesn't have all needed properties",
+        "comment_add_success": "Your comment added successfully"
+    },
+    "user_profile": {
+        "change_user_info_success": "Data Successfully updated",
+        "change_user_info_error_name": "Name must be at least 3 and max 20 characters long",
+        "change_user_info_error_description": "Description must be at least 5 and max 50 characters long"
+    },
+    "add_location": {
+        "add_location_name_error": "Location name must be at least 5 and max 30 characters long",
+        "add_location_description_error": "Location description must be at least 5 and max 30 characters long",
+        "add_location_coordinates_error": "Invalid location coordinates"
+    },
+    "jwt_token": {
+        "token_not_provided": "Token wasn't provided",
+        "token_expired": "Token was expired.",
+        "token_invalid": "Token is malformed",
+        "token_malformed": "Token is invalid",
+        "token_valid": "Token is valid"
+    },
+    "other": {
+        "server_error": "Server error"
+    }
 }
