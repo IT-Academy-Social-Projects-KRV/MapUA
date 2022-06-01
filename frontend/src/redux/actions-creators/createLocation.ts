@@ -23,7 +23,7 @@ export const createLocation =
       // const { data } = await axios(options);
       // const { data } = await axios.post('comments/create', { comment });
 
-      await axios.post('locations/create', formData, {
+      await axios().post('locations/create', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

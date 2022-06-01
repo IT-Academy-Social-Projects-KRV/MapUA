@@ -18,7 +18,7 @@ export const fetchPopupLocation =
         type: LocationActionTypes.FETCH_LOCATION_LOADING
       });
 
-      const { data } = await axios.get(`locations/${id}`);
+      const { data } = await axios().get(`locations/${id}`);
 
       if (data) {
         dispatch({
@@ -46,7 +46,7 @@ export const toggleVisitedField =
         type: LocationActionTypes.TOGGLE_VISITED_FIELD_LOADING
       });
 
-      const response = await axios.put(
+      const response = await axios().put(
         `${REACT_APP_API_URI}toggleVisited`,
         {
           idOfLocation: locationId
@@ -84,7 +84,7 @@ export const toggleFavoriteField =
         type: LocationActionTypes.TOGGLE_FAVORITE_FIELD_LOADING
       });
 
-      const response = await axios.put(
+      const response = await axios().put(
         `${process.env.REACT_APP_API_URI}toggleFavorite`,
         {
           idOfLocation: locationId
@@ -121,7 +121,7 @@ export const updatePopupLocation =
       dispatch({
         type: LocationActionTypes.UPDATE_LOCATION_LOADING
       });
-      const { data } = await axios.patch(`locations/${id}`, location);
+      const { data } = await axios().patch(`locations/${id}`, location);
 
       if (data) {
         dispatch({

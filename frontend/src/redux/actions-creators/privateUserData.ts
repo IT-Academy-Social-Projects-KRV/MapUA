@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux';
-import axios from 'axios';
+import axios from 'services/axios';
 // import { useTranslation } from 'react-i18next';
 import {
   PrivateUserDataAction,
@@ -16,7 +16,7 @@ export const fetchPrivateUserData =
       dispatch({
         type: PrivateUserDataActionTypes.FETCH_PRIVATE_USER_DATA_LOADING
       });
-      const response = await axios.get(
+      const response = await axios().get(
         `${REACT_APP_API_URI}private-user-data`,
         {
           headers: {
@@ -46,7 +46,7 @@ export const updatePrivateUserData =
       dispatch({
         type: PrivateUserDataActionTypes.UPDATE_PRIVATE_USER_DATA_LOADING
       });
-      const response = await axios.patch(
+      const response = await axios().patch(
         `${process.env.REACT_APP_API_URI}private-user-data`,
         formData,
         {

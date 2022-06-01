@@ -23,14 +23,12 @@ export const fetchLocations =
       if (filters) url += `&filters=${JSON.stringify(filters)}`;
 
       const options = {
-        method: 'get',
-        url,
         headers: {
           'Content-Type': 'application/json',
           'Accept-Language': localStorage.getItem('i18nextLng') || ''
         }
       };
-      const { data } = await axios(options);
+      const { data } = await axios().get(url, options);
       if (data && data.locations && typeof data.locations === typeof []) {
         dispatch({
           type: LocationListActionsType.FETCH_LOCATION_LIST_SUCCESS,

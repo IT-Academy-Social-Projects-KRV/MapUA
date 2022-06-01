@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux';
-import axios from 'axios';
+import axios from 'services/axios';
 // import { useTranslation } from 'react-i18next';
 import {
   UserDataAction,
@@ -13,7 +13,7 @@ export const fetchUserData =
   (accessToken: string) => async (dispatch: Dispatch<UserDataAction>) => {
     try {
       dispatch({ type: UserDataActionTypes.FETCH_USER_DATA_LOADING });
-      const response = await axios.get(`${REACT_APP_API_URI}profile`, {
+      const response = await axios().get(`${REACT_APP_API_URI}profile`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           'Accept-Language': localStorage.getItem('i18nextLng') || ''
@@ -36,7 +36,7 @@ export const updateUserData =
   (formData: FormData) => async (dispatch: Dispatch<UserDataAction>) => {
     try {
       dispatch({ type: UserDataActionTypes.UPDATE_USER_DATA_LOADING });
-      const response = await axios.patch(
+      const response = await axios().patch(
         `${process.env.REACT_APP_API_URI}profile`,
         formData,
         {

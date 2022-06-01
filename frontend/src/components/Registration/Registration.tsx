@@ -44,7 +44,7 @@ function Registration() {
   });
   const onSubmit: SubmitHandler<SignUp> = async data => {
     try {
-      const response = await axios.post(`signup`, data);
+      const response = await axios().post(`signup`, data);
       if (response.status === 200) {
         setVisibleSuccess(true);
         setTimeout(() => setVisibleSuccess(false), 3000);
