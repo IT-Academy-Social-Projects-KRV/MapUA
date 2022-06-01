@@ -3,7 +3,6 @@ import { Box, Button, Input, TextField } from '@mui/material';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
-import { UserForm } from 'redux/ts-types/user';
 import { useTranslation } from 'react-i18next';
 import {
   CancelButton,
@@ -12,6 +11,8 @@ import {
   SaveButton,
   UploadBox
 } from '../styles';
+import { UserForm } from '../../../../types';
+import UploadInputProfilePage from 'components/design/UploadInputProfilePage';
 
 type Props = {
   onSubmit: SubmitHandler<UserForm>;
@@ -29,7 +30,9 @@ export const SaveGroup: FC<Props> = ({
   setUserImage
 }) => {
   const { t } = useTranslation();
-  const userAvatar = useTypedSelector(state => state.user);
+  const { imageUrl: userAvatar } = useTypedSelector(
+    state => state.userData.data
+  );
   const { handleSubmit, control, register } = useForm<UserForm>({
     mode: 'onBlur',
     defaultValues: { displayName, description }
@@ -42,20 +45,17 @@ export const SaveGroup: FC<Props> = ({
           <ProfileAvatar
             sx={{ ml: '11.5vh' }}
             aria-label="avatar"
-            src={userAvatar.data.imageUrl}
+            src={userAvatar}
           />
           <Box sx={{ m: '2vh 0 2vh 14vh' }}>
             {t('profile.profilePage.uploadPhoto')}
           </Box>
-          <Box>
-            <Button>
-              <Input
-                type="file"
-                {...register('imageUrl')}
-                onChange={(e: any) => setUserImage(e.target?.files?.[0])}
-              />
-            </Button>
-          </Box>
+          <UploadBox>
+            <UploadInputProfilePage
+              setUserImage={setUserImage}
+              register={register}
+            />
+          </UploadBox>
         </UploadBox>
         <Controller
           control={control}

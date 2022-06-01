@@ -15,8 +15,8 @@ export const CardComponent: FC<Props> = ({
   handleExpandClick,
   expanded
 }) => {
-  const infoLocation = useTypedSelector(state => state.popupLocation);
-  const userData = useTypedSelector(state => state.user);
+  const { createdAt } = useTypedSelector(state => state.popupLocation.data);
+  const { displayName } = useTypedSelector(state => state.userData.data);
   const { t } = useTranslation();
 
   return (
@@ -37,9 +37,9 @@ export const CardComponent: FC<Props> = ({
             src="https://cdn-icons-png.flaticon.com/512/147/147142.png"
           />
           {/* todo change to infoLocation.authorName */}
-          <Typography>{userData.data.displayName}</Typography>
+          <Typography>{displayName}</Typography>
 
-          <Typography>{infoLocation.createdAt.toLocaleDateString()}</Typography>
+          <Typography>{createdAt.toLocaleDateString()}</Typography>
         </Box>
         <Typography
           variant="subtitle1"

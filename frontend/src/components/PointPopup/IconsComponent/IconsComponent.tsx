@@ -29,10 +29,10 @@ export const IconsComponent: FC<Props> = ({
   handleVisitedClick
 }) => {
   const { t } = useTranslation();
-  const userAuth = useTypedSelector(state => state.userAuth);
-  const infoLocation = useTypedSelector(state => state.popupLocation);
-  const { id: userId } = userAuth;
-  const { rating } = infoLocation;
+
+  const { rating } = useTypedSelector(state => state.popupLocation.data);
+
+  const { _id: userId } = useTypedSelector(state => state.userData.data);
 
   return (
     <>

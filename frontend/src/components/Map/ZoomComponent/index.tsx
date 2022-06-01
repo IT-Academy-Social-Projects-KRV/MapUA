@@ -4,7 +4,6 @@ import { boundsType } from '../../../../types';
 interface Props {
   bounds: boundsType;
   isAddLocationActive: boolean;
-  setZoomPosition: Function;
   setBounds: Function;
   SetCoordinateByClick: Function;
   onOpenLocationForm: Function;
@@ -14,7 +13,6 @@ interface Props {
 export default function MyZoomComponent({
   bounds,
   isAddLocationActive,
-  setZoomPosition,
   setBounds,
   SetCoordinateByClick,
   onOpenLocationForm,
@@ -24,13 +22,11 @@ export default function MyZoomComponent({
   const map = useMapEvents({
     zoom: e => {
       if (!isAddLocationActive) {
-        setZoomPosition(e.target.getCenter());
         setBounds({ ...prev, ...map.getBounds() });
       }
     },
     dragend: e => {
       if (!isAddLocationActive) {
-        setZoomPosition(e.target.getCenter());
         setBounds({ ...prev, ...map.getBounds() });
       }
     },

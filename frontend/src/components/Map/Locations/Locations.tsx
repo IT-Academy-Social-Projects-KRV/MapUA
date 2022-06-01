@@ -7,7 +7,7 @@ interface Props {
 }
 
 function Locations({ onOpenBigPopup }: Props) {
-  const { locations } = useTypedSelector(state => state.locationList);
+  const { data: locations } = useTypedSelector(state => state.locationList);
   return (
     <>
       {locations.map(({ _id, coordinates, locationName, arrayPhotos }) => (

@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTranslation } from 'react-i18next';
 import userImageNotFound from '../../../static/image-not-found.jpg';
-import { EditButton, ProfileAvatar } from '../styles';
+import { EditButton, ProfileAvatar, UploadBox } from '../styles';
 
 type Props = {
   displayName: string;
@@ -12,13 +12,15 @@ type Props = {
 
 export const EditGroup: FC<Props> = ({ displayName, editData }) => {
   const { t } = useTranslation();
-  const userAvatar = useTypedSelector(state => state.user);
+  const { imageUrl: userAvatar } = useTypedSelector(
+    state => state.userData.data
+  );
 
   return (
     <Box>
       <ProfileAvatar
         aria-label="avatar"
-        src={userAvatar.data.imageUrl || userImageNotFound}
+        src={userAvatar || userImageNotFound}
       />
       <Typography sx={{ mt: '3vh' }} variant="h5" component="h4" align="center">
         {displayName === undefined
