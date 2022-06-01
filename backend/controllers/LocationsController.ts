@@ -11,12 +11,12 @@ const LocationsController = {
       let locations = (
         await Location.find({
           'coordinates.0': {
-            $gt: bounds._southWest.lat, // center.lat - height,
-            $lt: bounds._northEast.lat // center.lat + height
+            $gt: bounds._southWest.lat,
+            $lt: bounds._northEast.lat
           },
           'coordinates.1': {
-            $gt: bounds._southWest.lng, // center.lng - width,
-            $lt: bounds._northEast.lng // center.lng + width
+            $gt: bounds._southWest.lng,
+            $lt: bounds._northEast.lng
           }
         })
       ).map(l => ({
