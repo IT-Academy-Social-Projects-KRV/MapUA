@@ -101,7 +101,7 @@ function Login() {
     setShowPassword(!showPassword);
   };
 
-  const onSubmit: SubmitHandler<SignIn> = async ({ email, password }) => {
+  const onSubmit: SubmitHandler<SignIn> = ({ email, password }) => {
     login(email, password);
   };
 

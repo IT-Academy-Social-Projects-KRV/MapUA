@@ -38,7 +38,6 @@ export function LocationPopOut({
       eventHandlers={{
         click: e => {
           if (!loading) {
-            console.log('onClick Marker');
             e.originalEvent.stopPropagation();
             fetchPopupLocation(id);
             onOpenBigPopup(locationData);
