@@ -1,25 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Typography,
-  Button,
-  Box,
-  TextField,
-  Snackbar,
-  Alert
-} from '@mui/material';
-import { useForm, SubmitHandler, Controller } from 'react-hook-form';
+import { Typography, Button, Snackbar, Alert } from '@mui/material';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
-import UploadInputProfilePage from 'components/design/UploadInputProfilePage';
-import userImageNotFound from '../../static/user-image-not-found.png';
 import {
   ProfileContentWrapper,
   ProfileFormWrapper,
   ProfileUsertWrapper,
-  SaveBox,
-  UploadBox,
-  EditButton,
   TypographyDate
 } from './styles';
 import BasicTabs from './BasicTabs';
@@ -34,13 +22,13 @@ export default function ProfilePage() {
   const {
     success: updateSuccess,
     error: updateError,
-    data: { _id: id, displayName, description, imageUrl: userAvatar }
+    data: { _id: id, displayName, description }
   } = useTypedSelector(state => state.userData);
   const { email, createdAt, updatedAt } = useTypedSelector(
     state => state.privateUserData.data
   );
 
-  const { handleSubmit, control, register } = useForm<UserForm>({
+  const { control } = useForm<UserForm>({
     mode: 'onBlur',
     defaultValues: { displayName, description }
   });
@@ -135,71 +123,6 @@ export default function ProfilePage() {
           />
         ) : (
           <EditGroup displayName={displayName} editData={editData} />
-
-          // <form onSubmit={handleSubmit(onSubmit)}>
-          //   <Box>
-          //     <UploadBox>
-          //       <ProfileAvatar
-          //         aria-label="avatar"
-          //         src={
-          //           (userImage && URL.createObjectURL(userImage)) || userAvatar
-          //         }
-          //       />
-          //       <UploadInputProfilePage
-          //         setUserImage={setUserImage}
-          //         register={register}
-          //       />
-          //     </UploadBox>
-          //     <Controller
-          //       control={control}
-          //       name="displayName"
-          //       render={({ field }) => (
-          //         <TextField
-          //           placeholder={t('profile.profilePage.enterName')}
-          //           label={t('profile.profilePage.name')}
-          //           fullWidth
-          //           onChange={field.onChange}
-          //           onBlur={field.onBlur}
-          //           defaultValue={field.value}
-          //           type="text"
-          //         />
-          //       )}
-          //     />
-          //     <SaveBox>
-          //       <SaveButton size="large" variant="contained" type="submit">
-          //         {t('profile.profilePage.save')}
-          //       </SaveButton>
-          //       <CancelButton
-          //         size="large"
-          //         variant="contained"
-          //         onClick={closeEditData}
-          //       >
-          //         {t('profile.profilePage.cancel')}
-          //       </CancelButton>
-          //     </SaveBox>
-          //   </Box>
-          // </form>
-          // ) : (
-          //   <UploadBox>
-          //     <ProfileAvatar
-          //       aria-label="avatar"
-          //       src={userAvatar || userImageNotFound}
-          //     />
-          //     <Typography
-          //       sx={{ mt: '3vh' }}
-          //       variant="h5"
-          //       component="h4"
-          //       align="center"
-          //     >
-          //       {displayName === undefined
-          //         ? `${t('profile.profilePage.yourName')}`
-          //         : displayName}
-          //     </Typography>
-
-          //     <EditButton size="large" variant="contained" onClick={editData}>
-          //       {t('profile.profilePage.editProfile')}
-          //     </EditButton>
-          //   </UploadBox>
         )}
 
         <TypographyDate variant="h6">
