@@ -34,6 +34,7 @@ const { REACT_APP_API_URI } = process.env;
 
 const CreateLocation = ({ coordinate }: Props) => {
   const [files, setFiles] = useState<File[]>([]);
+  const [filters, setFilters] = useState('');
   const [locationImageName, setlocationImageName] = useState<string>('');
   const ref = useRef<null | HTMLInputElement>();
 
@@ -49,6 +50,10 @@ const CreateLocation = ({ coordinate }: Props) => {
   });
 
   const { t } = useTranslation();
+
+  const onChangeAutocomplete = (e: any, value: any) => {
+    setFilters(value);
+  };
 
   const onSubmit: SubmitHandler<CreatingLocation> = async ({
     locationName,
@@ -149,32 +154,20 @@ const CreateLocation = ({ coordinate }: Props) => {
         )}
       />
 
-      <Controller
-        defaultValue={[]}
-        control={control}
-        name="locationFilters"
-        render={({ field }) => (
-          <Autocomplete
-            {...field}
-            sx={{ marginTop: '20px' }}
-            multiple
-            options={getFiltersForUser()}
-            getOptionLabel={option => option}
-            filterSelectedOptions
-            onChange={(e, value) => field.onChange(value)}
-            renderInput={params => (
-              <TextField
-                {...params}
-                label={t('common.filters')}
-                error={!!errors.locationFilters}
-                helperText={t(
-                  !errors.locationFilters
-                    ? ''
-                    : t('utils.validation.emptyLocationFiltersError')
-                )}
-                placeholder={t('createLocation.favorites')}
-              />
-            )}
+      <Autocomplete
+        sx={{ marginTop: '20px' }}
+        multiple
+        id="tags-outlined"
+        options={getFiltersForUser()}
+        getOptionLabel={option => option}
+        filterSelectedOptions
+        onChange={(e, values) => onChangeAutocomplete(e, values)}
+        renderInput={params => (
+          <TextField
+            {...params}
+            value={filters}
+            label={t('common.filters')}
+            placeholder={t('createLocation.favorites')}
           />
         )}
       />

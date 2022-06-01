@@ -112,7 +112,6 @@ function Registration() {
                       onChange={e => field.onChange(e)}
                       onBlur={field.onBlur}
                       defaultValue={field.value}
-                      type="email"
                       error={!!errors.email?.message}
                       helperText={t(
                         !errors.email ? '' : String(errors.email.message)

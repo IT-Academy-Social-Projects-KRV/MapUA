@@ -16,7 +16,7 @@
   "createLocation": {
     "creatingLocation": "Creating location",
     "enterLocName": "Enter location name",
-    "enterDescription": "Minimum 25 symbols",
+    "enterDescription": "Minimum 10 symbols",
     "favorites": "Favorites",
     "doneAndSubmit": "Done and submit"
   },
@@ -69,14 +69,20 @@
       "passwordMinLengthError": "Password must be at least 6 symbols long",
       "passwordMaxLengthError": "Password must be no more than 36 symbols",
       "emptyProfileNameError": "Name can't be empty",
+      "emptyDescriptionProfileError": "Description can't be empty",
+      "descriptionProfileMinLengthError": "Name must be at least 5 symbols long",
+      "descriptionProfileMaxLengthError": "Name must be no more than at least 50 symbols long",
+      "profileNameMinLengthError": "Name must be at least 5 symbols long",
+      "profileNameMaxLengthError": "Name must be no more than 20 symbols",
       "emptyLocationNameError": "Location name can't be empty",
-      "locationNameMinLengthError": "Location name must be more than 3 symbols",
-      "locationNameMaxLengthError": "Location name must be less than 50 symbols",
+      "locationNameMinLengthError": "Location name must be more than 5 symbols",
+      "locationNameMaxLengthError": "Location name must be less than 20 symbols",
       "emptyLocationDescriptionError": "Location description can't be empty",
-      "locationDescriptionMinLengthError": "Location description must be at least 25 symbols long",
+      "locationDescriptionMinLengthError": "Location description must be at least 10 symbols long",
       "emptyLocationFiltersError": "Please select at least one filter",
       "emptyCommentTextError": "Your comment cannot be empty",
-      "commentTextMinLengthError": "Your comment must be at least three symbols long"
+      "commentTextMinLengthError": "Your comment must be at least 5 symbols long",
+      "commentTextMaxLengthError": "Your comment must be less than 50 symbols"
     }
   },
   "map": {

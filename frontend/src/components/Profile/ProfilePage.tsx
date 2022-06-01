@@ -16,7 +16,7 @@ import {
   useFormState
 } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { EditDisplayNameSchema } from 'utils/validation';
+import { EditProfileSchema } from 'utils/validation';
 import { useTranslation } from 'react-i18next';
 import { UserActionTypes } from 'redux/action-types/userActionTypes';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
@@ -30,7 +30,7 @@ import {
   CancelButton,
   ProfileContentWrapper,
   ProfileFormWrapper,
-  ProfileUsertWrapper,
+  ProfileUserWrapper,
   SaveBox,
   UploadBox,
   EditButton
@@ -56,7 +56,6 @@ export default function ProfilePage({
   const [showEditPanel, setShowEditPanel] = useState(false);
   const [successMessage, setSuccessMessage] = useState(false);
   const [userImage, setUserImage] = useState<File | null>();
-  const [newDescription, setNewDescription] = useState(description);
   const [errorMessage, setErrorMessage] = useState('');
 
   const userAvatar = useTypedSelector(state => state.user);
@@ -67,7 +66,7 @@ export default function ProfilePage({
   const { handleSubmit, control, register } = useForm<UserForm>({
     mode: 'onBlur',
     defaultValues: { displayName, description },
-    resolver: yupResolver(EditDisplayNameSchema)
+    resolver: yupResolver(EditProfileSchema)
   });
 
   const { errors } = useFormState({
@@ -76,10 +75,6 @@ export default function ProfilePage({
 
   const { t } = useTranslation();
 
-  const handleDescription = (descriptionBasicTabs: any) => {
-    setNewDescription(descriptionBasicTabs);
-  };
-
   const onSubmit: SubmitHandler<UserForm> = async data => {
     const formData = new FormData();
     if (userImage) {
@@ -87,7 +82,7 @@ export default function ProfilePage({
     }
     formData.append('id', id);
     formData.append('displayName', data.displayName);
-    formData.append('description', newDescription);
+    formData.append('description', data.description);
 
     try {
       const response = await axios.patch(
@@ -123,125 +118,126 @@ export default function ProfilePage({
   };
 
   return (
-    <ProfileFormWrapper>
-      <ProfileContentWrapper>
-        <Snackbar
-          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-          open={successMessage}
-        >
-          <Alert severity="success">
-            {t('profile.profilePage.dataSuccessChanged')}
-          </Alert>
-        </Snackbar>
+    <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+      <ProfileFormWrapper>
+        <ProfileContentWrapper>
+          <Snackbar
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            open={successMessage}
+          >
+            <Alert severity="success">
+              {t('profile.profilePage.dataSuccessChanged')}
+            </Alert>
+          </Snackbar>
 
-        <Snackbar
-          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-          open={!!errorMessage}
-        >
-          <Alert severity="error">{errorMessage}</Alert>
-        </Snackbar>
+          <Snackbar
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            open={!!errorMessage}
+          >
+            <Alert severity="error">{errorMessage}</Alert>
+          </Snackbar>
 
-        {showEditPanel ? (
-          <Box component="form" onSubmit={handleSubmit(onSubmit)}>
-            <UploadBox>
-              <ProfileAvatar
-                sx={{ ml: '11.5vh' }}
-                aria-label="avatar"
-                src={userAvatar.data.imageUrl}
-              />
-              <Box sx={{ m: '2vh 0 2vh 14vh' }}>
-                {t('profile.profilePage.uploadPhoto')}
-              </Box>
-              <Box>
-                <Button>
-                  <Input
-                    type="file"
-                    {...register('imageUrl')}
-                    onChange={(e: any) => setUserImage(e.target?.files?.[0])}
-                  />
-                </Button>
-              </Box>
-            </UploadBox>
-            <Controller
-              control={control}
-              name="displayName"
-              render={({ field }) => (
-                <TextField
-                  placeholder={t('profile.profilePage.enterName')}
-                  label={t('profile.profilePage.name')}
-                  fullWidth
-                  onChange={field.onChange}
-                  onBlur={field.onBlur}
-                  defaultValue={field.value}
-                  type="text"
-                  error={!!errors.displayName?.message}
-                  helperText={t(
-                    !errors.displayName
-                      ? ''
-                      : String(errors.displayName.message)
-                  )}
+          {showEditPanel ? (
+            <Box>
+              <UploadBox>
+                <ProfileAvatar
+                  sx={{ ml: '11.5vh' }}
+                  aria-label="avatar"
+                  src={userAvatar.data.imageUrl}
                 />
-              )}
-            />
-            <SaveBox>
-              <SaveButton size="large" variant="contained" type="submit">
-                {t('profile.profilePage.save')}
-              </SaveButton>
-              <CancelButton
+                <Box sx={{ m: '2vh 0 2vh 14vh' }}>
+                  {t('profile.profilePage.uploadPhoto')}
+                </Box>
+                <Box>
+                  <Button>
+                    <Input
+                      type="file"
+                      {...register('imageUrl')}
+                      onChange={(e: any) => setUserImage(e.target?.files?.[0])}
+                    />
+                  </Button>
+                </Box>
+              </UploadBox>
+              <Controller
+                control={control}
+                name="displayName"
+                render={({ field }) => (
+                  <TextField
+                    placeholder={t('profile.profilePage.enterName')}
+                    label={t('profile.profilePage.name')}
+                    fullWidth
+                    onChange={field.onChange}
+                    onBlur={field.onBlur}
+                    defaultValue={field.value}
+                    type="text"
+                    error={!!errors.displayName?.message}
+                    helperText={t(
+                      !errors.displayName
+                        ? ''
+                        : String(errors.displayName.message)
+                    )}
+                  />
+                )}
+              />
+              <SaveBox>
+                <SaveButton size="large" variant="contained" type="submit">
+                  {t('profile.profilePage.save')}
+                </SaveButton>
+                <CancelButton
+                  size="large"
+                  variant="contained"
+                  onClick={closeEditData}
+                >
+                  {t('profile.profilePage.cancel')}
+                </CancelButton>
+              </SaveBox>
+            </Box>
+          ) : (
+            <Box>
+              <ProfileAvatar
+                aria-label="avatar"
+                src={userAvatar.data.imageUrl || userImageNotFound}
+              />
+              <Typography
+                sx={{ mt: '3vh' }}
+                variant="h5"
+                component="h4"
+                align="center"
+              >
+                {displayName === undefined
+                  ? `${t('profile.profilePage.yourName')}`
+                  : displayName}
+              </Typography>
+
+              <EditButton
+                sx={{ mt: '2vh' }}
                 size="large"
                 variant="contained"
-                onClick={closeEditData}
+                onClick={editData}
               >
-                {t('profile.profilePage.cancel')}
-              </CancelButton>
-            </SaveBox>
-          </Box>
-        ) : (
-          <Box>
-            <ProfileAvatar
-              aria-label="avatar"
-              src={userAvatar.data.imageUrl || userImageNotFound}
-            />
-            <Typography
-              sx={{ mt: '3vh' }}
-              variant="h5"
-              component="h4"
-              align="center"
-            >
-              {displayName === undefined
-                ? `${t('profile.profilePage.yourName')}`
-                : displayName}
-            </Typography>
-
-            <EditButton
-              sx={{ mt: '2vh' }}
-              size="large"
-              variant="contained"
-              onClick={editData}
-            >
-              {t('profile.profilePage.editProfile')}
-            </EditButton>
-          </Box>
-        )}
-        <Typography variant="h5" component="h4" align="center">
-          {t('profile.profilePage.creationDate')} {createdAt}
-        </Typography>
-        <Typography variant="h5" component="h5" align="center">
-          {email}
-        </Typography>
-        <Button size="large" onClick={logout} variant="contained">
-          {t('profile.profilePage.logout')}
-        </Button>
-      </ProfileContentWrapper>
-      <ProfileUsertWrapper>
-        <BasicTabs
-          showEditPanel={showEditPanel}
-          setShowEditPanel={setShowEditPanel}
-          control={control}
-          handleDescription={handleDescription}
-          newDescription={newDescription}
-        />
-      </ProfileUsertWrapper>
-    </ProfileFormWrapper>
+                {t('profile.profilePage.editProfile')}
+              </EditButton>
+            </Box>
+          )}
+          <Typography variant="h5" component="h4" align="center">
+            {t('profile.profilePage.creationDate')} {createdAt}
+          </Typography>
+          <Typography variant="h5" component="h5" align="center">
+            {email}
+          </Typography>
+          <Button size="large" onClick={logout} variant="contained">
+            {t('profile.profilePage.logout')}
+          </Button>
+        </ProfileContentWrapper>
+        <ProfileUserWrapper>
+          <BasicTabs
+            control={control}
+            error={errors.description}
+            showEditPanel={showEditPanel}
+            setShowEditPanel={setShowEditPanel}
+          />
+        </ProfileUserWrapper>
+      </ProfileFormWrapper>
+    </Box>
   );
 }

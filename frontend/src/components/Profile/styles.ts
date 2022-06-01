@@ -19,7 +19,7 @@ export const ProfileContentWrapper = styled(ProfileFormWrapper)`
   flex-direction: column;
 `;
 
-export const ProfileUsertWrapper = styled(ProfileFormWrapper)`
+export const ProfileUserWrapper = styled(ProfileFormWrapper)`
   height: 70vh;
   width: 60wh;
   padding-top: 40px;

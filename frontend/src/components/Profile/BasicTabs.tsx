@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { Tabs, Tab, Typography, Box, TextField } from '@mui/material';
-import { Controller, Control } from 'react-hook-form';
+import { Controller, Control, FieldError } from 'react-hook-form';
 import { UserForm } from 'redux/ts-types/user';
 
 interface TabPanelProps {
@@ -45,15 +45,13 @@ type BasicTabsProps = {
   showEditPanel: boolean;
   setShowEditPanel: Function;
   control: Control<UserForm>;
-  handleDescription: Function;
-  newDescription: string;
+  error: FieldError | undefined;
 };
 
 export default function BasicTabs({
   showEditPanel,
   control,
-  handleDescription,
-  newDescription
+  error
 }: BasicTabsProps) {
   const [value, setValue] = React.useState(0);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -81,23 +79,23 @@ export default function BasicTabs({
       </Box>
       {showEditPanel ? (
         <TabPanel value={value} index={0}>
-          <form>
-            <Controller
-              control={control}
-              name="description"
-              render={({ field }) => (
-                <TextField
-                  placeholder={t('profile.basicTabs.enterDescription')}
-                  label={t('profile.basicTabs.description')}
-                  fullWidth
-                  onChange={(e: any) => handleDescription(e.target.value)}
-                  onBlur={field.onBlur}
-                  defaultValue={newDescription}
-                  type="text"
-                />
-              )}
-            />
-          </form>
+          <Controller
+            control={control}
+            name="description"
+            render={({ field }) => (
+              <TextField
+                placeholder={t('profile.basicTabs.enterDescription')}
+                label={t('profile.basicTabs.description')}
+                fullWidth
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+                defaultValue={field.value}
+                type="text"
+                error={!!error}
+                helperText={t(!error ? '' : String(error.message))}
+              />
+            )}
+          />
         </TabPanel>
       ) : (
         <Box>
