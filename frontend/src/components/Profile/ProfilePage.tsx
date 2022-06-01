@@ -7,7 +7,14 @@ import {
   Snackbar,
   Alert
 } from '@mui/material';
-import { useForm, SubmitHandler, Controller } from 'react-hook-form';
+import {
+  useForm,
+  SubmitHandler,
+  Controller,
+  useFormState
+} from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { EditProfileSchema } from 'utils/validation';
 import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
@@ -19,7 +26,7 @@ import {
   CancelButton,
   ProfileContentWrapper,
   ProfileFormWrapper,
-  ProfileUsertWrapper,
+  ProfileUserWrapper,
   SaveBox,
   UploadBox,
   EditButton,
@@ -41,15 +48,20 @@ export default function ProfilePage() {
     state => state.privateUserData.data
   );
 
+  const [showEditPanel, setShowEditPanel] = useState(false);
+  const [successMessage, setSuccessMessage] = useState(false);
+  const [userImage, setUserImage] = useState<File | null>();
+  const [errorMessage, setErrorMessage] = useState('');
+
   const { handleSubmit, control, register } = useForm<UserForm>({
     mode: 'onBlur',
-    defaultValues: { displayName, description }
+    defaultValues: { displayName, description },
+    resolver: yupResolver(EditProfileSchema)
   });
-  const [showEditPanel, setShowEditPanel] = useState(false);
-  const [userImage, setUserImage] = useState<File | null | Blob>(null);
-  const [newDescription, setNewDescription] = useState(description);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState(false);
+
+  const { errors } = useFormState({
+    control
+  });
 
   useEffect(() => {
     if (updateError) {
@@ -69,15 +81,14 @@ export default function ProfilePage() {
     }
   }, [updateSuccess]);
 
-  const onSubmit: SubmitHandler<UserForm> = async (data, event) => {
-    event?.preventDefault();
+  const onSubmit: SubmitHandler<UserForm> = async data => {
     const formData = new FormData();
     if (userImage) {
       formData.append('image', userImage);
     }
     formData.append('id', id);
     formData.append('displayName', data.displayName);
-    formData.append('description', newDescription);
+    formData.append('description', data.description);
 
     updateUserData(formData);
   };
@@ -99,34 +110,34 @@ export default function ProfilePage() {
   };
 
   return (
-    <ProfileFormWrapper>
-      <ProfileContentWrapper>
-        <Snackbar
-          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-          sx={{ zIndex: 10000 }}
-          open={successMessage}
-          autoHideDuration={3000}
-          onClose={handleClose}
-        >
-          <Alert severity="success" onClose={handleClose} sx={{ mt: '4vh' }}>
-            {t('profile.profilePage.dataSuccessChanged')}
-          </Alert>
-        </Snackbar>
+    <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+      <ProfileFormWrapper>
+        <ProfileContentWrapper>
+          <Snackbar
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            sx={{ zIndex: 10000 }}
+            open={successMessage}
+            autoHideDuration={3000}
+            onClose={handleClose}
+          >
+            <Alert severity="success" onClose={handleClose} sx={{ mt: '4vh' }}>
+              {t('profile.profilePage.dataSuccessChanged')}
+            </Alert>
+          </Snackbar>
 
-        <Snackbar
-          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-          sx={{ zIndex: 10000 }}
-          open={!!errorMessage}
-          onClose={handleClose}
-          autoHideDuration={3000}
-        >
-          <Alert onClose={handleClose} severity="error" sx={{ mt: '4vh' }}>
-            {errorMessage}
-          </Alert>
-        </Snackbar>
+          <Snackbar
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            sx={{ zIndex: 10000 }}
+            open={!!errorMessage}
+            onClose={handleClose}
+            autoHideDuration={3000}
+          >
+            <Alert onClose={handleClose} severity="error" sx={{ mt: '4vh' }}>
+              {errorMessage}
+            </Alert>
+          </Snackbar>
 
-        {showEditPanel ? (
-          <form onSubmit={handleSubmit(onSubmit)}>
+          {showEditPanel ? (
             <Box>
               <UploadBox>
                 <ProfileAvatar
@@ -152,6 +163,12 @@ export default function ProfilePage() {
                     onBlur={field.onBlur}
                     defaultValue={field.value}
                     type="text"
+                    error={!!errors.displayName?.message}
+                    helperText={t(
+                      !errors.displayName
+                        ? ''
+                        : String(errors.displayName.message)
+                    )}
                   />
                 )}
               />
@@ -168,63 +185,62 @@ export default function ProfilePage() {
                 </CancelButton>
               </SaveBox>
             </Box>
-          </form>
-        ) : (
-          <UploadBox>
-            <ProfileAvatar
-              aria-label="avatar"
-              src={userAvatar || userImageNotFound}
-            />
-            <Typography
-              sx={{ mt: '3vh' }}
-              variant="h5"
-              component="h4"
-              align="center"
-            >
-              {displayName === undefined
-                ? `${t('profile.profilePage.yourName')}`
-                : displayName}
-            </Typography>
+          ) : (
+            <UploadBox>
+              <ProfileAvatar
+                aria-label="avatar"
+                src={userAvatar || userImageNotFound}
+              />
+              <Typography
+                sx={{ mt: '3vh' }}
+                variant="h5"
+                component="h4"
+                align="center"
+              >
+                {displayName === undefined
+                  ? `${t('profile.profilePage.yourName')}`
+                  : displayName}
+              </Typography>
 
-            <EditButton size="large" variant="contained" onClick={editData}>
-              {t('profile.profilePage.editProfile')}
-            </EditButton>
-          </UploadBox>
-        )}
+              <EditButton size="large" variant="contained" onClick={editData}>
+                {t('profile.profilePage.editProfile')}
+              </EditButton>
+            </UploadBox>
+          )}
 
-        <TypographyDate variant="h6">
-          {t('profile.profilePage.creationDate')}{' '}
-          {new Date(createdAt).toLocaleDateString('en-GB')}
-        </TypographyDate>
-        <TypographyDate variant="h6">
-          {t('profile.profilePage.updateDate')}{' '}
-          {new Date(updatedAt).toLocaleDateString('en-GB')}
-        </TypographyDate>
+          <TypographyDate variant="h6">
+            {t('profile.profilePage.creationDate')}{' '}
+            {new Date(createdAt).toLocaleDateString('en-GB')}
+          </TypographyDate>
+          <TypographyDate variant="h6">
+            {t('profile.profilePage.updateDate')}{' '}
+            {new Date(updatedAt).toLocaleDateString('en-GB')}
+          </TypographyDate>
 
-        <Typography variant="h6" component="h6" align="center">
-          {email}
-        </Typography>
-        <Button
-          size="large"
-          onClick={() => {
-            deleteUserData();
-            deletePrivateUserData();
-            logout();
-          }}
-          variant="contained"
-        >
-          {t('profile.profilePage.logout')}
-        </Button>
-      </ProfileContentWrapper>
-      <ProfileUsertWrapper>
-        <BasicTabs
-          showEditPanel={showEditPanel}
-          setShowEditPanel={setShowEditPanel}
-          setNewDescription={setNewDescription}
-          control={control}
-          newDescription={newDescription}
-        />
-      </ProfileUsertWrapper>
-    </ProfileFormWrapper>
+          <Typography variant="h6" component="h6" align="center">
+            {email}
+          </Typography>
+          <Button
+            size="large"
+            onClick={() => {
+              deleteUserData();
+              deletePrivateUserData();
+              logout();
+            }}
+            variant="contained"
+          >
+            {t('profile.profilePage.logout')}
+          </Button>
+        </ProfileContentWrapper>
+        <ProfileUserWrapper>
+          <BasicTabs
+            error={errors.description}
+            showEditPanel={showEditPanel}
+            setShowEditPanel={setShowEditPanel}
+            control={control}
+          />
+        </ProfileUserWrapper>
+      </ProfileFormWrapper>
+    </Box>
   );
 }
