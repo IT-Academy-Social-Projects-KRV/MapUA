@@ -20,25 +20,17 @@ export const forgotPasswordSchema = [
     })
 ];
 export const CommentSchema = [
-  body('id')
-    .exists({ checkFalsy: true })
-    .withMessage((value, { req, location, path }) => {
-      return req.t('location_comments.comment_not_have_properties', {
-        value,
-        location,
-        path
-      });
-    }),
-  body('comment')
-    .isObject()
-    .withMessage((value, { req, location, path }) => {
-      return req.t('location_comments.comment_not_have_properties', {
-        value,
-        location,
-        path
-      });
-    }),
+  body('comment').isObject().withMessage('Invalid format data'),
   body('comment.author')
+    .isString()
+    .withMessage((value, { req, location, path }) => {
+      return req.t('location_comments.comment_not_have_properties', {
+        value,
+        location,
+        path
+      });
+    }),
+  body('comment.locationId')
     .isString()
     .withMessage((value, { req, location, path }) => {
       return req.t('location_comments.comment_not_have_properties', {
@@ -69,24 +61,6 @@ export const CommentSchema = [
     }),
   body('comment.dislikes')
     .isArray()
-    .withMessage((value, { req, location, path }) => {
-      return req.t('location_comments.comment_not_have_properties', {
-        value,
-        location,
-        path
-      });
-    }),
-  body('comment.createdAt')
-    .isString()
-    .withMessage((value, { req, location, path }) => {
-      return req.t('location_comments.comment_not_have_properties', {
-        value,
-        location,
-        path
-      });
-    }),
-  body('comment.updatedAt')
-    .isString()
     .withMessage((value, { req, location, path }) => {
       return req.t('location_comments.comment_not_have_properties', {
         value,

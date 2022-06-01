@@ -34,7 +34,6 @@ router.post(
   AuthController.forgotPassword
 );
 
-
 router.get(
   '/private-user-data',
   passport.authenticate('jwt', { session: false }),
@@ -62,12 +61,6 @@ router.patch(
   LocationsController.updateLocationLikesById
 );
 router.get('/locations/:id', LocationsController.getLocationById);
-router.put(
-  '/locations/comment',
-  CommentSchema,
-  validateRequest,
-  LocationsController.addLocationComments
-);
 router.post(
   '/locations/create',
   upload.array('image'),
@@ -77,7 +70,12 @@ router.post(
   LocationsController.postPersonalLocation
 );
 
-router.post('/comments/create', CommentsController.createLocationComment);
+router.post(
+  '/comments/create',
+  CommentSchema,
+  validateRequest,
+  CommentsController.createLocationComment
+);
 router.get('/comments/:locationId', CommentsController.getLocationComments);
 
 router.get(
@@ -123,10 +121,12 @@ router.get('/is-authenticated', AuthController.checkJwt);
 router.put(
   '/toggleFavorite/',
   passport.authenticate('jwt', { session: false }),
-  UserController.toggleFavorite);
+  UserController.toggleFavorite
+);
 router.put(
   '/toggleVisited/',
   passport.authenticate('jwt', { session: false }),
-  UserController.toggleVisited);
+  UserController.toggleVisited
+);
 
 export default router;
