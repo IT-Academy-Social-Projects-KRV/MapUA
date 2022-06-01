@@ -20,6 +20,7 @@ type Props = {
   description: string;
   closeEditData: MouseEventHandler<HTMLButtonElement>;
   setUserImage: Function;
+  userImage: any;
 };
 
 export const SaveGroup: FC<Props> = ({
@@ -27,7 +28,8 @@ export const SaveGroup: FC<Props> = ({
   displayName,
   description,
   closeEditData,
-  setUserImage
+  setUserImage,
+  userImage
 }) => {
   const { t } = useTranslation();
   const { imageUrl: userAvatar } = useTypedSelector(
@@ -43,13 +45,9 @@ export const SaveGroup: FC<Props> = ({
       <Box>
         <UploadBox>
           <ProfileAvatar
-            sx={{ ml: '11.5vh' }}
             aria-label="avatar"
-            src={userAvatar}
+            src={(userImage && URL.createObjectURL(userImage)) || userAvatar}
           />
-          <Box sx={{ m: '2vh 0 2vh 14vh' }}>
-            {t('profile.profilePage.uploadPhoto')}
-          </Box>
           <UploadBox>
             <UploadInputProfilePage
               setUserImage={setUserImage}

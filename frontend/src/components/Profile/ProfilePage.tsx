@@ -131,6 +131,7 @@ export default function ProfilePage() {
             description={displayName}
             closeEditData={closeEditData}
             setUserImage={setUserImage}
+            userImage={userImage}
           />
         ) : (
           <EditGroup displayName={displayName} editData={editData} />
