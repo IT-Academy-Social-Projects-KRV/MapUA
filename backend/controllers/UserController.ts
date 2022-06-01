@@ -158,9 +158,7 @@ const UserController = {
       if (!changeData) {
         return res.status(400).json({ error: req.t('auth.user_not_exist') });
       }
-      return res
-        .status(200)
-        .json({ message: req.t('user_profile.change_user_info_success') });
+      return res.status(200).json(changeData);
     } catch (err: any) {
       return res.status(500).json({ error: req.t('other.server_error'), err });
     }
