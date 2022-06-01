@@ -4,18 +4,20 @@ import { useTranslation } from 'react-i18next';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
-import { Comment } from '../../../redux/ts-types/locationComments';
+import { CommentType } from '../../../../types';
 
 const CommentForm = () => {
   const { t } = useTranslation();
 
   const [commentText, setCommentText] = useState('');
   const { sendComment } = useTypedDispatch();
-  const { id: userId } = useTypedSelector(state => state.userAuth);
-  const { _id: locationId } = useTypedSelector(state => state.popupLocation);
+  const { _id: userId } = useTypedSelector(state => state.userData.data);
+  const { _id: locationId } = useTypedSelector(
+    state => state.popupLocation.data
+  );
 
   const onSendComment = () => {
-    const commentBody: Comment<string> = {
+    const commentBody: CommentType<string> = {
       author: userId,
       locationId: locationId!,
       text: commentText,

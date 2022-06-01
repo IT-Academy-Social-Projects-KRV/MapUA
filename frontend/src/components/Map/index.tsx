@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { LocationPopOut } from 'components/LocationPopOut/LocationPopOut';
 import SearchFormContainer from 'components/SearchFormContainer';
 import useDebounce from 'utils/useDebounce';
+import { v4 } from 'uuid';
 
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
@@ -32,36 +33,40 @@ function Map({
   isAddLocationActive
 }: Props) {
   const { t } = useTranslation();
-  const userAuth = useTypedSelector(state => state.userAuth.isAuthorized);
+  const { data: isAuthorized } = useTypedSelector(
+    state => state.isUserAuthorized
+  );
+  const { data: locations } = useTypedSelector(state => state.locationList);
+  const {
+    bounds,
+    locationName: searchName,
+    selectedFilters
+  } = useTypedSelector(state => state.mapInfo);
 
   const formRef = React.useRef<any>(null);
-  const [coordinateByClick, SetCoordinateByClick] = useState<any>({});
-  const { bounds, locations, zoomPosition, locationName, selectedFilters } =
-    useTypedSelector(state => state.locationList);
-  const debouncedValue = useDebounce(locationName, 1000);
-  const { setBounds, setZoomPosition, fetchLocations } = useTypedDispatch();
-  useEffect(() => {
-    fetchLocations(zoomPosition, bounds, debouncedValue, selectedFilters);
-  }, [bounds, debouncedValue, JSON.stringify(selectedFilters)]);
+  const [, SetCoordinateByClick] = useState<any>({});
+  const debouncedValue = useDebounce(searchName, 1000);
+  const { setBounds, fetchLocations } = useTypedDispatch();
 
   useEffect(() => {
     L.DomEvent.disableClickPropagation(formRef.current);
     L.DomEvent.disableScrollPropagation(formRef.current);
   }, []);
+  useEffect(() => {
+    fetchLocations(bounds, debouncedValue, selectedFilters);
+  }, [bounds, debouncedValue, JSON.stringify(selectedFilters)]);
 
   function MyZoomComponent() {
     const prev = bounds;
 
     const map = useMapEvents({
-      zoom: e => {
+      zoom: () => {
         if (!isAddLocationActive) {
-          setZoomPosition(e.target.getCenter());
           setBounds({ ...prev, ...map.getBounds() });
         }
       },
-      dragend: e => {
+      dragend: () => {
         if (!isAddLocationActive) {
-          setZoomPosition(e.target.getCenter());
           setBounds({ ...prev, ...map.getBounds() });
         }
       },
@@ -92,7 +97,7 @@ function Map({
         {/* eslint-disable-next-line @typescript-eslint/no-shadow */}
         {locations.map(({ _id, coordinates, locationName, arrayPhotos }) => (
           <LocationPopOut
-            key={_id}
+            key={v4()}
             id={_id}
             coordinates={coordinates}
             locationName={locationName}
@@ -101,7 +106,7 @@ function Map({
           />
         ))}
         <SearchFormContainer />
-        {userAuth && showAddLocationButton && !isOpen && (
+        {isAuthorized && showAddLocationButton && !isOpen && (
           <Button
             onClick={() =>
               setIsAddLocationActive((prevState: boolean) => !prevState)

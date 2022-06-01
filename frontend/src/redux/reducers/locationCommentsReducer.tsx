@@ -2,15 +2,15 @@ import {
   LocationCommentsActions,
   LocationCommentsActionTypes
 } from 'redux/action-types/locationCommentsActionTypes';
-import { locationCommentsState } from 'redux/ts-types/locationComments';
+import { locationCommentsStateType } from '../ts-types';
 
-export const initialState: locationCommentsState = {
+export const initialState: locationCommentsStateType = {
   comments: []
 };
 export const locationCommentsReducer = (
   state = initialState,
   action: LocationCommentsActions
-): locationCommentsState => {
+): locationCommentsStateType => {
   switch (action.type) {
     case LocationCommentsActionTypes.ADD_COMMENT:
       return { comments: [action.payload, ...state.comments] };

@@ -26,7 +26,7 @@ export function LocationPopOut({
   onOpenBigPopup
 }: Props) {
   const locationData = useTypedSelector(state => state.popupLocation);
-  const { isLoading } = locationData;
+  const { loading } = locationData;
   const { fetchPopupLocation } = useTypedDispatch();
 
   return (
@@ -37,7 +37,7 @@ export function LocationPopOut({
       })}
       eventHandlers={{
         click: e => {
-          if (!isLoading) {
+          if (!loading) {
             e.originalEvent.stopPropagation();
             fetchPopupLocation(id);
             onOpenBigPopup(locationData);

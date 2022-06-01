@@ -1,4 +1,4 @@
-import { AuthorInfo, Comment } from 'redux/ts-types/locationComments';
+import { AuthorInfoType, CommentType } from '../../../types';
 
 /* eslint-disable no-unused-vars */
 
@@ -9,12 +9,12 @@ export enum LocationCommentsActionTypes {
 
 interface AddCommentAction {
   type: LocationCommentsActionTypes.ADD_COMMENT;
-  payload: Comment<AuthorInfo>;
+  payload: CommentType<AuthorInfoType>;
 }
 
 interface FetchCommentsAction {
   type: LocationCommentsActionTypes.FETCH_COMMENTS;
-  payload: Comment<AuthorInfo>[];
+  payload: CommentType<AuthorInfoType>[];
 }
 
 export type LocationCommentsActions = AddCommentAction | FetchCommentsAction;

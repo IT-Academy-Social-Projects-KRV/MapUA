@@ -44,7 +44,7 @@ function ForgotPassword() {
     setLoading(true);
 
     try {
-      const { data } = await axios.post(`forgot-password`, { email });
+      const { data } = await axios().post(`forgot-password`, { email });
       setEmail('');
       setNotification({ type: 'success', message: data.message });
     } catch (error: any) {

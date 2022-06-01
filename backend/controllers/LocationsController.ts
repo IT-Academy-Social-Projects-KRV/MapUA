@@ -5,21 +5,18 @@ import User from '../models/UserModel';
 const LocationsController = {
   async getLocationsByZoom(req: Request, res: Response) {
     try {
-      const center = JSON.parse(req.query.center as string);
       const bounds = JSON.parse(req.query.bounds as string);
       const searchName = req.query.name as string;
       const filters = JSON.parse(req.query.filters as any);
-      const height = +(bounds._northEast.lat - bounds._southWest.lat);
-      const width = +(bounds._northEast.lng - bounds._southWest.lng);
       let locations = (
         await Location.find({
           'coordinates.0': {
-            $gt: center.lat - height,
-            $lt: center.lat + height
+            $gt: bounds._southWest.lat,
+            $lt: bounds._northEast.lat
           },
           'coordinates.1': {
-            $gt: center.lng - width,
-            $lt: center.lng + width
+            $gt: bounds._southWest.lng,
+            $lt: bounds._northEast.lng
           }
         })
       ).map(l => ({

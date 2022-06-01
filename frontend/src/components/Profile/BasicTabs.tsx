@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { Tabs, Tab, Typography, Box, TextField } from '@mui/material';
 import { Controller, Control } from 'react-hook-form';
-import { UserForm } from 'redux/ts-types/user';
+import { UserForm } from '../../../types';
 
 interface TabPanelProps {
   index: number;
@@ -45,27 +45,23 @@ type BasicTabsProps = {
   showEditPanel: boolean;
   setShowEditPanel: Function;
   control: Control<UserForm>;
-  handleDescription: Function;
+  setNewDescription: Function;
   newDescription: string;
 };
 
 export default function BasicTabs({
   showEditPanel,
   control,
-  handleDescription,
+  setNewDescription,
   newDescription
 }: BasicTabsProps) {
+  const { t } = useTranslation();
   const [value, setValue] = React.useState(0);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
-  const { t } = useTranslation();
-
-  // const postDescription = (description: any) => {
-  //   handleDescription(description);
-  // };
-  const userDescription = useTypedSelector(state => state.user);
+  const userDescription = useTypedSelector(state => state.userData);
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -90,7 +86,10 @@ export default function BasicTabs({
                   placeholder={t('profile.basicTabs.enterDescription')}
                   label={t('profile.basicTabs.description')}
                   fullWidth
-                  onChange={(e: any) => handleDescription(e.target.value)}
+                  onChange={(e: any) => {
+                    e.preventDefault();
+                    setNewDescription(e.target.value);
+                  }}
                   onBlur={field.onBlur}
                   defaultValue={newDescription}
                   type="text"
