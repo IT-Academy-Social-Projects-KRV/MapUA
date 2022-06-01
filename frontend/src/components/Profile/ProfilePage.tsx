@@ -52,7 +52,6 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (updateError) {
-      console.log('error');
       setTimeout(() => setErrorMessage(''), 3000);
       setErrorMessage(
         (typeof updateError === 'string' ? updateError : updateError.message) ||
@@ -63,7 +62,6 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (updateSuccess) {
-      console.log('success');
       setSuccessMessage(true);
       setTimeout(() => setSuccessMessage(false), 3000);
       setShowEditPanel(false);
