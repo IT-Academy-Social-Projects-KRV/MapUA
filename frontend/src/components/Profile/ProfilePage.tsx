@@ -1,13 +1,11 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import {
   Typography,
   Button,
   Box,
   TextField,
   Snackbar,
-  Alert,
-  Input
+  Alert
 } from '@mui/material';
 import {
   useForm,
@@ -18,11 +16,9 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import { EditProfileSchema } from 'utils/validation';
 import { useTranslation } from 'react-i18next';
-import { UserActionTypes } from 'redux/action-types/userActionTypes';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
-import { UserForm } from 'redux/ts-types/user';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
-import { useDispatch } from 'react-redux';
+import UploadInputProfilePage from 'components/design/UploadInputProfilePage';
 import userImageNotFound from '../../static/user-image-not-found.png';
 import {
   ProfileAvatar,
@@ -33,35 +29,29 @@ import {
   ProfileUserWrapper,
   SaveBox,
   UploadBox,
-  EditButton
+  EditButton,
+  TypographyDate
 } from './styles';
 import BasicTabs from './BasicTabs';
+import { UserForm } from '../../../types';
 
-interface ProfilePageProps {
-  id: string;
-  email: string;
-  displayName: string;
-  createdAt: Date | string;
-  imageUrl: string;
-  description: string;
-}
+export default function ProfilePage() {
+  const { t } = useTranslation();
+  const { updateUserData, deleteUserData, deletePrivateUserData, logout } =
+    useTypedDispatch();
+  const {
+    success: updateSuccess,
+    error: updateError,
+    data: { _id: id, displayName, description, imageUrl: userAvatar }
+  } = useTypedSelector(state => state.userData);
+  const { email, createdAt, updatedAt } = useTypedSelector(
+    state => state.privateUserData.data
+  );
 
-export default function ProfilePage({
-  id,
-  email,
-  displayName,
-  createdAt,
-  description
-}: ProfilePageProps) {
   const [showEditPanel, setShowEditPanel] = useState(false);
   const [successMessage, setSuccessMessage] = useState(false);
   const [userImage, setUserImage] = useState<File | null>();
   const [errorMessage, setErrorMessage] = useState('');
-
-  const userAvatar = useTypedSelector(state => state.user);
-
-  const dispatch = useDispatch();
-  const { logout } = useTypedDispatch();
 
   const { handleSubmit, control, register } = useForm<UserForm>({
     mode: 'onBlur',
@@ -73,7 +63,23 @@ export default function ProfilePage({
     control
   });
 
-  const { t } = useTranslation();
+  useEffect(() => {
+    if (updateError) {
+      setTimeout(() => setErrorMessage(''), 3000);
+      setErrorMessage(
+        (typeof updateError === 'string' ? updateError : updateError.message) ||
+          `${t('profile.profilePage.lostNetwork')}`
+      );
+    }
+  }, [updateError]);
+
+  useEffect(() => {
+    if (updateSuccess) {
+      setSuccessMessage(true);
+      setTimeout(() => setSuccessMessage(false), 3000);
+      setShowEditPanel(false);
+    }
+  }, [updateSuccess]);
 
   const onSubmit: SubmitHandler<UserForm> = async data => {
     const formData = new FormData();
@@ -84,37 +90,23 @@ export default function ProfilePage({
     formData.append('displayName', data.displayName);
     formData.append('description', data.description);
 
-    try {
-      const response = await axios.patch(
-        `${process.env.REACT_APP_API_URI}profile`,
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        }
-      );
-      if (response.status === 200) {
-        setSuccessMessage(true);
-        setTimeout(() => setSuccessMessage(false), 3000);
-        dispatch({
-          type: UserActionTypes.UPDATE_USER,
-          payload: response.data
-        });
-        setShowEditPanel(false);
-      }
-    } catch (e: any) {
-      setTimeout(() => setErrorMessage(''), 3000);
-      setErrorMessage(
-        e.response.data?.error || `${t('profile.profilePage.lostNetwork')}`
-      );
-    }
+    updateUserData(formData);
   };
   const editData = () => {
     setShowEditPanel(true);
   };
   const closeEditData = () => {
     setShowEditPanel(false);
+  };
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setErrorMessage('');
+    setSuccessMessage(false);
   };
 
   return (
@@ -123,40 +115,41 @@ export default function ProfilePage({
         <ProfileContentWrapper>
           <Snackbar
             anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            sx={{ zIndex: 10000 }}
             open={successMessage}
+            autoHideDuration={3000}
+            onClose={handleClose}
           >
-            <Alert severity="success">
+            <Alert severity="success" onClose={handleClose} sx={{ mt: '4vh' }}>
               {t('profile.profilePage.dataSuccessChanged')}
             </Alert>
           </Snackbar>
 
           <Snackbar
             anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            sx={{ zIndex: 10000 }}
             open={!!errorMessage}
+            onClose={handleClose}
+            autoHideDuration={3000}
           >
-            <Alert severity="error">{errorMessage}</Alert>
+            <Alert onClose={handleClose} severity="error" sx={{ mt: '4vh' }}>
+              {errorMessage}
+            </Alert>
           </Snackbar>
 
           {showEditPanel ? (
             <Box>
               <UploadBox>
                 <ProfileAvatar
-                  sx={{ ml: '11.5vh' }}
                   aria-label="avatar"
-                  src={userAvatar.data.imageUrl}
+                  src={
+                    (userImage && URL.createObjectURL(userImage)) || userAvatar
+                  }
                 />
-                <Box sx={{ m: '2vh 0 2vh 14vh' }}>
-                  {t('profile.profilePage.uploadPhoto')}
-                </Box>
-                <Box>
-                  <Button>
-                    <Input
-                      type="file"
-                      {...register('imageUrl')}
-                      onChange={(e: any) => setUserImage(e.target?.files?.[0])}
-                    />
-                  </Button>
-                </Box>
+                <UploadInputProfilePage
+                  setUserImage={setUserImage}
+                  register={register}
+                />
               </UploadBox>
               <Controller
                 control={control}
@@ -193,10 +186,10 @@ export default function ProfilePage({
               </SaveBox>
             </Box>
           ) : (
-            <Box>
+            <UploadBox>
               <ProfileAvatar
                 aria-label="avatar"
-                src={userAvatar.data.imageUrl || userImageNotFound}
+                src={userAvatar || userImageNotFound}
               />
               <Typography
                 sx={{ mt: '3vh' }}
@@ -209,32 +202,42 @@ export default function ProfilePage({
                   : displayName}
               </Typography>
 
-              <EditButton
-                sx={{ mt: '2vh' }}
-                size="large"
-                variant="contained"
-                onClick={editData}
-              >
+              <EditButton size="large" variant="contained" onClick={editData}>
                 {t('profile.profilePage.editProfile')}
               </EditButton>
-            </Box>
+            </UploadBox>
           )}
-          <Typography variant="h5" component="h4" align="center">
-            {t('profile.profilePage.creationDate')} {createdAt}
-          </Typography>
-          <Typography variant="h5" component="h5" align="center">
+
+          <TypographyDate variant="h6">
+            {t('profile.profilePage.creationDate')}{' '}
+            {new Date(createdAt).toLocaleDateString('en-GB')}
+          </TypographyDate>
+          <TypographyDate variant="h6">
+            {t('profile.profilePage.updateDate')}{' '}
+            {new Date(updatedAt).toLocaleDateString('en-GB')}
+          </TypographyDate>
+
+          <Typography variant="h6" component="h6" align="center">
             {email}
           </Typography>
-          <Button size="large" onClick={logout} variant="contained">
+          <Button
+            size="large"
+            onClick={() => {
+              deleteUserData();
+              deletePrivateUserData();
+              logout();
+            }}
+            variant="contained"
+          >
             {t('profile.profilePage.logout')}
           </Button>
         </ProfileContentWrapper>
         <ProfileUserWrapper>
           <BasicTabs
-            control={control}
             error={errors.description}
             showEditPanel={showEditPanel}
             setShowEditPanel={setShowEditPanel}
+            control={control}
           />
         </ProfileUserWrapper>
       </ProfileFormWrapper>

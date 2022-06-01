@@ -14,17 +14,34 @@ export type boundsType = {
   };
 };
 
-export type locationType = {
+export type AuthorInfoType = {
+  imageUrl: string;
+  displayName: string;
+};
+export type CommentType<T> = {
   _id?: string;
+  author: T;
+  locationId: string;
+  text: string;
+  likes: string[];
+  dislikes: string[];
+  createdAt?: Date;
+  updatedAt?: Date;
+};
+
+export type locationType = {
+  _id: string;
+  author?: AuthorInfoType;
   locationName: string;
   rating: {
-    likes: number;
-    dislikes: number;
+    likes: string[];
+    dislikes: string[];
   };
   coordinates: [number, number];
   arrayPhotos: string[];
   description: string;
-  comments: string[];
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type LocationPopOutData = {
@@ -45,9 +62,6 @@ export type lightLocationType = {
 
 export type UserDataType = {
   _id: string;
-  email: string;
-  createdAt: Date | string;
-  updatedAt: Date | string;
   displayName: string;
   description: string;
   imageUrl: string;
@@ -57,14 +71,20 @@ export type UserDataType = {
   visited: string[];
   personalLocations: string[];
 };
-
-export type LocationType = {
-  locationName: string;
-  coordinates: [number, number];
-  descripton: string;
-  arrayPhotos: [];
+export type PrivateUserDataType = {
+  email: string;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+};
+export type UserForm = {
+  displayName: string;
+  description: string;
+  imageUrl: FileList;
 };
 
-export type CoordinatesType = {
-  coordinate: [number, number];
+export type FiltersDataType = {
+  id: number;
+  forLoggedUser: boolean;
+  type: string;
+  values: any;
 };

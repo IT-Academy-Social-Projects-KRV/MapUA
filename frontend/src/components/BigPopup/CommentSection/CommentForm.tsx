@@ -12,7 +12,7 @@ import { CommentSectionSchema } from 'utils/validation';
 import { useTranslation } from 'react-i18next';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
-import { Comment } from '../../../redux/ts-types/popupLocation';
+import { CommentType } from '../../../../types';
 
 type CommentCheck = {
   commentText: string;
@@ -22,8 +22,10 @@ const CommentForm = () => {
   const { t } = useTranslation();
 
   const { sendComment } = useTypedDispatch();
-  const { id: userId } = useTypedSelector(state => state.userAuth);
-  const { _id: locationId } = useTypedSelector(state => state.popupLocation);
+  const { _id: userId } = useTypedSelector(state => state.userData.data);
+  const { _id: locationId } = useTypedSelector(
+    state => state.popupLocation.data
+  );
 
   const { handleSubmit, control } = useForm<CommentCheck>({
     resolver: yupResolver(CommentSectionSchema)
@@ -34,16 +36,15 @@ const CommentForm = () => {
   });
 
   const onSendComment: SubmitHandler<CommentCheck> = ({ commentText }) => {
-    const commentBody: Comment = {
+    const commentBody: CommentType<string> = {
       author: userId,
+      locationId: locationId!,
       text: commentText,
       likes: [],
-      dislikes: [],
-      createdAt: new Date(),
-      updatedAt: new Date()
+      dislikes: []
     };
     if (commentText) {
-      sendComment(locationId!, commentBody);
+      sendComment(commentBody);
     }
   };
 

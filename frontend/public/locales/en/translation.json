@@ -33,7 +33,7 @@
     },
     "profilePage": {
       "lostNetwork": "Lost Network",
-      "dataSuccessChanged": "Data successfuly changed",
+      "dataSuccessChanged": "Data successfully changed",
       "uploadPhoto": "Upload Photo",
       "enterName": "Please enter your name",
       "name": "Name",
@@ -41,6 +41,7 @@
       "cancel": "Cancel",
       "editProfile": "Edit Profile",
       "creationDate": "Creation date:",
+      "updateDate": "Last update date:",
       "logout": "Logout",
       "yourName": "Your name:"
     }
@@ -112,5 +113,8 @@
     "removeFromVisited": "Remove from visited",
     "removeFromFavorite": "Remove from favorite",
     "addToFavorite": "Add to favorite"
+  },
+  "page404":{
+    "Return to main page":"Return to main page"
   }
 }

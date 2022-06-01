@@ -44,7 +44,6 @@ function Login() {
   const navigate = useNavigate();
 
   const { login, loginOAuth } = useTypedDispatch();
-  const { isAuthorized, error } = useTypedSelector(state => state.userAuth);
 
   const { handleSubmit, control } = useForm<SignIn>({
     mode: 'onBlur',
@@ -57,6 +56,9 @@ function Login() {
 
   const { t } = useTranslation();
 
+  const { data: isAuthorized, error } = useTypedSelector(
+    state => state.isUserAuthorized
+  );
   useEffect(() => {
     if (error) {
       setNotification(error);
@@ -119,12 +121,17 @@ function Login() {
                 </Typography>
 
                 <Snackbar
-                  anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                  sx={{ zIndex: 10000 }}
                   open={!!notification}
                   autoHideDuration={3000}
                   onClose={handleCloseNotification}
                 >
-                  <Alert onClose={handleCloseNotification} severity="error">
+                  <Alert
+                    onClose={handleCloseNotification}
+                    severity="error"
+                    sx={{ mt: '1vh' }}
+                  >
                     {notification}
                   </Alert>
                 </Snackbar>
@@ -217,6 +224,7 @@ function Login() {
                     to="/registration"
                     color="inherit"
                     underline="none"
+                    sx={{ width: '100%' }}
                   >
                     {t('login.signup')}
                   </Link>

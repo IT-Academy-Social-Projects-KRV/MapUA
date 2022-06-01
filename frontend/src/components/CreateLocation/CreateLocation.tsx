@@ -1,5 +1,4 @@
-import React, { useState, useRef } from 'react';
-import axios from 'axios';
+import React, { useState, useRef, useEffect } from 'react';
 import UploadInput from 'components/design/UploadInputCreateLocation';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTranslation } from 'react-i18next';
@@ -19,26 +18,43 @@ import {
 import { CreatingLocationSchema } from 'utils/validation';
 import { latlngType } from '../../../types';
 import { getFiltersForUser } from '../../static/mainFIlters';
+import { useTypedSelector } from '../../redux/hooks/useTypedSelector';
+import { useTypedDispatch } from '../../redux/hooks/useTypedDispatch';
 
 type Props = {
+  closeBigPopup: Function;
   coordinate: latlngType;
+  setIsAddLocationActive: Function;
 };
-
 type CreatingLocation = {
   locationName: string;
   locationDescription: string;
   locationFilters: string[];
 };
 
-const { REACT_APP_API_URI } = process.env;
-
-const CreateLocation = ({ coordinate }: Props) => {
+const CreateLocation = ({
+  coordinate,
+  closeBigPopup,
+  setIsAddLocationActive
+}: Props) => {
   const [files, setFiles] = useState<File[]>([]);
   const [filters, setFilters] = useState('');
   const [locationImageName, setlocationImageName] = useState<string>('');
   const ref = useRef<null | HTMLInputElement>();
 
-  const accessToken = localStorage.getItem('accessToken');
+  const { t } = useTranslation();
+
+  const {
+    data: success,
+    // loading,
+    error
+  } = useTypedSelector(state => state.createLocation);
+  const {
+    bounds,
+    locationName: searchName,
+    selectedFilters
+  } = useTypedSelector(state => state.mapInfo);
+  const { createLocation, fetchLocations } = useTypedDispatch();
 
   const { handleSubmit, control, reset } = useForm<CreatingLocation>({
     mode: 'onBlur',
@@ -49,7 +65,24 @@ const CreateLocation = ({ coordinate }: Props) => {
     control
   });
 
-  const { t } = useTranslation();
+  useEffect(() => {
+    if (error) {
+      alert(error);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (success) {
+      fetchLocations(bounds, searchName, selectedFilters);
+      closeBigPopup();
+      setIsAddLocationActive(false);
+      reset();
+      setFilters('');
+      if (ref.current) {
+        ref.current.value = '';
+      }
+    }
+  }, [success]);
 
   const onChangeAutocomplete = (e: any, value: any) => {
     setFilters(value);
@@ -60,30 +93,15 @@ const CreateLocation = ({ coordinate }: Props) => {
     locationDescription,
     locationFilters
   }) => {
-    try {
-      const formData = new FormData();
-      formData.append('locationName', locationName);
-      formData.append('description', locationDescription);
-      formData.append('coordinates', String(coordinate.lat));
-      formData.append('coordinates', String(coordinate.lng));
-      formData.append('filters', String(locationFilters));
-      formData.append('image', files[0]);
+    const formData = new FormData();
+    formData.append('locationName', locationName);
+    formData.append('description', locationDescription);
+    formData.append('coordinates', String(coordinate.lat));
+    formData.append('coordinates', String(coordinate.lng));
+    formData.append('filters', String(locationFilters));
+    formData.append('image', files[0]);
 
-      await axios.post(`${REACT_APP_API_URI}locations/create`, formData, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-
-      reset();
-      if (ref.current) {
-        ref.current.value = '';
-      }
-      window.location.reload();
-    } catch (error) {
-      console.log(error);
-    }
+    createLocation(formData);
   };
 
   const handleFilesChange = (e: any) => {
@@ -153,7 +171,6 @@ const CreateLocation = ({ coordinate }: Props) => {
           />
         )}
       />
-
       <Autocomplete
         sx={{ marginTop: '20px' }}
         multiple
@@ -171,7 +188,6 @@ const CreateLocation = ({ coordinate }: Props) => {
           />
         )}
       />
-
       <UploadInput
         handleFilesChange={handleFilesChange}
         setlocationImageName={setlocationImageName}

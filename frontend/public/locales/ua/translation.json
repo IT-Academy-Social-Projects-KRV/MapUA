@@ -41,6 +41,7 @@
       "cancel": "Відмінити",
       "editProfile": "Редагувати Профіль",
       "creationDate": "Дата створення:",
+      "updateDate": "Дата останнього оновлення",
       "logout": "Вийти",
       "yourName": "Ваше ім'я:"
     }
@@ -112,5 +113,8 @@
     "removeFromVisited": "Видалити з відвіданих",
     "removeFromFavorite": "Видалити з обраних",
     "addToFavorite": "Додати до обраних"
+  },
+  "page404":{
+    "Return to main page":"Повернутися на головну сторінку"
   }
 }

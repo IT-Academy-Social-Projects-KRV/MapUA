@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { Tabs, Tab, Typography, Box, TextField } from '@mui/material';
 import { Controller, Control, FieldError } from 'react-hook-form';
-import { UserForm } from 'redux/ts-types/user';
+import { UserForm } from '../../../types';
 
 interface TabPanelProps {
   index: number;
@@ -53,17 +53,13 @@ export default function BasicTabs({
   control,
   error
 }: BasicTabsProps) {
+  const { t } = useTranslation();
   const [value, setValue] = React.useState(0);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
-  const { t } = useTranslation();
-
-  // const postDescription = (description: any) => {
-  //   handleDescription(description);
-  // };
-  const userDescription = useTypedSelector(state => state.user);
+  const userDescription = useTypedSelector(state => state.userData);
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>

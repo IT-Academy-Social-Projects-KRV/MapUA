@@ -5,21 +5,18 @@ import User from '../models/UserModel';
 const LocationsController = {
   async getLocationsByZoom(req: Request, res: Response) {
     try {
-      const center = JSON.parse(req.query.center as string);
       const bounds = JSON.parse(req.query.bounds as string);
       const searchName = req.query.name as string;
       const filters = JSON.parse(req.query.filters as any);
-      const height = +(bounds._northEast.lat - bounds._southWest.lat);
-      const width = +(bounds._northEast.lng - bounds._southWest.lng);
       let locations = (
         await Location.find({
           'coordinates.0': {
-            $gt: center.lat - height,
-            $lt: center.lat + height
+            $gt: bounds._southWest.lat,
+            $lt: bounds._northEast.lat
           },
           'coordinates.1': {
-            $gt: center.lng - width,
-            $lt: center.lng + width
+            $gt: bounds._southWest.lng,
+            $lt: bounds._northEast.lng
           }
         })
       ).map(l => ({
@@ -57,55 +54,15 @@ const LocationsController = {
     try {
       const id = req.params.id;
 
-      const locations = await Location.findById(id);
+      const locations = await Location.findById(id).populate({
+        path: 'author',
+        select: 'displayName imageUrl'
+      });
 
       if (!locations) {
         return res.status(400).json({ error: req.t('location_not_found') });
       }
       return res.json(locations);
-    } catch (err: any) {
-      return res.status(500).json({ error: req.t('server_error'), err });
-    }
-  },
-  async addLocationComments(req: Request, res: Response) {
-    try {
-      const { id, comment } = req.body;
-      const commentProperties: string[] = [
-        'author',
-        'text',
-        'likes',
-        'dislikes',
-        'createdAt',
-        'updatedAt'
-      ];
-      let isFullComment: boolean = true;
-
-      commentProperties.forEach(field => {
-        if (!Object.keys(comment).includes(field)) {
-          isFullComment = false;
-          return res
-            .status(400)
-            .json({ error: req.t('comment_not_have_properties'), field });
-        }
-      });
-
-      if (isFullComment) {
-        const updateLocation = await Location.findByIdAndUpdate(
-          id,
-          {
-            $push: {
-              comments: comment
-            }
-          },
-          {
-            new: true
-          }
-        );
-        if (!updateLocation) {
-          return res.status(400).json({ error: req.t('location_not_found') });
-        }
-        return res.status(200).json({ message: req.t('comment_add_success') });
-      }
     } catch (err: any) {
       return res.status(500).json({ error: req.t('server_error'), err });
     }
@@ -174,7 +131,6 @@ const LocationsController = {
 
         const _id = req.user;
         const userData = await User.findById(_id);
-
         if (!userData) {
           return res.status(400).json({ error: req.t('user_not_exist') });
         }
@@ -184,7 +140,6 @@ const LocationsController = {
           coordinates: [+coordinates[0], +coordinates[1]],
           arrayPhotos: imageUrls,
           description: description,
-          comments: [],
           rating: {
             likes: [],
             dislikes: []
@@ -192,9 +147,7 @@ const LocationsController = {
           filters: filters.split(','),
           author: _id
         });
-
         const result = await userLocation.save();
-
         return res
           .status(200)
           .json({ message: req.t('location_add_success'), result });

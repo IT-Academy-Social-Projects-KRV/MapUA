@@ -9,8 +9,6 @@ const UserController = {
 
       const userData = await User.findById(_id, {
         email: true,
-        createdAt: true,
-        updatedAt: true,
         displayName: true,
         description: true,
         imageUrl: true,
@@ -18,7 +16,7 @@ const UserController = {
         subscriptions: true,
         favorite: true,
         visited: true,
-        personalLocations: true,
+        personalLocations: true
       });
 
       if (!userData) {
@@ -30,97 +28,113 @@ const UserController = {
       return res.status(500).json({ error: req.t('server_error'), err });
     }
   },
-  async tougleFavorite(req: Request, res: Response) {
+  async getPrivateData(req: Request, res: Response) {
     try {
-      let {idOfLocation}  = req.body;
       const _id = req.user;
-      const userData = await User.findById(_id,{favorite:1});
-      const locationData = await Location.findById(idOfLocation);
-      if(!locationData){
-        return res.status(400).json({ error: req.t('location_not_found')});
-      }
-      if(userData){
-        if(userData.favorite.includes(idOfLocation)){
 
-          let index = userData.favorite.findIndex((el)=>{
-            if(el === idOfLocation){
-              return el
-            }
-          })
-          userData.favorite.splice(index,1)
+      const privateUserData = await User.findById(_id, {
+        email: true,
+        createdAt: true,
+        updatedAt: true
+      });
 
-        }else{
-          userData.favorite.push(idOfLocation)
-        }
-      }else{
-        return res.status(400).json({ error: req.t('user_not_exist')})
+      if (!privateUserData) {
+        return res.status(400).json({ error: req.t('user_not_exist') });
       }
-      const changeData = await User.findByIdAndUpdate(
-        _id,
-        {
-          $set: {
-            favorite : userData.favorite
-          }
-        },
-        {
-          new: true
-        }
-      );
-      return res.status(200).json(changeData)
-    } catch(err: any) {
+
+      return res.status(200).json({ privateUserData });
+    } catch (err: any) {
       return res.status(500).json({ error: req.t('server_error'), err });
     }
   },
-  async tougleVisited(req: Request, res: Response) {
+  async toggleFavorite(req: Request, res: Response) {
     try {
-      let { idOfLocation} = req.body;
+      let { idOfLocation } = req.body;
       const _id = req.user;
-      const userData = await User.findById(_id,{visited:1});
+      const userData = await User.findById(_id, { favorite: 1 });
       const locationData = await Location.findById(idOfLocation);
-      if(!locationData){
-        return res.status(400).json({ error: req.t('location_not_found')});
+      if (!locationData) {
+        return res.status(400).json({ error: req.t('location_not_found') });
       }
-      if(userData){
-        if(userData.visited.includes(idOfLocation)){
-
-          let index = userData.visited.findIndex((el)=>{
-            if(el === idOfLocation){
-              return el
+      if (userData) {
+        if (userData.favorite.includes(idOfLocation)) {
+          let index = userData.favorite.findIndex(el  => {
+            if (el === idOfLocation) {
+              return el;
             }
-          })
-          userData.visited.splice(index,1)
-
-        }else{
-          userData.visited.push(idOfLocation)
+          });
+          userData.favorite.splice(index, 1);
+        } else {
+          userData.favorite.push(idOfLocation);
         }
-      }else{
-        return res.status(400).json({ error: req.t('user_not_exist')})
+      } else {
+        return res.status(400).json({ error: req.t('user_not_exist') });
       }
       const changeData = await User.findByIdAndUpdate(
         _id,
         {
           $set: {
-            visited : userData.visited
+            favorite: userData.favorite
           }
         },
         {
           new: true
         }
       );
-      return res.status(200).json(changeData)
-    } catch(err: any) {
+      return res.status(200).json(changeData);
+    } catch (err: any) {
+      return res.status(500).json({ error: req.t('server_error'), err });
+    }
+  },
+  async toggleVisited(req: Request, res: Response) {
+    try {
+      let { idOfLocation } = req.body;
+      const _id = req.user;
+      const userData = await User.findById(_id, { visited: 1 });
+      const locationData = await Location.findById(idOfLocation);
+      if (!locationData) {
+        return res.status(400).json({ error: req.t('location_not_found') });
+      }
+      if (userData) {
+        if (userData.visited.includes(idOfLocation)) {
+
+          let index = userData.visited.findIndex(el  => {
+            if (el === idOfLocation) {
+              return el;
+            }
+          });
+          userData.visited.splice(index, 1);
+        } else {
+          userData.visited.push(idOfLocation);
+        }
+      } else {
+        return res.status(400).json({ error: req.t('user_not_exist') });
+      }
+      const changeData = await User.findByIdAndUpdate(
+        _id,
+        {
+          $set: {
+            visited: userData.visited
+          }
+        },
+        {
+          new: true
+        }
+      );
+      return res.status(200).json(changeData);
+    } catch (err: any) {
       return res.status(500).json({ error: req.t('server_error'), err });
     }
   },
   async changeUserData(req: Request, res: Response) {
     try {
       let { id, ...newUserData } = req.body;
-      const imageUrl:any = req.file
-      if(imageUrl){
-        newUserData= {
-          ... newUserData,
-          imageUrl:imageUrl.location
-        }
+      const imageUrl: any = req.file;
+      if (imageUrl) {
+        newUserData = {
+          ...newUserData,
+          imageUrl: imageUrl.location
+        };
       }
       const changeData = await User.findByIdAndUpdate(
         id,
@@ -132,16 +146,15 @@ const UserController = {
         {
           new: true
         }
-    );
-    if (!changeData) {
-      return res.status(400).json({ error: "User doesn't exist" });
-    }
-    return res.status(200).json(changeData)
-    
-    } catch(err: any) {
+      );
+      if (!changeData) {
+        return res.status(400).json({ error: "User doesn't exist" });
+      }
+      return res.status(200).json(changeData);
+    } catch (err: any) {
       return res.status(500).json({ error: err.message });
     }
-  },
+  }
 };
 
 export default UserController;
