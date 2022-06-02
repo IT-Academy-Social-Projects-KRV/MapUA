@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
   Typography,
   Button,
@@ -33,9 +33,11 @@ import {
   TypographyDate
 } from './styles';
 import BasicTabs from './BasicTabs';
+import useDebounce from '../../utils/useDebounce';
 import { UserForm } from '../../../types';
 
 export default function ProfilePage() {
+  const isMounted = useRef(false);
   const { t } = useTranslation();
   const { updateUserData, deleteUserData, deletePrivateUserData, logout } =
     useTypedDispatch();
@@ -47,6 +49,7 @@ export default function ProfilePage() {
   const { email, createdAt, updatedAt } = useTypedSelector(
     state => state.privateUserData.data
   );
+  const isMountedDebounced = useDebounce(isMounted.current, 1000);
   const [showEditPanel, setShowEditPanel] = useState(false);
   const [successMessage, setSuccessMessage] = useState(false);
   const [userImage, setUserImage] = useState<File | null>();
@@ -61,19 +64,29 @@ export default function ProfilePage() {
     control
   });
   useEffect(() => {
-    if (updateError) {
-      setTimeout(() => setErrorMessage(''), 3000);
-      setErrorMessage(
-        (typeof updateError === 'string' ? updateError : updateError.message) ||
-          `${t('profile.profilePage.lostNetwork')}`
-      );
+    if (isMountedDebounced) {
+      if (updateError) {
+        setTimeout(() => setErrorMessage(''), 3000);
+        setErrorMessage(
+          (typeof updateError === 'string'
+            ? updateError
+            : updateError.message) || `${t('profile.profilePage.lostNetwork')}`
+        );
+      }
+    } else {
+      isMounted.current = true;
     }
   }, [updateError]);
+
   useEffect(() => {
-    if (updateSuccess) {
-      setSuccessMessage(true);
-      setTimeout(() => setSuccessMessage(false), 3000);
-      setShowEditPanel(false);
+    if (isMountedDebounced) {
+      if (updateSuccess) {
+        setSuccessMessage(true);
+        setTimeout(() => setSuccessMessage(false), 3000);
+        setShowEditPanel(false);
+      }
+    } else {
+      isMounted.current = true;
     }
   }, [updateSuccess]);
   const onSubmit: SubmitHandler<UserForm> = async data => {
