@@ -1,22 +1,54 @@
-import i18next from 'i18next';
+import * as yup from 'yup';
 
-export const emailValidation = {
-  required: i18next.t('utils.validation.emailCanNotBeEmpty'),
-  validate: (value: string) => {
-    const re =
-      /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
-    if (!re.test(String(value).toLowerCase())) {
-      return i18next.t('utils.validation.wrongEmail');
-    }
-    return true;
-  }
-};
-export const passwordValidation = {
-  required: i18next.t('utils.validation.passwordCanNotBeEmpty'),
-  validate: (value: string) => {
-    if (value.length < 3 || value.length > 36) {
-      return i18next.t('utils.validation.passwordErrorLength');
-    }
-    return true;
-  }
-};
+export const AuthFormSchema = yup.object().shape({
+  email: yup
+    .string()
+    .email('utils.validation.wrongEmailError')
+    .required('utils.validation.emptyEmailError'),
+  password: yup
+    .string()
+    .min(6, 'utils.validation.passwordMinLengthError')
+    .max(36, 'utils.validation.passwordMaxLengthError')
+    .required('utils.validation.emptyPasswordError')
+});
+
+export const ForgotPasswordSchema = yup.object().shape({
+  email: yup
+    .string()
+    .email('utils.validation.wrongEmailError')
+    .required('utils.validation.emptyEmailError')
+});
+
+export const EditProfileSchema = yup.object().shape({
+  displayName: yup
+    .string()
+    .required('utils.validation.emptyProfileNameError')
+    .min(5, 'utils.validation.profileNameMinLengthError')
+    .max(20, 'utils.validation.profileNameMaxLengthError'),
+
+  description: yup
+    .string()
+    .required('utils.validation.emptyDescriptionProfileError')
+    .min(5, 'utils.validation.descriptionProfileMinLengthError')
+    .max(50, 'utils.validation.descriptionProfileMaxLengthError')
+});
+
+export const CreatingLocationSchema = yup.object().shape({
+  locationName: yup
+    .string()
+    .min(5, 'utils.validation.locationNameMinLengthError')
+    .max(50, 'utils.validation.locationNameMaxLengthError')
+    .required('utils.validation.emptyLocationNameError'),
+  locationDescription: yup
+    .string()
+    .min(10, 'utils.validation.locationDescriptionMinLengthError')
+    .required('utils.validation.emptyLocationDescriptionError')
+});
+
+export const CommentSectionSchema = yup.object().shape({
+  commentText: yup
+    .string()
+    .min(5, 'utils.validation.commentTextMinLengthError')
+    .max(50, 'utils.validation.commentTextMaxLengthError')
+    .required('utils.validation.emptyCommentTextError')
+});

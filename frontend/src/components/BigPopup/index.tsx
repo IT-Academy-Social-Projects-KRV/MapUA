@@ -24,7 +24,6 @@ export default function BigPopup(props: PopupProps) {
             style: { height: '77vh', marginTop: '85px' }
           }}
           anchor="left"
-          hideBackdrop
           open={isOpen}
           onClose={toggleClose}
         >

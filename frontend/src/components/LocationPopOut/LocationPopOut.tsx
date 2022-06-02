@@ -26,7 +26,7 @@ export function LocationPopOut({
   onOpenBigPopup
 }: Props) {
   const locationData = useTypedSelector(state => state.popupLocation);
-  const { isLoading } = locationData;
+  const { loading } = locationData;
   const { fetchPopupLocation } = useTypedDispatch();
 
   return (
@@ -37,7 +37,7 @@ export function LocationPopOut({
       })}
       eventHandlers={{
         click: e => {
-          if (!isLoading) {
+          if (!loading) {
             e.originalEvent.stopPropagation();
             fetchPopupLocation(id);
             onOpenBigPopup(locationData);
@@ -50,7 +50,7 @@ export function LocationPopOut({
         <StyledBox>
           <StyledMediaBox>
             <CardMedia
-              sx={{ borderRadius: '20px' }}
+              sx={{ borderRadius: '20px', height: '100%' }}
               src={!arrayPhotos[0] ? img : arrayPhotos[0]}
               component="img"
               alt={locationName}

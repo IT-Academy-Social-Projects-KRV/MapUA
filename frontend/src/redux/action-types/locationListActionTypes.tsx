@@ -1,39 +1,25 @@
 /* eslint-disable no-unused-vars */
-import { boundsType, latlngType } from '../../../types';
+import { locationType } from '../../../types';
 
-export enum LocationsListActionsType {
-  FETCH_LOCATIONS = 'FETCH_LOCATIONS',
-  SET_BOUNDS = 'SET_BOUNDS',
-  SET_ZOOM_POSITION = 'SET_ZOM_POSITION',
-  GET_LOCATION_NAME = 'GET_LOCATION_NAME',
-  APPLY_FILTER = 'APPLY_FILTER'
-}
-interface FetchLocationAction {
-  type: LocationsListActionsType.FETCH_LOCATIONS;
-  payload: any[];
+export enum LocationListActionsType {
+  FETCH_LOCATION_LIST_LOADING = 'FETCH_LOCATION_LIST_LOADING',
+  FETCH_LOCATION_LIST_SUCCESS = 'FETCH_LOCATION_LIST_SUCCESS',
+  FETCH_LOCATION_LIST_ERROR = 'FETCH_LOCATION_LIST_ERROR'
 }
 
-interface SetBoundsAction {
-  type: LocationsListActionsType.SET_BOUNDS;
-  payload: boundsType;
+interface FetchLocationListLoadingAction {
+  type: LocationListActionsType.FETCH_LOCATION_LIST_LOADING;
 }
-
-interface SetZoomPositionAction {
-  type: LocationsListActionsType.SET_ZOOM_POSITION;
-  payload: latlngType;
+interface FetchLocationListSuccessAction {
+  type: LocationListActionsType.FETCH_LOCATION_LIST_SUCCESS;
+  payload: locationType[];
 }
-interface GetLocationNameAction {
-  type: LocationsListActionsType.GET_LOCATION_NAME;
+interface FetchLocationListErrorAction {
+  type: LocationListActionsType.FETCH_LOCATION_LIST_ERROR;
   payload: string;
-}
-interface ApplyFilterAction {
-  type: LocationsListActionsType.APPLY_FILTER;
-  payload: string[];
 }
 
 export type LocationListActions =
-  | FetchLocationAction
-  | SetBoundsAction
-  | SetZoomPositionAction
-  | GetLocationNameAction
-  | ApplyFilterAction;
+  | FetchLocationListLoadingAction
+  | FetchLocationListSuccessAction
+  | FetchLocationListErrorAction;

@@ -8,11 +8,12 @@ import { StyledSearchForm } from './style';
 function SearchForm() {
   const { t } = useTranslation();
 
-  const { getLocationName } = useTypedDispatch();
-  const { locationName } = useTypedSelector(state => state.locationList);
+  const { setLocationName } = useTypedDispatch();
+  const { locationName } = useTypedSelector(state => state.mapInfo);
   const handleChange = (e: any): void => {
-    getLocationName(e.target.value);
+    setLocationName(e.target.value);
   };
+
   return (
     <StyledSearchForm
       value={locationName}
