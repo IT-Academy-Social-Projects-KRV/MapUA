@@ -1,6 +1,8 @@
-import React, { useState, MouseEvent } from 'react';
+import React, { useState, MouseEvent, SyntheticEvent, useEffect } from 'react';
+import axios from 'services/axios';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useTypedSelector } from 'redux/hooks/useTypedSelector';
+import { yupResolver } from '@hookform/resolvers/yup';
 import {
   TextField,
   Button,
@@ -13,16 +15,17 @@ import {
   Grid,
   Stack
 } from '@mui/material';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {
   useForm,
   Controller,
   SubmitHandler,
   useFormState
 } from 'react-hook-form';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+
 import { useTranslation } from 'react-i18next';
-import { emailValidation, passwordValidation } from 'utils/validation';
+import { AuthFormSchema } from 'utils/validation';
 import { PaperForm } from '../design/PaperForm';
 import { AuthFormWrapper } from '../design/AuthFormWrapper';
 
@@ -30,46 +33,62 @@ type SignUp = {
   email: string;
   password: string;
 };
-
 function Registration() {
-  const { t } = useTranslation();
-
-  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [visibleSucces, setVisibleSuccess] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+
+  const navigate = useNavigate();
+
+  const { t } = useTranslation();
+
+  const [notification, setNotification] = useState<string | {} | null>(null);
   const { handleSubmit, control } = useForm<SignUp>({
-    mode: 'onBlur'
+    mode: 'onBlur',
+    resolver: yupResolver(AuthFormSchema)
   });
-  const onSubmit: SubmitHandler<SignUp> = async data => {
-    try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_API_URI}signup`,
-        data
-      );
-      if (response.status === 200) {
-        setVisibleSuccess(true);
-        setTimeout(() => navigate('/login'), 1500);
-      }
-    } catch (e: any) {
-      setTimeout(() => setErrorMessage(''), 3000);
-      setErrorMessage(
-        e.response.data?.error || `${t('registration.regisrationFail')}`
-      );
-    }
-  };
+
   const { errors } = useFormState({
     control
   });
 
+  const onSubmit: SubmitHandler<SignUp> = async data => {
+    try {
+      const response = await axios().post(`signup`, data);
+      if (response.status === 200) {
+        setVisibleSuccess(true);
+        setTimeout(() => setVisibleSuccess(false), 3000);
+        setTimeout(() => navigate('/login'), 2000);
+      }
+    } catch (e: any) {
+      setNotification(
+        e.response.data?.info.message || `${t('registration.regisrationFail')}`
+      );
+    }
+  };
+
+  const { error } = useTypedSelector(state => state.isUserAuthorized);
+  useEffect(() => {
+    if (error) {
+      setNotification(error);
+    }
+  }, [error]);
+  const handleCloseNotification = (
+    e?: SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setVisibleSuccess(false);
+    setNotification(null);
+  };
+
   const handleMouseDownPassword = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
   };
-
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
-
   return (
     <AuthFormWrapper>
       <Grid container justifyContent="center">
@@ -82,22 +101,36 @@ function Registration() {
                 </Typography>
                 <Snackbar
                   anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                  open={visibleSucces}
+                  sx={{ zIndex: 10000 }}
+                  open={!!notification}
+                  autoHideDuration={3000}
+                  onClose={handleCloseNotification}
                 >
-                  <Alert severity="success">
-                    {t('registration.regisrationSuccess')}
+                  <Alert
+                    onClose={handleCloseNotification}
+                    severity="error"
+                    sx={{ mt: '1vh' }}
+                  >
+                    {notification}
                   </Alert>
                 </Snackbar>
                 <Snackbar
                   anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                  open={!!errorMessage}
+                  sx={{ zIndex: 10000 }}
+                  open={!!visibleSucces}
+                  onClose={handleCloseNotification}
                 >
-                  <Alert severity="error">{errorMessage}</Alert>
+                  <Alert
+                    onClose={handleCloseNotification}
+                    severity="success"
+                    sx={{ mt: '1vh' }}
+                  >
+                    {t('registration.regisrationSuccess')}
+                  </Alert>
                 </Snackbar>
                 <Controller
                   control={control}
                   name="email"
-                  rules={emailValidation}
                   render={({ field }) => (
                     <TextField
                       placeholder={t('common.enterYourEmail')}
@@ -107,17 +140,18 @@ function Registration() {
                       onChange={e => field.onChange(e)}
                       onBlur={field.onBlur}
                       defaultValue={field.value}
-                      type="text"
                       error={!!errors.email?.message}
-                      helperText={errors.email?.message}
+                      helperText={t(
+                        !errors.email ? '' : String(errors.email.message)
+                      )}
                     />
                   )}
                 />
+
                 <Box sx={{ my: 4 }}>
                   <Controller
                     control={control}
                     name="password"
-                    rules={passwordValidation}
                     render={({ field }) => (
                       <TextField
                         InputProps={{
@@ -145,7 +179,11 @@ function Registration() {
                         onBlur={field.onBlur}
                         defaultValue={field.value}
                         error={!!errors.password?.message}
-                        helperText={errors.password?.message}
+                        helperText={t(
+                          !errors.password
+                            ? ''
+                            : String(errors.password.message)
+                        )}
                       />
                     )}
                   />
@@ -161,5 +199,4 @@ function Registration() {
     </AuthFormWrapper>
   );
 }
-
 export default Registration;

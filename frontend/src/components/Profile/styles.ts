@@ -1,4 +1,4 @@
-import { Box, Avatar } from '@mui/material';
+import { Box, Avatar, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 
@@ -19,7 +19,7 @@ export const ProfileContentWrapper = styled(ProfileFormWrapper)`
   flex-direction: column;
 `;
 
-export const ProfileUsertWrapper = styled(ProfileFormWrapper)`
+export const ProfileUserWrapper = styled(ProfileFormWrapper)`
   height: 70vh;
   width: 60wh;
   padding-top: 40px;
@@ -44,7 +44,9 @@ export const ProfileAvatar = styled(Avatar)`
   margin: 0 auto;
 `;
 export const UploadBox = styled(Box)`
-  margin: 0 0 3vh 4vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 export const CancelButton = styled(Button)`
   margin: 0 auto;
@@ -57,5 +59,8 @@ export const SaveBox = styled(Box)`
   margin: 2vh auto;
 `;
 export const EditButton = styled(Button)`
-  margin: 0 auto;
+  margin: 2vh auto;
+`;
+export const TypographyDate = styled(Typography)`
+  margin: 0;
 `;

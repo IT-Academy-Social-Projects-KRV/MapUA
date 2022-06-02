@@ -1,12 +1,12 @@
 import React from 'react';
 import {
-  ListItem,
-  ListItemText,
   Avatar,
-  ListItemAvatar,
-  Typography,
   Box,
-  Link
+  Link,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  Typography
 } from '@mui/material';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
@@ -14,38 +14,27 @@ import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
 interface Props {
   text: string;
   createdAt: Date;
+  authorsName: string;
+  authorsImage: string;
 }
 
-const Comment = ({ text, createdAt }: Props) => {
-  const d = new Date(createdAt);
-  const day = d.getDate();
-  const month = d.getMonth() + 1;
-  const year = d.getFullYear();
-  const hour = d.getHours();
-  const minutes =
-    d.getMinutes() < 10 ? `0${d.getMinutes()}` : `${d.getMinutes()}`;
-
-  const formatedDate = `${day}-${month}-${year} ${hour}:${minutes}`;
+const Comment = ({ text, createdAt, authorsName, authorsImage }: Props) => {
+  const date = new Date(createdAt);
 
   return (
     <ListItem alignItems="flex-start" sx={{ pl: 0 }}>
       <ListItemAvatar>
-        <Avatar
-          alt="Vasya"
-          src="https://cdn-icons-png.flaticon.com/512/147/147142.png"
-        />
+        <Avatar alt="Vasya" src={authorsImage} />
+        <Typography
+          sx={{ display: 'inline' }}
+          component="span"
+          variant="body2"
+          color="text.primary"
+        >
+          {authorsName}
+        </Typography>
       </ListItemAvatar>
-      <ListItemText
-        primary={text}
-        secondary={
-          <Typography
-            sx={{ display: 'inline' }}
-            component="span"
-            variant="body2"
-            color="text.primary"
-          />
-        }
-      />
+      <ListItemText primary={text} />
       <Box
         sx={{
           display: 'flex',
@@ -57,10 +46,10 @@ const Comment = ({ text, createdAt }: Props) => {
         <Typography
           sx={{ display: 'inline' }}
           component="span"
-          variant="body2"
+          variant="caption"
           color="text.primary"
         >
-          {formatedDate}
+          {date.toLocaleDateString()}
         </Typography>
         <Link
           href="/"

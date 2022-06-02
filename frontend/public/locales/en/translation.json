@@ -16,7 +16,7 @@
   "createLocation": {
     "creatingLocation": "Creating location",
     "enterLocName": "Enter location name",
-    "enterDescription": "Minimum 3 rows",
+    "enterDescription": "Minimum 10 symbols",
     "favorites": "Favorites",
     "doneAndSubmit": "Done and submit"
   },
@@ -33,7 +33,7 @@
     },
     "profilePage": {
       "lostNetwork": "Lost Network",
-      "dataSuccessChanged": "Data successfuly changed",
+      "dataSuccessChanged": "Data successfully changed",
       "uploadPhoto": "Upload Photo",
       "enterName": "Please enter your name",
       "name": "Name",
@@ -41,6 +41,7 @@
       "cancel": "Cancel",
       "editProfile": "Edit Profile",
       "creationDate": "Creation date:",
+      "updateDate": "Last update date:",
       "logout": "Logout",
       "yourName": "Your name:"
     }
@@ -63,10 +64,26 @@
   },
   "utils": {
     "validation": {
-      "emailCanNotBeEmpty": "Email can't be empty",
-      "wrongEmail": "Wrong email",
-      "passwordCanNotBeEmpty": "Password can't be empty",
-      "passwordErrorLength": "Password must be more then 3 and less or equal then 36"
+      "emptyEmailError": "Email can't be empty",
+      "wrongEmailError": "Please enter a valid email",
+      "emptyPasswordError": "Password can't be empty",
+      "passwordMinLengthError": "Password must be at least 6 symbols long",
+      "passwordMaxLengthError": "Password must be no more than 36 symbols",
+      "emptyProfileNameError": "Name can't be empty",
+      "emptyDescriptionProfileError": "Description can't be empty",
+      "descriptionProfileMinLengthError": "Name must be at least 5 symbols long",
+      "descriptionProfileMaxLengthError": "Name must be no more than at least 50 symbols long",
+      "profileNameMinLengthError": "Name must be at least 5 symbols long",
+      "profileNameMaxLengthError": "Name must be no more than 20 symbols",
+      "emptyLocationNameError": "Location name can't be empty",
+      "locationNameMinLengthError": "Location name must be more than 5 symbols",
+      "locationNameMaxLengthError": "Location name must be less than 50 symbols",
+      "emptyLocationDescriptionError": "Location description can't be empty",
+      "locationDescriptionMinLengthError": "Location description must be at least 10 symbols long",
+      "emptyLocationFiltersError": "Please select at least one filter",
+      "emptyCommentTextError": "Your comment cannot be empty",
+      "commentTextMinLengthError": "Your comment must be at least 5 symbols long",
+      "commentTextMaxLengthError": "Your comment must be less than 50 symbols"
     }
   },
   "map": {
@@ -119,6 +136,9 @@
      "personal":"personal"
    },
    "subscriptions":"Subscriptions"
+  },
 
+  "page404": {
+    "Return to main page": "Return to main page"
   }
 }

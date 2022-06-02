@@ -1,7 +1,6 @@
 import CommentSection from 'components/BigPopup/CommentSection/CommentSection';
 import React, { useState, MouseEvent, SyntheticEvent } from 'react';
 import {
-  Avatar,
   Box,
   Card,
   CardContent,
@@ -12,22 +11,11 @@ import {
   Alert,
   AlertColor
 } from '@mui/material';
-import ShareIcon from '@mui/icons-material/Share';
-import BookmarkIcon from '@mui/icons-material/Bookmark';
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
-import TourOutlinedIcon from '@mui/icons-material/TourOutlined';
-import TourIcon from '@mui/icons-material/Tour';
 import { useTranslation } from 'react-i18next';
-import axios from 'axios';
-import IconButton from '@mui/material/IconButton';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
-import ThumbDownIcon from '@mui/icons-material/ThumbDown';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
+import { CardComponent } from './СardComponent/CardComponent';
+import { IconsComponent } from './IconsComponent/IconsComponent';
 
 interface INotification {
   type: AlertColor;
@@ -40,23 +28,25 @@ const PointPopup = () => {
   const [expanded, setExpanded] = useState(false);
   const [notification, setNotification] = useState<INotification | null>(null);
 
-  const { updatePopupLocation } = useTypedDispatch();
+  const { updatePopupLocation, toggleVisitedField, toggleFavoriteField } =
+    useTypedDispatch();
 
-  const userAuth = useTypedSelector(state => state.userAuth);
-  const userData = useTypedSelector(state => state.user);
-
-  const infoLocation = useTypedSelector(state => state.popupLocation);
-
-  const [locationIsFavorite, setLocationIsFavorite] = useState(
-    infoLocation._id && userData.data.favorite.includes(infoLocation._id)
+  const { data: isAuthorized } = useTypedSelector(
+    state => state.isUserAuthorized
   );
-  const [locationIsVisited, setLocationIsVisited] = useState(
-    infoLocation._id && userData.data.visited.includes(infoLocation._id)
-  );
+  const {
+    _id: userId,
+    favorite,
+    visited
+  } = useTypedSelector(state => state.userData.data);
 
-  const { isAuthorized, id: userId } = userAuth;
-
-  const { _id, rating, locationName, description, arrayPhotos } = infoLocation;
+  const {
+    _id: locationId,
+    rating,
+    locationName,
+    description,
+    arrayPhotos
+  } = useTypedSelector(state => state.popupLocation.data);
 
   const handleCloseNotification = (
     e?: SyntheticEvent | Event,
@@ -71,40 +61,12 @@ const PointPopup = () => {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  const handleFavoriteClick = async () => {
-    // console.log(locationIsFavorite);
-    const result = await axios.put(
-      `${process.env.REACT_APP_API_URI}tougleFavorite`,
-      {
-        /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
-        idOfLocation: infoLocation._id
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-        }
-      }
-    );
-    if (result.status === 200) {
-      setLocationIsFavorite(!locationIsFavorite);
-    }
+
+  const handleFavoriteClick = () => {
+    if (isAuthorized) toggleFavoriteField(locationId);
   };
-  const handleVisitedClick = async () => {
-    const result = await axios.put(
-      `${process.env.REACT_APP_API_URI}tougleVisited`,
-      {
-        /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
-        idOfLocation: infoLocation._id
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-        }
-      }
-    );
-    if (result.status === 200) {
-      setLocationIsVisited(!locationIsVisited);
-    }
+  const handleVisitedClick = () => {
+    if (isAuthorized) toggleVisitedField(locationId);
   };
 
   const handleRating = (
@@ -136,7 +98,7 @@ const PointPopup = () => {
       );
     }
 
-    return updatePopupLocation(_id, { rating: updatedRating });
+    return updatePopupLocation(locationId, { rating: updatedRating });
   };
 
   let snackbar;
@@ -196,113 +158,23 @@ const PointPopup = () => {
                 justifyContent: 'space-between'
               }}
             >
-              <IconButton onClick={e => handleRating(e, 'likes')}>
-                {rating.likes.includes(userId) ? (
-                  <ThumbUpIcon
-                    fontSize="small"
-                    sx={{ color: 'text.secondary' }}
-                  />
-                ) : (
-                  <ThumbUpOutlinedIcon
-                    fontSize="small"
-                    sx={{ color: 'text.secondary' }}
-                  />
-                )}
-                {rating.likes.length}
-              </IconButton>
-
-              <IconButton onClick={e => handleRating(e, 'dislikes')}>
-                {rating.dislikes.includes(userId) ? (
-                  <ThumbDownIcon
-                    fontSize="small"
-                    sx={{ color: 'text.secondary' }}
-                  />
-                ) : (
-                  <ThumbDownAltOutlinedIcon
-                    fontSize="small"
-                    sx={{ color: 'text.secondary' }}
-                  />
-                )}
-                {rating.dislikes.length}
-              </IconButton>
-
-              <IconButton size="small" title={t('pointPopUp.toShare')}>
-                <ShareIcon />
-              </IconButton>
-
-              <IconButton
-                size="small"
-                onClick={handleFavoriteClick}
-                title={
-                  locationIsFavorite
-                    ? `${t('pointPopUp.removeFromFavorite')}`
-                    : `${t('pointPopUp.addToFavorite')}`
-                }
-              >
-                {locationIsFavorite ? <BookmarkIcon /> : <BookmarkBorderIcon />}
-              </IconButton>
-              <IconButton
-                size="small"
-                onClick={handleVisitedClick}
-                title={
-                  locationIsVisited
-                    ? `${t('pointPopUp.removeFromVisited')}`
-                    : `${t('pointPopUp.addToVisited')}`
-                }
-              >
-                {locationIsVisited ? <TourIcon /> : <TourOutlinedIcon />}
-              </IconButton>
-
-              <IconButton>
-                <MoreHorizIcon />
-              </IconButton>
+              <IconsComponent
+                handleRating={handleRating}
+                handleFavoriteClick={handleFavoriteClick}
+                locationIsFavorite={favorite.includes(locationId)}
+                locationIsVisited={visited.includes(locationId)}
+                handleVisitedClick={handleVisitedClick}
+              />
             </Box>
           </Box>
         </Box>
 
         <CardContent>
-          <Box>
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                gap: 5,
-                mt: 5
-              }}
-            >
-              {t('pointPopUp.locationCreatedBy')}
-              <Avatar
-                sx={{ mt: -2 }}
-                aria-label="author"
-                src="https://cdn-icons-png.flaticon.com/512/147/147142.png"
-              />
-              {/* todo change to infoLocation.authorName */}
-              <Typography>{userData.data.displayName}</Typography>
-
-              <Typography>
-                {infoLocation.createdAt.toLocaleDateString()}
-              </Typography>
-            </Box>
-            <Typography
-              variant="subtitle1"
-              sx={{
-                mt: 5,
-                p: 3,
-                border: '1px solid grey '
-              }}
-            >
-              {description}
-            </Typography>
-          </Box>
-          <IconButton
-            onClick={handleExpandClick}
-            sx={{
-              mt: 3,
-              transform: !expanded ? 'rotate(0deg)' : 'rotate(180deg)'
-            }}
-          >
-            <ExpandMoreIcon />
-          </IconButton>
+          <CardComponent
+            description={description}
+            handleExpandClick={handleExpandClick}
+            expanded={expanded}
+          />
         </CardContent>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CommentSection />

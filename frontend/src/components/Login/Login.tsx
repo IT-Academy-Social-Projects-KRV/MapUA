@@ -2,6 +2,7 @@ import React, { useEffect, useState, MouseEvent, SyntheticEvent } from 'react';
 import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import {
   useForm,
@@ -26,7 +27,7 @@ import {
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useTranslation } from 'react-i18next';
-import { emailValidation, passwordValidation } from 'utils/validation';
+import { AuthFormSchema } from 'utils/validation';
 import { PaperForm } from '../design/PaperForm';
 import { AuthFormWrapper } from '../design/AuthFormWrapper';
 
@@ -36,22 +37,34 @@ type SignIn = {
 };
 
 function Login() {
-  const location = useLocation();
-  const { login, loginOAuth } = useTypedDispatch();
-  const { handleSubmit, control } = useForm<SignIn>({
-    mode: 'onBlur'
-  });
+  const [notification, setNotification] = useState<string | {} | null>(null);
   const [showPassword, setShowPassword] = useState(false);
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const { login, loginOAuth } = useTypedDispatch();
+
+  const { handleSubmit, control } = useForm<SignIn>({
+    mode: 'onBlur',
+    resolver: yupResolver(AuthFormSchema)
+  });
+
+  const { errors } = useFormState({
+    control
+  });
 
   const { t } = useTranslation();
 
-  const { isAuthorized, error } = useTypedSelector(state => state.userAuth);
-  const [notification, setNotification] = useState<string | {} | null>(null);
+  const { data: isAuthorized, error } = useTypedSelector(
+    state => state.isUserAuthorized
+  );
   useEffect(() => {
     if (error) {
       setNotification(error);
     }
   }, [error]);
+
   const handleCloseNotification = (
     e?: SyntheticEvent | Event,
     reason?: string
@@ -61,8 +74,6 @@ function Login() {
     }
     setNotification(null);
   };
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (isAuthorized) {
@@ -79,11 +90,8 @@ function Login() {
   }, []);
 
   const onSubmit: SubmitHandler<SignIn> = async ({ email, password }) => {
-    login(email, password);
+    login(email.toLowerCase(), password);
   };
-  const { errors } = useFormState({
-    control
-  });
 
   const handleOAuth = (type: 'google' | 'facebook') => {
     if (type === 'google') {
@@ -113,12 +121,17 @@ function Login() {
                 </Typography>
 
                 <Snackbar
-                  anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                  sx={{ zIndex: 10000 }}
                   open={!!notification}
                   autoHideDuration={3000}
                   onClose={handleCloseNotification}
                 >
-                  <Alert onClose={handleCloseNotification} severity="error">
+                  <Alert
+                    onClose={handleCloseNotification}
+                    severity="error"
+                    sx={{ mt: '1vh' }}
+                  >
                     {notification}
                   </Alert>
                 </Snackbar>
@@ -126,7 +139,6 @@ function Login() {
                 <Controller
                   control={control}
                   name="email"
-                  rules={emailValidation}
                   render={({ field }) => (
                     <TextField
                       placeholder={t('common.enterYourEmail')}
@@ -136,9 +148,10 @@ function Login() {
                       onChange={e => field.onChange(e)}
                       onBlur={field.onBlur}
                       defaultValue={field.value}
-                      type="text"
                       error={!!errors.email?.message}
-                      helperText={errors.email?.message}
+                      helperText={t(
+                        !errors.email ? '' : String(errors.email.message)
+                      )}
                     />
                   )}
                 />
@@ -146,7 +159,6 @@ function Login() {
                 <Controller
                   control={control}
                   name="password"
-                  rules={passwordValidation}
                   render={({ field }) => (
                     <TextField
                       InputProps={{
@@ -174,7 +186,9 @@ function Login() {
                       onBlur={field.onBlur}
                       defaultValue={field.value}
                       error={!!errors.password?.message}
-                      helperText={errors.password?.message}
+                      helperText={t(
+                        !errors.password ? '' : String(errors.password.message)
+                      )}
                     />
                   )}
                 />
@@ -210,6 +224,7 @@ function Login() {
                     to="/registration"
                     color="inherit"
                     underline="none"
+                    sx={{ width: '100%' }}
                   >
                     {t('login.signup')}
                   </Link>

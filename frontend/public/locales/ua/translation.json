@@ -16,7 +16,7 @@
   "createLocation": {
     "creatingLocation": "Створення локації",
     "enterLocName": "Введіть назву локації",
-    "enterDescription": "Мінімум 3 стрічки",
+    "enterDescription": "Мінімум 10 символів",
     "favorites": "Обрані",
     "doneAndSubmit": "Додати локацію"
   },
@@ -41,6 +41,7 @@
       "cancel": "Відмінити",
       "editProfile": "Редагувати Профіль",
       "creationDate": "Дата створення:",
+      "updateDate": "Дата останнього оновлення",
       "logout": "Вийти",
       "yourName": "Ваше ім'я:"
     }
@@ -63,10 +64,26 @@
   },
   "utils": {
     "validation": {
-      "emailCanNotBeEmpty": "Email не може бути порожнім",
-      "wrongEmail": "Невірний email",
-      "passwordCanNotBeEmpty": "Пароль не може бути порожнім",
-      "passwordErrorLength": "Пароль повинен містити більше ніж 3 та менше ніж 36 символів"
+      "emptyEmailError": "Email не може бути порожнім",
+      "wrongEmailError": "Введіть коректний email",
+      "emptyPasswordError": "Пароль не може бути порожнім",
+      "passwordMinLengthError": "Пароль повинен містити не менше 6 символів",
+      "passwordMaxLengthError": "Пароль повинен містити не більше 36 символів",
+      "emptyProfileNameError": "Ім’я не може бути порожнім",
+      "emptyDescriptionProfileError": "Опис не може бути порожнім",
+      "descriptionProfileMinLengthError": "Опис має містити не менше 5 символів",
+      "descriptionProfileMaxLengthError": "Опис має бути не більше ніж 50",
+      "profileNameMinLengthError": "Ім’я має містити не менше 5 символів",
+      "profileNameMaxLengthError": "Ім’я має містити не більше 20 символів",
+      "emptyLocationNameError": "Назва локації не може бути порожньою",
+      "locationNameMinLengthError": "Назва локації має містити не менше 5 символів",
+      "locationNameMaxLengthError": "Назва локації має містити не більше 50 символів",
+      "emptyLocationDescriptionError": "Опис локації не може бути порожнім",
+      "locationDescriptionMinLengthError": "Опис локації повинен містити не менше 10 символів",
+      "emptyLocationFiltersError": "Виберіть хоча б один фільтр",
+      "emptyCommentTextError": "Ваш коментар не може бути порожнім",
+      "commentTextMinLengthError": "Ваш коментар повинен містити мінімум 5 символів",
+      "commentTextMaxLengthError": "Ваш коментар має містити менше 50 символів"
     }
   },
   "map": {
@@ -120,5 +137,8 @@
      "personal":"персональні"
    },
    "subscriptions":"Підписки"
+  },
+  "page404": {
+    "Return to main page": "Повернутися на головну сторінку"
   }
 }

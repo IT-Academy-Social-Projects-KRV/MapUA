@@ -24,24 +24,29 @@ export default function NestedList() {
   const [selectedFiltersUa, setSelectedFiltersUa] = useState<string[]>([]);
 
   const selectedFilters = useTypedSelector(
-    state => state.locationList.selectedFilters
+    state => state.mapInfo.selectedFilters
+  );
+  const { subscriptions } = useTypedSelector(state => state.userData.data);
+  const { data: isAuthorized } = useTypedSelector(
+    state => state.isUserAuthorized
   );
 
-  const { isAuthorized } = useTypedSelector(state => state.userAuth);
-
-  const { applyFilter, fetchFilters, fetchFiltersWithoutAuth } =
-    useTypedDispatch();
+  const {
+    setFilters,
+    setAuthorizedListOfFiltersOptions,
+    setUnauthorizedListOfFiltersOptions
+  } = useTypedDispatch();
 
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
     if (isAuthorized) {
-      fetchFilters(accessToken || '', t);
+      setAuthorizedListOfFiltersOptions(subscriptions, t);
     } else {
-      fetchFiltersWithoutAuth(t);
+      setUnauthorizedListOfFiltersOptions(t);
     }
   }, [isAuthorized, currentLanguage]);
 
-  const filters = useTypedSelector(state => state.userFilters.filters);
+  const filters = useTypedSelector(state => state.filtersList.filters);
   const AddSelectedFiltersUaLogic = (selectedValue: string) => {
     if (selectedFiltersUa.some(f => f === selectedValue)) {
       setSelectedFiltersUa(selectedFiltersUa.filter(f => f !== selectedValue));
@@ -61,9 +66,9 @@ export default function NestedList() {
     }
 
     if (selectedFilters.some(f => f === value)) {
-      applyFilter(selectedFilters.filter(f => f !== value));
+      setFilters(selectedFilters.filter(f => f !== value));
     } else {
-      applyFilter([...selectedFilters, value]);
+      setFilters([...selectedFilters, value]);
     }
   };
 
