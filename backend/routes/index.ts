@@ -7,6 +7,15 @@ import CommentsController from '../controllers/CommentsController';
 import passport from '../libs/passport';
 import multer from 'multer';
 import { upload } from '../utils/upload';
+import {
+  CommentSchema,
+  forgotPasswordSchema,
+  postPersonalLocationSchema,
+  updateLocationLikesSchema,
+  userAuthSchema,
+  userDataSchema
+} from '../utils/validationSchemes';
+import { validateRequest } from '../utils/validation';
 
 const router = express.Router();
 
@@ -15,7 +24,15 @@ router.get(
   passport.authenticate('jwt', { session: false }),
   UserController.getProfile
 );
-router.patch('/profile', upload.single('image'), UserController.changeUserData);
+
+router.post('/signup', userAuthSchema, validateRequest, AuthController.signUp);
+router.post('/signin', userAuthSchema, validateRequest, AuthController.signIn);
+router.post(
+  '/forgot-password',
+  forgotPasswordSchema,
+  validateRequest,
+  AuthController.forgotPassword
+);
 
 router.get(
   '/private-user-data',
@@ -29,9 +46,6 @@ router.patch(
   // UserController.changePrivateUserData
 );
 
-router.post('/signup', AuthController.signUp);
-router.post('/signin', AuthController.signIn);
-router.post('/forgot-password', AuthController.forgotPassword);
 router.get(
   '/subscriptions',
   passport.authenticate('jwt', { session: false }),
@@ -40,16 +54,28 @@ router.get(
 
 router.get('/locations/', LocationsController.getLocationsByZoom);
 router.patch('/locations', LocationsController.changeLocationInfo);
-router.patch('/locations/:id', LocationsController.updateLocationById);
+router.patch(
+  '/locations/:id',
+  updateLocationLikesSchema,
+  validateRequest,
+  LocationsController.updateLocationLikesById
+);
 router.get('/locations/:id', LocationsController.getLocationById);
 router.post(
   '/locations/create',
   upload.array('image'),
+  postPersonalLocationSchema,
+  validateRequest,
   passport.authenticate('jwt', { session: false }),
   LocationsController.postPersonalLocation
 );
 
-router.post('/comments/create', CommentsController.createLocationComment);
+router.post(
+  '/comments/create',
+  CommentSchema,
+  validateRequest,
+  CommentsController.createLocationComment
+);
 router.get('/comments/:locationId', CommentsController.getLocationComments);
 
 router.get(
@@ -82,16 +108,25 @@ router.get(
   }),
   AuthController.signInFacebook
 );
+router.patch(
+  '/profile',
+  upload.single('image'),
+  userDataSchema,
+  validateRequest,
+  UserController.changeUserData
+);
 
 router.get('/is-authenticated', AuthController.checkJwt);
 
 router.put(
   '/toggleFavorite/',
   passport.authenticate('jwt', { session: false }),
-  UserController.toggleFavorite);
+  UserController.toggleFavorite
+);
 router.put(
   '/toggleVisited/',
   passport.authenticate('jwt', { session: false }),
-  UserController.toggleVisited);
+  UserController.toggleVisited
+);
 
 export default router;

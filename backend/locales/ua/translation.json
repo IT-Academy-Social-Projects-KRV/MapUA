@@ -1,19 +1,50 @@
 {
-  "location_not_found": "Такої локації не існує",
-  "locations_not_found": "Не знайдено жодної локації",
-  "location_already_exist": "Така локація вже існує",
-  "comment_not_have_properties": "Коментар не має всіх потрібних даних",
-  "server_error": "Трапилась помилка на сервері",
-  "location_add_success": "Локація упсішно створена",
-  "comment_add_success": "Ваш коментар успішно доданий",
-  "change_location_info_success": "Інформація про локацію була успішно змінена",
-  "user_not_exist": "Такого користувача не існує",
-  "password_send_error": "Під час надсилання паролю трапилась помилка",
-  "password_send_success": "Пароль був успішно надісланий",
-  "token_not_provided": "Токен не був наданий",
-  "token_expired": "Термін дії токену закінчився",
-  "token_invalid": "Пошкоджений токен",
-  "token_malformed": "Неправильний токен",
-  "token_valid": "Правильний токен",
+    "auth": {
+        "invalid_email": "Введіть правильний email",
+        "invalid_password_length": "Пароль повинен містити не менше 6 символів",
+        "user_already_exists": "Користувач з таким email вже зареєстрований",
+        "user_not_exist": "Такого користувача не існує",
+        "invalid_password": "Невірний пароль"
+    },
+    "forgot_password": {
+        "password_send_error": "Під час надсилання паролю трапилась помилка",
+        "password_send_success": "Пароль був успішно надісланий"
+    },
+    "locations_list": {
+        "location_not_found": "Такої локації не існує",
+        "locations_not_found": "Не знайдено жодної локації",
+        "location_already_exist": "Така локація вже існує",
+        "location_add_success": "Локація упсішно створена",
+        "update_location_success": "Інформація про локацію була успішно змінена",
+        "rate_location_success": "Ви успішно оцінили локацію",
+        "toggle_favourite": "Ви успішно позначили лоацію як відвідану",
+        "toggle_visited": "Ви успішно позначили локацію як улюблену"
+    },
+    "location_comments": {
+        "comment_add_success": "Ваш коментар успішно доданий",
+        "comment_not_have_properties": "Коментар немає всіх потрібних даних",
+        "comment_length_error": "Коментар має містити мінімум 5 та максимум 50 символів"
+    },
+    "user_profile": {
+        "change_user_info_success": "Дані успішно змінені",
+        "change_user_info_error_name": "Ім'я має мати мінімум 5 та максимум 20 символів",
+        "change_user_info_error_description": "Ім'я має мати мінімум 5 та максимум 50 символів"
+    },
+    "add_location": {
+        "add_location_name_error": "Назва локації має містити мінімум 5 та максимум 50 символів",
+        "add_location_description_error": "Опис локації має містити мінімум 10 та максимум 200 символів",
+        "add_location_coordinates_error": "Задані невірні координати локації"
+    },
+    "jwt_token": {
+        "token_not_provided": "Токен не був наданий",
+        "token_expired": "Термін дії токену закінчився",
+        "token_invalid": "Пошкоджений токен",
+        "token_malformed": "Неправильний токен",
+        "token_valid": "Правильний токен"
+    },
+    "other": {
+        "server_error": "Трапилась помилка на сервері"
+    }
+}
   "forbidden_role_action": "Ви не маєте дозволу на виконання цієї дії"
 }
