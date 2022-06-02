@@ -133,6 +133,7 @@ const CreateLocation = ({
       <Controller
         control={control}
         name="locationName"
+        defaultValue=""
         render={({ field }) => (
           <TextField
             {...field}
@@ -150,6 +151,7 @@ const CreateLocation = ({
       <Controller
         control={control}
         name="locationDescription"
+        defaultValue=""
         render={({ field }) => (
           <TextField
             multiline
