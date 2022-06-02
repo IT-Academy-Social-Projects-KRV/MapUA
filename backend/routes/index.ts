@@ -4,6 +4,7 @@ import SubscriptionsController from '../controllers/SubscriptionsController';
 import LocationsController from '../controllers/LocationsController';
 import AuthController from '../controllers/AuthController';
 import CommentsController from '../controllers/CommentsController';
+import RoleChecker from '../middlewares/RoleChecker';
 import passport from '../libs/passport';
 import { upload } from '../utils/upload';
 
@@ -34,7 +35,11 @@ router.post(
   LocationsController.postPersonalLocation
 );
 
-router.post('/comments/create', CommentsController.createLocationComment);
+router.post(
+  '/comments/create',
+  RoleChecker.restrictTo('admin', 'user'),
+  CommentsController.createLocationComment
+);
 router.get('/comments/:locationId', CommentsController.getLocationComments);
 
 router.get(

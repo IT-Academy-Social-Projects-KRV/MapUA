@@ -1,8 +1,10 @@
 import { Response, Request, NextFunction } from 'express';
 import UserModel from '../models/UserModel';
 
+type Role = 'admin' | 'moderator' | 'user';
+
 const RoleChecker = {
-  restrictTo(...roles: Array<string>) {
+  restrictTo(...roles: Role[]) {
     return async (req: Request, res: Response, next: NextFunction) => {
       const userId = req.user;
       const user = await UserModel.findById(userId).select('role');

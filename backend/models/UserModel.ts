@@ -5,8 +5,7 @@ import { userInfo } from 'os';
 export interface IUser extends Document {
   email: string;
   _id: string;
-  role: string;
-  googleId: string;
+  role: 'admin' | 'user' | 'moderator';
   passwordHash: string;
   createdAt: Date | string;
   updatedAt: Date | string;
@@ -32,9 +31,6 @@ const schema = new mongoose.Schema(
       type: String,
       enum: ['user', 'admin', 'moderator'],
       default: 'user'
-    },
-    googleId: {
-      type: String
     },
     passwordHash: {
       type: String,
