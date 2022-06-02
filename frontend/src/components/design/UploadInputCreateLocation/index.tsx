@@ -22,7 +22,7 @@ const UploadInputCreateLocation = (props: UploadInputCreateLocationProps) => {
           onChange={e => {
             handleFilesChange(e);
             setlocationImageName(
-              (ref.current?.files && ref.current?.files[0].name) || ''
+              (ref.current?.files && ref.current?.files.length) || ''
             );
           }}
           ref={ref}
@@ -31,7 +31,11 @@ const UploadInputCreateLocation = (props: UploadInputCreateLocationProps) => {
         <Button variant="contained" component="span">
           {t('profile.profilePage.uploadPhoto')}
         </Button>
-        <Box sx={{ mt: '10px' }}>{locationImageName}</Box>
+        <Box sx={{ mt: '10px' }}>
+          {ref.current?.files && ref.current?.files.length > 0
+            ? `You selected ${locationImageName} photos`
+            : ''}
+        </Box>
       </label>
     </Box>
   );

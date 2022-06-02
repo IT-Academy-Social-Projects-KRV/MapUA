@@ -80,7 +80,10 @@ const LocationsController = {
           $set: { ...req.body }
         },
         { new: true }
-      ).exec();
+      ).populate({
+        path: 'author',
+        select: 'displayName imageUrl'
+      });
       if (!location) {
         return res
           .status(400)

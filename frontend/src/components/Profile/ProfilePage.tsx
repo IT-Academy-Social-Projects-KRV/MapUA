@@ -39,6 +39,7 @@ import { UserForm } from '../../../types';
 export default function ProfilePage() {
   const isMounted = useRef(false);
   const { t } = useTranslation();
+
   const { updateUserData, deleteUserData, deletePrivateUserData, logout } =
     useTypedDispatch();
   const {
@@ -77,7 +78,6 @@ export default function ProfilePage() {
       isMounted.current = true;
     }
   }, [updateError]);
-
   useEffect(() => {
     if (isMountedDebounced) {
       if (updateSuccess) {
