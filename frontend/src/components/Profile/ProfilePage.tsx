@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Typography, Button, Box, Snackbar, Alert } from '@mui/material';
 import { useForm, SubmitHandler, useFormState } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -16,9 +16,12 @@ import BasicTabs from './BasicTabs';
 import { UserForm } from '../../../types';
 import { SaveGroup } from './SaveGroup/SaveGroup';
 import { EditGroup } from './EditGroup/EditGroup';
+import useDebounce from '../../utils/useDebounce';
 
 export default function ProfilePage() {
   const { t } = useTranslation();
+  const isMounted = useRef(false);
+
   const { updateUserData, deleteUserData, deletePrivateUserData, logout } =
     useTypedDispatch();
   const {
@@ -29,7 +32,7 @@ export default function ProfilePage() {
   const { email, createdAt, updatedAt } = useTypedSelector(
     state => state.privateUserData.data
   );
-
+  const isMountedDebounced = useDebounce(isMounted.current, 1000);
   const [showEditPanel, setShowEditPanel] = useState(false);
   const [successMessage, setSuccessMessage] = useState(false);
   const [userImage, setUserImage] = useState<File | null>();
@@ -46,20 +49,28 @@ export default function ProfilePage() {
   });
 
   useEffect(() => {
-    if (updateError) {
-      setTimeout(() => setErrorMessage(''), 3000);
-      setErrorMessage(
-        (typeof updateError === 'string' ? updateError : updateError.message) ||
-          `${t('profile.profilePage.lostNetwork')}`
-      );
+    if (isMountedDebounced) {
+      if (updateError) {
+        setTimeout(() => setErrorMessage(''), 3000);
+        setErrorMessage(
+          (typeof updateError === 'string'
+            ? updateError
+            : updateError.message) || `${t('profile.profilePage.lostNetwork')}`
+        );
+      }
+    } else {
+      isMounted.current = true;
     }
   }, [updateError]);
-
   useEffect(() => {
-    if (updateSuccess) {
-      setSuccessMessage(true);
-      setTimeout(() => setSuccessMessage(false), 3000);
-      setShowEditPanel(false);
+    if (isMountedDebounced) {
+      if (updateSuccess) {
+        setSuccessMessage(true);
+        setTimeout(() => setSuccessMessage(false), 3000);
+        setShowEditPanel(false);
+      }
+    } else {
+      isMounted.current = true;
     }
   }, [updateSuccess]);
 
