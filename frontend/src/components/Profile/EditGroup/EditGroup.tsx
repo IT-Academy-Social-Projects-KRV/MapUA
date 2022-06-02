@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import React, { FC } from 'react';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTranslation } from 'react-i18next';
@@ -17,7 +17,7 @@ export const EditGroup: FC<Props> = ({ displayName, editData }) => {
   );
 
   return (
-    <Box>
+    <UploadBox>
       <ProfileAvatar
         aria-label="avatar"
         src={userAvatar || userImageNotFound}
@@ -36,6 +36,6 @@ export const EditGroup: FC<Props> = ({ displayName, editData }) => {
       >
         {t('profile.profilePage.editProfile')}
       </EditButton>
-    </Box>
+    </UploadBox>
   );
 };

@@ -1,6 +1,11 @@
 import React, { FC, MouseEventHandler } from 'react';
 import { Box, TextField } from '@mui/material';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import {
+  Controller,
+  SubmitHandler,
+  useForm,
+  useFormState
+} from 'react-hook-form';
 
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTranslation } from 'react-i18next';
@@ -35,9 +40,14 @@ export const SaveGroup: FC<Props> = ({
   const { imageUrl: userAvatar } = useTypedSelector(
     state => state.userData.data
   );
+
   const { handleSubmit, control, register } = useForm<UserForm>({
     mode: 'onBlur',
     defaultValues: { displayName, description }
+  });
+
+  const { errors } = useFormState({
+    control
   });
 
   return (
@@ -66,7 +76,11 @@ export const SaveGroup: FC<Props> = ({
               onChange={field.onChange}
               onBlur={field.onBlur}
               defaultValue={field.value}
+              error={!!errors.displayName?.message}
               type="text"
+              helperText={t(
+                !errors.displayName ? '' : String(errors.displayName.message)
+              )}
             />
           )}
         />
