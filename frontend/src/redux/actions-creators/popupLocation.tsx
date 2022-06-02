@@ -58,10 +58,10 @@ export const toggleVisitedField =
         }
       );
 
-      if (response.status === 200) {
+      if (response.status === 200 && response.data.updatedUser) {
         dispatch({
           type: UserDataActionTypes.UPDATE_USER_DATA_SUCCESS,
-          payload: response.data
+          payload: response.data.updatedUser
         });
       }
     } catch (error: any) {
@@ -96,10 +96,10 @@ export const toggleFavoriteField =
         }
       );
 
-      if (response.status === 200) {
+      if (response.status === 200 && response.data.updatedUser) {
         dispatch({
           type: UserDataActionTypes.UPDATE_USER_DATA_SUCCESS,
-          payload: response.data
+          payload: response.data.updatedUser
         });
       }
     } catch (error: any) {

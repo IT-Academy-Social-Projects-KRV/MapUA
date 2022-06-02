@@ -3,6 +3,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React, { FC, MouseEventHandler } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
+import userImageNotFound from '../../../static/image-not-found.jpg';
 
 type Props = {
   description: string;
@@ -15,8 +16,10 @@ export const CardComponent: FC<Props> = ({
   handleExpandClick,
   expanded
 }) => {
-  const { createdAt } = useTypedSelector(state => state.popupLocation.data);
-  const { displayName } = useTypedSelector(state => state.userData.data);
+  const { createdAt, author } = useTypedSelector(
+    state => state.popupLocation.data
+  );
+  // const { displayName } = useTypedSelector(state => state.userData.data);
   const { t } = useTranslation();
 
   return (
@@ -34,10 +37,11 @@ export const CardComponent: FC<Props> = ({
           <Avatar
             sx={{ mt: -2 }}
             aria-label="author"
-            src="https://cdn-icons-png.flaticon.com/512/147/147142.png"
+            src={(author && author.imageUrl) || userImageNotFound}
           />
-          {/* todo change to infoLocation.authorName */}
-          <Typography>{displayName}</Typography>
+          <Typography>
+            {(author && author.displayName) || 'undefined'}
+          </Typography>
 
           <Typography>{createdAt.toLocaleDateString()}</Typography>
         </Box>
