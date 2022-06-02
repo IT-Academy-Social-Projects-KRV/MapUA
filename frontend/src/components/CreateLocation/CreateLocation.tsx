@@ -99,7 +99,10 @@ const CreateLocation = ({
     formData.append('coordinates', String(coordinate.lat));
     formData.append('coordinates', String(coordinate.lng));
     formData.append('filters', String(locationFilters));
-    formData.append('image', files[0]);
+
+    for (let i = 0; i < files.length; i += 1) {
+      formData.append('image', files[i]);
+    }
 
     createLocation(formData);
   };
