@@ -22,7 +22,7 @@ import {
 } from 'react-hook-form';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { yupResolver } from '@hookform/resolvers/yup';
+
 import { useTranslation } from 'react-i18next';
 import { AuthFormSchema } from 'utils/validation';
 import { PaperForm } from '../design/PaperForm';
@@ -32,7 +32,6 @@ type SignUp = {
   email: string;
   password: string;
 };
-
 function Registration() {
   const [showPassword, setShowPassword] = useState(false);
   const [visibleSucces, setVisibleSuccess] = useState(false);
@@ -86,11 +85,9 @@ function Registration() {
   const handleMouseDownPassword = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
   };
-
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
-
   return (
     <AuthFormWrapper>
       <Grid container justifyContent="center">
@@ -149,6 +146,7 @@ function Registration() {
                     />
                   )}
                 />
+
                 <Box sx={{ my: 4 }}>
                   <Controller
                     control={control}
@@ -200,5 +198,9 @@ function Registration() {
     </AuthFormWrapper>
   );
 }
-
 export default Registration;
+function yupResolver(
+  AuthFormSchema: any
+): import('react-hook-form').Resolver<SignUp, any> | undefined {
+  throw new Error('Function not implemented.');
+}
