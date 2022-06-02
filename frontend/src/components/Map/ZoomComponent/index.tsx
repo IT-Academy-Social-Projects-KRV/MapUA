@@ -20,12 +20,12 @@ export default function MyZoomComponent({
 }: Props) {
   const prev = bounds;
   const map = useMapEvents({
-    zoom: e => {
+    zoom: () => {
       if (!isAddLocationActive) {
         setBounds({ ...prev, ...map.getBounds() });
       }
     },
-    dragend: e => {
+    dragend: () => {
       if (!isAddLocationActive) {
         setBounds({ ...prev, ...map.getBounds() });
       }

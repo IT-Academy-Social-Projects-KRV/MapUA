@@ -9,6 +9,7 @@ import {
 
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTranslation } from 'react-i18next';
+import UploadInputProfilePage from 'components/design/UploadInputProfilePage';
 import { UserForm } from '../../../../types';
 import {
   CancelButton,
@@ -17,7 +18,6 @@ import {
   SaveButton,
   UploadBox
 } from '../styles';
-import UploadInputProfilePage from 'components/design/UploadInputProfilePage';
 
 type Props = {
   onSubmit: SubmitHandler<UserForm>;
