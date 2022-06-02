@@ -85,7 +85,10 @@ const UserController = {
       );
       return res
         .status(200)
-        .json({ message: req.t('locations_list.toggle_favourite') });
+        .json({
+          updatedUser: changeData,
+          message: req.t('locations_list.toggle_favourite')
+        });
     } catch (err: any) {
       return res.status(500).json({ error: req.t('other.server_error'), err });
     }
@@ -128,7 +131,10 @@ const UserController = {
       );
       return res
         .status(200)
-        .json({ message: req.t('locations_list.toggle_visited') });
+        .json({
+          updatedUser: changeData,
+          message: req.t('locations_list.toggle_visited')
+        });
     } catch (err: any) {
       return res.status(500).json({ error: req.t('other.server_error'), err });
     }
