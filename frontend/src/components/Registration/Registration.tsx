@@ -1,4 +1,5 @@
 import React, { useState, MouseEvent, SyntheticEvent, useEffect } from 'react';
+import axios from 'services/axios';
 import { useNavigate } from 'react-router-dom';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import {
@@ -13,17 +14,17 @@ import {
   Grid,
   Stack
 } from '@mui/material';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {
   useForm,
   Controller,
   SubmitHandler,
   useFormState
 } from 'react-hook-form';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+
 import { useTranslation } from 'react-i18next';
-import { emailValidation, passwordValidation } from 'utils/validation';
-import axios from 'services/axios';
+import { AuthFormSchema } from 'utils/validation';
 import { PaperForm } from '../design/PaperForm';
 import { AuthFormWrapper } from '../design/AuthFormWrapper';
 
@@ -32,14 +33,23 @@ type SignUp = {
   password: string;
 };
 function Registration() {
-  const { t } = useTranslation();
-  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [visibleSucces, setVisibleSuccess] = useState(false);
+
+  const navigate = useNavigate();
+
+  const { t } = useTranslation();
+
   const [notification, setNotification] = useState<string | {} | null>(null);
   const { handleSubmit, control } = useForm<SignUp>({
-    mode: 'onBlur'
+    mode: 'onBlur',
+    resolver: yupResolver(AuthFormSchema)
   });
+
+  const { errors } = useFormState({
+    control
+  });
+
   const onSubmit: SubmitHandler<SignUp> = async data => {
     try {
       const response = await axios().post(`signup`, data);
@@ -54,6 +64,7 @@ function Registration() {
       );
     }
   };
+
   const { error } = useTypedSelector(state => state.isUserAuthorized);
   useEffect(() => {
     if (error) {
@@ -70,9 +81,7 @@ function Registration() {
     setVisibleSuccess(false);
     setNotification(null);
   };
-  const { errors } = useFormState({
-    control
-  });
+
   const handleMouseDownPassword = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
   };
@@ -121,7 +130,6 @@ function Registration() {
                 <Controller
                   control={control}
                   name="email"
-                  rules={emailValidation}
                   render={({ field }) => (
                     <TextField
                       placeholder={t('common.enterYourEmail')}
@@ -131,9 +139,10 @@ function Registration() {
                       onChange={e => field.onChange(e)}
                       onBlur={field.onBlur}
                       defaultValue={field.value}
-                      type="text"
                       error={!!errors.email?.message}
-                      helperText={errors.email?.message}
+                      helperText={t(
+                        !errors.email ? '' : String(errors.email.message)
+                      )}
                     />
                   )}
                 />
@@ -142,7 +151,6 @@ function Registration() {
                   <Controller
                     control={control}
                     name="password"
-                    rules={passwordValidation}
                     render={({ field }) => (
                       <TextField
                         InputProps={{
@@ -170,7 +178,11 @@ function Registration() {
                         onBlur={field.onBlur}
                         defaultValue={field.value}
                         error={!!errors.password?.message}
-                        helperText={errors.password?.message}
+                        helperText={t(
+                          !errors.password
+                            ? ''
+                            : String(errors.password.message)
+                        )}
                       />
                     )}
                   />
@@ -187,3 +199,8 @@ function Registration() {
   );
 }
 export default Registration;
+function yupResolver(
+  AuthFormSchema: any
+): import('react-hook-form').Resolver<SignUp, any> | undefined {
+  throw new Error('Function not implemented.');
+}
