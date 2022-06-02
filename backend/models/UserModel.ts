@@ -1,11 +1,12 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import { userInfo } from 'os';
+import { Role } from '../types';
 
 export interface IUser extends Document {
   email: string;
   _id: string;
-  googleId: string;
+  role: Role;
   passwordHash: string;
   createdAt: Date | string;
   updatedAt: Date | string;
@@ -27,8 +28,10 @@ const schema = new mongoose.Schema(
       required: true,
       unique: true
     },
-    googleId: {
-      type: String
+    role: {
+      type: String,
+      enum: ['user', 'admin', 'moderator'],
+      default: 'user'
     },
     passwordHash: {
       type: String,
