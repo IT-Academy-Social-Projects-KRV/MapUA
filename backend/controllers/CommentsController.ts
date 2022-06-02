@@ -19,8 +19,6 @@ const CommentsController = {
   async createLocationComment(req: Request, res: Response) {
     try {
       const { comment: commentBody } = req.body;
-      console.log(commentBody);
-
       const newComment = new Comment(commentBody);
       const { _id: newCommentId } = await newComment.save();
 
