@@ -27,7 +27,6 @@ export default function BigPopupLocation(
           style: { height: '77vh', marginTop: '85px' }
         }}
         anchor="left"
-        hideBackdrop
         open={isOpen}
         onClose={toggleClose}
       >

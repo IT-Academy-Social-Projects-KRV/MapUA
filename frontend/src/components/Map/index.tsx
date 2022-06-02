@@ -81,7 +81,7 @@ function Map({
 
         <SearchFormContainer />
 
-        {isAuthorized && showAddLocationButton && !isOpen && (
+        {isAuthorized && !isOpen && (
           <Button
             onClick={() =>
               setIsAddLocationActive((prevState: boolean) => !prevState)
@@ -89,7 +89,7 @@ function Map({
             style={{
               background: isAddLocationActive ? 'yellow' : 'white',
               color: isAddLocationActive ? 'black' : '#1976d2',
-              zIndex: '10000',
+              zIndex: '1000',
               position: 'absolute',
               top: '15px',
               left: '50px',
