@@ -1,11 +1,12 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import { userInfo } from 'os';
+import { Role } from '../types';
 
 export interface IUser extends Document {
   email: string;
   _id: string;
-  role: 'admin' | 'user' | 'moderator';
+  role: Role;
   passwordHash: string;
   createdAt: Date | string;
   updatedAt: Date | string;

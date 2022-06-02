@@ -1,7 +1,6 @@
 import { Response, Request, NextFunction } from 'express';
 import UserModel from '../models/UserModel';
-
-type Role = 'admin' | 'moderator' | 'user';
+import { Role } from '../types';
 
 const RoleChecker = {
   restrictTo(...roles: Role[]) {
