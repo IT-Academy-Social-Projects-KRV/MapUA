@@ -11,12 +11,12 @@ const SubscriptionsController = {
       });
 
       if (!userData) {
-        return res.status(400).json({ error: 'User doesnt exist' });
+        return res.status(400).json({ error: req.t('auth.user_not_exist') });
       }
 
       return res.status(200).json({ userData });
     } catch (err: any) {
-      return res.status(500).json({ error: err.message });
+      return res.status(500).json({ error: req.t('other.server_error'), err });
     }
   }
 };

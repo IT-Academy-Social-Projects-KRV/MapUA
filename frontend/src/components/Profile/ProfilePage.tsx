@@ -1,64 +1,79 @@
-import React, { useState } from 'react';
-import {
-  Typography,
-  Button,
-  Box,
-  TextField,
-  Snackbar,
-  Alert
-} from '@mui/material';
-import { useForm, SubmitHandler, Controller } from 'react-hook-form';
+import React, { useEffect, useState, useRef } from 'react';
+import { Typography, Button, Box, Snackbar, Alert } from '@mui/material';
+import { useForm, SubmitHandler, useFormState } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { EditProfileSchema } from 'utils/validation';
 import { useTranslation } from 'react-i18next';
-import { UserActionTypes } from 'redux/action-types/userActionTypes';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
-import { UserForm } from 'redux/ts-types/user';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
-import { useDispatch } from 'react-redux';
-import axios from 'services/axios';
-import UploadInputProfilePage from 'components/design/UploadInputProfilePage';
-import userImageNotFound from '../../static/user-image-not-found.png';
 import {
-  ProfileAvatar,
-  SaveButton,
-  CancelButton,
   ProfileContentWrapper,
   ProfileFormWrapper,
-  ProfileUsertWrapper,
-  SaveBox,
-  UploadBox,
-  EditButton,
+  ProfileUserWrapper,
   TypographyDate
 } from './styles';
 import BasicTabs from './BasicTabs';
-
-// interface ProfilePageProps {
-//   id: string;
-//   email: string;
-//   displayName: string;
-//   createdAt: Date | string;
-//   description: string;
-// }
+import { UserForm } from '../../../types';
+import { SaveGroup } from './SaveGroup/SaveGroup';
+import { EditGroup } from './EditGroup/EditGroup';
+import useDebounce from '../../utils/useDebounce';
 
 export default function ProfilePage() {
-  const {
-    data: { _id: id, email, displayName, createdAt, description }
-  } = useTypedSelector(state => state.user);
-  const { handleSubmit, control, register } = useForm<UserForm>({
-    mode: 'onBlur',
-    defaultValues: { displayName, description }
-  });
-  const dispatch = useDispatch();
-  const [showEditPanel, setShowEditPanel] = useState(false);
-  const [userImage, setUserImage] = useState<File | null | Blob>(null);
-  const userAvatar = useTypedSelector(state => state.user);
-  const [newDescription, setNewDescription] = useState(description);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState(false);
-  const { logout } = useTypedDispatch();
-  const handleDescription = (descriptionBasicTabs: any) => {
-    setNewDescription(descriptionBasicTabs);
-  };
   const { t } = useTranslation();
+  const isMounted = useRef(false);
+
+  const { updateUserData, deleteUserData, deletePrivateUserData, logout } =
+    useTypedDispatch();
+  const {
+    success: updateSuccess,
+    error: updateError,
+    data: { _id: id, displayName, description }
+  } = useTypedSelector(state => state.userData);
+  const { email, createdAt, updatedAt } = useTypedSelector(
+    state => state.privateUserData.data
+  );
+  const isMountedDebounced = useDebounce(isMounted.current, 1000);
+  const [showEditPanel, setShowEditPanel] = useState(false);
+  const [successMessage, setSuccessMessage] = useState(false);
+  const [userImage, setUserImage] = useState<File | null>();
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const { handleSubmit, control } = useForm<UserForm>({
+    mode: 'onBlur',
+    defaultValues: { displayName, description },
+    resolver: yupResolver(EditProfileSchema)
+  });
+
+  const { errors } = useFormState({
+    control
+  });
+
+  useEffect(() => {
+    if (isMountedDebounced) {
+      if (updateError) {
+        setTimeout(() => setErrorMessage(''), 3000);
+        setErrorMessage(
+          (typeof updateError === 'string'
+            ? updateError
+            : updateError.message) || `${t('profile.profilePage.lostNetwork')}`
+        );
+      }
+    } else {
+      isMounted.current = true;
+    }
+  }, [updateError]);
+  useEffect(() => {
+    if (isMountedDebounced) {
+      if (updateSuccess) {
+        setSuccessMessage(true);
+        setTimeout(() => setSuccessMessage(false), 3000);
+        setShowEditPanel(false);
+      }
+    } else {
+      isMounted.current = true;
+    }
+  }, [updateSuccess]);
+
   const onSubmit: SubmitHandler<UserForm> = async data => {
     const formData = new FormData();
     if (userImage) {
@@ -66,27 +81,9 @@ export default function ProfilePage() {
     }
     formData.append('id', id);
     formData.append('displayName', data.displayName);
-    formData.append('description', newDescription);
+    formData.append('description', data.description);
 
-    try {
-      const response = await axios.patch(`profile`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-      if (response.status === 200) {
-        setSuccessMessage(true);
-        dispatch({
-          type: UserActionTypes.UPDATE_USER,
-          payload: response.data
-        });
-        setShowEditPanel(false);
-      }
-    } catch (e: any) {
-      setErrorMessage(
-        e.response.data?.error || `${t('profile.profilePage.lostNetwork')}`
-      );
-    }
+    updateUserData(formData);
   };
   const editData = () => {
     setShowEditPanel(true);
@@ -106,119 +103,79 @@ export default function ProfilePage() {
   };
 
   return (
-    <ProfileFormWrapper>
-      <ProfileContentWrapper>
-        <Snackbar
-          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-          sx={{ zIndex: 10000 }}
-          open={successMessage}
-          autoHideDuration={3000}
-          onClose={handleClose}
-        >
-          <Alert severity="success" onClose={handleClose} sx={{ mt: '4vh' }}>
-            {t('profile.profilePage.dataSuccessChanged')}
-          </Alert>
-        </Snackbar>
+    <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+      <ProfileFormWrapper>
+        <ProfileContentWrapper>
+          <Snackbar
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            sx={{ zIndex: 10000 }}
+            open={successMessage}
+            autoHideDuration={3000}
+            onClose={handleClose}
+          >
+            <Alert severity="success" onClose={handleClose} sx={{ mt: '4vh' }}>
+              {t('profile.profilePage.dataSuccessChanged')}
+            </Alert>
+          </Snackbar>
 
-        <Snackbar
-          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-          sx={{ zIndex: 10000 }}
-          open={!!errorMessage}
-          onClose={handleClose}
-          autoHideDuration={3000}
-        >
-          <Alert onClose={handleClose} severity="error" sx={{ mt: '4vh' }}>
-            {errorMessage}
-          </Alert>
-        </Snackbar>
+          <Snackbar
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            sx={{ zIndex: 10000 }}
+            open={!!errorMessage}
+            onClose={handleClose}
+            autoHideDuration={3000}
+          >
+            <Alert onClose={handleClose} severity="error" sx={{ mt: '4vh' }}>
+              {errorMessage}
+            </Alert>
+          </Snackbar>
 
-        {showEditPanel ? (
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Box>
-              <UploadBox>
-                <ProfileAvatar
-                  aria-label="avatar"
-                  src={
-                    (userImage && URL.createObjectURL(userImage)) ||
-                    userAvatar.data.imageUrl
-                  }
-                />
-                <UploadInputProfilePage
-                  setUserImage={setUserImage}
-                  register={register}
-                />
-              </UploadBox>
-              <Controller
-                control={control}
-                name="displayName"
-                render={({ field }) => (
-                  <TextField
-                    placeholder={t('profile.profilePage.enterName')}
-                    label={t('profile.profilePage.name')}
-                    fullWidth
-                    onChange={field.onChange}
-                    onBlur={field.onBlur}
-                    defaultValue={field.value}
-                    type="text"
-                  />
-                )}
-              />
-              <SaveBox>
-                <SaveButton size="large" variant="contained" type="submit">
-                  {t('profile.profilePage.save')}
-                </SaveButton>
-                <CancelButton
-                  size="large"
-                  variant="contained"
-                  onClick={closeEditData}
-                >
-                  {t('profile.profilePage.cancel')}
-                </CancelButton>
-              </SaveBox>
-            </Box>
-          </form>
-        ) : (
-          <UploadBox>
-            <ProfileAvatar
-              aria-label="avatar"
-              src={userAvatar.data.imageUrl || userImageNotFound}
+          {showEditPanel ? (
+            <SaveGroup
+              onSubmit={onSubmit}
+              displayName={displayName}
+              description={displayName}
+              closeEditData={closeEditData}
+              setUserImage={setUserImage}
+              userImage={userImage}
             />
-            <Typography
-              sx={{ mt: '3vh' }}
-              variant="h5"
-              component="h4"
-              align="center"
-            >
-              {displayName === undefined
-                ? `${t('profile.profilePage.yourName')}`
-                : displayName}
-            </Typography>
+          ) : (
+            <EditGroup displayName={displayName} editData={editData} />
+          )}
 
-            <EditButton size="large" variant="contained" onClick={editData}>
-              {t('profile.profilePage.editProfile')}
-            </EditButton>
-          </UploadBox>
-        )}
-        <TypographyDate variant="h6">
-          {t('profile.profilePage.creationDate')}{' '}
-          {new Date(createdAt).toLocaleDateString('en-GB')}
-        </TypographyDate>
-        <Typography variant="h6" component="h6" align="center">
-          {email}
-        </Typography>
-        <Button size="large" onClick={logout} variant="contained">
-          {t('profile.profilePage.logout')}
-        </Button>
-      </ProfileContentWrapper>
-      <ProfileUsertWrapper>
-        <BasicTabs
-          showEditPanel={showEditPanel}
-          setShowEditPanel={setShowEditPanel}
-          control={control}
-          handleDescription={handleDescription}
-          newDescription={newDescription}
-        />
-      </ProfileUsertWrapper>
-    </ProfileFormWrapper>
+          <TypographyDate variant="h6">
+            {t('profile.profilePage.creationDate')}{' '}
+            {new Date(createdAt).toLocaleDateString('en-GB')}
+          </TypographyDate>
+          <TypographyDate variant="h6">
+            {t('profile.profilePage.updateDate')}{' '}
+            {new Date(updatedAt).toLocaleDateString('en-GB')}
+          </TypographyDate>
+
+          <Typography variant="h6" component="h6" align="center">
+            {email}
+          </Typography>
+          <Button
+            size="large"
+            onClick={() => {
+              deleteUserData();
+              deletePrivateUserData();
+              logout();
+            }}
+            variant="contained"
+          >
+            {t('profile.profilePage.logout')}
+          </Button>
+        </ProfileContentWrapper>
+        <ProfileUserWrapper>
+          <BasicTabs
+            error={errors.description}
+            showEditPanel={showEditPanel}
+            setShowEditPanel={setShowEditPanel}
+            control={control}
+          />
+        </ProfileUserWrapper>
+      </ProfileFormWrapper>
+    </Box>
   );
 }

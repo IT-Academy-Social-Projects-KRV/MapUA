@@ -1,25 +1,18 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Box } from '@mui/material';
 import Map from 'components/Map/index';
 import BigPopup from 'components/BigPopup/index';
 import BigPopupLocation from 'components/design/BigPopupLocation';
 import CreateLocation from 'components/CreateLocation/CreateLocation';
-import { useTypedSelector } from 'redux/hooks/useTypedSelector';
-import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { locationType } from '../../types';
 
 function HomeScreen() {
   const [isAddLocationActive, setIsAddLocationActive] = useState(false);
-  // const [isAuth] = useState(false);
   const [isOpenLocationPopup, setIsOpenLocationPopup] = useState(false);
   const [isOpenLocationForm, setIsOpenLocationForm] = useState(false);
-
   const [location, setLocation] = useState<locationType | null>(null);
   const [coordinate, setCoordinate] = useState<any>([]);
-
-  const { isAuthorized } = useTypedSelector(state => state.userAuth);
-  const { fetchUser } = useTypedDispatch();
   const [showAddLocationButton, setShowAddLocationButton] = useState(true);
 
   const onOpenBigPopup = (locationData: locationType) => {
@@ -31,14 +24,6 @@ function HomeScreen() {
   const onOpenLocationForm = () => {
     setIsOpenLocationForm(true);
   };
-
-  useEffect(() => {
-    if (isAuthorized) {
-      const accessToken = localStorage.getItem('accessToken');
-      // @ts-ignore
-      fetchUser(accessToken);
-    }
-  }, [isAuthorized]);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -56,7 +41,11 @@ function HomeScreen() {
         toggleClose={() => setIsOpenLocationForm(false)}
         setIsAddLocationActive={setIsAddLocationActive}
       >
-        <CreateLocation coordinate={coordinate} />
+        <CreateLocation
+          coordinate={coordinate}
+          closeBigPopup={() => setIsOpenLocationForm(false)}
+          setIsAddLocationActive={setIsAddLocationActive}
+        />
       </BigPopupLocation>
       <Box
         sx={{ height: '100%' }}
@@ -65,7 +54,6 @@ function HomeScreen() {
         <Map
           onOpenBigPopup={onOpenBigPopup}
           onOpenLocationForm={onOpenLocationForm}
-          // userAuth={userAuth}
           setCoordinate={setCoordinate}
           isOpen={isOpenLocationForm}
           showAddLocationButton={showAddLocationButton}
