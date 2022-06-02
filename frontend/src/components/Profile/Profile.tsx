@@ -8,6 +8,7 @@ import { useTypedSelector } from '../../redux/hooks/useTypedSelector';
 import { useTypedDispatch } from '../../redux/hooks/useTypedDispatch';
 
 function Profile() {
+  const accessToken = localStorage.getItem('accessToken');
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -23,13 +24,11 @@ function Profile() {
 
   useEffect(() => {
     if (!isAuthLoading) {
-      const accessToken = localStorage.getItem('accessToken');
       if (isAuthorized && accessToken) {
         fetchPrivateUserData(accessToken);
-      } else {
-        navigate('/');
       }
     }
+    if (!accessToken || (!isAuthLoading && !isAuthorized)) navigate('/');
   }, [isAuthorized]);
 
   if (userLoading || privateUserLoading) {
@@ -47,7 +46,7 @@ function Profile() {
 
   return (
     <Box>
-      <ProfilePage />
+      {accessToken && !isAuthLoading && isAuthorized && <ProfilePage />}
     </Box>
   );
 }
