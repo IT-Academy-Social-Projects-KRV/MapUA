@@ -34,6 +34,11 @@ router.post(
   passport.authenticate('jwt', { session: false }),
   LocationsController.postPersonalLocation
 );
+router.delete(
+  '/locations/delete',
+  passport.authenticate('jwt', { session: false }),
+  LocationsController.deleteLocation
+);
 
 router.post('/comments/create', CommentsController.createLocationComment);
 router.get('/comments/:locationId', CommentsController.getLocationComments);
@@ -74,11 +79,13 @@ router.get('/is-authenticated', AuthController.checkJwt);
 
 router.put(
   '/tougleFavorite/',
-  passport.authenticate('jwt', { session: false }), 
-  UserController.tougleFavorite);
+  passport.authenticate('jwt', { session: false }),
+  UserController.tougleFavorite
+);
 router.put(
   '/tougleVisited/',
-  passport.authenticate('jwt', { session: false }), 
-  UserController.tougleVisited);
+  passport.authenticate('jwt', { session: false }),
+  UserController.tougleVisited
+);
 
 export default router;

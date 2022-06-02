@@ -172,14 +172,12 @@ const LocationsController = {
 
       const _id = req.user;
       const userData = await User.findById(_id);
-
       if (!userData) {
         return res.status(400).json({ error: req.t('user_not_exist') });
       }
 
-      if (location.author === _id) {
-        Location.deleteOne({ _id: locationId });
-
+      if (location.author == _id) {
+        await location.remove();
         return res.status(200).json({ message: req.t('location_del_success') });
       } else {
         res.status(400).json({ error: req.t('location_del_error') });
