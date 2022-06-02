@@ -1,17 +1,23 @@
 import { combineReducers } from 'redux';
-import { userReducer } from './userReducer';
-import { userLoginReducer } from './userAuthReducer';
+import { isUserAuthorizedReducer } from './isUserAuthorizedReducer';
+import { userDataReducer } from './userDataReducer';
+import { privateUserDataReducer } from './privateUserDataReducer';
 import { popupLocationReducer } from './popupLocationReducer';
 import { locationsListReducer } from './locationListReducer';
-import { filterReducer } from './filtersReducer';
+import { mapInfoReducer } from './mapInfoReducer';
+import { listOfFiltersOptionsReducer } from './listOfFiltersOptionsReducer';
+import { createLocationReducer } from './createLocationReducer';
 import { locationCommentsReducer } from './locationCommentsReducer';
 
 export const rootReducer = combineReducers({
-  user: userReducer,
-  userAuth: userLoginReducer,
+  isUserAuthorized: isUserAuthorizedReducer,
+  userData: userDataReducer,
+  privateUserData: privateUserDataReducer,
   popupLocation: popupLocationReducer,
   locationList: locationsListReducer,
-  userFilters: filterReducer,
+  mapInfo: mapInfoReducer,
+  filtersList: listOfFiltersOptionsReducer,
+  createLocation: createLocationReducer,
   locationComments: locationCommentsReducer
 });
 

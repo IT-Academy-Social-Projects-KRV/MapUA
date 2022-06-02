@@ -5,14 +5,19 @@ import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import CommentForm from './CommentForm';
 import Comment from './Comment';
+import { CommentType, AuthorInfoType } from '../../../../types';
 
 const CommentSection = () => {
   const { t } = useTranslation();
 
-  const { _id: locationId } = useTypedSelector(state => state.popupLocation);
+  const { _id: locationId } = useTypedSelector(
+    state => state.popupLocation.data
+  );
   const { comments } = useTypedSelector(state => state.locationComments);
   const { fetchComments } = useTypedDispatch();
-  const { isAuthorized } = useTypedSelector(state => state.userAuth);
+  const { data: isAuthorized } = useTypedSelector(
+    state => state.isUserAuthorized
+  );
 
   useEffect(() => {
     if (locationId) {
@@ -43,15 +48,22 @@ const CommentSection = () => {
             <Divider variant="inset" component="li" />
           </>
         )}
-        {comments.map(({ _id: commentId, text, author, createdAt }) => (
-          <Comment
-            key={commentId}
-            createdAt={createdAt!}
-            text={text}
-            authorsImage={author.imageUrl}
-            authorsName={author.displayName}
-          />
-        ))}
+        {comments.map(
+          ({
+            _id: commentId,
+            text,
+            author,
+            createdAt
+          }: CommentType<AuthorInfoType>) => (
+            <Comment
+              key={commentId}
+              createdAt={createdAt!}
+              text={text}
+              authorsImage={author.imageUrl}
+              authorsName={author.displayName}
+            />
+          )
+        )}
       </List>
     </CardContent>
   );

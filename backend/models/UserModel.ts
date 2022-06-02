@@ -46,19 +46,24 @@ const schema = new mongoose.Schema(
       type: String
     },
     subscribers: {
-      type: []
+      type: [],
+      default: []
     },
     subscriptions: {
-      type: []
+      type: [],
+      default: []
     },
     favorite: {
-      type: []
+      type: [],
+      default: []
     },
     visited: {
-      type: []
+      type: [],
+      default: []
     },
     personalLocations: {
-      type: []
+      type: [],
+      default: []
     }
   },
   {

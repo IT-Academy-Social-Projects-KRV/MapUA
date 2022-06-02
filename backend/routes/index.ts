@@ -4,8 +4,8 @@ import SubscriptionsController from '../controllers/SubscriptionsController';
 import LocationsController from '../controllers/LocationsController';
 import AuthController from '../controllers/AuthController';
 import CommentsController from '../controllers/CommentsController';
-import RoleChecker from '../middlewares/RoleChecker';
 import passport from '../libs/passport';
+import multer from 'multer';
 import { upload } from '../utils/upload';
 
 const router = express.Router();
@@ -15,6 +15,20 @@ router.get(
   passport.authenticate('jwt', { session: false }),
   UserController.getProfile
 );
+router.patch('/profile', upload.single('image'), UserController.changeUserData);
+
+router.get(
+  '/private-user-data',
+  passport.authenticate('jwt', { session: false }),
+  UserController.getPrivateData
+);
+router.patch(
+  '/private-user-data',
+  upload.single('image'),
+  passport.authenticate('jwt', { session: false })
+  // UserController.changePrivateUserData
+);
+
 router.post('/signup', AuthController.signUp);
 router.post('/signin', AuthController.signIn);
 router.post('/forgot-password', AuthController.forgotPassword);
@@ -35,11 +49,7 @@ router.post(
   LocationsController.postPersonalLocation
 );
 
-router.post(
-  '/comments/create',
-  RoleChecker.restrictTo('admin', 'user'),
-  CommentsController.createLocationComment
-);
+router.post('/comments/create', CommentsController.createLocationComment);
 router.get('/comments/:locationId', CommentsController.getLocationComments);
 
 router.get(
@@ -72,19 +82,16 @@ router.get(
   }),
   AuthController.signInFacebook
 );
-router.patch('/profile', upload.single('image'), UserController.changeUserData);
 
 router.get('/is-authenticated', AuthController.checkJwt);
 
 router.put(
-  '/tougleFavorite/',
+  '/toggleFavorite/',
   passport.authenticate('jwt', { session: false }),
-  UserController.tougleFavorite
-);
+  UserController.toggleFavorite);
 router.put(
-  '/tougleVisited/',
+  '/toggleVisited/',
   passport.authenticate('jwt', { session: false }),
-  UserController.tougleVisited
-);
+  UserController.toggleVisited);
 
 export default router;
