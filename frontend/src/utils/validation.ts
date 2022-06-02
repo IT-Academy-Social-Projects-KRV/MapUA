@@ -37,7 +37,7 @@ export const CreatingLocationSchema = yup.object().shape({
   locationName: yup
     .string()
     .min(5, 'utils.validation.locationNameMinLengthError')
-    .max(20, 'utils.validation.locationNameMaxLengthError')
+    .max(50, 'utils.validation.locationNameMaxLengthError')
     .required('utils.validation.emptyLocationNameError'),
   locationDescription: yup
     .string()

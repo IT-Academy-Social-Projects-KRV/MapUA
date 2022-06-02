@@ -2,6 +2,7 @@ import React, { useState, MouseEvent, SyntheticEvent, useEffect } from 'react';
 import axios from 'services/axios';
 import { useNavigate } from 'react-router-dom';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
+import { yupResolver } from '@hookform/resolvers/yup';
 import {
   TextField,
   Button,
@@ -199,8 +200,3 @@ function Registration() {
   );
 }
 export default Registration;
-function yupResolver(
-  AuthFormSchema: any
-): import('react-hook-form').Resolver<SignUp, any> | undefined {
-  throw new Error('Function not implemented.');
-}
