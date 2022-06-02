@@ -71,33 +71,6 @@ const LocationsController = {
       return res.status(500).json({ error: req.t('other.server_error'), err });
     }
   },
-  async addLocationComments(req: Request, res: Response) {
-    try {
-      const { id, comment } = req.body;
-
-      const updateLocation = await Location.findByIdAndUpdate(
-        id,
-        {
-          $push: {
-            comments: comment
-          }
-        },
-        {
-          new: true
-        }
-      );
-      if (!updateLocation) {
-        return res
-          .status(400)
-          .json({ error: req.t('locations_list.location_not_found') });
-      }
-      return res
-        .status(200)
-        .json({ message: req.t('location_comments.comment_add_success') });
-    } catch (err: any) {
-      return res.status(500).json({ error: req.t('other.server_error'), err });
-    }
-  },
   async updateLocationLikesById(req: Request, res: Response) {
     try {
       const id = req.params.id;

@@ -31,8 +31,8 @@
         "change_user_info_error_description": "Description must be at least 5 and max 50 characters long"
     },
     "add_location": {
-        "add_location_name_error": "Location name must be at least 5 and max 20 characters long",
-        "add_location_description_error": "Location description must be at least 10 and max 50 characters long",
+        "add_location_name_error": "Location name must be at least 5 and max 50 characters long",
+        "add_location_description_error": "Location description must be at least 10 and max 200 characters long",
         "add_location_coordinates_error": "Invalid location coordinates"
     },
     "jwt_token": {

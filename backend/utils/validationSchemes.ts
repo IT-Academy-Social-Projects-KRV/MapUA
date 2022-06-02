@@ -76,7 +76,7 @@ export const updateLocationLikesSchema = [
 export const postPersonalLocationSchema = [
   body('locationName')
     .isString()
-    .isLength({ min: 5, max: 20 })
+    .isLength({ min: 5, max: 50 })
     .withMessage((value, { req, location, path }) => {
       return req.t('add_location.add_location_name_error', {
         value,
@@ -86,7 +86,7 @@ export const postPersonalLocationSchema = [
     }),
   body('description')
     .isString()
-    .isLength({ min: 10, max: 50 })
+    .isLength({ min: 10, max: 200 })
     .withMessage((value, { req, location, path }) => {
       return req.t('add_location.add_location_description_error', {
         value,

@@ -31,8 +31,8 @@
         "change_user_info_error_description": "Ім'я має мати мінімум 5 та максимум 50 символів"
     },
     "add_location": {
-        "add_location_name_error": "Назва локації має містити мінімум 5 та максимум 20 символів",
-        "add_location_description_error": "Опис локації має містити мінімум 10 та максимум 50 символів",
+        "add_location_name_error": "Назва локації має містити мінімум 5 та максимум 50 символів",
+        "add_location_description_error": "Опис локації має містити мінімум 10 та максимум 200 символів",
         "add_location_coordinates_error": "Задані невірні координати локації"
     },
     "jwt_token": {
