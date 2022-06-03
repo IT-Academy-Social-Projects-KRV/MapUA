@@ -114,6 +114,30 @@
     "removeFromFavorite": "Видалити з обраних",
     "addToFavorite": "Додати до обраних"
   },
+  "mainFilters":{
+    "cost":"Вартість",
+    "costValues":{
+      "free":"безкоштовно",
+       "lowCost":"низька вартість", 
+       "highCost":"висока вартість"
+      },
+    "seasonal":"Сезон роботи локації",
+   "seasonalValues":{
+     "winter":"зима",
+     "summer":"літо",
+     "spring":"весна",
+     "autumn":"осінь",
+     "fullYear":"цілий рік",
+     "seasonal":"сезоно"
+   },
+   "personal":"Персональні",
+   "personslValues":{
+     "visited":"відвідані",
+     "favorites":"улюблені",
+     "personal":"персональні"
+   },
+   "subscriptions":"Підписки"
+  },
   "page404": {
     "Return to main page": "Повернутися на головну сторінку"
   }
