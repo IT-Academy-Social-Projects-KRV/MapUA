@@ -22,8 +22,8 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ForgotPasswordSchema } from 'utils/validation';
-import { PaperForm } from '../design/PaperForm';
-import { AuthFormWrapper } from '../design/AuthFormWrapper';
+import { StyledPaperForm } from '../design/StyledPaperForm';
+import { StyledAuthFormWrapper } from '../design/StyledAuthFormWrapper';
 
 interface INotification {
   type: AlertColor;
@@ -98,10 +98,10 @@ function ForgotPassword() {
   }
 
   return (
-    <AuthFormWrapper>
+    <StyledAuthFormWrapper>
       <Grid container justifyContent="center">
         <Grid item md={4}>
-          <PaperForm>
+          <StyledPaperForm>
             <Box component="form" onSubmit={handleSubmit(sendEmail)}>
               <Stack spacing={4}>
                 <Typography align="center" variant="h4">
@@ -143,13 +143,13 @@ function ForgotPassword() {
                 </Typography>
               </Stack>
             </Box>
-          </PaperForm>
+          </StyledPaperForm>
           <Stack spacing={5} sx={{ width: '100%' }}>
             {snackbar}
           </Stack>
         </Grid>
       </Grid>
-    </AuthFormWrapper>
+    </StyledAuthFormWrapper>
   );
 }
 

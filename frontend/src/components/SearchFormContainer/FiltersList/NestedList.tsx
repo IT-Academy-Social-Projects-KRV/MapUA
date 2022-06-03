@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { mainFilters, mainFiltersUa } from '../../../static/mainFIlters';
-import { StyledList } from './style';
+import { StyledList } from '../../design/StyledList';
 
 type NestType = {
   [key: number]: boolean;

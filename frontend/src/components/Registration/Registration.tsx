@@ -26,8 +26,8 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import { useTranslation } from 'react-i18next';
 import { AuthFormSchema } from 'utils/validation';
-import { PaperForm } from '../design/PaperForm';
-import { AuthFormWrapper } from '../design/AuthFormWrapper';
+import { StyledPaperForm } from '../design/StyledPaperForm';
+import { StyledAuthFormWrapper } from '../design/StyledAuthFormWrapper';
 
 type SignUp = {
   email: string;
@@ -90,10 +90,10 @@ function Registration() {
     setShowPassword(!showPassword);
   };
   return (
-    <AuthFormWrapper>
+    <StyledAuthFormWrapper>
       <Grid container justifyContent="center">
         <Grid item md={4}>
-          <PaperForm>
+          <StyledPaperForm>
             <Box component="form" onSubmit={handleSubmit(onSubmit)}>
               <Stack spacing={4}>
                 <Typography align="center" variant="h4">
@@ -193,10 +193,10 @@ function Registration() {
                 </Button>
               </Stack>
             </Box>
-          </PaperForm>
+          </StyledPaperForm>
         </Grid>
       </Grid>
-    </AuthFormWrapper>
+    </StyledAuthFormWrapper>
   );
 }
 export default Registration;

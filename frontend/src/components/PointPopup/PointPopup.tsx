@@ -16,6 +16,7 @@ import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { CardComponent } from './СardComponent/CardComponent';
 import { IconsComponent } from './IconsComponent/IconsComponent';
+import { StyledPopupButtonsWrapper } from '../design/StyledPopupButtonsWrapper';
 
 interface INotification {
   type: AlertColor;
@@ -125,48 +126,25 @@ const PointPopup = () => {
     <Box>
       <Card>
         <CardMedia
-          sx={{
-            p: 3.2,
-            pt: 0,
-            pb: 0
-          }}
+          sx={{ p: 2 }}
           component="img"
           image={arrayPhotos[0]}
           alt={locationName}
         />
 
         <Box>
-          <Typography
-            color="text.secondary"
-            variant="h4"
-            sx={{ pl: 5, pt: 2, mb: 2 }}
-          >
+          <Typography color="text.secondary" variant="h4" paddingX={5}>
             {locationName}
           </Typography>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'end',
-              flexDirection: 'column',
-              m: 3
-            }}
-          >
-            <Box
-              sx={{
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'space-between'
-              }}
-            >
-              <IconsComponent
-                handleRating={handleRating}
-                handleFavoriteClick={handleFavoriteClick}
-                locationIsFavorite={favorite.includes(locationId)}
-                locationIsVisited={visited.includes(locationId)}
-                handleVisitedClick={handleVisitedClick}
-              />
-            </Box>
-          </Box>
+          <StyledPopupButtonsWrapper>
+            <IconsComponent
+              handleRating={handleRating}
+              handleFavoriteClick={handleFavoriteClick}
+              locationIsFavorite={favorite.includes(locationId)}
+              locationIsVisited={visited.includes(locationId)}
+              handleVisitedClick={handleVisitedClick}
+            />
+          </StyledPopupButtonsWrapper>
         </Box>
 
         <CardContent>

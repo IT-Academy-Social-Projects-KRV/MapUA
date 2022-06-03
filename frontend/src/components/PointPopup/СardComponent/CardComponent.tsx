@@ -1,9 +1,10 @@
-import { Avatar, IconButton, Typography, Box } from '@mui/material';
+import { Avatar, IconButton, Typography, Box, TextField } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React, { FC, MouseEventHandler } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import userImageNotFound from '../../../static/image-not-found.jpg';
+import { StyledCardComponentBox } from '../../design/StyledCardComponentBox';
 
 type Props = {
   description: string;
@@ -25,36 +26,25 @@ export const CardComponent: FC<Props> = ({
   return (
     <>
       <Box>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            gap: 5,
-            mt: 5
-          }}
-        >
+        <StyledCardComponentBox>
           {t('pointPopUp.locationCreatedBy')}
           <Avatar
-            sx={{ mt: -2 }}
             aria-label="author"
             src={(author && author.imageUrl) || userImageNotFound}
           />
-          <Typography>
-            {(author && author.displayName) || 'undefined'}
-          </Typography>
+
+          {(author && author.displayName) || 'undefined'}
 
           <Typography>{createdAt.toLocaleDateString()}</Typography>
-        </Box>
-        <Typography
-          variant="subtitle1"
-          sx={{
-            mt: 5,
-            p: 3,
-            border: '1px solid grey '
-          }}
-        >
-          {description}
-        </Typography>
+        </StyledCardComponentBox>
+        <TextField
+          margin="normal"
+          disabled
+          multiline
+          fullWidth
+          minRows={2}
+          defaultValue={description}
+        />
       </Box>
       <IconButton
         onClick={handleExpandClick}
