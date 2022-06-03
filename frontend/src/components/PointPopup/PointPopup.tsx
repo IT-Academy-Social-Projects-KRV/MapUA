@@ -7,10 +7,9 @@ import {
   CardMedia,
   Collapse,
   Typography,
-  Snackbar,
-  Alert,
   AlertColor
 } from '@mui/material';
+import ExtendSnackbar from 'components/ExtendSnackbar/ExtendSnackbar';
 import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
@@ -64,6 +63,10 @@ const PointPopup = () => {
 
   const handleFavoriteClick = () => {
     if (isAuthorized) toggleFavoriteField(locationId);
+    setNotification({
+      type: 'warning',
+      message: `${t('pointPopUp.message')}`
+    });
   };
   const handleVisitedClick = () => {
     if (isAuthorized) toggleVisitedField(locationId);
@@ -104,20 +107,12 @@ const PointPopup = () => {
   let snackbar;
   if (notification) {
     snackbar = (
-      <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      <ExtendSnackbar
         open={!!notification}
-        autoHideDuration={5000}
+        notification={notification}
         onClose={handleCloseNotification}
-      >
-        <Alert
-          onClose={handleCloseNotification}
-          severity={notification.type}
-          sx={{ width: '100%' }}
-        >
-          {notification.message}
-        </Alert>
-      </Snackbar>
+        severity={notification.type}
+      />
     );
   }
 

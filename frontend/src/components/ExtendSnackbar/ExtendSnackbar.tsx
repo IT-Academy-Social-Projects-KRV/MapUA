@@ -26,12 +26,6 @@ const defaultProps: Props = {
 const ExtendSnackbar: FC<Props> = ({
   positionVertical = 'top',
   positionHorizontal = 'right',
-  // zIndex = 'auto',
-  // open = false,
-  // notification = null,
-  // autoHideDuration = 3000,
-  // onClose = undefined,
-  // severity = undefined
   zIndex,
   open,
   notification,

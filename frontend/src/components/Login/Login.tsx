@@ -13,8 +13,6 @@ import {
 } from 'react-hook-form';
 import {
   Box,
-  // Snackbar,
-  // Alert,
   Divider,
   TextField,
   Button,
@@ -120,22 +118,6 @@ function Login() {
                 <Typography align="center" variant="h4">
                   {t('common.login')}
                 </Typography>
-
-                {/* <Snackbar
-                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                  sx={{ zIndex: 10000 }}
-                  open={!!notification}
-                  autoHideDuration={3000}
-                  onClose={handleCloseNotification}
-                >
-                  <Alert
-                    onClose={handleCloseNotification}
-                    severity="error"
-                    sx={{ mt: '1vh' }}
-                  >
-                    {notification}
-                  </Alert>
-                </Snackbar> */}
 
                 <ExtendSnackbar
                   open={!!notification}
