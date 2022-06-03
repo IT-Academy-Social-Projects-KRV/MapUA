@@ -44,7 +44,7 @@ export default function NestedList() {
     } else {
       setUnauthorizedListOfFiltersOptions(t);
     }
-  }, [isAuthorized, currentLanguage]);
+  }, [subscriptions, isAuthorized, currentLanguage]);
 
   const filters = useTypedSelector(state => state.filtersList.filters);
   const AddSelectedFiltersUaLogic = (selectedValue: string) => {
