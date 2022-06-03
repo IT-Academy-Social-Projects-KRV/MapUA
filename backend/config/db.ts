@@ -8,7 +8,7 @@ const options = {
   useNewUrlParser: true,
   connectTimeoutMS: 10000
 };
-console.log('url', url);
+
 mongoose
   .connect(url, options)
   .then(() => {
