@@ -159,41 +159,6 @@ paths:
                 $ref: '#/components/schemas/Locations'
         400:
           description: Bad request. Location doesn`t find by id
-  /locations/comment:
-    put:
-      tags:
-        - 'Locations'
-      summary: 'Add location comment'
-      description: 'Add new comment to location'
-      parameters:
-        - in: 'body'
-          name: 'body'
-          description: 'Location id and comment'
-          required: true
-          schema:
-            type: 'object'
-            properties:
-              id:
-                type: 'string'
-              comment:
-                type: 'object'
-                properties:
-                $ref: '#/components/schemas/Comment'
-      responses:
-        '200':
-          description: 'successful operation, new comment is add'
-          content:
-            aplication/json:
-              schema:
-                type: 'array'
-                items:
-                $ref: '#/components/schemas/Comment'
-        '400':
-          description: "Location or comments doesn't exist"
-
-        '401':
-          description: "Location for apdate doesn't exist"
-
   /api/signup:
     post:
       summary: Register user using his email and password
