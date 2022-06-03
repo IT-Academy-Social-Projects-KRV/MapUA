@@ -80,7 +80,7 @@ function ForgotPassword() {
     snackbar = (
       <ExtendSnackbar
         open={!!notification}
-        notification={notification}
+        notification={notification.message}
         onClose={handleCloseNotification}
         severity={notification.type}
       />

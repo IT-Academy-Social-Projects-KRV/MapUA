@@ -105,7 +105,7 @@ function Registration() {
                 />
                 <ExtendSnackbar
                   open={!!visibleSucces}
-                  notification={visibleSucces}
+                  notification={t('registration.regisrationSuccess')}
                   onClose={handleCloseNotification}
                   severity="success"
                 />
