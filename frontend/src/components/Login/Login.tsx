@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
+import ExtendSnackbar from 'components/ExtendSnackbar/ExtendSnackbar';
 import {
   useForm,
   Controller,
@@ -12,8 +13,8 @@ import {
 } from 'react-hook-form';
 import {
   Box,
-  Snackbar,
-  Alert,
+  // Snackbar,
+  // Alert,
   Divider,
   TextField,
   Button,
@@ -120,7 +121,7 @@ function Login() {
                   {t('common.login')}
                 </Typography>
 
-                <Snackbar
+                {/* <Snackbar
                   anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                   sx={{ zIndex: 10000 }}
                   open={!!notification}
@@ -134,7 +135,13 @@ function Login() {
                   >
                     {notification}
                   </Alert>
-                </Snackbar>
+                </Snackbar> */}
+
+                <ExtendSnackbar
+                  open={!!notification}
+                  notification={notification}
+                  onClose={handleCloseNotification}
+                />
 
                 <Controller
                   control={control}

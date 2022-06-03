@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Typography, Button, Box, Snackbar, Alert } from '@mui/material';
+// import { Typography, Button, Box, Snackbar, Alert } from '@mui/material';
+import { Typography, Button, Box } from '@mui/material';
 import { useForm, SubmitHandler, useFormState } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { EditProfileSchema } from 'utils/validation';
 import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
+import ExtendSnackbar from 'components/ExtendSnackbar/ExtendSnackbar';
 import {
   ProfileContentWrapper,
   ProfileFormWrapper,
@@ -106,7 +108,7 @@ export default function ProfilePage() {
     <Box component="form" onSubmit={handleSubmit(onSubmit)}>
       <ProfileFormWrapper>
         <ProfileContentWrapper>
-          <Snackbar
+          {/* <Snackbar
             anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
             sx={{ zIndex: 10000 }}
             open={successMessage}
@@ -128,7 +130,19 @@ export default function ProfilePage() {
             <Alert onClose={handleClose} severity="error" sx={{ mt: '4vh' }}>
               {errorMessage}
             </Alert>
-          </Snackbar>
+          </Snackbar> */}
+
+          <ExtendSnackbar
+            open={successMessage}
+            notification={successMessage}
+            onClose={handleClose}
+            severity="success"
+          />
+          <ExtendSnackbar
+            open={!!errorMessage}
+            notification={!!errorMessage}
+            onClose={handleClose}
+          />
 
           {showEditPanel ? (
             <SaveGroup
