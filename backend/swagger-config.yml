@@ -21,6 +21,8 @@ components:
           type: 'string'
         text:
           type: 'string'
+        locationId:
+          type: 'string'
         likes:
           type: 'array'
           items:
@@ -41,10 +43,47 @@ components:
           description: The auto-generated id of the user
         email:
           type: string
-          description: Name of the user
+          description: User email
         displayName:
           type: string
-          description: Email of the user
+          description: User name & surname
+        description:
+          type: string
+          description: About user
+        imageUrl:
+          type: string
+          description: User avatar (url)
+        subscribers:
+          type: array
+          description: Another users (their IDs)
+          items:
+            type: string
+        subscriptions:
+          type: array
+          description: List of locations (their IDs)
+          items:
+            type: string
+        favorite:
+          type: array
+          description: List of favourites (their IDs)
+          items:
+            type: string
+        visited:
+          type: array
+          description: List of visited locations (their IDs)
+          items:
+            type: string
+        personalLocations:
+          type: array
+          description: List of personal locations (their IDs)
+          items:
+            type: string
+        createdAt:
+          type: date
+          description: Date of document creation
+        updatedAt:
+          type: date
+          description: Date when the document was updated
       example:
         id: 1
         email: anymail@gmail.com
@@ -88,6 +127,8 @@ tags:
     description: The users managing API
   - name: Locations
     description: The locations managing API
+  - name: Comments
+    description: The comments managing API
 
 paths:
   /users:
@@ -279,3 +320,338 @@ paths:
                 $ref: '#/components/schemas/Users'
         '400':
           description: "User doesn't exist"
+
+  /forgot-password:
+    post:
+      tags:
+        - 'Users'
+      summary: 'Change user password'
+      description: 'Using user email, the password could be changed'
+      parameters:
+        - in: 'body'
+          name: 'body'
+          description: 'email'
+          required: true
+          schema:
+            type: 'object'
+            properties:
+              email:
+                type: 'string'
+        - in: 'header'
+          name: Authorization
+          schema:
+            type: string
+          required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+                example: vasia@gmail.com
+      responses:
+        '200':
+          description: 'Password was sent successfully'
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Password was sent successfully'
+        '400':
+          description: 'An error occurred while sending the password'
+
+  /private-user-data:
+    get:
+      tags:
+        - 'Users'
+      summary: 'Get user private data'
+      parameters:
+        - in: 'header'
+          name: Authorization
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: 'User private data'
+          content:
+            aplication/json:
+              schema:
+                type: 'object'
+                items:
+                $ref: '#/components/schemas/Users'
+        '400':
+          description: 'User not found'
+
+  /subscriptions:
+    get:
+      tags:
+        - 'Users'
+      summary: 'Get users subscriptions'
+      parameters:
+        - in: 'header'
+          name: Authorization
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: 'User subscriptions'
+        '400':
+          description: 'User not found'
+
+  /locations:
+    get:
+      tags:
+        - 'Locations'
+      summary: 'Get locations by zoom'
+      responses:
+        '200':
+          description: 'User subscriptions'
+          content:
+            aplication/json:
+              schema:
+                type: 'object'
+                items:
+                $ref: '#/components/schemas/Locations'
+        '404':
+          description: 'Locations not found'
+    patch:
+      tags:
+        - 'Locations'
+      summary: 'Change location info'
+      parameters:
+        - in: 'body'
+          name: 'body'
+          description: '_id, fields'
+          required: true
+          schema:
+            type: 'object'
+            properties:
+              id:
+                type: 'string'
+              fields:
+                type: 'array'
+      responses:
+        '200':
+          description: 'Location info was successfully changed'
+        '404':
+          description: 'Locations not found'
+
+  /locations/create:
+    post:
+      tags:
+        - 'Locations'
+      summary: 'Create a new location'
+      responses:
+        '200':
+          description: 'Location added successfully'
+        '400':
+          description: 'User not found'
+
+  /comments/create:
+    post:
+      tags:
+        - 'Comments'
+      summary: 'Create a new comment'
+      responses:
+        '200':
+          description: The comment
+          content:
+            aplication/json:
+              schema:
+                type: array
+                items:
+                $ref: '#/components/schemas/Comment'
+
+  /comments/:locationId:
+    get:
+      tags:
+        - 'Comments'
+      summary: 'Get comments by location id'
+      responses:
+        '200':
+          description: 'Comments list'
+          content:
+            aplication/json:
+              schema:
+                type: 'object'
+                items:
+                $ref: '#/components/schemas/Comment'
+
+  /google/callback:
+    get:
+      tags:
+        - 'Users'
+      summary: 'Redirect user back with success (cookies) or failure'
+      responses:
+        '302':
+          description: 'Redirect to login page of the website'
+        '400':
+          description: 'User not found'
+
+  /signin/facebook/callback:
+    get:
+      tags:
+        - 'Users'
+      summary: 'Redirect user back with success (cookies) or failure'
+      responses:
+        '302':
+          description: 'Redirect to login page of the website'
+        '400':
+          description: 'User not found'
+
+  /signin-google:
+    get:
+      tags:
+        - 'Users'
+      summary: 'Login user via google service'
+      description: 'Using user google account, authorize him'
+      responses:
+        '302':
+          description: 'Redirects user to google service'
+        '400':
+          description: 'User not found; We cannot login via google as you didn`t provide your email'
+
+  /signin-fb:
+    get:
+      tags:
+        - 'Users'
+      summary: 'Login user via facebook service'
+      description: 'Using user facebook account, authorize him'
+      responses:
+        '302':
+          description: 'Redirects user to facebook service'
+        '400':
+          description: 'User not found; We cannot login via facebook as you didn`t provide your email'
+
+  /toggleFavorite:
+    put:
+      tags:
+        - 'Users'
+      summary: 'Toggle user favourites'
+      description: 'Using id, changes list of favourites'
+      parameters:
+        - in: 'body'
+          name: 'body'
+          description: 'idOfLocation'
+          required: true
+          schema:
+            type: 'object'
+            properties:
+              idOfLocation:
+                type: 'string'
+        - in: 'header'
+          name: Authorization
+          schema:
+            type: string
+          required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              idOfLocation:
+                type: string
+                example: 6009c0eee65f6dce28fb3e50
+      responses:
+        '200':
+          description: 'Changed favourite successfully'
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  updatedUser:
+                    type: object
+                    example:
+                      properties:
+                      $ref: '#/components/schemas/Users'
+                  message:
+                    type: string
+                    example: 'You successfully marked location as favourite'
+        '400':
+          description: 'Location not found; User not found'
+
+  /toggleVisited:
+    put:
+      tags:
+        - 'Users'
+      summary: 'Toggle user visited'
+      description: 'Using id, changes list of visited'
+      parameters:
+        - in: 'body'
+          name: 'body'
+          description: 'idOfLocation'
+          required: true
+          schema:
+            type: 'object'
+            properties:
+              idOfLocation:
+                type: 'string'
+        - in: 'header'
+          name: Authorization
+          schema:
+            type: string
+          required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              idOfLocation:
+                type: string
+                example: 6009c0eee65f6dce28fb3e50
+      responses:
+        '200':
+          description: 'Changed visited locations successfully'
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  updatedUser:
+                    type: object
+                    example:
+                      properties:
+                      $ref: '#/components/schemas/Users'
+                  message:
+                    type: string
+                    example: 'You successfully marked location as visited'
+        '400':
+          description: 'Location not found; User not found'
+
+  /is-authenticated:
+    get:
+      tags:
+        - 'Users'
+      summary: 'Checks, whether user authenticated or not'
+      parameters:
+        - in: 'header'
+          name: Authorization
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: 'User authenticated'
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Token is valid'
+                  success:
+                    type: boolean
+                    example: true
+        '400':
+          description: 'jwt_token.token_expired; jwt_token.token_malformed; jwt_token.token_invalid'
