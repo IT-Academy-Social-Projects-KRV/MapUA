@@ -4,24 +4,18 @@ import {
   CreateLocationAction,
   CreateLocationActionTypes
 } from '../action-types/createLocationActionTypes';
+import {
+  SnackbarActions,
+  SnackbarActionsType
+} from '../action-types/snackbarActionTypes';
 
 export const createLocation =
-  (formData: FormData) => async (dispatch: Dispatch<CreateLocationAction>) => {
+  (formData: FormData) =>
+  async (dispatch: Dispatch<CreateLocationAction | SnackbarActions>) => {
     try {
       dispatch({
         type: CreateLocationActionTypes.CREATE_LOCATION_LOADING
       });
-
-      // const options = {
-      //   method: 'get',
-      //   url,
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //     'Accept-Language': localStorage.getItem('i18nextLng') || ''
-      //   }
-      // };
-      // const { data } = await axios(options);
-      // const { data } = await axios.post('comments/create', { comment });
 
       await axios().post('locations/create', formData, {
         headers: {
@@ -32,8 +26,16 @@ export const createLocation =
       dispatch({
         type: CreateLocationActionTypes.CREATE_LOCATION_SUCCESS
       });
+      dispatch({
+        type: SnackbarActionsType.SET_SUCCESS,
+        payload: 'Location was created successfully!'
+      });
+      setTimeout(() => {
+        dispatch({
+          type: SnackbarActionsType.RESET_SNACKBAR
+        });
+      }, 3000);
     } catch (error: any) {
-      console.log(error);
       dispatch({
         type: CreateLocationActionTypes.CREATE_LOCATION_ERROR,
         payload:
@@ -41,5 +43,18 @@ export const createLocation =
             ? error.response.data.info.message
             : error.message) || 'Could not create location'
       });
+      dispatch({
+        type: SnackbarActionsType.SET_ERROR,
+        payload:
+          (error.response && error.response.data.info.message
+            ? error.response.data.info.message
+            : error.message) || 'Could not create location'
+      });
+      setTimeout(() => {
+        dispatch({
+          type: SnackbarActionsType.RESET_SNACKBAR
+        });
+      }, 3000);
+      throw new Error(error);
     }
   };

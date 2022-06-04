@@ -39,16 +39,12 @@ const CreateLocation = ({
 }: Props) => {
   const [files, setFiles] = useState<File[]>([]);
   const [filters, setFilters] = useState('');
-  const [locationImageName, setlocationImageName] = useState<string>('');
+  const [locationImageName, setLocationImageName] = useState<string>('');
   const ref = useRef<null | HTMLInputElement>();
 
   const { t } = useTranslation();
 
-  const {
-    data: success,
-    // loading,
-    error
-  } = useTypedSelector(state => state.createLocation);
+  const { data: success } = useTypedSelector(state => state.createLocation);
   const {
     bounds,
     locationName: searchName,
@@ -64,12 +60,6 @@ const CreateLocation = ({
   const { errors } = useFormState({
     control
   });
-
-  useEffect(() => {
-    if (error) {
-      alert(error);
-    }
-  }, [error]);
 
   useEffect(() => {
     if (success) {
@@ -195,7 +185,7 @@ const CreateLocation = ({
       />
       <UploadInput
         handleFilesChange={handleFilesChange}
-        setlocationImageName={setlocationImageName}
+        setlocationImageName={setLocationImageName}
         locationImageName={locationImageName}
       />
 

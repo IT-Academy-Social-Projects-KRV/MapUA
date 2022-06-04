@@ -17,8 +17,8 @@ export const sendComment =
           payload: data
         });
       }
-    } catch (e: any) {
-      throw new Error(e);
+    } catch (error: any) {
+      throw new Error(error);
     }
   };
 
@@ -31,7 +31,7 @@ export const fetchComments =
         type: LocationCommentsActionTypes.FETCH_COMMENTS,
         payload: data
       });
-    } catch (e: any) {
-      throw new Error(e);
+    } catch (error: any) {
+      throw new Error(error);
     }
   };
