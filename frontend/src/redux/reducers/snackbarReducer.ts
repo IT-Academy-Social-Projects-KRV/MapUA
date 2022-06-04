@@ -40,11 +40,7 @@ export const snackbarReducer = (
         visible: true
       };
     case SnackbarActionsType.RESET_SNACKBAR:
-      return {
-        type: undefined,
-        notification: '',
-        visible: false
-      };
+      return { ...initialState };
     default:
       return state;
   }

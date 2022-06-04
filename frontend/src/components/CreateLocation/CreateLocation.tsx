@@ -94,7 +94,7 @@ const CreateLocation = ({
       formData.append('image', files[i]);
     }
 
-    createLocation(formData);
+    createLocation(formData, t('createLocation.locationSuccessfullyCreated'));
   };
 
   const handleFilesChange = (e: any) => {

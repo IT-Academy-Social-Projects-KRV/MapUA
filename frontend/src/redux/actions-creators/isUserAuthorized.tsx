@@ -8,7 +8,7 @@ import axios from 'services/axios';
 import { SnackbarActions, SnackbarActionsType } from "../action-types/snackbarActionTypes";
 
 export const login =
-  (email: string, password: string) =>
+  (email: string, password: string, notification: string) =>
   async (dispatch: Dispatch<isUserAuthorizedAction | SnackbarActions>) => {
     try {
       dispatch({
@@ -23,7 +23,7 @@ export const login =
       localStorage.setItem('accessToken', response.data.token);
       dispatch({
         type: SnackbarActionsType.SET_SUCCESS,
-        payload: 'You logged in successfully!'
+        payload: notification
       });
       setTimeout(() => {
         dispatch({

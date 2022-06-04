@@ -53,12 +53,12 @@ function Registration() {
     try {
       const response = await axios().post(`signup`, data);
       if (response.status === 200) {
-        SetSuccessSnackbar('Successful registration');
+        SetSuccessSnackbar(`${t('registration.registrationSuccess')}`);
         setTimeout(() => navigate('/login'), 2000);
       }
     } catch (e: any) {
       SetErrorSnackbar(
-        e.response.data?.info.message || `${t('registration.regisrationFail')}`
+        e.response.data?.info.message || `${t('registration.registrationFail')}`
       );
     }
   };

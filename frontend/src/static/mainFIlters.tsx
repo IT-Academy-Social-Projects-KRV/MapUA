@@ -1,4 +1,4 @@
-export const createLocalizatioMainFilters = (t: any) => {
+export const createLocalizationMainFilters = (t: any) => {
   const localizationMainFilters = [
     {
       id: 1,
@@ -29,9 +29,9 @@ export const createLocalizatioMainFilters = (t: any) => {
       forLoggedUser: true,
       type: t('mainFilters.personal'),
       values: [
-        t('mainFilters.personslValues.visited'),
-        t('mainFilters.personslValues.favorites'),
-        t('mainFilters.personslValues.personal')
+        t('mainFilters.personalValues.visited'),
+        t('mainFilters.personalValues.favorites'),
+        t('mainFilters.personalValues.personal')
       ]
     }
   ];

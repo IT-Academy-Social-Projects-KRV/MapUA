@@ -18,7 +18,9 @@
     "enterLocName": "Введіть назву локації",
     "enterDescription": "Мінімум 10 символів",
     "favorites": "Обрані",
-    "doneAndSubmit": "Додати локацію"
+    "doneAndSubmit": "Додати локацію",
+    "couldNotCreateLocation": "Не вдалося створити локацію",
+    "locationSuccessfullyCreated": "Локація успішно створена!"
   },
   "profile": {
     "basicTabs": {
@@ -43,7 +45,8 @@
       "creationDate": "Дата створення:",
       "updateDate": "Дата останнього оновлення",
       "logout": "Вийти",
-      "yourName": "Ваше ім'я:"
+      "yourName": "Ваше ім'я:",
+      "profilePageUpdatedSuccessfully": "Дані профілю успішно оновлені!"
     }
   },
   "forgotPassword": {
@@ -54,12 +57,13 @@
     "signInWithGoogle": "Увійти за допомогою google",
     "signInWithFacebook": "Увійти за допомогою facebook",
     "signup": "Зареєструватися",
-    "or": "або"
+    "or": "або",
+    "youLoggedInSuccessfully": "Ви успішно ввійшли!"
   },
   "registration": {
     "createProfile": "Створити профіль",
-    "regisrationSuccess": "Ви успішно створили профіль!",
-    "regisrationFail": "Щось пішло не так",
+    "registrationSuccess": "Ви успішно створили профіль!",
+    "registrationFail": "Щось пішло не так",
     "create": "Створити"
   },
   "utils": {
@@ -118,7 +122,7 @@
     "cost":"Вартість",
     "costValues":{
       "free":"безкоштовно",
-       "lowCost":"низька вартість", 
+       "lowCost":"низька вартість",
        "highCost":"висока вартість"
       },
     "seasonal":"Сезон роботи локації",
@@ -131,7 +135,7 @@
      "seasonal":"сезоно"
    },
    "personal":"Персональні",
-   "personslValues":{
+   "personalValues":{
      "visited":"відвідані",
      "favorites":"улюблені",
      "personal":"персональні"

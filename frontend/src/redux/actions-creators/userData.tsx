@@ -35,7 +35,7 @@ export const fetchUserData =
   };
 
 export const updateUserData =
-  (formData: FormData) =>
+  (formData: FormData, notification: string) =>
   async (dispatch: Dispatch<UserDataAction | SnackbarActions>) => {
     try {
       dispatch({ type: UserDataActionTypes.UPDATE_USER_DATA_LOADING });
@@ -54,7 +54,7 @@ export const updateUserData =
       });
       dispatch({
         type: SnackbarActionsType.SET_SUCCESS,
-        payload: 'Profile page updated successfully!'
+        payload: notification
       });
       setTimeout(() => {
         dispatch({
@@ -64,7 +64,7 @@ export const updateUserData =
     } catch (error: any) {
       dispatch({
         type: UserDataActionTypes.UPDATE_USER_DATA_ERROR,
-        payload: error.response.data?.error || 'lost network' // `${t('profile.profilePage.lostNetwork')}`
+        payload: error.response.data?.error || 'lost network'
       });
       dispatch({
         type: SnackbarActionsType.SET_ERROR,

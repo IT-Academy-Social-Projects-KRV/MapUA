@@ -10,7 +10,7 @@ import {
 } from '../action-types/snackbarActionTypes';
 
 export const createLocation =
-  (formData: FormData) =>
+  (formData: FormData, notificationOnSuccess: string) =>
   async (dispatch: Dispatch<CreateLocationAction | SnackbarActions>) => {
     try {
       dispatch({
@@ -28,7 +28,7 @@ export const createLocation =
       });
       dispatch({
         type: SnackbarActionsType.SET_SUCCESS,
-        payload: 'Location was created successfully!'
+        payload: notificationOnSuccess
       });
       setTimeout(() => {
         dispatch({

@@ -78,7 +78,7 @@ function Login() {
   }, []);
 
   const onSubmit: SubmitHandler<SignIn> = async ({ email, password }) => {
-    login(email.toLowerCase(), password);
+    login(email.toLowerCase(), password, t('login.youLoggedInSuccessfully'));
   };
 
   const handleOAuth = (type: 'google' | 'facebook') => {

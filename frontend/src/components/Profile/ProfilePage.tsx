@@ -60,7 +60,10 @@ export default function ProfilePage() {
     formData.append('id', id);
     formData.append('displayName', data.displayName);
     formData.append('description', data.description);
-    updateUserData(formData);
+    updateUserData(
+      formData,
+      t('profile.profilePage.profilePageUpdatedSuccessfully')
+    );
   };
   const editData = () => {
     setShowEditPanel(true);
