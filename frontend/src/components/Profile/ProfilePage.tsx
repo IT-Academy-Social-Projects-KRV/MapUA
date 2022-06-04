@@ -25,7 +25,7 @@ import {
   UploadBox,
   EditButton,
   TypographyDate
-} from './styles';
+} from '../design/StyledProfile';
 import BasicTabs from './BasicTabs';
 import useDebounce from '../../utils/useDebounce';
 import { UserForm } from '../../../types';
@@ -179,12 +179,7 @@ export default function ProfilePage() {
                 aria-label="avatar"
                 src={userAvatar || userImageNotFound}
               />
-              <Typography
-                sx={{ mt: '3vh' }}
-                variant="h5"
-                component="h4"
-                align="center"
-              >
+              <Typography mt={2} variant="h5" component="h4" align="center">
                 {displayName === undefined
                   ? `${t('profile.profilePage.yourName')}`
                   : displayName}

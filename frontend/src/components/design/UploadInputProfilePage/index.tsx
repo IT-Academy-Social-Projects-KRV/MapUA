@@ -1,7 +1,7 @@
 import { Box, Button } from '@mui/material';
 import React, { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { HiddenInput } from '../HiddenInput';
+import { StyledHiddenInput } from '../StyledHiddenInput';
 
 type UploadInputProfilePageProps = {
   register: Function;
@@ -15,7 +15,7 @@ const UploadInputProfilePage = (props: UploadInputProfilePageProps) => {
   return (
     <Box>
       <label htmlFor="contained-button-file">
-        <HiddenInput
+        <StyledHiddenInput
           id="contained-button-file"
           type="file"
           {...register('imageUrl')}

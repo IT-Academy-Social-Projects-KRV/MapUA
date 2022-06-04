@@ -2,7 +2,7 @@ import NestedList from 'components/SearchFormContainer/FiltersList/NestedList';
 import SearchForm from 'components/SearchFormContainer/SearchForm';
 import React, { useEffect } from 'react';
 import L from 'leaflet';
-import { StyledSearchFormContainer } from './style';
+import { StyledSearchFormContainer } from '../design/StyledSearchFormContainer';
 
 function SearchFormContainer() {
   const formRef = React.useRef<any>(null);

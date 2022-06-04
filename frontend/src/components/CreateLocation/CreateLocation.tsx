@@ -2,13 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import UploadInput from 'components/design/UploadInputCreateLocation';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTranslation } from 'react-i18next';
-import {
-  Typography,
-  Button,
-  Autocomplete,
-  TextField,
-  Box
-} from '@mui/material';
+import { Typography, Button, Autocomplete, TextField } from '@mui/material';
 import {
   Controller,
   useForm,
@@ -20,6 +14,7 @@ import { latlngType } from '../../../types';
 import { getFiltersForUser } from '../../static/mainFIlters';
 import { useTypedSelector } from '../../redux/hooks/useTypedSelector';
 import { useTypedDispatch } from '../../redux/hooks/useTypedDispatch';
+import { StyledCreateLocationWrapper } from '../design/StyledCreateLocationWrapper';
 
 type Props = {
   closeBigPopup: Function;
@@ -121,26 +116,20 @@ const CreateLocation = ({
   };
 
   return (
-    <Box
+    <StyledCreateLocationWrapper
       component="form"
       onSubmit={handleSubmit(onSubmit)}
-      style={{
-        width: '400px',
-        height: '600px',
-        textAlign: 'center',
-        margin: '36px'
-      }}
     >
       <Typography>{t('createLocation.creatingLocation')}</Typography>
-
       <Controller
-        control={control}
         name="locationName"
+        control={control}
         defaultValue=""
         render={({ field }) => (
           <TextField
             {...field}
-            sx={{ marginTop: '20px', width: '100%' }}
+            margin="normal"
+            fullWidth
             type="text"
             placeholder={t('createLocation.enterLocName')}
             error={!!errors.locationName?.message}
@@ -158,15 +147,10 @@ const CreateLocation = ({
         render={({ field }) => (
           <TextField
             multiline
-            rows={5}
+            fullWidth
+            minRows={5}
             {...field}
             placeholder={t('createLocation.enterDescription')}
-            style={{
-              marginTop: '20px',
-              width: '100%',
-              resize: 'vertical',
-              minWidth: '30px'
-            }}
             error={!!errors.locationDescription?.message}
             helperText={t(
               !errors.locationDescription
@@ -177,7 +161,6 @@ const CreateLocation = ({
         )}
       />
       <Autocomplete
-        sx={{ marginTop: '20px' }}
         multiple
         id="tags-outlined"
         options={getFiltersForUser()}
@@ -199,12 +182,10 @@ const CreateLocation = ({
         locationImageName={locationImageName}
       />
 
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <Button sx={{ marginTop: '20px' }} variant="contained" type="submit">
-          {t('createLocation.doneAndSubmit')}
-        </Button>
-      </div>
-    </Box>
+      <Button fullWidth variant="contained" type="submit">
+        {t('createLocation.doneAndSubmit')}
+      </Button>
+    </StyledCreateLocationWrapper>
   );
 };
 
