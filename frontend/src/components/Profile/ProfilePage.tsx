@@ -1,12 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import {
-  Typography,
-  Button,
-  Box,
-  TextField,
-  Snackbar,
-  Alert
-} from '@mui/material';
+import { Typography, Button, Box, TextField } from '@mui/material';
 import {
   useForm,
   SubmitHandler,
@@ -18,6 +11,7 @@ import { EditProfileSchema } from 'utils/validation';
 import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
+import ExtendSnackbar from 'components/ExtendSnackbar/ExtendSnackbar';
 import UploadInputProfilePage from 'components/design/UploadInputProfilePage';
 import userImageNotFound from '../../static/user-image-not-found.png';
 import {
@@ -119,28 +113,17 @@ export default function ProfilePage() {
     <Box component="form" onSubmit={handleSubmit(onSubmit)}>
       <ProfileFormWrapper>
         <ProfileContentWrapper>
-          <Snackbar
-            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-            sx={{ zIndex: 10000 }}
+          <ExtendSnackbar
             open={successMessage}
-            autoHideDuration={3000}
+            notification={successMessage}
             onClose={handleClose}
-          >
-            <Alert severity="success" onClose={handleClose} sx={{ mt: '4vh' }}>
-              {t('profile.profilePage.dataSuccessChanged')}
-            </Alert>
-          </Snackbar>
-          <Snackbar
-            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-            sx={{ zIndex: 10000 }}
+            severity="success"
+          />
+          <ExtendSnackbar
             open={!!errorMessage}
+            notification={!!errorMessage}
             onClose={handleClose}
-            autoHideDuration={3000}
-          >
-            <Alert onClose={handleClose} severity="error" sx={{ mt: '4vh' }}>
-              {errorMessage}
-            </Alert>
-          </Snackbar>
+          />
 
           {showEditPanel ? (
             <Box>

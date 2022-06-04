@@ -8,8 +8,6 @@ import {
   Button,
   Typography,
   Box,
-  Snackbar,
-  Alert,
   InputAdornment,
   IconButton,
   Grid,
@@ -21,6 +19,7 @@ import {
   SubmitHandler,
   useFormState
 } from 'react-hook-form';
+import ExtendSnackbar from 'components/ExtendSnackbar/ExtendSnackbar';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
@@ -99,35 +98,17 @@ function Registration() {
                 <Typography align="center" variant="h4">
                   {t('registration.createProfile')}
                 </Typography>
-                <Snackbar
-                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                  sx={{ zIndex: 10000 }}
+                <ExtendSnackbar
                   open={!!notification}
-                  autoHideDuration={3000}
+                  notification={notification}
                   onClose={handleCloseNotification}
-                >
-                  <Alert
-                    onClose={handleCloseNotification}
-                    severity="error"
-                    sx={{ mt: '1vh' }}
-                  >
-                    {notification}
-                  </Alert>
-                </Snackbar>
-                <Snackbar
-                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                  sx={{ zIndex: 10000 }}
+                />
+                <ExtendSnackbar
                   open={!!visibleSucces}
+                  notification={t('registration.regisrationSuccess')}
                   onClose={handleCloseNotification}
-                >
-                  <Alert
-                    onClose={handleCloseNotification}
-                    severity="success"
-                    sx={{ mt: '1vh' }}
-                  >
-                    {t('registration.regisrationSuccess')}
-                  </Alert>
-                </Snackbar>
+                  severity="success"
+                />
                 <Controller
                   control={control}
                   name="email"

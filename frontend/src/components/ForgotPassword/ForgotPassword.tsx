@@ -5,8 +5,6 @@ import {
   TextField,
   Typography,
   Stack,
-  Alert,
-  Snackbar,
   AlertColor,
   Grid,
   Link
@@ -17,6 +15,7 @@ import {
   SubmitHandler,
   useFormState
 } from 'react-hook-form';
+import ExtendSnackbar from 'components/ExtendSnackbar/ExtendSnackbar';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Link as RouterLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -79,21 +78,12 @@ function ForgotPassword() {
   let snackbar;
   if (notification) {
     snackbar = (
-      <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        sx={{ zIndex: 10000 }}
+      <ExtendSnackbar
         open={!!notification}
-        autoHideDuration={3000}
+        notification={notification.message}
         onClose={handleCloseNotification}
-      >
-        <Alert
-          onClose={handleCloseNotification}
-          severity={notification.type}
-          sx={{ width: '100%', mt: '4vh' }}
-        >
-          {notification.message}
-        </Alert>
-      </Snackbar>
+        severity={notification.type}
+      />
     );
   }
 
