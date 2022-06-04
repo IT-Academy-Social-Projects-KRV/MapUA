@@ -19,6 +19,7 @@ type Props = {
   handleVisitedClick: MouseEventHandler<HTMLButtonElement>;
   locationIsFavorite: boolean | '' | undefined;
   locationIsVisited: boolean | '' | undefined;
+  handleDeleteClick: MouseEventHandler<HTMLButtonElement>;
 };
 
 export const IconsComponent: FC<Props> = ({
@@ -26,7 +27,8 @@ export const IconsComponent: FC<Props> = ({
   handleFavoriteClick,
   locationIsFavorite,
   locationIsVisited,
-  handleVisitedClick
+  handleVisitedClick,
+  handleDeleteClick
 }) => {
   const { t } = useTranslation();
 
@@ -86,6 +88,10 @@ export const IconsComponent: FC<Props> = ({
         }
       >
         {locationIsVisited ? <TourIcon /> : <TourOutlinedIcon />}
+      </IconButton>
+
+      <IconButton size="small" onClick={handleDeleteClick}>
+        {t('pointPopUp.deleteLocation')}
       </IconButton>
 
       <IconButton>

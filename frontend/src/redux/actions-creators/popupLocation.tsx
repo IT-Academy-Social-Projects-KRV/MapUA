@@ -140,3 +140,39 @@ export const updatePopupLocation =
       });
     }
   };
+
+export const deletePopupLocation =
+  (locationId: string) => async (dispatch: Dispatch<LocationActions>) => {
+    try {
+      dispatch({
+        type: LocationActionTypes.DELETE_LOCATION_LOADING
+      });
+
+      const response = await axios().put(
+        `${process.env.REACT_APP_API_URI}locations/delete`,
+        {
+          locationId
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+          }
+        }
+      );
+
+      if (response.status === 200) {
+        dispatch({
+          type: LocationActionTypes.DELETE_LOCATION_SUCCESS
+        });
+      }
+    } catch (error: any) {
+      console.error(error);
+      dispatch({
+        type: LocationActionTypes.DELETE_LOCATION_ERROR,
+        payload: 'Could not delete location'
+        // error.response && error.response.data.info.message
+        //   ? error.response.data.info.message
+        //   : error.message
+      });
+    }
+  };

@@ -69,7 +69,7 @@ router.post(
   passport.authenticate('jwt', { session: false }),
   LocationsController.postPersonalLocation
 );
-router.delete(
+router.put(
   '/locations/delete',
   passport.authenticate('jwt', { session: false }),
   LocationsController.deleteLocation

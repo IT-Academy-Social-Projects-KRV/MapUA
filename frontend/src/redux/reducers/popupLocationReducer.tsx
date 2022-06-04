@@ -76,6 +76,35 @@ export const popupLocationReducer = (
         error: action.payload,
         success: false
       };
+    case LocationActionTypes.DELETE_LOCATION_LOADING:
+      return { ...state, loading: true, error: null, success: false };
+    case LocationActionTypes.DELETE_LOCATION_SUCCESS:
+      return {
+        loading: false,
+        error: null,
+        data: {
+          _id: '',
+          locationName: '',
+          author: {} as AuthorInfoType,
+          rating: {
+            likes: [],
+            dislikes: []
+          },
+          coordinates: [0, 0],
+          arrayPhotos: [],
+          description: '',
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        success: true
+      };
+    case LocationActionTypes.DELETE_LOCATION_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+        success: false
+      };
     default:
       return state;
   }

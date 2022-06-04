@@ -20,7 +20,11 @@ export enum LocationActionTypes {
 
   ADD_COMMENT_LOADING = 'ADD_COMMENT_LOADING',
   ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS',
-  ADD_COMMENT_ERROR = 'ADD_COMMENT_ERROR'
+  ADD_COMMENT_ERROR = 'ADD_COMMENT_ERROR',
+
+  DELETE_LOCATION_LOADING = 'DELETE_LOCATION_LOADING',
+  DELETE_LOCATION_SUCCESS = 'DELETE_LOCATION_SUCCESS',
+  DELETE_LOCATION_ERROR = 'DELETE_LOCATION_ERROR'
 }
 
 interface FetchLocationLoadingAction {
@@ -71,6 +75,17 @@ interface UpdateLocationErrorAction {
   payload: string;
 }
 
+interface DeleteLocationLoadingAction {
+  type: LocationActionTypes.DELETE_LOCATION_LOADING;
+}
+interface DeleteLocationSuccessAction {
+  type: LocationActionTypes.DELETE_LOCATION_SUCCESS;
+}
+interface DeleteLocationErrorAction {
+  type: LocationActionTypes.DELETE_LOCATION_ERROR;
+  payload: string;
+}
+
 export type LocationActions =
   | FetchLocationLoadingAction
   | FetchLocationSuccessAction
@@ -83,4 +98,7 @@ export type LocationActions =
   | ToggleFavoriteFieldErrorAction
   | UpdateLocationLoadingAction
   | UpdateLocationSuccessAction
-  | UpdateLocationErrorAction;
+  | UpdateLocationErrorAction
+  | DeleteLocationLoadingAction
+  | DeleteLocationSuccessAction
+  | DeleteLocationErrorAction;

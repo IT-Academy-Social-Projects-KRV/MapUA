@@ -40,7 +40,7 @@ export default function BigPopup(props: PopupProps) {
             <ArrowLeftIcon />
           </IconButton>
           <Box sx={{ width: '35rem' }}>
-            <PointPopup />
+            <PointPopup toggleClose={toggleClose} />
           </Box>
         </Drawer>
       </Box>

@@ -22,18 +22,35 @@ interface INotification {
   message: string;
 }
 
-const PointPopup = () => {
+type Props = {
+  toggleClose: Function;
+};
+
+const PointPopup = (props: Props) => {
+  const { toggleClose } = props;
   const { t } = useTranslation();
 
   const [expanded, setExpanded] = useState(false);
   const [notification, setNotification] = useState<INotification | null>(null);
 
-  const { updatePopupLocation, toggleVisitedField, toggleFavoriteField } =
-    useTypedDispatch();
+  const {
+    updatePopupLocation,
+    toggleVisitedField,
+    toggleFavoriteField,
+    deletePopupLocation,
+    fetchLocations
+  } = useTypedDispatch();
 
   const { data: isAuthorized } = useTypedSelector(
     state => state.isUserAuthorized
   );
+
+  const {
+    bounds,
+    locationName: searchName,
+    selectedFilters
+  } = useTypedSelector(state => state.mapInfo);
+
   const {
     _id: userId,
     favorite,
@@ -67,6 +84,12 @@ const PointPopup = () => {
   };
   const handleVisitedClick = () => {
     if (isAuthorized) toggleVisitedField(locationId);
+  };
+  const handleDeleteClick = () => {
+    if (isAuthorized) deletePopupLocation(locationId);
+
+    fetchLocations(bounds, searchName, selectedFilters);
+    toggleClose();
   };
 
   const handleRating = (
@@ -164,6 +187,7 @@ const PointPopup = () => {
                 locationIsFavorite={favorite.includes(locationId)}
                 locationIsVisited={visited.includes(locationId)}
                 handleVisitedClick={handleVisitedClick}
+                handleDeleteClick={handleDeleteClick}
               />
             </Box>
           </Box>

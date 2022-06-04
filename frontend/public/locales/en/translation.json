@@ -112,30 +112,32 @@
     "locationCreatedBy": "Location created by:",
     "removeFromVisited": "Remove from visited",
     "removeFromFavorite": "Remove from favorite",
-    "addToFavorite": "Add to favorite"
+    "addToFavorite": "Add to favorite",
+    "deleteLocation": "Delete"
   },
-  "mainFilters":{
-    "cost":"Cost",
-    "costValues":{
-      "free":"free",
-       "lowCost":"low cost", 
-       "highCost":"high cost"},
-   "seasonal":"Seasonal",
-   "seasonalValues":{
-     "winter":"winter",
-     "summer":"summer",
-     "spring":"spring",
-     "autumn":"autumn",
-     "fullYear":"full year",
-     "seasonal":"seasonal"
-   },
-   "personal":"Personal",
-   "personslValues":{
-     "visited":"visited",
-     "favorites":"favorites",
-     "personal":"personal"
-   },
-   "subscriptions":"Subscriptions"
+  "mainFilters": {
+    "cost": "Cost",
+    "costValues": {
+      "free": "free",
+      "lowCost": "low cost",
+      "highCost": "high cost"
+    },
+    "seasonal": "Seasonal",
+    "seasonalValues": {
+      "winter": "winter",
+      "summer": "summer",
+      "spring": "spring",
+      "autumn": "autumn",
+      "fullYear": "full year",
+      "seasonal": "seasonal"
+    },
+    "personal": "Personal",
+    "personslValues": {
+      "visited": "visited",
+      "favorites": "favorites",
+      "personal": "personal"
+    },
+    "subscriptions": "Subscriptions"
   },
 
   "page404": {
