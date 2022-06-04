@@ -83,7 +83,7 @@ export const popupLocationReducer = (
         loading: false,
         error: null,
         data: {
-          _id: '',
+          _id: 'deleted',
           locationName: '',
           author: {} as AuthorInfoType,
           rating: {

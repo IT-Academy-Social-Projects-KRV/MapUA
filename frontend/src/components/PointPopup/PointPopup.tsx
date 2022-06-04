@@ -1,5 +1,5 @@
 import CommentSection from 'components/BigPopup/CommentSection/CommentSection';
-import React, { useState, MouseEvent, SyntheticEvent } from 'react';
+import React, { useState, MouseEvent, SyntheticEvent, useEffect } from 'react';
 import {
   Box,
   Card,
@@ -87,10 +87,14 @@ const PointPopup = (props: Props) => {
   };
   const handleDeleteClick = () => {
     if (isAuthorized) deletePopupLocation(locationId);
-
-    fetchLocations(bounds, searchName, selectedFilters);
-    toggleClose();
   };
+
+  useEffect(() => {
+    if (locationId === 'deleted') {
+      fetchLocations(bounds, searchName, selectedFilters);
+      toggleClose();
+    }
+  }, [locationId]);
 
   const handleRating = (
     e: MouseEvent<HTMLButtonElement>,
