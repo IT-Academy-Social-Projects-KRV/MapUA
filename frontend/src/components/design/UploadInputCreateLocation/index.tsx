@@ -1,7 +1,7 @@
 import { Box, Button } from '@mui/material';
 import React, { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { HiddenInput } from '../HiddenInput';
+import { StyledHiddenInput } from '../StyledHiddenInput';
 
 type UploadInputCreateLocationProps = {
   handleFilesChange: Function;
@@ -14,15 +14,15 @@ const UploadInputCreateLocation = (props: UploadInputCreateLocationProps) => {
   const ref = useRef<null | HTMLInputElement>(null);
   const { handleFilesChange, setlocationImageName, locationImageName } = props;
   return (
-    <Box sx={{ mt: '20px' }}>
+    <Box>
       <label htmlFor="contained-button-file">
-        <HiddenInput
+        <StyledHiddenInput
           id="contained-button-file"
           type="file"
           onChange={e => {
             handleFilesChange(e);
             setlocationImageName(
-              (ref.current?.files && ref.current?.files[0].name) || ''
+              (ref.current?.files && ref.current?.files.length) || ''
             );
           }}
           ref={ref}
@@ -31,7 +31,11 @@ const UploadInputCreateLocation = (props: UploadInputCreateLocationProps) => {
         <Button variant="contained" component="span">
           {t('profile.profilePage.uploadPhoto')}
         </Button>
-        <Box sx={{ mt: '10px' }}>{locationImageName}</Box>
+        <Box>
+          {ref.current?.files && ref.current?.files.length > 0
+            ? `You selected ${locationImageName} photos`
+            : ''}
+        </Box>
       </label>
     </Box>
   );

@@ -16,9 +16,7 @@ const AuthController = {
         async (err, user, info) => {
           if (err) throw err;
           if (!user) {
-            return res
-              .status(400)
-              .json({ error: req.t('user_not_exist'), info });
+            return res.status(400).json({ info });
           }
           res.json({
             user: mapUserProps(user),
@@ -27,7 +25,7 @@ const AuthController = {
         }
       )(req, res, next);
     } catch (err: any) {
-      return res.status(500).json({ error: req.t('server_error'), err });
+      return res.status(500).json({ error: req.t('other.server_error'), err });
     }
   },
 
@@ -36,7 +34,7 @@ const AuthController = {
       await passport.authenticate('signin', async (err, user, info) => {
         if (err) throw err;
         if (!user) {
-          return res.status(400).json({ error: req.t('user_not_exist'), info });
+          return res.status(400).json({ info });
         }
         req.login(user, { session: false }, async error => {
           if (error) return next(error);
@@ -47,14 +45,14 @@ const AuthController = {
         });
       })(req, res, next);
     } catch (err: any) {
-      return res.status(500).json({ error: req.t('server_error'), err });
+      return res.status(500).json({ error: req.t('other.server_error'), err });
     }
   },
   async googleLoginCallback(req: Request, res: Response) {
     if (!req.user) {
       return res
         .status(400)
-        .json({ error: req.t('user_not_exist'), success: false });
+        .json({ error: req.t('auth.user_not_exist'), success: false });
     }
 
     res.cookie('accessToken', _tokenGeneration(req.user as IUser));
@@ -70,7 +68,7 @@ const AuthController = {
 
       if (!user) {
         return res.status(400).json({
-          error: req.t('user_not_exist'),
+          error: req.t('auth.user_not_exist'),
           success: false
         });
       }
@@ -83,25 +81,26 @@ const AuthController = {
       const isOk = await sendForgotPasswordMail(email, newPassword);
       if (!isOk) {
         return res.status(400).json({
-          error: req.t('password_send_error'),
+          error: req.t('forgot_password.password_send_error'),
           success: false
         });
       }
 
-      return res
-        .status(200)
-        .json({ success: true, message: req.t('password_send_success') });
+      return res.status(200).json({
+        success: true,
+        message: req.t('forgot_password.password_send_success')
+      });
     } catch (err: any) {
       return res
         .status(500)
-        .json({ error: req.t('server_error'), success: false, err });
+        .json({ error: req.t('other.server_error'), success: false, err });
     }
   },
   async signInFacebook(req: Request, res: Response) {
     if (!req.user) {
       return res
         .status(400)
-        .json({ error: req.t('user_not_exist'), success: false });
+        .json({ error: req.t('auth.user_not_exist'), success: false });
     }
 
     res.cookie('accessToken', _tokenGeneration(req.user as IUser));
@@ -115,31 +114,34 @@ const AuthController = {
     if (!token) {
       return res
         .status(400)
-        .json({ error: req.t('token_not_provided'), success: false });
+        .json({ error: req.t('jwt_token.token_not_provided'), success: false });
     }
 
     jwt.verify(token, `${process.env.ACCESS_TOKEN_SECRET}`, (err, decoded) => {
       if (err) {
         if (err instanceof jwt.TokenExpiredError) {
           return res.status(400).json({
-            error: req.t('token_expired'),
+            error: req.t('jwt_token.token_expired'),
             err,
             success: false
           });
         } else if (err instanceof jwt.JsonWebTokenError) {
           return res.status(400).json({
-            error: req.t('token_malformed'),
+            error: req.t('jwt_token.token_malformed'),
             success: false
           });
         } else {
           return res.status(400).json({
-            error: req.t('token_invalid'),
+            error: req.t('jwt_token.token_invalid'),
             success: false
           });
         }
       }
 
-      return res.json({ message: req.t('token_valid'), success: true });
+      return res.json({
+        message: req.t('jwt_token.token_valid'),
+        success: true
+      });
     });
   }
 };

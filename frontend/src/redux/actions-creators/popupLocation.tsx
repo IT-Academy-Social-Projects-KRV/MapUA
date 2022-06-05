@@ -58,10 +58,10 @@ export const toggleVisitedField =
         }
       );
 
-      if (response.status === 200) {
+      if (response.status === 200 && response.data.updatedUser) {
         dispatch({
           type: UserDataActionTypes.UPDATE_USER_DATA_SUCCESS,
-          payload: response.data
+          payload: response.data.updatedUser
         });
       }
     } catch (error: any) {
@@ -96,14 +96,13 @@ export const toggleFavoriteField =
         }
       );
 
-      if (response.status === 200) {
+      if (response.status === 200 && response.data.updatedUser) {
         dispatch({
           type: UserDataActionTypes.UPDATE_USER_DATA_SUCCESS,
-          payload: response.data
+          payload: response.data.updatedUser
         });
       }
     } catch (error: any) {
-      console.error(error);
       dispatch({
         type: LocationActionTypes.TOGGLE_FAVORITE_FIELD_ERROR,
         payload: 'Could not toggle favorite field'
@@ -111,6 +110,7 @@ export const toggleFavoriteField =
         //   ? error.response.data.info.message
         //   : error.message
       });
+      throw new Error(error);
     }
   };
 
@@ -130,7 +130,6 @@ export const updatePopupLocation =
         });
       }
     } catch (error: any) {
-      console.error(error);
       dispatch({
         type: LocationActionTypes.UPDATE_LOCATION_ERROR,
         payload: 'Could not update location'
@@ -138,5 +137,6 @@ export const updatePopupLocation =
         //   ? error.response.data.info.message
         //   : error.message
       });
+      throw new Error(error);
     }
   };

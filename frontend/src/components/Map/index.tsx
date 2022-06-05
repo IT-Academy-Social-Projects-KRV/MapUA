@@ -1,18 +1,19 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet';
+import { TileLayer, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Box, Button } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import SearchFormContainer from 'components/SearchFormContainer';
 import useDebounce from 'utils/useDebounce';
 import { v4 } from 'uuid';
-
+import { StyledMapWrapper } from 'components/design/StyledMapWrapper';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import L from 'leaflet';
 import Locations from './Locations/Locations';
 import MyZoomComponent from './ZoomComponent';
+import { StyledMapContainer } from '../design/StyledMapContainer';
+import { StyledAddLocationButton } from '../design/StyledAddLocationButton';
 
 interface Props {
   onOpenBigPopup: Function;
@@ -73,19 +74,19 @@ function Map({
     L.DomEvent.disableClickPropagation(formRef.current);
     L.DomEvent.disableScrollPropagation(formRef.current);
   }, []);
+
   useEffect(() => {
     fetchLocations(bounds, debouncedValue, selectedFilters);
   }, [bounds, debouncedValue, JSON.stringify(selectedFilters)]);
 
   return (
-    <Box sx={{ height: '100%', width: '100%' }} ref={formRef}>
-      <MapContainer
+    <StyledMapWrapper ref={formRef}>
+      <StyledMapContainer
         center={[48.978189, 31.982826]}
         zoom={6}
         minZoom={4}
         maxZoom={16}
         worldCopyJump
-        style={{ height: '100%', width: '100vw' }}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png" />
 
@@ -102,28 +103,23 @@ function Map({
 
         <SearchFormContainer />
 
-        {isAuthorized && showAddLocationButton && !isOpen && (
-          <Button
+        {isAuthorized && !isOpen && (
+          <StyledAddLocationButton
             onClick={() =>
               setIsAddLocationActive((prevState: boolean) => !prevState)
             }
             style={{
               background: isAddLocationActive ? 'yellow' : 'white',
-              color: isAddLocationActive ? 'black' : '#1976d2',
-              zIndex: '10000',
-              position: 'absolute',
-              top: '15px',
-              left: '50px',
-              padding: '8px'
+              color: isAddLocationActive ? 'black' : '#1976d2'
             }}
           >
             {isAddLocationActive
               ? `${t('map.chooseCoordinates')}`
               : `${t('map.addLocation')}`}
-          </Button>
+          </StyledAddLocationButton>
         )}
-      </MapContainer>
-    </Box>
+      </StyledMapContainer>
+    </StyledMapWrapper>
   );
 }
 

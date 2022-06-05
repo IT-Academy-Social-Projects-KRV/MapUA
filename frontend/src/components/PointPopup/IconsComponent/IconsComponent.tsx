@@ -4,7 +4,6 @@ import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import ShareIcon from '@mui/icons-material/Share';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
@@ -38,24 +37,18 @@ export const IconsComponent: FC<Props> = ({
     <>
       <IconButton onClick={e => handleRating(e, 'likes')}>
         {rating.likes.includes(userId) ? (
-          <ThumbUpIcon fontSize="small" sx={{ color: 'text.secondary' }} />
+          <ThumbUpIcon fontSize="small" />
         ) : (
-          <ThumbUpOutlinedIcon
-            fontSize="small"
-            sx={{ color: 'text.secondary' }}
-          />
+          <ThumbUpOutlinedIcon fontSize="small" />
         )}
         {rating.likes.length}
       </IconButton>
 
       <IconButton onClick={e => handleRating(e, 'dislikes')}>
         {rating.dislikes.includes(userId) ? (
-          <ThumbDownIcon fontSize="small" sx={{ color: 'text.secondary' }} />
+          <ThumbDownIcon fontSize="small" />
         ) : (
-          <ThumbDownAltOutlinedIcon
-            fontSize="small"
-            sx={{ color: 'text.secondary' }}
-          />
+          <ThumbDownAltOutlinedIcon fontSize="small" />
         )}
         {rating.dislikes.length}
       </IconButton>
@@ -86,10 +79,6 @@ export const IconsComponent: FC<Props> = ({
         }
       >
         {locationIsVisited ? <TourIcon /> : <TourOutlinedIcon />}
-      </IconButton>
-
-      <IconButton>
-        <MoreHorizIcon />
       </IconButton>
     </>
   );

@@ -3,7 +3,7 @@ import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTranslation } from 'react-i18next';
 
-import { StyledSearchForm } from './style';
+import { StyledSearchForm } from '../../design/StyledSearchForm';
 
 function SearchForm() {
   const { t } = useTranslation();

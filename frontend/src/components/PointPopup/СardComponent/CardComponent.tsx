@@ -1,8 +1,10 @@
-import { Avatar, IconButton, Typography, Box } from '@mui/material';
+import { Avatar, IconButton, Typography, Box, TextField } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React, { FC, MouseEventHandler } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
+import userImageNotFound from '../../../static/image-not-found.jpg';
+import { StyledCardComponentBox } from '../../design/StyledCardComponentBox';
 
 type Props = {
   description: string;
@@ -15,42 +17,34 @@ export const CardComponent: FC<Props> = ({
   handleExpandClick,
   expanded
 }) => {
-  const { createdAt } = useTypedSelector(state => state.popupLocation.data);
-  const { displayName } = useTypedSelector(state => state.userData.data);
+  const { createdAt, author } = useTypedSelector(
+    state => state.popupLocation.data
+  );
+  // const { displayName } = useTypedSelector(state => state.userData.data);
   const { t } = useTranslation();
 
   return (
     <>
       <Box>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            gap: 5,
-            mt: 5
-          }}
-        >
+        <StyledCardComponentBox>
           {t('pointPopUp.locationCreatedBy')}
           <Avatar
-            sx={{ mt: -2 }}
             aria-label="author"
-            src="https://cdn-icons-png.flaticon.com/512/147/147142.png"
+            src={(author && author.imageUrl) || userImageNotFound}
           />
-          {/* todo change to infoLocation.authorName */}
-          <Typography>{displayName}</Typography>
+
+          {(author && author.displayName) || 'undefined'}
 
           <Typography>{createdAt.toLocaleDateString()}</Typography>
-        </Box>
-        <Typography
-          variant="subtitle1"
-          sx={{
-            mt: 5,
-            p: 3,
-            border: '1px solid grey '
-          }}
-        >
-          {description}
-        </Typography>
+        </StyledCardComponentBox>
+        <TextField
+          margin="normal"
+          disabled
+          multiline
+          fullWidth
+          minRows={2}
+          defaultValue={description}
+        />
       </Box>
       <IconButton
         onClick={handleExpandClick}

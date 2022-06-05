@@ -5,11 +5,9 @@ import {
 import { mainFilters } from '../../static/mainFIlters';
 import { listOfFiltersOptionsStateType } from '../ts-types';
 
-const initialState: listOfFiltersOptionsStateType = {
-  filters: [...mainFilters.filter(f => f.forLoggedUser === false)]
+const initialState = {
+  filters: mainFilters
 };
-
-const mainFilterLength = mainFilters.length;
 
 export const listOfFiltersOptionsReducer = (
   state = initialState,
@@ -18,20 +16,11 @@ export const listOfFiltersOptionsReducer = (
   switch (action.type) {
     case ListOfFiltersOptionsActionTypes.SET_UNAUTHORIZED_LIST_OF_FILTERS_OPTIONS:
       return {
-        ...initialState
+        filters: [...action.payload.filter(f => f.forLoggedUser === false)]
       };
     case ListOfFiltersOptionsActionTypes.SET_AUTHORIZED_LIST_OF_FILTERS_OPTIONS:
-      return {
-        filters: [
-          ...mainFilters,
-          {
-            id: mainFilterLength + 1,
-            forLoggedUser: true,
-            type: 'Subscriptions',
-            values: action.payload
-          }
-        ]
-      };
+      return { filters: [...action.payload] };
+
     default:
       return state;
   }

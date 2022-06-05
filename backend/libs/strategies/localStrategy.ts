@@ -4,14 +4,15 @@ import UserModel from '../../models/UserModel';
 export const localStrategySignUp = new LocalStrategy(
   {
     usernameField: 'email',
-    passwordField: 'password'
+    passwordField: 'password',
+    passReqToCallback: true
   },
-  async (email, password, done) => {
+  async (req, email, password, done) => {
     try {
       const user = await UserModel.findOne({ email });
       if (user) {
         return done(null, false, {
-          message: 'User with such email already registered'
+          message: req.t('auth.user_already_exists')
         });
       }
 
@@ -27,23 +28,24 @@ export const localStrategySignUp = new LocalStrategy(
 export const localStrategySignIn = new LocalStrategy(
   {
     usernameField: 'email',
-    passwordField: 'password'
+    passwordField: 'password',
+    passReqToCallback: true
   },
-  async (email, password, done) => {
+  async (req, email, password, done) => {
     try {
       const user = await UserModel.findOne({ email });
 
       if (!user) {
-        return done(null, false, { message: 'User not found' });
+        return done(null, false, { message: req.t('auth.user_not_exist') });
       }
 
       const validate = await user.isValidPassword(password);
 
       if (!validate) {
-        return done(null, false, { message: 'Wrong Password' });
+        return done(null, false, { message: req.t('auth.invalid_password') });
       }
 
-      return done(null, user, { message: 'Logged in Successfully' });
+      return done(null, user);
     } catch (error) {
       return done(error);
     }

@@ -1,3 +1,4 @@
+import { AlertColor } from '@mui/material';
 import {
   boundsType,
   locationType,
@@ -26,6 +27,11 @@ export type locationCommentsStateType = {
   comments: CommentType<AuthorInfoType>[];
 };
 // Sync
+export type snackbarStateType = {
+  type: AlertColor | undefined;
+  notification: string;
+  visible: boolean;
+};
 export type listOfFiltersOptionsStateType = {
   filters: FiltersDataType[];
 };

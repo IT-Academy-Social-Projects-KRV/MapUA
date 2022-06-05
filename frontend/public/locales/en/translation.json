@@ -18,7 +18,9 @@
     "enterLocName": "Enter location name",
     "enterDescription": "Minimum 10 symbols",
     "favorites": "Favorites",
-    "doneAndSubmit": "Done and submit"
+    "doneAndSubmit": "Done and submit",
+    "couldNotCreateLocation": "Could not create location",
+    "locationSuccessfullyCreated": "Location successfully created!"
   },
   "profile": {
     "basicTabs": {
@@ -43,7 +45,8 @@
       "creationDate": "Creation date:",
       "updateDate": "Last update date:",
       "logout": "Logout",
-      "yourName": "Your name:"
+      "yourName": "Your name:",
+      "profilePageUpdatedSuccessfully": "Profile page updated successfully!"
     }
   },
   "forgotPassword": {
@@ -54,12 +57,13 @@
     "signInWithGoogle": "Sing in with google",
     "signInWithFacebook": "Sing in with facebook",
     "signup": "Sign Up",
-    "or": "or"
+    "or": "or",
+    "youLoggedInSuccessfully": "You logged in successfully!"
   },
   "registration": {
     "createProfile": "Create profile",
-    "regisrationSuccess": "Registration successful!",
-    "regisrationFail": "Something went wrong",
+    "registrationSuccess": "Registration successful!",
+    "registrationFail": "Something went wrong",
     "create": "Create"
   },
   "utils": {
@@ -77,7 +81,7 @@
       "profileNameMaxLengthError": "Name must be no more than 20 symbols",
       "emptyLocationNameError": "Location name can't be empty",
       "locationNameMinLengthError": "Location name must be more than 5 symbols",
-      "locationNameMaxLengthError": "Location name must be less than 20 symbols",
+      "locationNameMaxLengthError": "Location name must be less than 50 symbols",
       "emptyLocationDescriptionError": "Location description can't be empty",
       "locationDescriptionMinLengthError": "Location description must be at least 10 symbols long",
       "emptyLocationFiltersError": "Please select at least one filter",
@@ -114,7 +118,31 @@
     "removeFromFavorite": "Remove from favorite",
     "addToFavorite": "Add to favorite"
   },
-  "page404":{
-    "Return to main page":"Return to main page"
+  "mainFilters":{
+    "cost":"Cost",
+    "costValues":{
+      "free":"free",
+       "lowCost":"low cost",
+       "highCost":"high cost"},
+   "seasonal":"Seasonal",
+   "seasonalValues":{
+     "winter":"winter",
+     "summer":"summer",
+     "spring":"spring",
+     "autumn":"autumn",
+     "fullYear":"full year",
+     "seasonal":"seasonal"
+   },
+   "personal":"Personal",
+   "personalValues":{
+     "visited":"visited",
+     "favorites":"favorites",
+     "personal":"personal"
+   },
+   "subscriptions":"Subscriptions"
+  },
+
+  "page404": {
+    "Return to main page": "Return to main page"
   }
 }

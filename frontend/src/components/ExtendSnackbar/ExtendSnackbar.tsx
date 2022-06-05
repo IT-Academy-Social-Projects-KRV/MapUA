@@ -1,30 +1,41 @@
 import React, { FC } from 'react';
-import { Alert, Snackbar } from '@mui/material';
-import { AnyRecord } from 'dns';
+import { Alert, AlertColor, Snackbar } from '@mui/material';
 
-type Props = {
-  anchorOrigin: any;
-  open: any;
-  autoHideDuration: any;
-  onClose: any;
-  severity: any;
+interface Props {
+  open?: boolean | undefined;
+  notification?: string | {} | null;
+  onClose?: any;
+  severity?: AlertColor | undefined;
+}
+const defaultProps: Props = {
+  open: false,
+  notification: null,
+  onClose: undefined,
+  severity: 'error'
 };
 
-export const ExtendSnackbar: FC<Props> = ({
-  anchorOrigin,
+const ExtendSnackbar: FC<Props> = ({
   open,
-  autoHideDuration,
+  notification,
   onClose,
   severity
-}) => {
-  return (
-    <Snackbar
-      anchorOrigin={anchorOrigin}
-      open={open}
-      autoHideDuration={autoHideDuration}
-      onClose={onClose}
-    >
-      <Alert severity={severity}></Alert>
-    </Snackbar>
-  );
-};
+}) => (
+  <Snackbar
+    anchorOrigin={{
+      vertical: 'top',
+      horizontal: 'right'
+    }}
+    sx={{ zIndex: 10000 }}
+    open={open}
+    autoHideDuration={3000}
+    onClose={onClose}
+  >
+    <Alert onClose={onClose} severity={severity} sx={{ mt: '1vh' }}>
+      {notification}
+    </Alert>
+  </Snackbar>
+);
+
+ExtendSnackbar.defaultProps = defaultProps;
+
+export default ExtendSnackbar;
