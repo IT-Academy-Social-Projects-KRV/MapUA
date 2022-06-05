@@ -15,6 +15,7 @@ export type boundsType = {
 };
 
 export type AuthorInfoType = {
+  _id: string;
   imageUrl: string;
   displayName: string;
 };

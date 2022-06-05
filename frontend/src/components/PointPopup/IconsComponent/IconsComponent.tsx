@@ -22,6 +22,7 @@ type Props = {
   locationIsFavorite: boolean | '' | undefined;
   locationIsVisited: boolean | '' | undefined;
   handleDeleteClick: MouseEventHandler<HTMLButtonElement>;
+  authorOfThisLocation: boolean | '' | undefined;
 };
 
 export const IconsComponent: FC<Props> = ({
@@ -30,7 +31,8 @@ export const IconsComponent: FC<Props> = ({
   locationIsFavorite,
   locationIsVisited,
   handleVisitedClick,
-  handleDeleteClick
+  handleDeleteClick,
+  authorOfThisLocation
 }) => {
   const { t } = useTranslation();
 
@@ -122,9 +124,11 @@ export const IconsComponent: FC<Props> = ({
         }}
       >
         <MenuItem onClick={handleClose}>
-          <IconButton size="small" onClick={handleDeleteClick}>
-            {t('pointPopUp.deleteLocation')}
-          </IconButton>
+          {authorOfThisLocation && (
+            <IconButton size="small" onClick={handleDeleteClick}>
+              {t('pointPopUp.deleteLocation')}
+            </IconButton>
+          )}
         </MenuItem>
       </Menu>
     </>

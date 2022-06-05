@@ -62,9 +62,11 @@ const PointPopup = (props: Props) => {
     rating,
     locationName,
     description,
-    arrayPhotos
+    arrayPhotos,
+    author
   } = useTypedSelector(state => state.popupLocation.data);
 
+  console.log(author);
   const { success } = useTypedSelector(state => state.popupLocation);
   const [pageLoadSuccess, setPageLoadSuccess] = useState<Boolean>(false);
 
@@ -202,6 +204,7 @@ const PointPopup = (props: Props) => {
                 locationIsVisited={visited.includes(locationId)}
                 handleVisitedClick={handleVisitedClick}
                 handleDeleteClick={handleDeleteClick}
+                authorOfThisLocation={author && author._id === userId}
               />
             </Box>
           </Box>
