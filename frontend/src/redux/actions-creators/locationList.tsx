@@ -36,10 +36,10 @@ export const fetchLocations =
         });
       }
     } catch (error: any) {
-      console.error(error);
       dispatch({
         type: LocationListActionsType.FETCH_LOCATION_LIST_ERROR,
         payload: 'Could not get location list'
       });
+      throw new Error(error);
     }
   };

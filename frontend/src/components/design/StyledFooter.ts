@@ -5,6 +5,8 @@ export const StyledFooter = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
   color: 'white',
   position: 'fixed',
+  display: 'flex',
+  alignItems: 'center',
   bottom: 0,
   left: 0,
   right: 0,

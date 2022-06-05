@@ -1,32 +1,21 @@
 import CommentSection from 'components/BigPopup/CommentSection/CommentSection';
-import React, { useState, MouseEvent, SyntheticEvent } from 'react';
+import React, { useState, MouseEvent } from 'react';
 import {
   Box,
   Card,
   CardContent,
   CardMedia,
   Collapse,
-  Typography,
-  AlertColor
+  Typography
 } from '@mui/material';
-import ExtendSnackbar from 'components/ExtendSnackbar/ExtendSnackbar';
-import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { CardComponent } from './СardComponent/CardComponent';
 import { IconsComponent } from './IconsComponent/IconsComponent';
 import { StyledPopupButtonsWrapper } from '../design/StyledPopupButtonsWrapper';
 
-interface INotification {
-  type: AlertColor;
-  message: string;
-}
-
 const PointPopup = () => {
-  const { t } = useTranslation();
-
   const [expanded, setExpanded] = useState(false);
-  const [notification, setNotification] = useState<INotification | null>(null);
 
   const { updatePopupLocation, toggleVisitedField, toggleFavoriteField } =
     useTypedDispatch();
@@ -48,26 +37,12 @@ const PointPopup = () => {
     arrayPhotos
   } = useTypedSelector(state => state.popupLocation.data);
 
-  const handleCloseNotification = (
-    e?: SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setNotification(null);
-  };
-
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
   const handleFavoriteClick = () => {
     if (isAuthorized) toggleFavoriteField(locationId);
-    setNotification({
-      type: 'warning',
-      message: `${t('pointPopUp.message')}`
-    });
   };
   const handleVisitedClick = () => {
     if (isAuthorized) toggleVisitedField(locationId);
@@ -78,12 +53,6 @@ const PointPopup = () => {
     type: 'likes' | 'dislikes'
   ) => {
     e.preventDefault();
-    if (!isAuthorized) {
-      return setNotification({
-        type: 'warning',
-        message: `${t('pointPopUp.message')}`
-      });
-    }
 
     const updatedRating = { ...rating };
     if (rating[type].includes(userId)) {
@@ -104,18 +73,6 @@ const PointPopup = () => {
 
     return updatePopupLocation(locationId, { rating: updatedRating });
   };
-
-  let snackbar;
-  if (notification) {
-    snackbar = (
-      <ExtendSnackbar
-        open={!!notification}
-        notification={notification}
-        onClose={handleCloseNotification}
-        severity={notification.type}
-      />
-    );
-  }
 
   return (
     <Box>
@@ -152,7 +109,6 @@ const PointPopup = () => {
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CommentSection />
         </Collapse>
-        {snackbar}
       </Card>
     </Box>
   );

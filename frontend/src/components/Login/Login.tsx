@@ -1,10 +1,9 @@
-import React, { useEffect, useState, MouseEvent, SyntheticEvent } from 'react';
+import React, { useEffect, useState, MouseEvent } from 'react';
 import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
-import ExtendSnackbar from 'components/ExtendSnackbar/ExtendSnackbar';
 import {
   useForm,
   Controller,
@@ -36,7 +35,7 @@ type SignIn = {
 };
 
 function Login() {
-  const [notification, setNotification] = useState<string | {} | null>(null);
+  const { SetErrorSnackbar } = useTypedDispatch();
   const [showPassword, setShowPassword] = useState(false);
 
   const location = useLocation();
@@ -59,20 +58,10 @@ function Login() {
     state => state.isUserAuthorized
   );
   useEffect(() => {
-    if (error) {
-      setNotification(error);
+    if (error && typeof error === 'string') {
+      SetErrorSnackbar(error);
     }
   }, [error]);
-
-  const handleCloseNotification = (
-    e?: SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setNotification(null);
-  };
 
   useEffect(() => {
     if (isAuthorized) {
@@ -89,7 +78,7 @@ function Login() {
   }, []);
 
   const onSubmit: SubmitHandler<SignIn> = async ({ email, password }) => {
-    login(email.toLowerCase(), password);
+    login(email.toLowerCase(), password, t('login.youLoggedInSuccessfully'));
   };
 
   const handleOAuth = (type: 'google' | 'facebook') => {
@@ -118,12 +107,6 @@ function Login() {
                 <Typography align="center" variant="h4">
                   {t('common.login')}
                 </Typography>
-
-                <ExtendSnackbar
-                  open={!!notification}
-                  notification={notification}
-                  onClose={handleCloseNotification}
-                />
 
                 <Controller
                   control={control}
