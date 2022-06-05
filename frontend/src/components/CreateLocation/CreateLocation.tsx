@@ -175,7 +175,7 @@ const CreateLocation = ({
         />
         <UploadInput
           handleFilesChange={handleFilesChange}
-          setlocationImageName={setlocationImageName}
+          setlocationImageName={setLocationImageName}
           locationImageName={locationImageName}
         />
 
