@@ -37,7 +37,7 @@
     },
     "del_location":{
         "location_del_success": "Локація упсішно видалена",
-        "location_del_error": "При видаленні локації трапилась помилка "
+        "location_del_error": "Автор локації та ID юзера не співпадають"
     },
     "jwt_token": {
         "token_not_provided": "Токен не був наданий",

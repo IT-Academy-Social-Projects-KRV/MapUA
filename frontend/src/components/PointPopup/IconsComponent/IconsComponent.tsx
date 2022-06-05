@@ -10,6 +10,8 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import TourOutlinedIcon from '@mui/icons-material/TourOutlined';
 import TourIcon from '@mui/icons-material/Tour';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTranslation } from 'react-i18next';
 
@@ -35,6 +37,15 @@ export const IconsComponent: FC<Props> = ({
   const { rating } = useTypedSelector(state => state.popupLocation.data);
 
   const { _id: userId } = useTypedSelector(state => state.userData.data);
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <>
@@ -90,13 +101,32 @@ export const IconsComponent: FC<Props> = ({
         {locationIsVisited ? <TourIcon /> : <TourOutlinedIcon />}
       </IconButton>
 
-      <IconButton size="small" onClick={handleDeleteClick}>
-        {t('pointPopUp.deleteLocation')}
-      </IconButton>
-
-      <IconButton>
+      <IconButton
+        id="basic-button"
+        aria-controls={open ? 'basic-menu' : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        onClick={handleClick}
+      >
         <MoreHorizIcon />
       </IconButton>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={() => {
+          handleClose();
+        }}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button'
+        }}
+      >
+        <MenuItem onClick={handleClose}>
+          <IconButton size="small" onClick={handleDeleteClick}>
+            {t('pointPopUp.deleteLocation')}
+          </IconButton>
+        </MenuItem>
+      </Menu>
     </>
   );
 };

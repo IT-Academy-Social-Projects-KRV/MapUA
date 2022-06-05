@@ -83,7 +83,7 @@ export const popupLocationReducer = (
         loading: false,
         error: null,
         data: {
-          _id: 'deleted',
+          _id: '',
           locationName: '',
           author: {} as AuthorInfoType,
           rating: {
@@ -96,7 +96,7 @@ export const popupLocationReducer = (
           createdAt: new Date(),
           updatedAt: new Date()
         },
-        success: true
+        success: false
       };
     case LocationActionTypes.DELETE_LOCATION_ERROR:
       return {

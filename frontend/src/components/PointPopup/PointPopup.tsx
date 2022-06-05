@@ -65,6 +65,9 @@ const PointPopup = (props: Props) => {
     arrayPhotos
   } = useTypedSelector(state => state.popupLocation.data);
 
+  const { success } = useTypedSelector(state => state.popupLocation);
+  const [pageLoadSuccess, setPageLoadSuccess] = useState<Boolean>(false);
+
   const handleCloseNotification = (
     e?: SyntheticEvent | Event,
     reason?: string
@@ -90,9 +93,16 @@ const PointPopup = (props: Props) => {
   };
 
   useEffect(() => {
-    if (locationId === 'deleted') {
+    if (success) {
+      setPageLoadSuccess(true);
+    }
+  }, [success]);
+
+  useEffect(() => {
+    if (locationId === '' && pageLoadSuccess) {
       fetchLocations(bounds, searchName, selectedFilters);
       toggleClose();
+      setPageLoadSuccess(false);
     }
   }, [locationId]);
 
