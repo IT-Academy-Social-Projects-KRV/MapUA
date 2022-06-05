@@ -11,6 +11,7 @@ const initialState: mapInfoStateType = {
   },
   locationName: '',
   selectedFilters: []
+  // authorizedFilters: []
 };
 
 export const mapInfoReducer = (

@@ -8,6 +8,8 @@ const LocationsController = {
       const bounds = JSON.parse(req.query.bounds as string);
       const searchName = req.query.name as string;
       const filters = JSON.parse(req.query.filters as any);
+      console.log('filters', filters);
+
       let locations = (
         await Location.find({
           'coordinates.0': {
@@ -27,6 +29,8 @@ const LocationsController = {
         arrayPhotos: l.arrayPhotos,
         filters: l.filters
       }));
+      console.log('locations', locations);
+
       if (searchName) {
         locations = locations.filter(l => {
           return l.name.toLowerCase().startsWith(searchName.toLowerCase());
@@ -45,6 +49,7 @@ const LocationsController = {
       if (!locations) {
         return res.status(404).json({ error: req.t('locations_not_found') });
       }
+
       return res.json({ locations });
     } catch (err: any) {
       return res.status(500).json({ error: req.t('server_error'), err });

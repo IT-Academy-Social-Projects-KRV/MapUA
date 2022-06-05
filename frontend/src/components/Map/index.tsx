@@ -42,6 +42,39 @@ function Map({
     locationName: searchName,
     selectedFilters
   } = useTypedSelector(state => state.mapInfo);
+  console.log('selectedFilters', selectedFilters);
+
+  const { favorite, visited, personalLocations } = useTypedSelector(
+    state => state.userData.data
+  );
+  let authorizedFilters: any[] = ['aaa'];
+  useEffect(() => {
+    // // eslint-disable-next-line default-case
+    // switch (true) {
+    //   case selectedFilters.includes('favorites'):
+    //     authorizedFilters = [...favorite];
+    //     continue;
+    //   // eslint-disable-next-line no-fallthrough
+    //   case selectedFilters.includes('visited'):
+    //     authorizedFilters = [...visited];
+    //   // eslint-disable-next-line no-fallthrough
+    //   case selectedFilters.includes('personalLocations'):
+    //     authorizedFilters = [...personalLocations];
+    // }
+    if (selectedFilters.includes('favorites')) {
+      authorizedFilters = [...authorizedFilters, ...favorite];
+    }
+    if (selectedFilters.includes('visited')) {
+      authorizedFilters = [...authorizedFilters, ...visited];
+    }
+    if (selectedFilters.includes('personalLocations')) {
+      authorizedFilters = [...personalLocations];
+    }
+    console.log('authorizedFilters', authorizedFilters);
+  }, [selectedFilters]);
+
+  // const authorizedFilters = [...favorite, ...visited, ...personalLocations];
+  // console.log('authorizedFilters', authorizedFilters);
 
   const formRef = React.useRef<any>(null);
   const [, SetCoordinateByClick] = useState<any>({});
