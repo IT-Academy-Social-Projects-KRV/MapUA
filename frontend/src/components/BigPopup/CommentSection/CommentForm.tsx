@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, TextField } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   useForm,
@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { CommentType } from '../../../../types';
+import { StyledCommentFormButton } from '../../design/StyledCommentFormButton';
 
 type CommentCheck = {
   commentText: string;
@@ -49,50 +50,32 @@ const CommentForm = () => {
   };
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center'
-      }}
-    >
-      <Box component="form" onSubmit={handleSubmit(onSendComment)}>
-        <Controller
-          control={control}
-          name="commentText"
-          render={({ field }) => (
-            <TextField
-              multiline
-              rows={5}
-              placeholder={t('bigPopup.commentSection.commentForm.addComment')}
-              variant="outlined"
-              fullWidth
-              onChange={e => field.onChange(e)}
-              onBlur={field.onBlur}
-              defaultValue={field.value}
-              error={!!errors.commentText?.message}
-              helperText={t(
-                !errors.commentText ? '' : String(errors.commentText.message)
-              )}
-            />
-          )}
-        />
+    <Box component="form" onSubmit={handleSubmit(onSendComment)}>
+      <Controller
+        name="commentText"
+        control={control}
+        render={({ field }) => (
+          <TextField
+            fullWidth
+            multiline
+            rows={5}
+            placeholder={t('bigPopup.commentSection.commentForm.addComment')}
+            variant="outlined"
+            onChange={e => field.onChange(e)}
+            onBlur={field.onBlur}
+            defaultValue={field.value}
+            error={!!errors.commentText?.message}
+            helperText={t(
+              !errors.commentText ? '' : String(errors.commentText.message)
+            )}
+          />
+        )}
+      />
 
-        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            type="submit"
-            sx={{
-              width: '25%',
-              borderRadius: 10,
-              mt: 2,
-              color: 'black',
-              mb: 3
-            }}
-            endIcon={<SendOutlinedIcon />}
-          >
-            {t('bigPopup.commentSection.commentForm.send')}
-          </Button>
-        </Box>
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+        <StyledCommentFormButton type="submit" endIcon={<SendOutlinedIcon />}>
+          {t('bigPopup.commentSection.commentForm.send')}
+        </StyledCommentFormButton>
       </Box>
     </Box>
   );

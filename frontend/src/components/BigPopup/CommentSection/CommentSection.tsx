@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import { CardContent, Divider, List, Typography } from '@mui/material';
+import { CardContent, Divider, List } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
+import { CommentType, AuthorInfoType } from '../../../../types';
 import CommentForm from './CommentForm';
 import Comment from './Comment';
-import { CommentType, AuthorInfoType } from '../../../../types';
 
 const CommentSection = () => {
   const { t } = useTranslation();
@@ -27,25 +27,14 @@ const CommentSection = () => {
 
   return (
     <CardContent>
-      <Typography
-        variant="h6"
-        color="text.secondary"
-        sx={{
-          textAlign: 'center',
-          borderBottom: '1px solid grey'
-        }}
-      >
+      <Divider>
         {t('bigPopup.commentSection.commentSection.commentsSection')}
-      </Typography>
-      <List
-        sx={{
-          bgcolor: 'background.paper'
-        }}
-      >
+      </Divider>
+      <List>
         {isAuthorized && (
           <>
             <CommentForm />
-            <Divider variant="inset" component="li" />
+            <Divider />
           </>
         )}
         {comments.map(
