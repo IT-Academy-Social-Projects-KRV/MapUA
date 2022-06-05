@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Link } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { StyledPage404 } from '../design/StyledPage404';
@@ -9,9 +9,9 @@ const Page404 = () => {
   return (
     <StyledPage404>
       <Box my={5}>
-        <Link underline="none" component={RouterLink} to="/">
+        <IconButton component={RouterLink} to="/" color="info">
           {t('page404.Return to main page')}
-        </Link>
+        </IconButton>
       </Box>
     </StyledPage404>
   );

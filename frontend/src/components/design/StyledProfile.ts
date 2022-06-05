@@ -56,6 +56,7 @@ export const SaveButton = styled(Button)`
 `;
 export const SaveBox = styled(Box)`
   display: flex;
+  justify-content: center;
   margin: 2vh auto;
 `;
 export const EditButton = styled(Button)`

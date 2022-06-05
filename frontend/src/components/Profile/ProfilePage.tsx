@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Typography, Button, Box, TextField } from '@mui/material';
+import { Typography, Button, Box, TextField, Stack } from '@mui/material';
 import {
   useForm,
   SubmitHandler,
@@ -112,16 +112,18 @@ export default function ProfilePage() {
                 )}
               />
               <SaveBox>
-                <SaveButton size="large" variant="contained" type="submit">
-                  {t('profile.profilePage.save')}
-                </SaveButton>
-                <CancelButton
-                  size="large"
-                  variant="contained"
-                  onClick={closeEditData}
-                >
-                  {t('profile.profilePage.cancel')}
-                </CancelButton>
+                <Stack direction="row" spacing={2}>
+                  <SaveButton size="large" variant="contained" type="submit">
+                    {t('profile.profilePage.save')}
+                  </SaveButton>
+                  <CancelButton
+                    size="large"
+                    variant="contained"
+                    onClick={closeEditData}
+                  >
+                    {t('profile.profilePage.cancel')}
+                  </CancelButton>
+                </Stack>
               </SaveBox>
             </Box>
           ) : (

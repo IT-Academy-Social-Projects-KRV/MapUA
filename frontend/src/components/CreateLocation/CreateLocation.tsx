@@ -2,7 +2,13 @@ import React, { useState, useRef, useEffect } from 'react';
 import UploadInput from 'components/design/UploadInputCreateLocation';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTranslation } from 'react-i18next';
-import { Typography, Button, Autocomplete, TextField } from '@mui/material';
+import {
+  Typography,
+  Button,
+  Autocomplete,
+  TextField,
+  Stack
+} from '@mui/material';
 import {
   Controller,
   useForm,
@@ -110,71 +116,73 @@ const CreateLocation = ({
       component="form"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <Typography>{t('createLocation.creatingLocation')}</Typography>
-      <Controller
-        name="locationName"
-        control={control}
-        defaultValue=""
-        render={({ field }) => (
-          <TextField
-            {...field}
-            margin="normal"
-            fullWidth
-            type="text"
-            placeholder={t('createLocation.enterLocName')}
-            error={!!errors.locationName?.message}
-            helperText={t(
-              !errors.locationName ? '' : String(errors.locationName.message)
-            )}
-          />
-        )}
-      />
+      <Stack spacing={2}>
+        <Typography>{t('createLocation.creatingLocation')}</Typography>
+        <Controller
+          name="locationName"
+          control={control}
+          defaultValue=""
+          render={({ field }) => (
+            <TextField
+              {...field}
+              margin="normal"
+              fullWidth
+              type="text"
+              placeholder={t('createLocation.enterLocName')}
+              error={!!errors.locationName?.message}
+              helperText={t(
+                !errors.locationName ? '' : String(errors.locationName.message)
+              )}
+            />
+          )}
+        />
 
-      <Controller
-        control={control}
-        name="locationDescription"
-        defaultValue=""
-        render={({ field }) => (
-          <TextField
-            multiline
-            fullWidth
-            minRows={5}
-            {...field}
-            placeholder={t('createLocation.enterDescription')}
-            error={!!errors.locationDescription?.message}
-            helperText={t(
-              !errors.locationDescription
-                ? ''
-                : String(errors.locationDescription.message)
-            )}
-          />
-        )}
-      />
-      <Autocomplete
-        multiple
-        id="tags-outlined"
-        options={getFiltersForUser()}
-        getOptionLabel={option => option}
-        filterSelectedOptions
-        onChange={(e, values) => onChangeAutocomplete(e, values)}
-        renderInput={params => (
-          <TextField
-            {...params}
-            value={filters}
-            label={t('common.filters')}
-            placeholder={t('createLocation.favorites')}
-          />
-        )}
-      />
-      <UploadInput
-        handleFilesChange={handleFilesChange}
-        setlocationImageName={setLocationImageName}
-        locationImageName={locationImageName}
-      />
+        <Controller
+          control={control}
+          name="locationDescription"
+          defaultValue=""
+          render={({ field }) => (
+            <TextField
+              multiline
+              fullWidth
+              minRows={5}
+              {...field}
+              placeholder={t('createLocation.enterDescription')}
+              error={!!errors.locationDescription?.message}
+              helperText={t(
+                !errors.locationDescription
+                  ? ''
+                  : String(errors.locationDescription.message)
+              )}
+            />
+          )}
+        />
+        <Autocomplete
+          multiple
+          id="tags-outlined"
+          options={getFiltersForUser()}
+          getOptionLabel={option => option}
+          filterSelectedOptions
+          onChange={(e, values) => onChangeAutocomplete(e, values)}
+          renderInput={params => (
+            <TextField
+              {...params}
+              value={filters}
+              label={t('common.filters')}
+              placeholder={t('createLocation.favorites')}
+            />
+          )}
+        />
+        <UploadInput
+          handleFilesChange={handleFilesChange}
+          setlocationImageName={setLocationImageName}
+          locationImageName={locationImageName}
+        />
 
-      <Button fullWidth variant="contained" type="submit">
-        {t('createLocation.doneAndSubmit')}
-      </Button>
+        <Button fullWidth variant="contained" type="submit">
+          {t('createLocation.doneAndSubmit')}
+        </Button>
+      </Stack>
     </StyledCreateLocationWrapper>
   );
 };
