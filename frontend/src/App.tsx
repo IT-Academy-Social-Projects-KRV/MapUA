@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { SyntheticEvent, useEffect } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import HomeScreen from 'screens/HomeScreen';
@@ -12,9 +12,23 @@ import Profile from 'components/Profile/Profile';
 import Page404 from 'components/Page_404/Page404';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from './redux/hooks/useTypedDispatch';
+import ExtendSnackbar from './components/ExtendSnackbar/ExtendSnackbar';
 
 function App() {
   let accessToken = localStorage.getItem('accessToken');
+  const { type, visible, notification } = useTypedSelector(
+    state => state.snackbar
+  );
+  const { ResetSnackbar } = useTypedDispatch();
+  const handleCloseNotification = (
+    e?: SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    ResetSnackbar();
+  };
 
   const { data: isAuthorized } = useTypedSelector(
     state => state.isUserAuthorized
@@ -33,6 +47,12 @@ function App() {
 
   return (
     <BrowserRouter>
+      <ExtendSnackbar
+        open={visible}
+        notification={notification}
+        onClose={handleCloseNotification}
+        severity={type}
+      />
       <GlobalStyles
         styles={{
           '#root': {

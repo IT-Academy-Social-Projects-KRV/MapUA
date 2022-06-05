@@ -32,11 +32,11 @@ export const fetchPrivateUserData =
         });
       }
     } catch (error: any) {
-      console.error(error);
       dispatch({
         type: PrivateUserDataActionTypes.FETCH_PRIVATE_USER_DATA_ERROR,
         payload: 'An error occurred while loading user data'
       });
+      throw new Error(error);
     }
   };
 
@@ -60,11 +60,11 @@ export const updatePrivateUserData =
         payload: response.data
       });
     } catch (error: any) {
-      console.error(error);
       dispatch({
         type: PrivateUserDataActionTypes.UPDATE_PRIVATE_USER_DATA_ERROR,
         payload: error.response.data?.error || 'lost network' // `${t('profile.profilePage.lostNetwork')}`
       });
+      throw new Error(error);
     }
   };
 

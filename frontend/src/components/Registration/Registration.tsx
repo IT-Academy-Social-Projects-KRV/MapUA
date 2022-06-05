@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent, SyntheticEvent, useEffect } from 'react';
+import React, { useState, MouseEvent, useEffect } from 'react';
 import axios from 'services/axios';
 import { useNavigate } from 'react-router-dom';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
@@ -8,8 +8,6 @@ import {
   Button,
   Typography,
   Box,
-  Snackbar,
-  Alert,
   InputAdornment,
   IconButton,
   Grid,
@@ -26,22 +24,22 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import { useTranslation } from 'react-i18next';
 import { AuthFormSchema } from 'utils/validation';
-import { PaperForm } from '../design/PaperForm';
-import { AuthFormWrapper } from '../design/AuthFormWrapper';
+import { StyledPaperForm } from '../design/StyledPaperForm';
+import { StyledAuthFormWrapper } from '../design/StyledAuthFormWrapper';
+import { useTypedDispatch } from '../../redux/hooks/useTypedDispatch';
 
 type SignUp = {
   email: string;
   password: string;
 };
 function Registration() {
+  const { SetErrorSnackbar, SetSuccessSnackbar } = useTypedDispatch();
   const [showPassword, setShowPassword] = useState(false);
-  const [visibleSucces, setVisibleSuccess] = useState(false);
 
   const navigate = useNavigate();
 
   const { t } = useTranslation();
 
-  const [notification, setNotification] = useState<string | {} | null>(null);
   const { handleSubmit, control } = useForm<SignUp>({
     mode: 'onBlur',
     resolver: yupResolver(AuthFormSchema)
@@ -55,33 +53,22 @@ function Registration() {
     try {
       const response = await axios().post(`signup`, data);
       if (response.status === 200) {
-        setVisibleSuccess(true);
-        setTimeout(() => setVisibleSuccess(false), 3000);
+        SetSuccessSnackbar(`${t('registration.registrationSuccess')}`);
         setTimeout(() => navigate('/login'), 2000);
       }
     } catch (e: any) {
-      setNotification(
-        e.response.data?.info.message || `${t('registration.regisrationFail')}`
+      SetErrorSnackbar(
+        e.response.data?.info.message || `${t('registration.registrationFail')}`
       );
     }
   };
 
   const { error } = useTypedSelector(state => state.isUserAuthorized);
   useEffect(() => {
-    if (error) {
-      setNotification(error);
+    if (error && typeof error === 'string') {
+      SetErrorSnackbar(error);
     }
   }, [error]);
-  const handleCloseNotification = (
-    e?: SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setVisibleSuccess(false);
-    setNotification(null);
-  };
 
   const handleMouseDownPassword = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -90,44 +77,15 @@ function Registration() {
     setShowPassword(!showPassword);
   };
   return (
-    <AuthFormWrapper>
+    <StyledAuthFormWrapper>
       <Grid container justifyContent="center">
         <Grid item md={4}>
-          <PaperForm>
+          <StyledPaperForm>
             <Box component="form" onSubmit={handleSubmit(onSubmit)}>
               <Stack spacing={4}>
                 <Typography align="center" variant="h4">
                   {t('registration.createProfile')}
                 </Typography>
-                <Snackbar
-                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                  sx={{ zIndex: 10000 }}
-                  open={!!notification}
-                  autoHideDuration={3000}
-                  onClose={handleCloseNotification}
-                >
-                  <Alert
-                    onClose={handleCloseNotification}
-                    severity="error"
-                    sx={{ mt: '1vh' }}
-                  >
-                    {notification}
-                  </Alert>
-                </Snackbar>
-                <Snackbar
-                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                  sx={{ zIndex: 10000 }}
-                  open={!!visibleSucces}
-                  onClose={handleCloseNotification}
-                >
-                  <Alert
-                    onClose={handleCloseNotification}
-                    severity="success"
-                    sx={{ mt: '1vh' }}
-                  >
-                    {t('registration.regisrationSuccess')}
-                  </Alert>
-                </Snackbar>
                 <Controller
                   control={control}
                   name="email"
@@ -193,10 +151,10 @@ function Registration() {
                 </Button>
               </Stack>
             </Box>
-          </PaperForm>
+          </StyledPaperForm>
         </Grid>
       </Grid>
-    </AuthFormWrapper>
+    </StyledAuthFormWrapper>
   );
 }
 export default Registration;

@@ -1,9 +1,9 @@
 import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-export const AuthFormWrapper = styled(Box)`
-  min-height: calc(100vh - 64px - 50px);
+export const StyledCommentBox = styled(Box)`
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: flex-end;
+  align-self: flex-end;
 `;

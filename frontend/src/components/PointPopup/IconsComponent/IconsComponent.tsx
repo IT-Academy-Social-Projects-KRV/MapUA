@@ -4,7 +4,6 @@ import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import ShareIcon from '@mui/icons-material/Share';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
@@ -12,6 +11,7 @@ import TourOutlinedIcon from '@mui/icons-material/TourOutlined';
 import TourIcon from '@mui/icons-material/Tour';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTranslation } from 'react-i18next';
 
@@ -53,24 +53,18 @@ export const IconsComponent: FC<Props> = ({
     <>
       <IconButton onClick={e => handleRating(e, 'likes')}>
         {rating.likes.includes(userId) ? (
-          <ThumbUpIcon fontSize="small" sx={{ color: 'text.secondary' }} />
+          <ThumbUpIcon fontSize="small" />
         ) : (
-          <ThumbUpOutlinedIcon
-            fontSize="small"
-            sx={{ color: 'text.secondary' }}
-          />
+          <ThumbUpOutlinedIcon fontSize="small" />
         )}
         {rating.likes.length}
       </IconButton>
 
       <IconButton onClick={e => handleRating(e, 'dislikes')}>
         {rating.dislikes.includes(userId) ? (
-          <ThumbDownIcon fontSize="small" sx={{ color: 'text.secondary' }} />
+          <ThumbDownIcon fontSize="small" />
         ) : (
-          <ThumbDownAltOutlinedIcon
-            fontSize="small"
-            sx={{ color: 'text.secondary' }}
-          />
+          <ThumbDownAltOutlinedIcon fontSize="small" />
         )}
         {rating.dislikes.length}
       </IconButton>

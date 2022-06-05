@@ -1,4 +1,4 @@
-import React, { useEffect, useState, MouseEvent, SyntheticEvent } from 'react';
+import React, { useEffect, useState, MouseEvent } from 'react';
 import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
@@ -12,8 +12,6 @@ import {
 } from 'react-hook-form';
 import {
   Box,
-  Snackbar,
-  Alert,
   Divider,
   TextField,
   Button,
@@ -28,8 +26,8 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useTranslation } from 'react-i18next';
 import { AuthFormSchema } from 'utils/validation';
-import { PaperForm } from '../design/PaperForm';
-import { AuthFormWrapper } from '../design/AuthFormWrapper';
+import { StyledPaperForm } from '../design/StyledPaperForm';
+import { StyledAuthFormWrapper } from '../design/StyledAuthFormWrapper';
 
 type SignIn = {
   email: string;
@@ -37,7 +35,7 @@ type SignIn = {
 };
 
 function Login() {
-  const [notification, setNotification] = useState<string | {} | null>(null);
+  const { SetErrorSnackbar } = useTypedDispatch();
   const [showPassword, setShowPassword] = useState(false);
 
   const location = useLocation();
@@ -60,20 +58,10 @@ function Login() {
     state => state.isUserAuthorized
   );
   useEffect(() => {
-    if (error) {
-      setNotification(error);
+    if (error && typeof error === 'string') {
+      SetErrorSnackbar(error);
     }
   }, [error]);
-
-  const handleCloseNotification = (
-    e?: SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setNotification(null);
-  };
 
   useEffect(() => {
     if (isAuthorized) {
@@ -90,7 +78,7 @@ function Login() {
   }, []);
 
   const onSubmit: SubmitHandler<SignIn> = async ({ email, password }) => {
-    login(email.toLowerCase(), password);
+    login(email.toLowerCase(), password, t('login.youLoggedInSuccessfully'));
   };
 
   const handleOAuth = (type: 'google' | 'facebook') => {
@@ -110,31 +98,15 @@ function Login() {
   };
 
   return (
-    <AuthFormWrapper>
+    <StyledAuthFormWrapper>
       <Grid container justifyContent="center">
         <Grid item md={4}>
-          <PaperForm>
+          <StyledPaperForm>
             <Box component="form" onSubmit={handleSubmit(onSubmit)}>
               <Stack spacing={4}>
                 <Typography align="center" variant="h4">
                   {t('common.login')}
                 </Typography>
-
-                <Snackbar
-                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                  sx={{ zIndex: 10000 }}
-                  open={!!notification}
-                  autoHideDuration={3000}
-                  onClose={handleCloseNotification}
-                >
-                  <Alert
-                    onClose={handleCloseNotification}
-                    severity="error"
-                    sx={{ mt: '1vh' }}
-                  >
-                    {notification}
-                  </Alert>
-                </Snackbar>
 
                 <Controller
                   control={control}
@@ -231,10 +203,10 @@ function Login() {
                 </Button>
               </Stack>
             </Box>
-          </PaperForm>
+          </StyledPaperForm>
         </Grid>
       </Grid>
-    </AuthFormWrapper>
+    </StyledAuthFormWrapper>
   );
 }
 

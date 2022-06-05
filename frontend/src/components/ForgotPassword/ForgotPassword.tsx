@@ -1,16 +1,6 @@
-import React, { useState, SyntheticEvent } from 'react';
+import React, { useState } from 'react';
 import axios from 'services/axios';
-import {
-  Box,
-  TextField,
-  Typography,
-  Stack,
-  Alert,
-  Snackbar,
-  AlertColor,
-  Grid,
-  Link
-} from '@mui/material';
+import { Box, TextField, Typography, Stack, Grid, Link } from '@mui/material';
 import {
   useForm,
   Controller,
@@ -18,46 +8,31 @@ import {
   useFormState
 } from 'react-hook-form';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ForgotPasswordSchema } from 'utils/validation';
-import { PaperForm } from '../design/PaperForm';
-import { AuthFormWrapper } from '../design/AuthFormWrapper';
-
-interface INotification {
-  type: AlertColor;
-  message: string;
-}
+import { StyledPaperForm } from '../design/StyledPaperForm';
+import { StyledAuthFormWrapper } from '../design/StyledAuthFormWrapper';
+import { useTypedDispatch } from '../../redux/hooks/useTypedDispatch';
 
 type EmailCheck = {
   email: string;
 };
 
 function ForgotPassword() {
-  const [notification, setNotification] = useState<INotification | null>(null);
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  const { SetSuccessSnackbar, SetErrorSnackbar } = useTypedDispatch();
   const [loading, setLoading] = useState(false);
 
   const { handleSubmit, control } = useForm<EmailCheck>({
     mode: 'onBlur',
     resolver: yupResolver(ForgotPasswordSchema)
   });
-
   const { errors } = useFormState({
     control
   });
-
-  const { t } = useTranslation();
-
-  const handleCloseNotification = (
-    e?: SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setNotification(null);
-  };
 
   const sendEmail: SubmitHandler<EmailCheck> = async ({ email }, e) => {
     setLoading(true);
@@ -65,43 +40,25 @@ function ForgotPassword() {
     try {
       const { data } = await axios().post(`forgot-password`, { email });
       e?.target.reset();
-      setNotification({ type: 'success', message: data.message });
+      SetSuccessSnackbar(data.message);
+      setTimeout(() => {
+        navigate('/login');
+      }, 3000);
     } catch (error: any) {
       const message = error?.response?.data?.error
         ? error.response.data.error
         : error.message;
-      setNotification({ type: 'error', message });
+      SetErrorSnackbar(message);
     } finally {
       setLoading(false);
     }
   };
 
-  let snackbar;
-  if (notification) {
-    snackbar = (
-      <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        sx={{ zIndex: 10000 }}
-        open={!!notification}
-        autoHideDuration={3000}
-        onClose={handleCloseNotification}
-      >
-        <Alert
-          onClose={handleCloseNotification}
-          severity={notification.type}
-          sx={{ width: '100%', mt: '4vh' }}
-        >
-          {notification.message}
-        </Alert>
-      </Snackbar>
-    );
-  }
-
   return (
-    <AuthFormWrapper>
+    <StyledAuthFormWrapper>
       <Grid container justifyContent="center">
         <Grid item md={4}>
-          <PaperForm>
+          <StyledPaperForm>
             <Box component="form" onSubmit={handleSubmit(sendEmail)}>
               <Stack spacing={4}>
                 <Typography align="center" variant="h4">
@@ -143,13 +100,10 @@ function ForgotPassword() {
                 </Typography>
               </Stack>
             </Box>
-          </PaperForm>
-          <Stack spacing={5} sx={{ width: '100%' }}>
-            {snackbar}
-          </Stack>
+          </StyledPaperForm>
         </Grid>
       </Grid>
-    </AuthFormWrapper>
+    </StyledAuthFormWrapper>
   );
 }
 
