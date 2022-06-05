@@ -49,18 +49,6 @@ function Map({
   );
   let authorizedFilters: any[] = ['aaa'];
   useEffect(() => {
-    // // eslint-disable-next-line default-case
-    // switch (true) {
-    //   case selectedFilters.includes('favorites'):
-    //     authorizedFilters = [...favorite];
-    //     continue;
-    //   // eslint-disable-next-line no-fallthrough
-    //   case selectedFilters.includes('visited'):
-    //     authorizedFilters = [...visited];
-    //   // eslint-disable-next-line no-fallthrough
-    //   case selectedFilters.includes('personalLocations'):
-    //     authorizedFilters = [...personalLocations];
-    // }
     if (selectedFilters.includes('favorites')) {
       authorizedFilters = [...authorizedFilters, ...favorite];
     }
