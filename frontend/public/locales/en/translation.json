@@ -18,7 +18,9 @@
     "enterLocName": "Enter location name",
     "enterDescription": "Minimum 10 symbols",
     "favorites": "Favorites",
-    "doneAndSubmit": "Done and submit"
+    "doneAndSubmit": "Done and submit",
+    "couldNotCreateLocation": "Could not create location",
+    "locationSuccessfullyCreated": "Location successfully created!"
   },
   "profile": {
     "basicTabs": {
@@ -43,7 +45,8 @@
       "creationDate": "Creation date:",
       "updateDate": "Last update date:",
       "logout": "Logout",
-      "yourName": "Your name:"
+      "yourName": "Your name:",
+      "profilePageUpdatedSuccessfully": "Profile page updated successfully!"
     }
   },
   "forgotPassword": {
@@ -54,12 +57,13 @@
     "signInWithGoogle": "Sing in with google",
     "signInWithFacebook": "Sing in with facebook",
     "signup": "Sign Up",
-    "or": "or"
+    "or": "or",
+    "youLoggedInSuccessfully": "You logged in successfully!"
   },
   "registration": {
     "createProfile": "Create profile",
-    "regisrationSuccess": "Registration successful!",
-    "regisrationFail": "Something went wrong",
+    "registrationSuccess": "Registration successful!",
+    "registrationFail": "Something went wrong",
     "create": "Create"
   },
   "utils": {
@@ -118,7 +122,7 @@
     "cost":"Cost",
     "costValues":{
       "free":"free",
-       "lowCost":"low cost", 
+       "lowCost":"low cost",
        "highCost":"high cost"},
    "seasonal":"Seasonal",
    "seasonalValues":{
@@ -130,7 +134,7 @@
      "seasonal":"seasonal"
    },
    "personal":"Personal",
-   "personslValues":{
+   "personalValues":{
      "visited":"visited",
      "favorites":"favorites",
      "personal":"personal"
