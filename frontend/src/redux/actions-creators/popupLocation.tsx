@@ -103,7 +103,6 @@ export const toggleFavoriteField =
         });
       }
     } catch (error: any) {
-      console.error(error);
       dispatch({
         type: LocationActionTypes.TOGGLE_FAVORITE_FIELD_ERROR,
         payload: 'Could not toggle favorite field'
@@ -111,6 +110,7 @@ export const toggleFavoriteField =
         //   ? error.response.data.info.message
         //   : error.message
       });
+      throw new Error(error);
     }
   };
 
@@ -130,7 +130,6 @@ export const updatePopupLocation =
         });
       }
     } catch (error: any) {
-      console.error(error);
       dispatch({
         type: LocationActionTypes.UPDATE_LOCATION_ERROR,
         payload: 'Could not update location'
@@ -138,5 +137,6 @@ export const updatePopupLocation =
         //   ? error.response.data.info.message
         //   : error.message
       });
+      throw new Error(error);
     }
   };

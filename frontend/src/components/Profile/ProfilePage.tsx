@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { Typography, Button, Box, TextField, Stack } from '@mui/material';
 import {
   useForm,
@@ -11,7 +11,6 @@ import { EditProfileSchema } from 'utils/validation';
 import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
-import ExtendSnackbar from 'components/ExtendSnackbar/ExtendSnackbar';
 import UploadInputProfilePage from 'components/design/UploadInputProfilePage';
 import userImageNotFound from '../../static/user-image-not-found.png';
 import {
@@ -27,28 +26,22 @@ import {
   TypographyDate
 } from '../design/StyledProfile';
 import BasicTabs from './BasicTabs';
-import useDebounce from '../../utils/useDebounce';
 import { UserForm } from '../../../types';
 
 export default function ProfilePage() {
-  const isMounted = useRef(false);
   const { t } = useTranslation();
 
   const { updateUserData, deleteUserData, deletePrivateUserData, logout } =
     useTypedDispatch();
+
   const {
-    success: updateSuccess,
-    error: updateError,
     data: { _id: id, displayName, description, imageUrl: userAvatar }
   } = useTypedSelector(state => state.userData);
   const { email, createdAt, updatedAt } = useTypedSelector(
     state => state.privateUserData.data
   );
-  const isMountedDebounced = useDebounce(isMounted.current, 1000);
   const [showEditPanel, setShowEditPanel] = useState(false);
-  const [successMessage, setSuccessMessage] = useState(false);
   const [userImage, setUserImage] = useState<File | null>();
-  const [errorMessage, setErrorMessage] = useState('');
 
   const { handleSubmit, control, register } = useForm<UserForm>({
     mode: 'onBlur',
@@ -58,31 +51,7 @@ export default function ProfilePage() {
   const { errors } = useFormState({
     control
   });
-  useEffect(() => {
-    if (isMountedDebounced) {
-      if (updateError) {
-        setTimeout(() => setErrorMessage(''), 3000);
-        setErrorMessage(
-          (typeof updateError === 'string'
-            ? updateError
-            : updateError.message) || `${t('profile.profilePage.lostNetwork')}`
-        );
-      }
-    } else {
-      isMounted.current = true;
-    }
-  }, [updateError]);
-  useEffect(() => {
-    if (isMountedDebounced) {
-      if (updateSuccess) {
-        setSuccessMessage(true);
-        setTimeout(() => setSuccessMessage(false), 3000);
-        setShowEditPanel(false);
-      }
-    } else {
-      isMounted.current = true;
-    }
-  }, [updateSuccess]);
+
   const onSubmit: SubmitHandler<UserForm> = async data => {
     const formData = new FormData();
     if (userImage) {
@@ -91,7 +60,10 @@ export default function ProfilePage() {
     formData.append('id', id);
     formData.append('displayName', data.displayName);
     formData.append('description', data.description);
-    updateUserData(formData);
+    updateUserData(
+      formData,
+      t('profile.profilePage.profilePageUpdatedSuccessfully')
+    );
   };
   const editData = () => {
     setShowEditPanel(true);
@@ -99,32 +71,11 @@ export default function ProfilePage() {
   const closeEditData = () => {
     setShowEditPanel(false);
   };
-  const handleClose = (
-    event?: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setErrorMessage('');
-    setSuccessMessage(false);
-  };
+
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)}>
       <ProfileFormWrapper>
         <ProfileContentWrapper>
-          <ExtendSnackbar
-            open={successMessage}
-            notification={successMessage}
-            onClose={handleClose}
-            severity="success"
-          />
-          <ExtendSnackbar
-            open={!!errorMessage}
-            notification={!!errorMessage}
-            onClose={handleClose}
-          />
-
           {showEditPanel ? (
             <Box>
               <UploadBox>

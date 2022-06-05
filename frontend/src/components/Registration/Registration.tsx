@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent, SyntheticEvent, useEffect } from 'react';
+import React, { useState, MouseEvent, useEffect } from 'react';
 import axios from 'services/axios';
 import { useNavigate } from 'react-router-dom';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
@@ -19,7 +19,6 @@ import {
   SubmitHandler,
   useFormState
 } from 'react-hook-form';
-import ExtendSnackbar from 'components/ExtendSnackbar/ExtendSnackbar';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
@@ -27,20 +26,20 @@ import { useTranslation } from 'react-i18next';
 import { AuthFormSchema } from 'utils/validation';
 import { StyledPaperForm } from '../design/StyledPaperForm';
 import { StyledAuthFormWrapper } from '../design/StyledAuthFormWrapper';
+import { useTypedDispatch } from '../../redux/hooks/useTypedDispatch';
 
 type SignUp = {
   email: string;
   password: string;
 };
 function Registration() {
+  const { SetErrorSnackbar, SetSuccessSnackbar } = useTypedDispatch();
   const [showPassword, setShowPassword] = useState(false);
-  const [visibleSucces, setVisibleSuccess] = useState(false);
 
   const navigate = useNavigate();
 
   const { t } = useTranslation();
 
-  const [notification, setNotification] = useState<string | {} | null>(null);
   const { handleSubmit, control } = useForm<SignUp>({
     mode: 'onBlur',
     resolver: yupResolver(AuthFormSchema)
@@ -54,33 +53,22 @@ function Registration() {
     try {
       const response = await axios().post(`signup`, data);
       if (response.status === 200) {
-        setVisibleSuccess(true);
-        setTimeout(() => setVisibleSuccess(false), 3000);
+        SetSuccessSnackbar(`${t('registration.registrationSuccess')}`);
         setTimeout(() => navigate('/login'), 2000);
       }
     } catch (e: any) {
-      setNotification(
-        e.response.data?.info.message || `${t('registration.regisrationFail')}`
+      SetErrorSnackbar(
+        e.response.data?.info.message || `${t('registration.registrationFail')}`
       );
     }
   };
 
   const { error } = useTypedSelector(state => state.isUserAuthorized);
   useEffect(() => {
-    if (error) {
-      setNotification(error);
+    if (error && typeof error === 'string') {
+      SetErrorSnackbar(error);
     }
   }, [error]);
-  const handleCloseNotification = (
-    e?: SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setVisibleSuccess(false);
-    setNotification(null);
-  };
 
   const handleMouseDownPassword = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -98,17 +86,6 @@ function Registration() {
                 <Typography align="center" variant="h4">
                   {t('registration.createProfile')}
                 </Typography>
-                <ExtendSnackbar
-                  open={!!notification}
-                  notification={notification}
-                  onClose={handleCloseNotification}
-                />
-                <ExtendSnackbar
-                  open={!!visibleSucces}
-                  notification={t('registration.regisrationSuccess')}
-                  onClose={handleCloseNotification}
-                  severity="success"
-                />
                 <Controller
                   control={control}
                   name="email"
