@@ -32,6 +32,11 @@ export const createLocation =
       });
       setTimeout(() => {
         dispatch({
+          type: CreateLocationActionTypes.AFTER_CREATE_LOCATION_RESET
+        });
+      });
+      setTimeout(() => {
+        dispatch({
           type: SnackbarActionsType.RESET_SNACKBAR
         });
       }, 3000);
