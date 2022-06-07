@@ -6,17 +6,17 @@ import { ArrowLeftIcon } from 'components/Icons';
 type BigPopupProps = {
   isOpen: boolean;
   toggleClose: any;
-  setIsAddLocationActive: Function;
+  setIsAddLocation: Function;
 };
 
 export default function BigPopupLocation(
   props: React.PropsWithChildren<BigPopupProps>
 ) {
-  const { isOpen, toggleClose, children, setIsAddLocationActive } = props;
+  const { isOpen, toggleClose, children, setIsAddLocation } = props;
 
   const backArrowOnclick = () => {
     toggleClose();
-    setIsAddLocationActive(false);
+    setIsAddLocation(false);
   };
 
   return (

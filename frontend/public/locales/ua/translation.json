@@ -84,6 +84,7 @@
       "locationNameMaxLengthError": "Назва локації має містити не більше 50 символів",
       "emptyLocationDescriptionError": "Опис локації не може бути порожнім",
       "locationDescriptionMinLengthError": "Опис локації повинен містити не менше 10 символів",
+      "locationDescriptionMaxLengthError": "Опис місця має містити не більше 200 символів",
       "emptyLocationFiltersError": "Виберіть хоча б один фільтр",
       "emptyCommentTextError": "Ваш коментар не може бути порожнім",
       "commentTextMinLengthError": "Ваш коментар повинен містити мінімум 5 символів",
@@ -118,29 +119,29 @@
     "removeFromFavorite": "Видалити з обраних",
     "addToFavorite": "Додати до обраних"
   },
-  "mainFilters":{
-    "cost":"Вартість",
-    "costValues":{
-      "free":"безкоштовно",
-       "lowCost":"низька вартість",
-       "highCost":"висока вартість"
-      },
-    "seasonal":"Сезон роботи локації",
-   "seasonalValues":{
-     "winter":"зима",
-     "summer":"літо",
-     "spring":"весна",
-     "autumn":"осінь",
-     "fullYear":"цілий рік",
-     "seasonal":"сезоно"
-   },
-   "personal":"Персональні",
-   "personalValues":{
-     "visited":"відвідані",
-     "favorites":"улюблені",
-     "personal":"персональні"
-   },
-   "subscriptions":"Підписки"
+  "mainFilters": {
+    "cost": "Вартість",
+    "costValues": {
+      "free": "безкоштовно",
+      "lowCost": "низька вартість",
+      "highCost": "висока вартість"
+    },
+    "seasonal": "Сезон роботи локації",
+    "seasonalValues": {
+      "winter": "зима",
+      "summer": "літо",
+      "spring": "весна",
+      "autumn": "осінь",
+      "fullYear": "цілий рік",
+      "seasonal": "сезоно"
+    },
+    "personal": "Персональні",
+    "personalValues": {
+      "visited": "відвідані",
+      "favorites": "улюблені",
+      "personal": "персональні"
+    },
+    "subscriptions": "Підписки"
   },
   "page404": {
     "Return to main page": "Повернутися на головну сторінку"

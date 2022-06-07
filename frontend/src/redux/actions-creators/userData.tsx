@@ -56,11 +56,6 @@ export const updateUserData =
         type: SnackbarActionsType.SET_SUCCESS,
         payload: notification
       });
-      setTimeout(() => {
-        dispatch({
-          type: SnackbarActionsType.RESET_SNACKBAR
-        });
-      }, 3000);
     } catch (error: any) {
       dispatch({
         type: UserDataActionTypes.UPDATE_USER_DATA_ERROR,
@@ -70,11 +65,6 @@ export const updateUserData =
         type: SnackbarActionsType.SET_ERROR,
         payload: error.response.data?.error || 'lost network'
       });
-      setTimeout(() => {
-        dispatch({
-          type: SnackbarActionsType.RESET_SNACKBAR
-        });
-      }, 3000);
       throw new Error(error);
     }
   };
