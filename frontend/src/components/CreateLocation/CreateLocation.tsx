@@ -145,7 +145,7 @@ const CreateLocation = ({
             <TextField
               multiline
               fullWidth
-              minRows={5}
+              rows={5}
               {...field}
               placeholder={t('createLocation.enterDescription')}
               error={!!errors.locationDescription?.message}

@@ -35,31 +35,20 @@ export const createLocation =
           type: CreateLocationActionTypes.AFTER_CREATE_LOCATION_RESET
         });
       });
-      setTimeout(() => {
-        dispatch({
-          type: SnackbarActionsType.RESET_SNACKBAR
-        });
-      }, 3000);
     } catch (error: any) {
       dispatch({
         type: CreateLocationActionTypes.CREATE_LOCATION_ERROR,
-        payload:
-          (error.response && error.response.data.info.message
-            ? error.response.data.info.message
-            : error.message) || 'Could not create location'
+        payload: error?.response?.data?.info?.message
+          ? error.response.data.info.message
+          : 'Could not create location'
       });
       dispatch({
         type: SnackbarActionsType.SET_ERROR,
-        payload:
-          (error.response && error.response.data.info.message
-            ? error.response.data.info.message
-            : error.message) || 'Could not create location'
+        payload: error?.response?.data?.info?.message
+          ? error.response.data.info.message
+          : 'Could not create location'
       });
-      setTimeout(() => {
-        dispatch({
-          type: SnackbarActionsType.RESET_SNACKBAR
-        });
-      }, 3000);
+
       throw new Error(error);
     }
   };
