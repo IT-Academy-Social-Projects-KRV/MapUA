@@ -3,6 +3,7 @@ import passport from '../libs/passport';
 import jwt from 'jsonwebtoken';
 import mapUserProps from '../mappers/mapUserProps';
 import UserModel, { IUser } from '../models/UserModel';
+import RoleModel from '../models/RoleModel';
 import tokenGenerator from '../utils/tokenGenerator';
 import { sendForgotPasswordMail } from '../libs/mailtrap';
 import { v4 as uuidv4 } from 'uuid';

@@ -1,12 +1,9 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
-import { userInfo } from 'os';
-import { Role } from '../types';
-
 export interface IUser extends Document {
   email: string;
   _id: string;
-  role: Role;
+  role: string;
   passwordHash: string;
   createdAt: Date | string;
   updatedAt: Date | string;
@@ -30,8 +27,10 @@ const schema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ['user', 'admin', 'moderator'],
-      default: 'user'
+      // enum: ['user', 'admin', 'moderator'],
+      // required: true,
+      ref: 'Role',
+      // default: 'user'
     },
     passwordHash: {
       type: String,
