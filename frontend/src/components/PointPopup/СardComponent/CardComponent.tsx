@@ -3,6 +3,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React, { FC, MouseEventHandler } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
+import { Link } from 'react-router-dom';
 import userImageNotFound from '../../../static/image-not-found.jpg';
 import { StyledCardComponentBox } from '../../design/StyledCardComponentBox';
 
@@ -28,12 +29,15 @@ export const CardComponent: FC<Props> = ({
       <Box>
         <StyledCardComponentBox>
           {t('pointPopUp.locationCreatedBy')}
-          <Avatar
-            aria-label="author"
-            src={(author && author.imageUrl) || userImageNotFound}
-          />
-
-          {(author && author.displayName) || 'undefined'}
+          <Link to={`profile/${author?._id}`}>
+            <Avatar
+              aria-label="author"
+              src={(author && author.imageUrl) || userImageNotFound}
+            />
+          </Link>
+          <Link to={`profile/${author?._id}`}>
+            {(author && author.displayName) || 'undefined'}
+          </Link>
 
           <Typography>{createdAt.toLocaleDateString()}</Typography>
         </StyledCardComponentBox>

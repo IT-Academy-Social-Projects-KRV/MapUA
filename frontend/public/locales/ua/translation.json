@@ -28,7 +28,9 @@
       "subscribers": "Підписники",
       "subscriptions": "Підписки",
       "enterDescription": "Будь ласка, введіть опис",
-      "noDescription": "Опис відсутній"
+      "noDescription": "Опис відсутній",
+      "noSubscribers": "Корисувач не має підписників",
+      "noSubscriptions": "Користувач не підписаний ні на кого"
     },
     "profile": {
       "loading": "Завантаження..."
