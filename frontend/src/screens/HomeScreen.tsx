@@ -63,6 +63,7 @@ function HomeScreen() {
           isOpen={isOpenLocationForm}
           toggleIsAddLocation={toggleIsAddLocation}
           isAddLocationActive={isAddLocationActive}
+          coordinate={coordinate}
         />
       </Box>
     </Box>
