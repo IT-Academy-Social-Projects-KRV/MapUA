@@ -98,9 +98,7 @@ const LocationsController = {
   async changeLocationData(req: Request, res: Response) {
     try {
       let { id } = req.params;
-      let { locationName, description } = req.body;
-
-      console.log(id, 'id');
+      let { locationName, description, filters } = req.body;
 
       const imageUrls: string[] = [];
 
@@ -111,6 +109,7 @@ const LocationsController = {
       const newData = {
         locationName: locationName,
         description: description,
+        filters: filters,
         arrayPhotos: imageUrls
       };
 
