@@ -169,7 +169,6 @@ const UserController = {
     try {
       const _id = req.params.id;
       const userData = await User.findById(_id, {
-        email: true,
         displayName: true,
         description: true,
         imageUrl: true,
