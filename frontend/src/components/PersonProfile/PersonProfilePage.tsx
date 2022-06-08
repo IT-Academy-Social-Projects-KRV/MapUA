@@ -15,15 +15,21 @@ import {
 import BasicTabs from './BasicTabs';
 
 export default function PersonProfilePage() {
+  const { loading: userLoading } = useTypedSelector(
+    state => state.otherUserData
+  );
   const { t } = useTranslation();
   const params = useParams();
   const { fetchOtherUserData } = useTypedDispatch();
   useEffect(() => {
-    fetchOtherUserData(params?.id);
+    fetchOtherUserData(params?.id || '');
   }, [params.id]);
   const {
     data: { displayName, imageUrl: userAvatar }
   } = useTypedSelector(state => state.otherUserData);
+  if (userLoading) {
+    return <h1>{t('profile.profile.loading')}</h1>;
+  }
   return (
     <ProfileFormWrapper>
       <ProfileContentWrapper sx={{ height: 'auto' }}>
