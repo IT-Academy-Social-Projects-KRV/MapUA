@@ -12,10 +12,11 @@ import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import L from 'leaflet';
 import Locations from './Locations/Locations';
 import MyZoomComponent from './ZoomComponent';
-import DrawMarkerCreateLocation from './DrawMarkerWhenLocationCreate';
+
 import { StyledMapContainer } from '../design/StyledMapContainer';
 import { StyledAddLocationButton } from '../design/StyledAddLocationButton';
 import { latlngType } from '../../../types';
+import DrawMarkerCreateLocation from './DrawMarkerWhenLocationCreate';
 
 interface Props {
   onOpenBigPopup: Function;
