@@ -48,7 +48,7 @@ function Map({
   const { favorite, visited, personalLocations } = useTypedSelector(
     state => state.userData.data
   );
-  let authorizedFilters: any[] = ['aaa'];
+  let authorizedFilters: string[] = [];
   useEffect(() => {
     if (selectedFilters.includes('favorites')) {
       authorizedFilters = [...authorizedFilters, ...favorite];
@@ -56,9 +56,9 @@ function Map({
     if (selectedFilters.includes('visited')) {
       authorizedFilters = [...authorizedFilters, ...visited];
     }
-    if (selectedFilters.includes('personalLocations')) {
-      authorizedFilters = [...personalLocations];
-    }
+    // if (selectedFilters.includes('personalLocations')) {
+    //   authorizedFilters = [...personalLocations];
+    // }
     console.log('authorizedFilters', authorizedFilters);
   }, [selectedFilters]);
 
@@ -76,8 +76,13 @@ function Map({
   }, []);
 
   useEffect(() => {
-    fetchLocations(bounds, debouncedValue, selectedFilters);
-  }, [bounds, debouncedValue, JSON.stringify(selectedFilters)]);
+    fetchLocations(bounds, debouncedValue, selectedFilters, authorizedFilters);
+  }, [
+    bounds,
+    debouncedValue,
+    JSON.stringify(selectedFilters),
+    JSON.stringify(authorizedFilters)
+  ]);
 
   return (
     <StyledMapWrapper ref={formRef}>

@@ -8,10 +8,13 @@ const LocationsController = {
       const bounds = JSON.parse(req.query.bounds as string);
       const searchName = req.query.name as string;
       const filters = JSON.parse(req.query.filters as any);
-      console.log('filters', filters);
+      const authorizedFilters = JSON.parse(req.query.authorizedFilters as any);
+      console.log('authorizedFilters', authorizedFilters);
 
       let locations = (
         await Location.find({
+          // $or: [
+          // {
           'coordinates.0': {
             $gt: bounds._southWest.lat,
             $lt: bounds._northEast.lat
@@ -20,6 +23,9 @@ const LocationsController = {
             $gt: bounds._southWest.lng,
             $lt: bounds._northEast.lng
           }
+          // },
+          //   { _id: authorizedFilters }
+          // ]
         })
       ).map(l => ({
         _id: l._id,
@@ -37,10 +43,27 @@ const LocationsController = {
         });
       }
       if (filters.length > 0) {
-        locations = locations.filter(l =>
-          [...l.filters].some(el => filters.includes(el))
-        );
-      } else {
+        locations = locations.filter(l => {
+          console.log('l.filters', [...l.filters]);
+          return [...l.filters].some(el => filters.includes(el));
+        });
+      }
+      // if (authorizedFilters.length > 0) {
+      // console.log('aaa', locations);
+      // locations = locations.forEach(l => {
+      //   console.log(l._id);
+      // });
+      // // locations = locations.filter(
+      //   l => {
+      //     console.log('l', l);
+      //     return l;
+      //   }
+      // l._id.some(el => authorizedFilters.includes(el))
+      // );
+      // console.log('aaa', locations);
+      // console.log(locations);
+      // }
+      else {
         locations = locations.slice(
           0,
           locations.length < 50 ? locations.length : 50
