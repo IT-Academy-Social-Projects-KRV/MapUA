@@ -5,7 +5,7 @@ import Location from '../models/Locations';
 const UserController = {
   async getProfile(req: Request, res: Response) {
     try {
-      const _id = req.user;
+      const { _id } = req.user;
 
       const userData = await User.findById(_id, {
         email: true,
@@ -30,7 +30,7 @@ const UserController = {
   },
   async getPrivateData(req: Request, res: Response) {
     try {
-      const _id = req.user;
+      const { _id } = req.user;
 
       const privateUserData = await User.findById(_id, {
         email: true,
@@ -50,7 +50,8 @@ const UserController = {
   async toggleFavorite(req: Request, res: Response) {
     try {
       let { idOfLocation } = req.body;
-      const _id = req.user;
+      const { _id } = req.user;
+
       const userData = await User.findById(_id, { favorite: 1 });
       const locationData = await Location.findById(idOfLocation);
       if (!locationData) {
@@ -83,12 +84,10 @@ const UserController = {
           new: true
         }
       );
-      return res
-        .status(200)
-        .json({
-          updatedUser: changeData,
-          message: req.t('locations_list.toggle_favourite')
-        });
+      return res.status(200).json({
+        updatedUser: changeData,
+        message: req.t('locations_list.toggle_favourite')
+      });
     } catch (err: any) {
       return res.status(500).json({ error: req.t('other.server_error'), err });
     }
@@ -96,7 +95,7 @@ const UserController = {
   async toggleVisited(req: Request, res: Response) {
     try {
       let { idOfLocation } = req.body;
-      const _id = req.user;
+      const { _id } = req.user;
       const userData = await User.findById(_id, { visited: 1 });
       const locationData = await Location.findById(idOfLocation);
       if (!locationData) {
@@ -129,12 +128,10 @@ const UserController = {
           new: true
         }
       );
-      return res
-        .status(200)
-        .json({
-          updatedUser: changeData,
-          message: req.t('locations_list.toggle_visited')
-        });
+      return res.status(200).json({
+        updatedUser: changeData,
+        message: req.t('locations_list.toggle_visited')
+      });
     } catch (err: any) {
       return res.status(500).json({ error: req.t('other.server_error'), err });
     }
