@@ -7,7 +7,7 @@ export const userAuthSchema = [
       return req.t('auth.invalid_email', { value, location, path });
     }),
   body('password')
-    .isLength({ min: 6, max: 35 })
+    .isLength({ min: 6, max: 50 })
     .withMessage((value, { req, location, path }) => {
       return req.t('auth.invalid_password_length', { value, location, path });
     })

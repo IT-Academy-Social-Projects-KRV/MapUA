@@ -3,19 +3,32 @@ import {
   ListOfFiltersOptionsAction,
   ListOfFiltersOptionsActionTypes
 } from '../action-types/listOfFiltersOptionsActionTypes';
+import {
+  createLocalizationMainFilters,
+  createSubscriptionsTranslation
+} from '../../static/mainFIlters';
 
 export const setAuthorizedListOfFiltersOptions =
-  (subscriptions: string[]) =>
+  (subscriptions: string[], t: any) =>
   (dispatch: Dispatch<ListOfFiltersOptionsAction>) => {
     dispatch({
       type: ListOfFiltersOptionsActionTypes.SET_AUTHORIZED_LIST_OF_FILTERS_OPTIONS,
-      payload: subscriptions
+      payload: [
+        ...createLocalizationMainFilters(t),
+        {
+          id: 4,
+          forLoggedUser: true,
+          type: createSubscriptionsTranslation(t),
+          values: subscriptions
+        }
+      ]
     });
   };
 
 export const setUnauthorizedListOfFiltersOptions =
-  () => (dispatch: Dispatch<ListOfFiltersOptionsAction>) => {
+  (t: any) => (dispatch: Dispatch<ListOfFiltersOptionsAction>) => {
     dispatch({
-      type: ListOfFiltersOptionsActionTypes.SET_UNAUTHORIZED_LIST_OF_FILTERS_OPTIONS
+      type: ListOfFiltersOptionsActionTypes.SET_UNAUTHORIZED_LIST_OF_FILTERS_OPTIONS,
+      payload: createLocalizationMainFilters(t)
     });
   };

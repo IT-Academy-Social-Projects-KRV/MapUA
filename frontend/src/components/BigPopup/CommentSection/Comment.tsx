@@ -1,15 +1,14 @@
 import React from 'react';
 import {
   Avatar,
-  Box,
-  Link,
+  IconButton,
   ListItem,
   ListItemAvatar,
-  ListItemText,
   Typography
 } from '@mui/material';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
+import { StyledCommentBox } from '../../design/StyledCommentBox';
 
 interface Props {
   text: string;
@@ -22,53 +21,23 @@ const Comment = ({ text, createdAt, authorsName, authorsImage }: Props) => {
   const date = new Date(createdAt);
 
   return (
-    <ListItem alignItems="flex-start" sx={{ pl: 0 }}>
+    <ListItem alignItems="flex-start" sx={{ display: 'block', pl: 0 }}>
       <ListItemAvatar>
         <Avatar alt="Vasya" src={authorsImage} />
-        <Typography
-          sx={{ display: 'inline' }}
-          component="span"
-          variant="body2"
-          color="text.primary"
-        >
+        <Typography component="span" variant="h6" color="text.primary">
           {authorsName}
         </Typography>
       </ListItemAvatar>
-      <ListItemText primary={text} />
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'flex-end',
-          gap: 3,
-          alignSelf: 'flex-end'
-        }}
-      >
-        <Typography
-          sx={{ display: 'inline' }}
-          component="span"
-          variant="caption"
-          color="text.primary"
-        >
-          {date.toLocaleDateString()}
-        </Typography>
-        <Link
-          href="/"
-          sx={{ color: 'text.secondary' }}
-          component="button"
-          underline="none"
-        >
+      <Typography variant="subtitle1">{text}</Typography>
+      <StyledCommentBox>
+        <Typography variant="subtitle2">{date.toLocaleDateString()}</Typography>
+        <IconButton>
           <ThumbUpOutlinedIcon fontSize="small" />
-        </Link>
-
-        <Link
-          href="/"
-          sx={{ color: 'text.secondary' }}
-          component="button"
-          underline="none"
-        >
+        </IconButton>
+        <IconButton>
           <ThumbDownAltOutlinedIcon fontSize="small" />
-        </Link>
-      </Box>
+        </IconButton>
+      </StyledCommentBox>
     </ListItem>
   );
 };

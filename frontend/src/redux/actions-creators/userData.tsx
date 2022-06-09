@@ -1,13 +1,15 @@
 import { Dispatch } from 'redux';
 import axios from 'services/axios';
-// import { useTranslation } from 'react-i18next';
 import {
   UserDataAction,
   UserDataActionTypes
 } from '../action-types/userDataActionTypes';
+import {
+  SnackbarActions,
+  SnackbarActionsType
+} from '../action-types/snackbarActionTypes';
 
 const { REACT_APP_API_URI } = process.env;
-// const { t } = useTranslation();
 
 export const fetchUserData =
   (accessToken: string) => async (dispatch: Dispatch<UserDataAction>) => {
@@ -24,16 +26,17 @@ export const fetchUserData =
         payload: response.data.userData
       });
     } catch (error: any) {
-      console.error(error);
       dispatch({
         type: UserDataActionTypes.FETCH_USER_DATA_ERROR,
         payload: 'An error occurred while loading user data'
       });
+      throw new Error(error);
     }
   };
 
 export const updateUserData =
-  (formData: FormData) => async (dispatch: Dispatch<UserDataAction>) => {
+  (formData: FormData, notification: string) =>
+  async (dispatch: Dispatch<UserDataAction | SnackbarActions>) => {
     try {
       dispatch({ type: UserDataActionTypes.UPDATE_USER_DATA_LOADING });
       const response = await axios().patch(
@@ -49,12 +52,20 @@ export const updateUserData =
         type: UserDataActionTypes.UPDATE_USER_DATA_SUCCESS,
         payload: response.data
       });
+      dispatch({
+        type: SnackbarActionsType.SET_SUCCESS,
+        payload: notification
+      });
     } catch (error: any) {
-      console.error(error);
       dispatch({
         type: UserDataActionTypes.UPDATE_USER_DATA_ERROR,
-        payload: error.response.data?.error || 'lost network' // `${t('profile.profilePage.lostNetwork')}`
+        payload: error.response.data?.error || 'lost network'
       });
+      dispatch({
+        type: SnackbarActionsType.SET_ERROR,
+        payload: error.response.data?.error || 'lost network'
+      });
+      throw new Error(error);
     }
   };
 

@@ -5,38 +5,30 @@ import {
   IsUserAuthorizedActionTypes
 } from 'redux/action-types/isUserAuthorizedActionTypes';
 import axios from 'services/axios';
-
-// const { REACT_APP_API_URI } = process.env;
+import {
+  SnackbarActions,
+  SnackbarActionsType
+} from '../action-types/snackbarActionTypes';
 
 export const login =
-  (email: string, password: string) =>
-  async (dispatch: Dispatch<isUserAuthorizedAction>) => {
+  (email: string, password: string, notification: string) =>
+  async (dispatch: Dispatch<isUserAuthorizedAction | SnackbarActions>) => {
     try {
       dispatch({
         type: IsUserAuthorizedActionTypes.LOGIN_USER_LOADING
       });
       const response = await axios().post(`signin`, { email, password });
-      // const response = await axios.post(
-      //   `${REACT_APP_API_URI}signin`,
-      //   {
-      //     email,
-      //     password
-      //   },
-      //   {
-      //     headers: {
-      //       'Accept-Language': localStorage.getItem('i18nextLng') || ''
-      //     }
-      //   }
-      // );
 
       dispatch({
         type: IsUserAuthorizedActionTypes.LOGIN_USER_SUCCESS,
         payload: response.data
       });
-
       localStorage.setItem('accessToken', response.data.token);
+      dispatch({
+        type: SnackbarActionsType.SET_SUCCESS,
+        payload: notification
+      });
     } catch (error: any) {
-      console.error(error);
       dispatch({
         type: IsUserAuthorizedActionTypes.LOGIN_USER_ERROR,
         payload:
@@ -44,11 +36,13 @@ export const login =
             ? error.response.data.info.message
             : error.message
       });
+      throw new Error(error);
     }
   };
 
 export const loginOAuth =
-  (token: string, id: string) => async (dispatch: Dispatch<isUserAuthorizedAction>) => {
+  (token: string, id: string) =>
+  async (dispatch: Dispatch<isUserAuthorizedAction>) => {
     dispatch({
       type: IsUserAuthorizedActionTypes.LOGIN_USER_LOADING
     });
@@ -66,36 +60,32 @@ export const loginOAuth =
     localStorage.setItem('accessToken', token);
   };
 
-export const checkIsUserAuthorized = () => async (dispatch: Dispatch<isUserAuthorizedAction>) => {
+export const checkIsUserAuthorized =
+  () => async (dispatch: Dispatch<isUserAuthorizedAction>) => {
     try {
       dispatch({
         type: IsUserAuthorizedActionTypes.CHECK_USER_TOKEN_LOADING
       });
       const response = await axios().get('is-authenticated');
-      // const response = await axios.get(`${REACT_APP_API_URI}is-authenticated`, {
-      //   headers: {
-      //     Authorization: `Bearer ${accessToken}`,
-      //     'Accept-Language': localStorage.getItem('i18nextLng') || ''
-      //   }
-      // });
 
       if (response.status === 200)
         dispatch({
           type: IsUserAuthorizedActionTypes.CHECK_USER_TOKEN_SUCCESS
         });
     } catch (error: any) {
-      console.error(error);
       dispatch({
         type: IsUserAuthorizedActionTypes.CHECK_USER_TOKEN_ERROR,
         payload: 'An error occurred while loading user data'
       });
       localStorage.removeItem('accessToken');
+      throw new Error(error);
     }
   };
 
-export const logout = () => async (dispatch: Dispatch<isUserAuthorizedAction>) => {
-  dispatch({
-    type: IsUserAuthorizedActionTypes.LOGOUT_USER
-  });
-  localStorage.removeItem('accessToken');
-};
+export const logout =
+  () => async (dispatch: Dispatch<isUserAuthorizedAction>) => {
+    dispatch({
+      type: IsUserAuthorizedActionTypes.LOGOUT_USER
+    });
+    localStorage.removeItem('accessToken');
+  };

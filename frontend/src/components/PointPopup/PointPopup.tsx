@@ -1,32 +1,21 @@
 import CommentSection from 'components/BigPopup/CommentSection/CommentSection';
-import React, { useState, MouseEvent, SyntheticEvent } from 'react';
+import React, { useState, MouseEvent } from 'react';
 import {
   Box,
   Card,
   CardContent,
   CardMedia,
   Collapse,
-  Typography,
-  Snackbar,
-  Alert,
-  AlertColor
+  Typography
 } from '@mui/material';
-import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { CardComponent } from './СardComponent/CardComponent';
 import { IconsComponent } from './IconsComponent/IconsComponent';
-
-interface INotification {
-  type: AlertColor;
-  message: string;
-}
+import { StyledPopupButtonsWrapper } from '../design/StyledPopupButtonsWrapper';
 
 const PointPopup = () => {
-  const { t } = useTranslation();
-
   const [expanded, setExpanded] = useState(false);
-  const [notification, setNotification] = useState<INotification | null>(null);
 
   const { updatePopupLocation, toggleVisitedField, toggleFavoriteField } =
     useTypedDispatch();
@@ -48,16 +37,6 @@ const PointPopup = () => {
     arrayPhotos
   } = useTypedSelector(state => state.popupLocation.data);
 
-  const handleCloseNotification = (
-    e?: SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setNotification(null);
-  };
-
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -74,12 +53,6 @@ const PointPopup = () => {
     type: 'likes' | 'dislikes'
   ) => {
     e.preventDefault();
-    if (!isAuthorized) {
-      return setNotification({
-        type: 'warning',
-        message: `${t('pointPopUp.message')}`
-      });
-    }
 
     const updatedRating = { ...rating };
     if (rating[type].includes(userId)) {
@@ -101,72 +74,29 @@ const PointPopup = () => {
     return updatePopupLocation(locationId, { rating: updatedRating });
   };
 
-  let snackbar;
-  if (notification) {
-    snackbar = (
-      <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        open={!!notification}
-        autoHideDuration={5000}
-        onClose={handleCloseNotification}
-      >
-        <Alert
-          onClose={handleCloseNotification}
-          severity={notification.type}
-          sx={{ width: '100%' }}
-        >
-          {notification.message}
-        </Alert>
-      </Snackbar>
-    );
-  }
-
   return (
     <Box>
       <Card>
         <CardMedia
-          sx={{
-            p: 3.2,
-            pt: 0,
-            pb: 0
-          }}
+          sx={{ p: 2 }}
           component="img"
           image={arrayPhotos[0]}
           alt={locationName}
         />
 
         <Box>
-          <Typography
-            color="text.secondary"
-            variant="h4"
-            sx={{ pl: 5, pt: 2, mb: 2 }}
-          >
+          <Typography color="text.secondary" variant="h4" paddingX={5}>
             {locationName}
           </Typography>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'end',
-              flexDirection: 'column',
-              m: 3
-            }}
-          >
-            <Box
-              sx={{
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'space-between'
-              }}
-            >
-              <IconsComponent
-                handleRating={handleRating}
-                handleFavoriteClick={handleFavoriteClick}
-                locationIsFavorite={favorite.includes(locationId)}
-                locationIsVisited={visited.includes(locationId)}
-                handleVisitedClick={handleVisitedClick}
-              />
-            </Box>
-          </Box>
+          <StyledPopupButtonsWrapper>
+            <IconsComponent
+              handleRating={handleRating}
+              handleFavoriteClick={handleFavoriteClick}
+              locationIsFavorite={favorite.includes(locationId)}
+              locationIsVisited={visited.includes(locationId)}
+              handleVisitedClick={handleVisitedClick}
+            />
+          </StyledPopupButtonsWrapper>
         </Box>
 
         <CardContent>
@@ -179,7 +109,6 @@ const PointPopup = () => {
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CommentSection />
         </Collapse>
-        {snackbar}
       </Card>
     </Box>
   );

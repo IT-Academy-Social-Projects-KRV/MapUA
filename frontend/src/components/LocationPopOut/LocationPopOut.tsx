@@ -1,12 +1,14 @@
 import * as React from 'react';
-
-import Typography from '@mui/material/Typography';
-import { CardMedia } from '@mui/material';
-import { Marker } from 'react-leaflet';
 import L from 'leaflet';
+import { CardMedia, Typography } from '@mui/material';
+import { Marker } from 'react-leaflet';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
-import { StyledBox, StyledMediaBox, StyledTooltip } from './style';
+import {
+  StyledBox,
+  StyledMediaBox,
+  StyledTooltip
+} from '../design/StyledLocationPopOut';
 import icon from '../../static/map-point-svgrepo-com.svg';
 import img from '../../static/image-not-found.jpg';
 
