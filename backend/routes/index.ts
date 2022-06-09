@@ -1,6 +1,5 @@
 import express from 'express';
 import UserController from '../controllers/UserController';
-import SubscriptionsController from '../controllers/SubscriptionsController';
 import LocationsController from '../controllers/LocationsController';
 import AuthController from '../controllers/AuthController';
 import CommentsController from '../controllers/CommentsController';
@@ -44,12 +43,6 @@ router.patch(
   upload.single('image'),
   passport.authenticate('jwt', { session: false })
   // UserController.changePrivateUserData
-);
-
-router.get(
-  '/subscriptions',
-  passport.authenticate('jwt', { session: false }),
-  SubscriptionsController.getSubscriptions
 );
 
 router.get('/locations/', LocationsController.getLocationsByZoom);
