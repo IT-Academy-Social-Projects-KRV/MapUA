@@ -52,6 +52,12 @@ router.get(
   SubscriptionsController.getSubscriptions
 );
 
+router.patch(
+  '/subscriptions',
+  // passport.authenticate('jwt', { session: false }),
+  SubscriptionsController.toggleSubscriptions
+);
+
 router.get('/locations/', LocationsController.getLocationsByZoom);
 router.patch('/locations', LocationsController.changeLocationInfo);
 router.patch(
