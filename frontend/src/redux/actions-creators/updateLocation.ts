@@ -1,0 +1,44 @@
+import {
+  SnackbarActions,
+  SnackbarActionsType
+} from './../action-types/snackbarActionTypes';
+import { Dispatch } from 'redux';
+import {
+  LocationDataAction,
+  LocationDataActionTypes
+} from 'redux/action-types/updateLocationActionTypes';
+import axios from 'services/axios';
+
+export const updateLocationData =
+  (formData: FormData, notification: string) =>
+  async (dispatch: Dispatch<LocationDataAction | SnackbarActions>) => {
+    try {
+      dispatch({ type: LocationDataActionTypes.UPDATE_LOCATION_DATA_LOADING });
+
+      const response = await axios().patch(
+        `${process.env.REACT_APP_API_URI}locations`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+      );
+
+      dispatch({
+        type: LocationDataActionTypes.UPDATE_LOCATION_DATA_SUCCESS,
+        payload: response.data
+      });
+
+      dispatch({
+        type: SnackbarActionsType.SET_SUCCESS,
+        payload: notification
+      });
+    } catch (error: any) {
+      dispatch({
+        type: SnackbarActionsType.SET_ERROR,
+        payload: error.response.data?.error || 'lost network'
+      });
+      throw new Error(error);
+    }
+  };
