@@ -84,6 +84,7 @@
       "locationNameMaxLengthError": "Location name must be less than 50 symbols",
       "emptyLocationDescriptionError": "Location description can't be empty",
       "locationDescriptionMinLengthError": "Location description must be at least 10 symbols long",
+      "locationDescriptionMaxLengthError": "Location description must be no more than 200 symbols",
       "emptyLocationFiltersError": "Please select at least one filter",
       "emptyCommentTextError": "Your comment cannot be empty",
       "commentTextMinLengthError": "Your comment must be at least 5 symbols long",
@@ -118,28 +119,29 @@
     "removeFromFavorite": "Remove from favorite",
     "addToFavorite": "Add to favorite"
   },
-  "mainFilters":{
-    "cost":"Cost",
-    "costValues":{
-      "free":"free",
-       "lowCost":"low cost",
-       "highCost":"high cost"},
-   "seasonal":"Seasonal",
-   "seasonalValues":{
-     "winter":"winter",
-     "summer":"summer",
-     "spring":"spring",
-     "autumn":"autumn",
-     "fullYear":"full year",
-     "seasonal":"seasonal"
-   },
-   "personal":"Personal",
-   "personalValues":{
-     "visited":"visited",
-     "favorites":"favorites",
-     "personal":"personal"
-   },
-   "subscriptions":"Subscriptions"
+  "mainFilters": {
+    "cost": "Cost",
+    "costValues": {
+      "free": "free",
+      "lowCost": "low cost",
+      "highCost": "high cost"
+    },
+    "seasonal": "Seasonal",
+    "seasonalValues": {
+      "winter": "winter",
+      "summer": "summer",
+      "spring": "spring",
+      "autumn": "autumn",
+      "fullYear": "full year",
+      "seasonal": "seasonal"
+    },
+    "personal": "Personal",
+    "personalValues": {
+      "visited": "visited",
+      "favorites": "favorites",
+      "personal": "personal"
+    },
+    "subscriptions": "Subscriptions"
   },
 
   "page404": {

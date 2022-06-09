@@ -13,16 +13,22 @@ function HomeScreen() {
   const [isOpenLocationForm, setIsOpenLocationForm] = useState(false);
   const [location, setLocation] = useState<locationType | null>(null);
   const [coordinate, setCoordinate] = useState<any>([]);
-  const [showAddLocationButton, setShowAddLocationButton] = useState(true);
 
   const onOpenBigPopup = (locationData: locationType) => {
     setLocation(locationData);
     setIsOpenLocationPopup(true);
-    setShowAddLocationButton(false);
   };
 
   const onOpenLocationForm = () => {
     setIsOpenLocationForm(true);
+  };
+
+  const toggleIsAddLocation = () => {
+    setIsAddLocationActive(prevState => !prevState);
+  };
+
+  const setIsAddLocation = (value: boolean) => {
+    setIsAddLocationActive(value);
   };
 
   return (
@@ -31,7 +37,6 @@ function HomeScreen() {
         isOpen={isOpenLocationPopup}
         toggleClose={() => {
           setIsOpenLocationPopup(false);
-          setShowAddLocationButton(true);
         }}
         location={location}
       />
@@ -39,12 +44,12 @@ function HomeScreen() {
       <BigPopupLocation
         isOpen={isOpenLocationForm}
         toggleClose={() => setIsOpenLocationForm(false)}
-        setIsAddLocationActive={setIsAddLocationActive}
+        setIsAddLocation={setIsAddLocation}
       >
         <CreateLocation
           coordinate={coordinate}
           closeBigPopup={() => setIsOpenLocationForm(false)}
-          setIsAddLocationActive={setIsAddLocationActive}
+          setIsAddLocation={setIsAddLocation}
         />
       </BigPopupLocation>
       <Box
@@ -56,8 +61,7 @@ function HomeScreen() {
           onOpenLocationForm={onOpenLocationForm}
           setCoordinate={setCoordinate}
           isOpen={isOpenLocationForm}
-          showAddLocationButton={showAddLocationButton}
-          setIsAddLocationActive={setIsAddLocationActive}
+          toggleIsAddLocation={toggleIsAddLocation}
           isAddLocationActive={isAddLocationActive}
         />
       </Box>

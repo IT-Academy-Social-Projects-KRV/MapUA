@@ -25,7 +25,7 @@ import { StyledCreateLocationWrapper } from '../design/StyledCreateLocationWrapp
 type Props = {
   closeBigPopup: Function;
   coordinate: latlngType;
-  setIsAddLocationActive: Function;
+  setIsAddLocation: Function;
 };
 type CreatingLocation = {
   locationName: string;
@@ -36,7 +36,7 @@ type CreatingLocation = {
 const CreateLocation = ({
   coordinate,
   closeBigPopup,
-  setIsAddLocationActive
+  setIsAddLocation
 }: Props) => {
   const [files, setFiles] = useState<File[]>([]);
   const [filters, setFilters] = useState('');
@@ -45,7 +45,7 @@ const CreateLocation = ({
 
   const { t } = useTranslation();
 
-  const { data: success } = useTypedSelector(state => state.createLocation);
+  const { success } = useTypedSelector(state => state.createLocation);
   const {
     bounds,
     locationName: searchName,
@@ -66,7 +66,7 @@ const CreateLocation = ({
     if (success) {
       fetchLocations(bounds, searchName, selectedFilters);
       closeBigPopup();
-      setIsAddLocationActive(false);
+      setIsAddLocation(false);
       reset();
       setFilters('');
       if (ref.current) {
@@ -116,7 +116,7 @@ const CreateLocation = ({
       component="form"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <Stack spacing={2}>
+      <Stack spacing={3}>
         <Typography>{t('createLocation.creatingLocation')}</Typography>
         <Controller
           name="locationName"
@@ -145,7 +145,7 @@ const CreateLocation = ({
             <TextField
               multiline
               fullWidth
-              minRows={5}
+              rows={5}
               {...field}
               placeholder={t('createLocation.enterDescription')}
               error={!!errors.locationDescription?.message}

@@ -5,7 +5,10 @@ import {
   IsUserAuthorizedActionTypes
 } from 'redux/action-types/isUserAuthorizedActionTypes';
 import axios from 'services/axios';
-import { SnackbarActions, SnackbarActionsType } from "../action-types/snackbarActionTypes";
+import {
+  SnackbarActions,
+  SnackbarActionsType
+} from '../action-types/snackbarActionTypes';
 
 export const login =
   (email: string, password: string, notification: string) =>
@@ -25,11 +28,6 @@ export const login =
         type: SnackbarActionsType.SET_SUCCESS,
         payload: notification
       });
-      setTimeout(() => {
-        dispatch({
-          type: SnackbarActionsType.RESET_SNACKBAR
-        });
-      }, 3000);
     } catch (error: any) {
       dispatch({
         type: IsUserAuthorizedActionTypes.LOGIN_USER_ERROR,
@@ -43,7 +41,8 @@ export const login =
   };
 
 export const loginOAuth =
-  (token: string, id: string) => async (dispatch: Dispatch<isUserAuthorizedAction>) => {
+  (token: string, id: string) =>
+  async (dispatch: Dispatch<isUserAuthorizedAction>) => {
     dispatch({
       type: IsUserAuthorizedActionTypes.LOGIN_USER_LOADING
     });
@@ -61,7 +60,8 @@ export const loginOAuth =
     localStorage.setItem('accessToken', token);
   };
 
-export const checkIsUserAuthorized = () => async (dispatch: Dispatch<isUserAuthorizedAction>) => {
+export const checkIsUserAuthorized =
+  () => async (dispatch: Dispatch<isUserAuthorizedAction>) => {
     try {
       dispatch({
         type: IsUserAuthorizedActionTypes.CHECK_USER_TOKEN_LOADING
@@ -82,9 +82,10 @@ export const checkIsUserAuthorized = () => async (dispatch: Dispatch<isUserAutho
     }
   };
 
-export const logout = () => async (dispatch: Dispatch<isUserAuthorizedAction>) => {
-  dispatch({
-    type: IsUserAuthorizedActionTypes.LOGOUT_USER
-  });
-  localStorage.removeItem('accessToken');
-};
+export const logout =
+  () => async (dispatch: Dispatch<isUserAuthorizedAction>) => {
+    dispatch({
+      type: IsUserAuthorizedActionTypes.LOGOUT_USER
+    });
+    localStorage.removeItem('accessToken');
+  };

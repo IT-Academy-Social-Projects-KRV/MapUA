@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { TileLayer, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useTranslation } from 'react-i18next';
@@ -20,8 +20,7 @@ interface Props {
   onOpenLocationForm: Function;
   setCoordinate: Function;
   isOpen: boolean;
-  showAddLocationButton: boolean;
-  setIsAddLocationActive: Function;
+  toggleIsAddLocation: Function;
   isAddLocationActive: boolean;
 }
 
@@ -29,8 +28,7 @@ function Map({
   onOpenLocationForm,
   setCoordinate,
   isOpen,
-  showAddLocationButton,
-  setIsAddLocationActive,
+  toggleIsAddLocation,
   isAddLocationActive,
   onOpenBigPopup
 }: Props) {
@@ -44,7 +42,7 @@ function Map({
     selectedFilters
   } = useTypedSelector(state => state.mapInfo);
 
-  const formRef = React.useRef<any>(null);
+  const formRef = useRef<any>(null);
   const [, SetCoordinateByClick] = useState<any>({});
   const debouncedValue = useDebounce(searchName, 1000);
   const { setBounds, fetchLocations } = useTypedDispatch();
@@ -84,9 +82,7 @@ function Map({
 
         {isAuthorized && !isOpen && (
           <StyledAddLocationButton
-            onClick={() =>
-              setIsAddLocationActive((prevState: boolean) => !prevState)
-            }
+            onClick={() => toggleIsAddLocation()}
             style={{
               background: isAddLocationActive ? 'yellow' : 'white',
               color: isAddLocationActive ? 'black' : '#1976d2'
