@@ -10,15 +10,18 @@ import {
   ProfileAvatar,
   ProfileContentWrapper,
   ProfileFormWrapper,
-  ProfileUserWrapper
+  ProfileUserWrapper,
+  SubsrcibeButton
 } from '../design/StyledProfile';
 import BasicTabs from './BasicTabs';
 
 export default function PersonProfilePage() {
+  const { t } = useTranslation();
+
   const { loading: userLoading } = useTypedSelector(
     state => state.otherUserData
   );
-  const { t } = useTranslation();
+
   const params = useParams();
   const { fetchOtherUserData } = useTypedDispatch();
   useEffect(() => {
@@ -42,7 +45,11 @@ export default function PersonProfilePage() {
             ? `${t('profile.profilePage.yourName')}`
             : displayName}
         </Typography>
+        <SubsrcibeButton size="large" variant="contained" onClick={() => null}>
+          {t('profile.profilePage.subscribe')}
+        </SubsrcibeButton>
       </ProfileContentWrapper>
+
       <ProfileUserWrapper>
         <BasicTabs />
       </ProfileUserWrapper>

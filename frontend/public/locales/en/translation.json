@@ -48,7 +48,9 @@
       "updateDate": "Last update date:",
       "logout": "Logout",
       "yourName": "Your name:",
-      "profilePageUpdatedSuccessfully": "Profile page updated successfully!"
+      "profilePageUpdatedSuccessfully": "Profile page updated successfully!",
+      "subscribe": "Subscribe",
+      "unsubscribe": "Unsubscribe"
     }
   },
   "forgotPassword": {
