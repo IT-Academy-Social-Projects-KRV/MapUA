@@ -44,6 +44,12 @@ export type locationType = {
   updatedAt: Date;
 };
 
+export type updateLocationType = {
+  locationName: string;
+  arrayPhotos: string[];
+  description: string;
+};
+
 export type LocationPopOutData = {
   locationName: string;
   photoSrc: string;
@@ -79,6 +85,12 @@ export type PrivateUserDataType = {
 export type UserForm = {
   displayName: string;
   description: string;
+  imageUrl: FileList;
+};
+
+export type LocationForm = {
+  locationName: any;
+  description: any;
   imageUrl: FileList;
 };
 
