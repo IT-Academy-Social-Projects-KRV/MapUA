@@ -165,6 +165,44 @@ const UserController = {
       return res.status(500).json({ error: req.t('other.server_error'), err });
     }
   },
+  async toogleSubscription(req: Request, res: Response) {
+    try {
+      let { otherUserId, userId } = req.body;
+      const userData = await User.findById(userId);
+
+    if (userData) {
+      if (userData.subscriptions.includes(otherUserId)) {
+        let index = userData.subscriptions.findIndex(el => {
+          if (el === otherUserId) {
+            return el;
+          }
+        });
+        userData.subscriptions.splice(index, 1);
+      } else {
+        userData.subscriptions.push(otherUserId);
+      }
+      } else {
+        return res.status(400).json({ error: req.t('auth.user_not_exist') });
+      }
+      const changeData = await User.findByIdAndUpdate(
+        userId,
+        {
+          $set: {
+            subscriptions: userData.subscriptions
+          }
+        },
+        {
+          new: true
+        }
+      );
+      return res.status(200).json({
+        updatedUser: changeData,
+        message: req.t('user_profile.change_user_info_success')
+      });
+    } catch (err: any) {
+      return res.status(500).json({ error: req.t('other.server_error'), err });
+    }
+  },
   async getOtherUserProfile(req: Request, res: Response) {
     try {
       const _id = req.params.id;

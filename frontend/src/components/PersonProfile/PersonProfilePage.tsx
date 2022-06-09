@@ -26,13 +26,15 @@ export default function PersonProfilePage() {
     data: { _id: userId, subscriptions }
   } = useTypedSelector(state => state.userData);
 
+  const { data: isAuthorized } = useTypedSelector(
+    state => state.isUserAuthorized
+  );
+
   const { fetchOtherUserData, toogleUserSubscription } = useTypedDispatch();
 
   const isSubscribed = subscriptions.includes(otherUserId);
-  // console.log('otherId: ', otherUserId);
-  // console.log('userId: ', userId);
-  // console.log('subscriptions: ', subscriptions.includes(otherUserId));
   console.log('subscriptions: ', subscriptions);
+  console.log('isSubscribed: ', isSubscribed);
 
   const params = useParams();
   useEffect(() => {
@@ -44,11 +46,13 @@ export default function PersonProfilePage() {
   }
 
   const handleSubscription = () => {
-    toogleUserSubscription(
-      otherUserId,
-      userId,
-      t('profile.profilePage.profilePageUpdatedSuccessfully')
-    );
+    if (isAuthorized) {
+      toogleUserSubscription(
+        otherUserId,
+        userId,
+        t('profile.profilePage.profilePageUpdatedSuccessfully')
+      );
+    }
   };
 
   return (

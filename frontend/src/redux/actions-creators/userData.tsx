@@ -48,7 +48,6 @@ export const updateUserData =
           }
         }
       );
-      console.log('response: ', response.data);
       dispatch({
         type: UserDataActionTypes.UPDATE_USER_DATA_SUCCESS,
         payload: response.data
@@ -75,30 +74,17 @@ export const toogleUserSubscription =
   async (dispatch: Dispatch<UserDataAction | SnackbarActions>) => {
     try {
       dispatch({ type: UserDataActionTypes.UPDATE_USER_DATA_LOADING });
-      // const response = await axios().patch(
-      //   `${process.env.REACT_APP_API_URI}toogleSubscribe`,
-      //   userId, otherUserId
-      // );
-      const response = {
-        _id: userId,
-        displayName: 'Okeany',
-        description: 'Descr  Okeany',
-        imageUrl:
-          'https://mapua-storage.s3.eu-central-1.amazonaws.com/files/1654365858151-1653380005599.jpg',
-        subscribers: [],
-        // subscriptions: [],
-        subscriptions: [
-          '628231392c5e18fa0824a19c',
-          '6297b935a1c2a41812bb02ca',
-          '6297b935a1c2a41812bb0222'
-        ],
-        favorite: [],
-        visited: [],
-        personalLocations: []
-      };
+      const response = await axios().patch(
+        `${process.env.REACT_APP_API_URI}tooglesubscribe`,
+        {
+          otherUserId,
+          userId
+        }
+      );
+      console.log('response: ', response);
       dispatch({
         type: UserDataActionTypes.UPDATE_USER_DATA_SUCCESS,
-        payload: response
+        payload: response.data
       });
       dispatch({
         type: SnackbarActionsType.SET_SUCCESS,
