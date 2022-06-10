@@ -10,6 +10,7 @@ import {
 import { Link } from 'react-router-dom';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
+import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { getPath } from 'utils/createPath';
 import Menu from '@mui/material/Menu';
@@ -25,6 +26,7 @@ interface Props {
   createdAt: Date;
   authorsName: string;
   authorsImage: string;
+  _id: string;
 }
 
 const Comment = ({
@@ -32,11 +34,13 @@ const Comment = ({
   text,
   createdAt,
   authorsName,
-  authorsImage
+  authorsImage,
+  _id
 }: Props) => {
   const date = new Date(createdAt);
   const { _id: userId } = useTypedSelector(state => state.userData.data);
   const { role } = useTypedSelector(state => state.isUserAuthorized.data);
+  const { deleteComment } = useTypedDispatch();
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -95,7 +99,7 @@ const Comment = ({
               role === 'moderator' ||
               role === 'admin') && (
               <MenuItem onClick={handleClose}>
-                <IconButton size="small" onClick={() => null}>
+                <IconButton size="small" onClick={() => deleteComment(_id)}>
                   <DeleteIcon />
                   Delete
                 </IconButton>

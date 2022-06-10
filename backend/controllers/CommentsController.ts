@@ -30,6 +30,14 @@ const CommentsController = {
     } catch (err: any) {
       return res.status(500).json({ error: req.t('server_error'), err });
     }
+  },
+  async deleteLocationComments(req: Request, res: Response) {
+    try {
+      await Comment.deleteOne({ _id: req.params.id });
+      return res.status(200).json({});
+    } catch (err: any) {
+      return res.status(500).json({ error: req.t('server_error'), err });
+    }
   }
 };
 

@@ -136,5 +136,6 @@ router.put(
   UserController.toggleVisited
 );
 router.get('/profile/:id', UserController.getOtherUserProfile);
+router.delete('/comments/:id', CommentsController.deleteLocationComments);
 
 export default router;
