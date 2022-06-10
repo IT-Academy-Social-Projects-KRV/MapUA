@@ -135,5 +135,6 @@ router.put(
   passport.authenticate('jwt', { session: false }),
   UserController.toggleVisited
 );
+router.get('/profile/:id', UserController.getOtherUserProfile);
 
 export default router;

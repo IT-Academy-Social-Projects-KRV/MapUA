@@ -1,9 +1,7 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
-import { Tabs, Tab, Typography, Box, TextField } from '@mui/material';
-import { Controller, Control, FieldError } from 'react-hook-form';
-import { UserForm } from '../../../types';
+import { Tabs, Tab, Typography, Box } from '@mui/material';
 
 interface TabPanelProps {
   index: number;
@@ -40,26 +38,14 @@ function a11yProps(index: number) {
     'aria-controls': `simple-tabpanel-${index}`
   };
 }
-
-type BasicTabsProps = {
-  showEditPanel: boolean;
-  setShowEditPanel: Function;
-  control: Control<UserForm>;
-  error: FieldError | undefined;
-};
-
-export default function BasicTabs({
-  showEditPanel,
-  control,
-  error
-}: BasicTabsProps) {
+export default function BasicTabs() {
   const { t } = useTranslation();
   const [value, setValue] = React.useState(0);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
-  const userDescription = useTypedSelector(state => state.userData);
+  const userInfo = useTypedSelector(state => state.otherUserData);
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -74,43 +60,25 @@ export default function BasicTabs({
           <Tab label={t('profile.basicTabs.subscriptions')} {...a11yProps(2)} />
         </Tabs>
       </Box>
-      {showEditPanel ? (
+      <Box>
         <TabPanel value={value} index={0}>
-          <Controller
-            control={control}
-            name="description"
-            render={({ field }) => (
-              <TextField
-                placeholder={t('profile.basicTabs.enterDescription')}
-                label={t('profile.basicTabs.description')}
-                fullWidth
-                onChange={field.onChange}
-                onBlur={field.onBlur}
-                defaultValue={field.value}
-                type="text"
-                error={!!error}
-                helperText={t(!error ? '' : String(error.message))}
-              />
-            )}
-          />
+          <Typography component="span">
+            {userInfo.data.description ||
+              `${t('profile.basicTabs.noDescription')}`}
+          </Typography>
         </TabPanel>
-      ) : (
-        <Box>
-          <TabPanel value={value} index={0}>
-            <Typography component="span">
-              {userDescription.data.description ||
-                `${t('profile.basicTabs.noDescription')}`}
-            </Typography>
-          </TabPanel>
-        </Box>
-      )}
+      </Box>
       <Box>
         <TabPanel value={value} index={1}>
-          Item Two
+          {userInfo.data.subscribers.length > 0
+            ? userInfo.data.subscribers
+            : `${t('profile.basicTabs.noSubscribers')}`}
         </TabPanel>
       </Box>
       <TabPanel value={value} index={2}>
-        Item Three
+        {userInfo.data.subscriptions.length > 0
+          ? userInfo.data.subscriptions
+          : `${t('profile.basicTabs.noSubscriptions')}`}
       </TabPanel>
     </Box>
   );
