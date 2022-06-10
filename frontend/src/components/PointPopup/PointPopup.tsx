@@ -53,11 +53,16 @@ const PointPopup = () => {
   const { data: isAuthorized } = useTypedSelector(
     state => state.isUserAuthorized
   );
+
   const {
     _id: userId,
     favorite,
     visited
   } = useTypedSelector(state => state.userData.data);
+
+  const { author: locationAuthorId } = useTypedSelector(
+    state => state.popupLocation.data
+  );
 
   const {
     _id: locationId,
@@ -72,6 +77,7 @@ const PointPopup = () => {
     defaultValues: { locationName, description }
     // resolver: yupResolver(EditProfileSchema)
   });
+
   const { errors } = useFormState({
     control
   });
@@ -132,6 +138,7 @@ const PointPopup = () => {
   // //   );
   // //   setShowEditPanel(false);
   // // };
+  // locationAuthorId?._id === userId
 
   const editData = () => {
     setShowEditPanel(true);
@@ -143,7 +150,7 @@ const PointPopup = () => {
 
   return (
     <>
-      {showEditPanel ? (
+      {showEditPanel && locationAuthorId?._id === userId ? (
         <EditLocation
           locationNamelocationName={locationName}
           closeEditData={closeEditData}
@@ -165,9 +172,11 @@ const PointPopup = () => {
                 {locationName}
               </Typography>
 
-              <EditButton size="large" variant="contained" onClick={editData}>
-                {t('profile.profilePage.editProfile')}
-              </EditButton>
+              {locationAuthorId?._id === userId && (
+                <EditButton size="large" variant="contained" onClick={editData}>
+                  {t('createLocation.editLocation')}
+                </EditButton>
+              )}
 
               <StyledPopupButtonsWrapper>
                 <IconsComponent

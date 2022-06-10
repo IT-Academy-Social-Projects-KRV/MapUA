@@ -47,18 +47,10 @@ const EditLocation = ({
   const [files, setFiles] = useState<File[]>([]);
   const [filters, setFilters] = useState('');
   const [locationImageName, setLocationImageName] = useState<string>('');
-  // const ref = useRef<null | HTMLInputElement>();
 
   const { t } = useTranslation();
 
   const { updateLocationData } = useTypedDispatch();
-
-  // const { success } = useTypedSelector(state => state.createLocation);
-  // const {
-  //   bounds,
-  //   locationName: searchName,
-  //   selectedFilters
-  // } = useTypedSelector(state => state.mapInfo);
 
   const { handleSubmit, control, reset } = useForm<EditingLocation>({
     mode: 'onBlur',
@@ -115,7 +107,7 @@ const EditLocation = ({
       onSubmit={handleSubmit(onSubmit)}
     >
       <Stack spacing={3}>
-        <Typography>{t('createLocation.creatingLocation')}</Typography>
+        <Typography>{t('createLocation.updateLocation')}</Typography>
         <Controller
           name="locationName"
           control={control}
@@ -170,31 +162,11 @@ const EditLocation = ({
           </Stack>
         </SaveBox>
 
-        <Autocomplete
-          multiple
-          id="tags-outlined"
-          options={getFiltersForUser()}
-          getOptionLabel={option => option}
-          filterSelectedOptions
-          onChange={(e, values) => onChangeAutocomplete(e, values)}
-          renderInput={params => (
-            <TextField
-              {...params}
-              value={filters}
-              label={t('common.filters')}
-              placeholder={t('createLocation.favorites')}
-            />
-          )}
-        />
         <UploadInput
           handleFilesChange={handleFilesChange}
           setlocationImageName={setLocationImageName}
           locationImageName={locationImageName}
         />
-
-        <Button fullWidth variant="contained" type="submit">
-          {t('createLocation.doneAndSubmit')}
-        </Button>
       </Stack>
     </StyledCreateLocationWrapper>
   );
