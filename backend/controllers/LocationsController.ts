@@ -103,16 +103,23 @@ const LocationsController = {
       const imageUrls: string[] = [];
 
       Array.prototype.forEach.call(req.files, file => {
-        // update or not
         imageUrls.push(file.location);
       });
 
-      const newData = {
-        locationName: locationName,
-        description: description,
-        filters: filters,
-        arrayPhotos: imageUrls
-      };
+      let newData = {};
+
+      if (imageUrls.length === 0) {
+        newData = {
+          locationName: locationName,
+          description: description
+        };
+      } else {
+        newData = {
+          locationName: locationName,
+          description: description,
+          arrayPhotos: imageUrls
+        };
+      }
 
       const changedData = await Location.findByIdAndUpdate(
         id,
