@@ -12,9 +12,10 @@ function Profile() {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const { data: isAuthorized, loading: isAuthLoading } = useTypedSelector(
-    state => state.isUserAuthorized
-  );
+  const {
+    data: { isAuthorized },
+    loading: isAuthLoading
+  } = useTypedSelector(state => state.isUserAuthorized);
   const { error: userError, loading: userLoading } = useTypedSelector(
     state => state.userData
   );

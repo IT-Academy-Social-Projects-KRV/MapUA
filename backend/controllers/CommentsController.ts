@@ -21,7 +21,6 @@ const CommentsController = {
       const { comment: commentBody } = req.body;
       const newComment = new Comment(commentBody);
       const { _id: newCommentId } = await newComment.save();
-
       const comment = await Comment.findById(newCommentId).populate({
         path: 'author',
         select: 'displayName imageUrl'

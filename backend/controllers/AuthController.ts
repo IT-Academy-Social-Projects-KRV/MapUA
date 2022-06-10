@@ -19,7 +19,7 @@ const AuthController = {
             return res.status(400).json({ info });
           }
           res.json({
-            user: mapUserProps(user),
+            role: mapUserProps(user).role,
             token: _tokenGeneration(user)
           });
         }
@@ -39,7 +39,7 @@ const AuthController = {
         req.login(user, { session: false }, async error => {
           if (error) return next(error);
           return res.json({
-            user: mapUserProps(user),
+            role: mapUserProps(user).role,
             token: _tokenGeneration(user)
           });
         });
@@ -116,6 +116,7 @@ const AuthController = {
         .status(400)
         .json({ error: req.t('jwt_token.token_not_provided'), success: false });
     }
+    const decodedToken = jwt.decode(token);
 
     jwt.verify(token, `${process.env.ACCESS_TOKEN_SECRET}`, (err, decoded) => {
       if (err) {
@@ -139,15 +140,16 @@ const AuthController = {
       }
 
       return res.json({
-        message: req.t('jwt_token.token_valid'),
-        success: true
+        role: decodedToken && typeof decodedToken !== 'string' && decodedToken.role
+          ? decodedToken.role
+          : 'user'
       });
     });
   }
 };
 
 function _tokenGeneration(user: IUser) {
-  const body = { _id: user._id, email: user.email };
+  const body = { _id: user._id, email: user.email, role: user.role };
   const token = tokenGenerator.accessToken(body);
 
   return token;
