@@ -128,6 +128,7 @@ export const IconsComponent: FC<Props> = ({
           <MenuItem onClick={handleClose}>
             <IconButton size="small" onClick={() => null}>
               <DeleteIcon />
+              Delete
             </IconButton>
           </MenuItem>
         )}
