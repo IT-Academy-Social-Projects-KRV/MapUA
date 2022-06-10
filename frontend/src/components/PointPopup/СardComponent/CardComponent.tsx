@@ -4,6 +4,9 @@ import React, { FC, MouseEventHandler } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { Controller } from 'react-hook-form';
+import { getPath } from 'utils/createPath';
+import { Link } from 'react-router-dom';
+import userImageNotFound from '../../../static/image-not-found.jpg';
 import { StyledCardComponentBox } from '../../design/StyledCardComponentBox';
 import userImageNotFound from '../../../static/image-not-found.jpg';
 
@@ -27,6 +30,7 @@ export const CardComponent: FC<Props> = ({
   const { createdAt, author } = useTypedSelector(
     state => state.popupLocation.data
   );
+  const { _id } = useTypedSelector(state => state.userData.data);
   // const { displayName } = useTypedSelector(state => state.userData.data);
   const { t } = useTranslation();
 
@@ -35,12 +39,15 @@ export const CardComponent: FC<Props> = ({
       <Box>
         <StyledCardComponentBox>
           {t('pointPopUp.locationCreatedBy')}
-          <Avatar
-            aria-label="author"
-            src={(author && author.imageUrl) || userImageNotFound}
-          />
-
-          {(author && author.displayName) || 'undefined'}
+          <Link to={getPath(_id, author?._id)}>
+            <Avatar
+              aria-label="author"
+              src={(author && author.imageUrl) || userImageNotFound}
+            />
+          </Link>
+          <Link to={getPath(_id, author?._id)}>
+            {(author && author.displayName) || 'undefined'}
+          </Link>
 
           <Typography>{createdAt.toLocaleDateString()}</Typography>
         </StyledCardComponentBox>

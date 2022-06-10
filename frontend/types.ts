@@ -17,6 +17,7 @@ export type boundsType = {
 export type AuthorInfoType = {
   imageUrl: string;
   displayName: string;
+  _id: string;
 };
 export type CommentType<T> = {
   _id?: string;
