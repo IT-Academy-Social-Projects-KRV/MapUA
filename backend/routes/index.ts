@@ -53,7 +53,14 @@ router.get(
 );
 
 router.get('/locations/', LocationsController.getLocationsByZoom);
-router.patch('/locations', LocationsController.changeLocationInfo);
+
+router.patch(
+  '/locations/:id',
+  passport.authenticate('jwt', { session: false }),
+  upload.array('image'),
+  LocationsController.changeLocationData
+);
+
 router.patch(
   '/locations/:id',
   updateLocationLikesSchema,
