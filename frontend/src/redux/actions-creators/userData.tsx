@@ -75,10 +75,10 @@ export const toogleUserSubscription =
     try {
       dispatch({ type: UserDataActionTypes.UPDATE_USER_DATA_LOADING });
       const response = await axios().patch(
-        `${process.env.REACT_APP_API_URI}tooglesubscribe`,
+        `${process.env.REACT_APP_API_URI}subscriptions`,
         {
-          otherUserId,
-          userId
+          userId,
+          subscriptionId: otherUserId
         }
       );
       console.log('response: ', response);

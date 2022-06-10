@@ -17,7 +17,6 @@ import BasicTabs from './BasicTabs';
 
 export default function PersonProfilePage() {
   const { t } = useTranslation();
-  // const [isSubscribed, setIsSubscribed] = useState(false);
   const {
     loading: userLoading,
     data: { _id: otherUserId, displayName, imageUrl: userAvatar }
@@ -67,15 +66,17 @@ export default function PersonProfilePage() {
             ? `${t('profile.profilePage.yourName')}`
             : displayName}
         </Typography>
-        <SubsrcibeButton
-          size="large"
-          variant="contained"
-          onClick={handleSubscription}
-        >
-          {!isSubscribed
-            ? t('profile.profilePage.subscribe')
-            : t('profile.profilePage.unsubscribe')}
-        </SubsrcibeButton>
+        {isAuthorized && (
+          <SubsrcibeButton
+            size="large"
+            variant="contained"
+            onClick={handleSubscription}
+          >
+            {!isSubscribed
+              ? t('profile.profilePage.subscribe')
+              : t('profile.profilePage.unsubscribe')}
+          </SubsrcibeButton>
+        )}
       </ProfileContentWrapper>
 
       <ProfileUserWrapper>

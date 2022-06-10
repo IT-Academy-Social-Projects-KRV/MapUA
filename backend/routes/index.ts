@@ -3,6 +3,7 @@ import UserController from '../controllers/UserController';
 import LocationsController from '../controllers/LocationsController';
 import AuthController from '../controllers/AuthController';
 import CommentsController from '../controllers/CommentsController';
+import SubscriptionsController from '../controllers/SubscriptionsController';
 import passport from '../libs/passport';
 import multer from 'multer';
 import { upload } from '../utils/upload';
@@ -15,6 +16,7 @@ import {
   userDataSchema
 } from '../utils/validationSchemes';
 import { validateRequest } from '../utils/validation';
+
 
 const router = express.Router();
 
@@ -43,12 +45,6 @@ router.patch(
   upload.single('image'),
   passport.authenticate('jwt', { session: false })
   // UserController.changePrivateUserData
-);
-
-router.get(
-  '/subscriptions',
-  passport.authenticate('jwt', { session: false }),
-  SubscriptionsController.getSubscriptions
 );
 
 router.patch(
