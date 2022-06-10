@@ -12,8 +12,11 @@ import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import L from 'leaflet';
 import Locations from './Locations/Locations';
 import MyZoomComponent from './ZoomComponent';
+
 import { StyledMapContainer } from '../design/StyledMapContainer';
 import { StyledAddLocationButton } from '../design/StyledAddLocationButton';
+import { latlngType } from '../../../types';
+import DrawMarkerCreateLocation from './DrawMarkerWhenLocationCreate';
 
 interface Props {
   onOpenBigPopup: Function;
@@ -22,6 +25,7 @@ interface Props {
   isOpen: boolean;
   toggleIsAddLocation: Function;
   isAddLocationActive: boolean;
+  coordinate: latlngType;
 }
 
 function Map({
@@ -30,11 +34,12 @@ function Map({
   isOpen,
   toggleIsAddLocation,
   isAddLocationActive,
-  onOpenBigPopup
+  onOpenBigPopup,
+  coordinate
 }: Props) {
   const { t } = useTranslation();
-  const { data: isAuthorized } = useTypedSelector(
-    state => state.isUserAuthorized
+  const { isAuthorized } = useTypedSelector(
+    state => state.isUserAuthorized.data
   );
   const {
     bounds,
@@ -93,6 +98,7 @@ function Map({
               : `${t('map.addLocation')}`}
           </StyledAddLocationButton>
         )}
+        {isOpen && <DrawMarkerCreateLocation coordinate={coordinate} />}
       </StyledMapContainer>
     </StyledMapWrapper>
   );

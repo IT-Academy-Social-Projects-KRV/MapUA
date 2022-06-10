@@ -50,8 +50,8 @@ const PointPopup = () => {
 
   const {} = useTypedSelector(state => state);
 
-  const { data: isAuthorized } = useTypedSelector(
-    state => state.isUserAuthorized
+  const { isAuthorized } = useTypedSelector(
+    state => state.isUserAuthorized.data
   );
 
   const {
