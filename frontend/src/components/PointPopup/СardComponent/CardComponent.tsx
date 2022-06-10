@@ -1,4 +1,11 @@
-import { Avatar, IconButton, Typography, Box, TextField } from '@mui/material';
+import {
+  Avatar,
+  IconButton,
+  Typography,
+  Box,
+  TextField,
+  Badge
+} from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React, { FC, MouseEventHandler } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -22,8 +29,13 @@ export const CardComponent: FC<Props> = ({
   const { createdAt, author } = useTypedSelector(
     state => state.popupLocation.data
   );
-  const { _id } = useTypedSelector(state => state.userData.data);
-  // const { displayName } = useTypedSelector(state => state.userData.data);
+  const { _id, subscriptions } = useTypedSelector(state => state.userData.data);
+  const {
+    data: { _id: otherUserId }
+  } = useTypedSelector(state => state.otherUserData);
+
+  const isSubscribed = subscriptions.includes(otherUserId);
+
   const { t } = useTranslation();
 
   return (
@@ -31,12 +43,14 @@ export const CardComponent: FC<Props> = ({
       <Box>
         <StyledCardComponentBox>
           {t('pointPopUp.locationCreatedBy')}
-          <Link to={getPath(_id, author?._id)}>
-            <Avatar
-              aria-label="author"
-              src={(author && author.imageUrl) || userImageNotFound}
-            />
-          </Link>
+          <Badge color="secondary" variant="dot" invisible={!isSubscribed}>
+            <Link to={getPath(_id, author?._id)}>
+              <Avatar
+                aria-label="author"
+                src={(author && author.imageUrl) || userImageNotFound}
+              />
+            </Link>
+          </Badge>
           <Link to={getPath(_id, author?._id)}>
             {(author && author.displayName) || 'undefined'}
           </Link>

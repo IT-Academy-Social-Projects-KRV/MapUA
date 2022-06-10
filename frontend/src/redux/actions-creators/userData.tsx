@@ -81,7 +81,6 @@ export const toogleUserSubscription =
           subscriptionId: otherUserId
         }
       );
-      console.log('response: ', response);
       dispatch({
         type: UserDataActionTypes.UPDATE_USER_DATA_SUCCESS,
         payload: response.data

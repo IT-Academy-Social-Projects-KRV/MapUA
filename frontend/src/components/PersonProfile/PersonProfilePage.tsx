@@ -32,8 +32,6 @@ export default function PersonProfilePage() {
   const { fetchOtherUserData, toogleUserSubscription } = useTypedDispatch();
 
   const isSubscribed = subscriptions.includes(otherUserId);
-  console.log('subscriptions: ', subscriptions);
-  console.log('isSubscribed: ', isSubscribed);
 
   const params = useParams();
   useEffect(() => {
