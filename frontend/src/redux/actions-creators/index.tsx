@@ -22,6 +22,6 @@ export default {
   ...CreateLocationActionCreator,
   ...LocationCommentsActionCreators,
   ...SnackbarActionCreators,
-  ...updateLocationData
+  ...updateLocationData,
   ...OtherUserActionCreators
 };

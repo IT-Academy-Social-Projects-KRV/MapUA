@@ -161,28 +161,6 @@ const PointPopup = () => {
             />
 
             <Box>
-              <Controller
-                control={control}
-                name="locationName"
-                render={({ field }) => (
-                  <TextField
-                    placeholder={t('profile.profilePage.enterName')}
-                    label={t('profile.profilePage.name')}
-                    fullWidth
-                    onChange={field.onChange}
-                    onBlur={field.onBlur}
-                    defaultValue={locationName}
-                    type="text"
-                    error={!!errors.locationName?.message}
-                    helperText={t(
-                      !errors.locationName
-                        ? ''
-                        : String(errors.locationName.message)
-                    )}
-                  />
-                )}
-              />
-
               <Typography color="text.secondary" variant="h4" paddingX={5}>
                 {locationName}
               </Typography>

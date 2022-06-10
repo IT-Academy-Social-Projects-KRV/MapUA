@@ -6,7 +6,6 @@ import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { Controller } from 'react-hook-form';
 import { getPath } from 'utils/createPath';
 import { Link } from 'react-router-dom';
-import userImageNotFound from '../../../static/image-not-found.jpg';
 import { StyledCardComponentBox } from '../../design/StyledCardComponentBox';
 import userImageNotFound from '../../../static/image-not-found.jpg';
 

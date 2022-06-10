@@ -103,6 +103,7 @@ const LocationsController = {
       const imageUrls: string[] = [];
 
       Array.prototype.forEach.call(req.files, file => {
+        // update or not
         imageUrls.push(file.location);
       });
 
