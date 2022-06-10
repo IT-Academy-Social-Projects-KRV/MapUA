@@ -4,7 +4,7 @@ import User from '../models/UserModel';
 const SubscriptionsController = {
   async getSubscriptions(req: Request, res: Response) {
     try {
-      const _id = req.user;
+      const { _id } = req.user;
 
       const userData = await User.findById(_id, {
         subscriptions: true
