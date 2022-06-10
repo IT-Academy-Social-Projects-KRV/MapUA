@@ -32,7 +32,7 @@ type Props = {
   descriptiondescription: string;
   locationId: string;
 };
-type CreatingLocation = {
+type EditingLocation = {
   locationName: string;
   locationDescription: string;
   locationFilters: string[];
@@ -60,7 +60,7 @@ const EditLocation = ({
   //   selectedFilters
   // } = useTypedSelector(state => state.mapInfo);
 
-  const { handleSubmit, control, reset } = useForm<CreatingLocation>({
+  const { handleSubmit, control, reset } = useForm<EditingLocation>({
     mode: 'onBlur',
     resolver: yupResolver(CreatingLocationSchema)
   });
@@ -75,19 +75,17 @@ const EditLocation = ({
     setFilters(value);
   };
 
-  const onSubmit: SubmitHandler<CreatingLocation> = async ({
+  const onSubmit: SubmitHandler<EditingLocation> = async ({
     locationName,
     locationDescription
-    // locationFilters
   }) => {
     const formData = new FormData();
     formData.append('locationName', locationName);
     formData.append('description', locationDescription);
-    // formData.append('filters', String(locationFilters));
 
-    // for (let i = 0; i < files.length; i += 1) {
-    //   formData.append('image', files[i]);
-    // }
+    for (let i = 0; i < files.length; i += 1) {
+      formData.append('image', files[i]);
+    }
 
     updateLocationData(
       formData,
@@ -95,6 +93,8 @@ const EditLocation = ({
       locationId
     );
   };
+
+  console.log(locationId, 'locationId');
 
   const handleFilesChange = (e: any) => {
     const { files: filesLst } = e.currentTarget;
