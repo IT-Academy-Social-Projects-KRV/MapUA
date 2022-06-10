@@ -35,3 +35,16 @@ export const fetchComments =
       throw new Error(error);
     }
   };
+export const deleteComment =
+  (commentId: string) =>
+  async (dispatch: Dispatch<LocationCommentsActions>) => {
+    try {
+      await axios().delete(`comments/${commentId}`);
+      dispatch({
+        type: LocationCommentsActionTypes.DELETE_COMENTS,
+        payload: commentId
+      });
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  };
