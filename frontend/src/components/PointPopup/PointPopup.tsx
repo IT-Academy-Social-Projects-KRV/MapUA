@@ -17,7 +17,7 @@ import { IconsComponent } from './IconsComponent/IconsComponent';
 import { StyledPopupButtonsWrapper } from '../design/StyledPopupButtonsWrapper';
 import {
   Controller,
-  SubmitHandler,
+  // SubmitHandler,
   useForm,
   useFormState
 } from 'react-hook-form';
@@ -30,7 +30,9 @@ import {
 } from 'components/design/StyledProfile';
 import { useTranslation } from 'react-i18next';
 import { LocationForm } from '../../../types';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
+import EditLocation from '../EditLocation/EditLocation';
+
 // import { yupResolver } from '@hookform/resolvers/yup';
 // import { EditProfileSchema } from 'utils/validation';
 
@@ -42,8 +44,8 @@ const PointPopup = () => {
   const {
     updatePopupLocation,
     toggleVisitedField,
-    toggleFavoriteField,
-    updateLocationData
+    toggleFavoriteField
+    // updateLocationData
   } = useTypedDispatch();
 
   const {} = useTypedSelector(state => state);
@@ -64,8 +66,6 @@ const PointPopup = () => {
     description,
     arrayPhotos
   } = useTypedSelector(state => state.popupLocation.data);
-
-  // console.log(locationName, description, '>>>>>>>>>>>>>>>>>');
 
   const { handleSubmit, control, register } = useForm<LocationForm>({
     mode: 'onBlur',
@@ -113,43 +113,54 @@ const PointPopup = () => {
     return updatePopupLocation(locationId, { rating: updatedRating });
   };
 
-  const onSubmit: SubmitHandler<LocationForm> = async data => {
-    const formData = new FormData();
-    // if (userImage) {
-    //   formData.append('image', userImage);
-    // }
-    // formData.append('id', id);
-    formData.append('locationName', data.locationName);
-    formData.append('description', data.description);
+  // const onSubmit: SubmitHandler<LocationForm> = async data => {
+  //   console.log(true);
 
-    updateLocationData(
-      formData,
-      t('profile.profilePage.profilePageUpdatedSuccessfully')
-    );
-  };
+  //   const formData = new FormData();
+  //   // if (userImage) {
+  //   //   formData.append('image', userImage);
+  //   // }
+  //   // formData.append('id', id);
+  //   formData.append('locationName', data.locationName);
+  //   formData.append('description', data.description);
 
-  console.log(onSubmit, 'onSubmit');
+  //   console.log(true, 'true');
+
+  // //   updateLocationData(
+  // //     formData,
+  // //     t('profile.profilePage.profilePageUpdatedSuccessfully')
+  // //   );
+  // //   setShowEditPanel(false);
+  // // };
 
   const editData = () => {
     setShowEditPanel(true);
   };
+
   const closeEditData = () => {
     setShowEditPanel(false);
   };
 
   return (
-    <Box>
-      <Card>
-        <CardMedia
-          sx={{ p: 2 }}
-          component="img"
-          image={arrayPhotos[0]}
-          alt={locationName}
+    <>
+      {showEditPanel ? (
+        <EditLocation
+          locationNamelocationName={locationName}
+          closeEditData={closeEditData}
+          descriptiondescription={description}
+          locationId={locationId}
         />
-
+      ) : (
         <Box>
-          {showEditPanel ? (
-            <>
+          <Card>
+            <CardMedia
+              sx={{ p: 2 }}
+              component="img"
+              image={arrayPhotos[0]}
+              alt={locationName}
+            />
+
+            <Box>
               <Controller
                 control={control}
                 name="locationName"
@@ -171,63 +182,43 @@ const PointPopup = () => {
                   />
                 )}
               />
-              <SaveBox>
-                <Stack direction="row" spacing={2}>
-                  <SaveButton
-                    size="large"
-                    variant="contained"
-                    type="submit"
-                    onSubmit={handleSubmit(onSubmit)}
-                    onClick={closeEditData}
-                  >
-                    {t('profile.profilePage.save')}
-                  </SaveButton>
-                  <CancelButton
-                    size="large"
-                    variant="contained"
-                    onClick={closeEditData}
-                  >
-                    {t('profile.profilePage.cancel')}
-                  </CancelButton>
-                </Stack>
-              </SaveBox>
-            </>
-          ) : (
-            <Typography color="text.secondary" variant="h4" paddingX={5}>
-              {locationName}
-            </Typography>
-          )}
 
-          <EditButton size="large" variant="contained" onClick={editData}>
-            {t('profile.profilePage.editProfile')}
-          </EditButton>
+              <Typography color="text.secondary" variant="h4" paddingX={5}>
+                {locationName}
+              </Typography>
 
-          <StyledPopupButtonsWrapper>
-            <IconsComponent
-              handleRating={handleRating}
-              handleFavoriteClick={handleFavoriteClick}
-              locationIsFavorite={favorite.includes(locationId)}
-              locationIsVisited={visited.includes(locationId)}
-              handleVisitedClick={handleVisitedClick}
-            />
-          </StyledPopupButtonsWrapper>
+              <EditButton size="large" variant="contained" onClick={editData}>
+                {t('profile.profilePage.editProfile')}
+              </EditButton>
+
+              <StyledPopupButtonsWrapper>
+                <IconsComponent
+                  handleRating={handleRating}
+                  handleFavoriteClick={handleFavoriteClick}
+                  locationIsFavorite={favorite.includes(locationId)}
+                  locationIsVisited={visited.includes(locationId)}
+                  handleVisitedClick={handleVisitedClick}
+                />
+              </StyledPopupButtonsWrapper>
+            </Box>
+
+            <CardContent>
+              <CardComponent
+                description={description}
+                handleExpandClick={handleExpandClick}
+                expanded={expanded}
+                showEditPanel={showEditPanel}
+                control={control}
+                errors={errors}
+              />
+            </CardContent>
+            <Collapse in={expanded} timeout="auto" unmountOnExit>
+              <CommentSection />
+            </Collapse>
+          </Card>
         </Box>
-
-        <CardContent>
-          <CardComponent
-            description={description}
-            handleExpandClick={handleExpandClick}
-            expanded={expanded}
-            showEditPanel={showEditPanel}
-            control={control}
-            errors={errors}
-          />
-        </CardContent>
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <CommentSection />
-        </Collapse>
-      </Card>
-    </Box>
+      )}
+    </>
   );
 };
 export default PointPopup;

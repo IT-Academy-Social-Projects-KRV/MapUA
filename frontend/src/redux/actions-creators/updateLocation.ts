@@ -10,13 +10,13 @@ import {
 import axios from 'services/axios';
 
 export const updateLocationData =
-  (formData: FormData, notification: string) =>
+  (formData: FormData, notification: string, id: string) =>
   async (dispatch: Dispatch<LocationDataAction | SnackbarActions>) => {
     try {
       dispatch({ type: LocationDataActionTypes.UPDATE_LOCATION_DATA_LOADING });
 
       const response = await axios().patch(
-        `${process.env.REACT_APP_API_URI}locations`,
+        `${process.env.REACT_APP_API_URI}locations/${id}`,
         formData,
         {
           headers: {
@@ -24,6 +24,8 @@ export const updateLocationData =
           }
         }
       );
+
+      console.log(response, 'response');
 
       dispatch({
         type: LocationDataActionTypes.UPDATE_LOCATION_DATA_SUCCESS,
