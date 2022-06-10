@@ -16,6 +16,7 @@
     "location_already_exist": "Location already exist",
     "location_add_success": "Location added successfully",
     "update_location_success": "Location info was successfully changed",
+    "update_location_id_not_exist" : "The location author ID and author identifier do not match",
     "rate_location_success": "You successfully rated location",
     "toggle_favourite": "You successfully marked location as favourite",
     "toggle_visited": "You successfully marked location as visited"
