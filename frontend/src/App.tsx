@@ -11,6 +11,7 @@ import ComposeComponents from 'redux/components/ComposeComponents';
 import Profile from 'components/Profile/Profile';
 import Page404 from 'components/Page_404/Page404';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
+import PersonProfile from 'components/PersonProfile/PersonProfile';
 import { useTypedDispatch } from './redux/hooks/useTypedDispatch';
 import ExtendSnackbar from './components/ExtendSnackbar/ExtendSnackbar';
 
@@ -85,6 +86,7 @@ function App() {
         />
         <Route path="/test-redux-components" element={<ComposeComponents />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/profile/:id" element={<PersonProfile />} />
         <Route path="/*" element={<Page404 />} />
       </Routes>
       <Footer />

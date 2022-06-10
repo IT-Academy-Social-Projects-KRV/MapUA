@@ -28,7 +28,9 @@
       "subscribers": "Subscribers",
       "subscriptions": "Subscriptions",
       "enterDescription": "Please enter description",
-      "noDescription": "There is no description"
+      "noDescription": "There is no description",
+      "noSubscribers": "user has no subscribers",
+      "noSubscriptions": "user has no subscriptions"
     },
     "profile": {
       "loading": "Loading..."
@@ -143,7 +145,6 @@
     },
     "subscriptions": "Subscriptions"
   },
-
   "page404": {
     "Return to main page": "Return to main page"
   }

@@ -7,15 +7,17 @@ import {
   ListItemAvatar,
   Typography
 } from '@mui/material';
+import { Link } from 'react-router-dom';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
+import { useTypedSelector } from 'redux/hooks/useTypedSelector';
+import { getPath } from 'utils/createPath';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ReportIcon from '@mui/icons-material/Report';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { StyledCommentBox } from '../../design/StyledCommentBox';
-import { useTypedSelector } from '../../../redux/hooks/useTypedSelector';
 
 interface Props {
   authorId: string | undefined;
@@ -48,15 +50,19 @@ const Comment = ({
   return (
     <ListItem alignItems="flex-start" sx={{ display: 'block', pl: 0 }}>
       <ListItemAvatar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Link to={getPath(userId, authorId)}>
         <Box sx={{ display: 'flex' }}>
           <Avatar
             sx={{ mr: 2 }}
             alt="Comment's author avatar"
             src={authorsImage}
           />
+        </Link>
+        <Link to={getPath(userId, authorId)}>
           <Typography component="span" variant="h6" color="text.primary">
             {authorsName}
           </Typography>
+        </Link>
         </Box>
         <Box>
           <IconButton

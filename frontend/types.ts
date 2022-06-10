@@ -21,6 +21,7 @@ export type AuthorInfoType = {
   _id: string;
   imageUrl: string;
   displayName: string;
+  _id: string;
 };
 export type CommentType<T> = {
   _id?: string;

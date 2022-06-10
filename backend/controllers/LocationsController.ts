@@ -94,34 +94,41 @@ const LocationsController = {
       return res.status(500).json({ error: err.message });
     }
   },
-  async changeLocationInfo(req: Request, res: Response) {
-    try {
-      const { _id, fields } = req.body;
 
-      const location = await Location.findById(_id);
-      if (location) {
-        await Location.updateOne(
-          {
-            _id: _id
-          },
-          {
-            $set: fields.reduce(
-              (prev: any, curr: any) => ({
-                ...prev,
-                [curr.name]: curr.value
-              }),
-              {}
-            )
+  async changeLocationData(req: Request, res: Response) {
+    try {
+      let { id } = req.params;
+      let { locationName, description, filters } = req.body;
+
+      const imageUrls: string[] = [];
+
+      Array.prototype.forEach.call(req.files, file => {
+        imageUrls.push(file.location);
+      });
+
+      const newData = {
+        locationName: locationName,
+        description: description,
+        filters: filters,
+        arrayPhotos: imageUrls
+      };
+
+      const changedData = await Location.findByIdAndUpdate(
+        id,
+        {
+          $set: {
+            ...newData
           }
-        );
-        res
-          .status(200)
-          .json({ message: req.t('locations_list.update_location_success') });
-      } else {
-        res
-          .status(400)
-          .json({ error: req.t('locations_list.location_not_found') });
-      }
+        },
+        {
+          new: true
+        }
+      );
+
+      return res.status(200).json({
+        updatedData: changedData,
+        message: req.t('locations_list.update_location_success')
+      });
     } catch (err: any) {
       return res.status(500).json({ error: req.t('other.server_error'), err });
     }
