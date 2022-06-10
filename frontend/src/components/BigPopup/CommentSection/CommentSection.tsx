@@ -51,7 +51,6 @@ const CommentSection = () => {
               text={text}
               authorsImage={author.imageUrl}
               authorsName={author.displayName}
-              authorId={author._id}
             />
           )
         )}

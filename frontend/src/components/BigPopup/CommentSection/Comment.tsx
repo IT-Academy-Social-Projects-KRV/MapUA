@@ -50,19 +50,19 @@ const Comment = ({
   return (
     <ListItem alignItems="flex-start" sx={{ display: 'block', pl: 0 }}>
       <ListItemAvatar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Link to={getPath(userId, authorId)}>
         <Box sx={{ display: 'flex' }}>
-          <Avatar
-            sx={{ mr: 2 }}
-            alt="Comment's author avatar"
-            src={authorsImage}
-          />
-        </Link>
-        <Link to={getPath(userId, authorId)}>
-          <Typography component="span" variant="h6" color="text.primary">
-            {authorsName}
-          </Typography>
-        </Link>
+          <Link to={getPath(userId, authorId)}>
+            <Avatar
+              sx={{ mr: 2 }}
+              alt="Comment's author avatar"
+              src={authorsImage}
+            />
+          </Link>
+          <Link to={getPath(userId, authorId)}>
+            <Typography component="span" variant="h6" color="text.primary">
+              {authorsName}
+            </Typography>
+          </Link>
         </Box>
         <Box>
           <IconButton
