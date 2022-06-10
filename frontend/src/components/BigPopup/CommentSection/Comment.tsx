@@ -22,8 +22,12 @@ const Comment = ({ text, createdAt, authorsName, authorsImage }: Props) => {
 
   return (
     <ListItem alignItems="flex-start" sx={{ display: 'block', pl: 0 }}>
-      <ListItemAvatar>
-        <Avatar alt="Vasya" src={authorsImage} />
+      <ListItemAvatar sx={{ display: 'flex' }}>
+        <Avatar
+          sx={{ mr: 2 }}
+          alt="Comment's author avatar"
+          src={authorsImage}
+        />
         <Typography component="span" variant="h6" color="text.primary">
           {authorsName}
         </Typography>
