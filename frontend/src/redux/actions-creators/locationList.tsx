@@ -13,7 +13,7 @@ export const fetchLocations =
     bounds: boundsType,
     locationName?: string,
     filters?: string[],
-    authorizedFilters?: string[]
+    authFilters?: string[]
   ) =>
   async (dispatch: Dispatch<LocationListActions>) => {
     try {
@@ -26,9 +26,8 @@ export const fetchLocations =
       )}`;
       if (locationName) url += `&name=${locationName}`;
       if (filters) url += `&filters=${JSON.stringify(filters)}`;
-      if (authorizedFilters)
-        url += `&authorizedFilters=${JSON.stringify(authorizedFilters)}`;
-      // console.log('authorizedFilters222', authorizedFilters);
+      if (authFilters) url += `&authFilters=${JSON.stringify(authFilters)}`;
+      // console.log('url', url);
 
       const options = {
         headers: {

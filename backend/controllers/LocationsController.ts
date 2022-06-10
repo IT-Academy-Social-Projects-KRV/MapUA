@@ -8,8 +8,11 @@ const LocationsController = {
       const bounds = JSON.parse(req.query.bounds as string);
       const searchName = req.query.name as string;
       const filters = JSON.parse(req.query.filters as any);
-      const authorizedFilters = JSON.parse(req.query.authorizedFilters as any);
-      console.log('authorizedFilters', authorizedFilters);
+      const authFilters = JSON.parse(req.query.authFilters as any);
+      // console.log('bounds', bounds);
+      // console.log('searchName', searchName);
+      // console.log('filters', filters);
+      // console.log('authFilters', authFilters);
 
       let locations = (
         await Location.find({
@@ -24,7 +27,7 @@ const LocationsController = {
             $lt: bounds._northEast.lng
           }
           // },
-          //   { _id: authorizedFilters }
+          //   { _id: authFilters }
           // ]
         })
       ).map(l => ({
@@ -35,35 +38,29 @@ const LocationsController = {
         arrayPhotos: l.arrayPhotos,
         filters: l.filters
       }));
-      console.log('locations', locations);
+      // console.log('locations', locations);
 
       if (searchName) {
         locations = locations.filter(l => {
           return l.name.toLowerCase().startsWith(searchName.toLowerCase());
         });
       }
-      if (filters.length > 0) {
+
+      const personalFiltersNames = ['visited', 'favorites', 'personal'];
+      if (
+        filters.length > 0 &&
+        !personalFiltersNames.some(el => filters.includes(el))
+      ) {
         locations = locations.filter(l => {
-          console.log('l.filters', [...l.filters]);
           return [...l.filters].some(el => filters.includes(el));
         });
       }
-      // if (authorizedFilters.length > 0) {
-      // console.log('aaa', locations);
-      // locations = locations.forEach(l => {
-      //   console.log(l._id);
-      // });
-      // // locations = locations.filter(
-      //   l => {
-      //     console.log('l', l);
-      //     return l;
-      //   }
-      // l._id.some(el => authorizedFilters.includes(el))
-      // );
-      // console.log('aaa', locations);
-      // console.log(locations);
-      // }
-      else {
+      if (authFilters.length > 0) {
+        locations = locations.filter(l => {
+          return [l._id.toHexString()].some(el => authFilters.includes(el));
+        });
+        // console.log('aaa', locations);
+      } else {
         locations = locations.slice(
           0,
           locations.length < 50 ? locations.length : 50
@@ -187,6 +184,11 @@ const LocationsController = {
           author: _id
         });
         await userLocation.save();
+
+        await userData.updateOne({
+          $push: { personalLocations: userLocation._id.toString() }
+        });
+
         return res
           .status(200)
           .json({ message: req.t('locations_list.location_add_success') });

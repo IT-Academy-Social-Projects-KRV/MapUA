@@ -45,9 +45,10 @@ function Map({
   } = useTypedSelector(state => state.mapInfo);
   console.log('selectedFilters', selectedFilters);
 
-  const { favorite, visited, personalLocations } = useTypedSelector(
-    state => state.userData.data
-  );
+  const { favorite, visited, personalLocations, subscriptions } =
+    useTypedSelector(state => state.userData.data);
+  console.log('subscriptions', subscriptions);
+
   let authorizedFilters: string[] = [];
   useEffect(() => {
     if (selectedFilters.includes('favorites')) {
@@ -56,14 +57,11 @@ function Map({
     if (selectedFilters.includes('visited')) {
       authorizedFilters = [...authorizedFilters, ...visited];
     }
-    // if (selectedFilters.includes('personalLocations')) {
-    //   authorizedFilters = [...personalLocations];
-    // }
+    if (selectedFilters.includes('personal')) {
+      authorizedFilters = [...authorizedFilters, ...personalLocations];
+    }
     console.log('authorizedFilters', authorizedFilters);
-  }, [selectedFilters]);
-
-  // const authorizedFilters = [...favorite, ...visited, ...personalLocations];
-  // console.log('authorizedFilters', authorizedFilters);
+  }, [selectedFilters, bounds]);
 
   const formRef = React.useRef<any>(null);
   const [, SetCoordinateByClick] = useState<any>({});

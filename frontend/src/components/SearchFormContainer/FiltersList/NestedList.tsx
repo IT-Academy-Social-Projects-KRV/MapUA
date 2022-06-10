@@ -47,6 +47,7 @@ export default function NestedList() {
   }, [subscriptions, isAuthorized, currentLanguage]);
 
   const filters = useTypedSelector(state => state.filtersList.filters);
+
   const AddSelectedFiltersUaLogic = (selectedValue: string) => {
     if (selectedFiltersUa.some(f => f === selectedValue)) {
       setSelectedFiltersUa(selectedFiltersUa.filter(f => f !== selectedValue));
@@ -54,6 +55,7 @@ export default function NestedList() {
       setSelectedFiltersUa([...selectedFiltersUa, selectedValue]);
     }
   };
+
   const OnChange = (selectedValue: string, filterId: number, index: number) => {
     let value: string = selectedValue;
     if (currentLanguage === 'ua') {
@@ -70,6 +72,7 @@ export default function NestedList() {
     } else {
       setFilters([...selectedFilters, value]);
     }
+    console.log('value', value);
   };
 
   const OnChaked = (nestedFilter: any) => {
