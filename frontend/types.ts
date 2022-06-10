@@ -18,6 +18,7 @@ export type isUserAuthorizedType = {
   role: string | null;
 };
 export type AuthorInfoType = {
+  _id: string;
   imageUrl: string;
   displayName: string;
 };
