@@ -78,6 +78,13 @@ router.post(
 );
 router.get('/comments/:locationId', CommentsController.getLocationComments);
 
+router.patch(
+  '/comments/:id',
+  CommentSchema,
+  validateRequest,
+  CommentsController.editLocationComment
+);
+
 router.get(
   '/signin-google',
   passport.authenticate('google', { scope: ['email', 'profile'] })
