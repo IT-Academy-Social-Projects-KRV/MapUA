@@ -109,13 +109,6 @@ router.patch(
   UserController.changeUserData
 );
 
-router.patch(
-  '/tooglesubscribe',
-  // userDataSchema,
-  // validateRequest,
-  UserController.toogleSubscription
-);
-
 router.get('/is-authenticated', AuthController.checkJwt);
 
 router.put(
