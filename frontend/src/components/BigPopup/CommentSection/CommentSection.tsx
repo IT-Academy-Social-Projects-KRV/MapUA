@@ -15,8 +15,8 @@ const CommentSection = () => {
   );
   const { comments } = useTypedSelector(state => state.locationComments);
   const { fetchComments } = useTypedDispatch();
-  const { data: isAuthorized } = useTypedSelector(
-    state => state.isUserAuthorized
+  const { isAuthorized } = useTypedSelector(
+    state => state.isUserAuthorized.data
   );
 
   useEffect(() => {
@@ -46,11 +46,11 @@ const CommentSection = () => {
           }: CommentType<AuthorInfoType>) => (
             <Comment
               key={commentId}
+              authorId={author._id}
               createdAt={createdAt!}
               text={text}
               authorsImage={author.imageUrl}
               authorsName={author.displayName}
-              authorId={author._id}
             />
           )
         )}

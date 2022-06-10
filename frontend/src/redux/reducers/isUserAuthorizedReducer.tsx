@@ -7,7 +7,10 @@ import { isUserAuthorizedStateType } from '../ts-types';
 const initialState: isUserAuthorizedStateType = {
   loading: true,
   error: null,
-  data: false,
+  data: {
+    isAuthorized: false,
+    role: null
+  },
   success: false
 };
 
@@ -20,28 +23,40 @@ export const isUserAuthorizedReducer = (
       return {
         loading: true,
         error: null,
-        data: false,
+        data: {
+          isAuthorized: false,
+          role: null
+        },
         success: false
       };
     case IsUserAuthorizedActionTypes.LOGIN_USER_SUCCESS:
       return {
         loading: false,
         error: null,
-        data: true,
+        data: {
+          isAuthorized: true,
+          role: action.payload
+        },
         success: true
       };
     case IsUserAuthorizedActionTypes.LOGIN_USER_ERROR:
       return {
         loading: false,
         error: 'error has occurred on login', // todo add translation
-        data: false,
+        data: {
+          isAuthorized: false,
+          role: null
+        },
         success: false
       };
     case IsUserAuthorizedActionTypes.LOGOUT_USER:
       return {
         loading: false,
         error: null,
-        data: false,
+        data: {
+          isAuthorized: false,
+          role: null
+        },
         success: false
       };
 
@@ -55,14 +70,20 @@ export const isUserAuthorizedReducer = (
       return {
         ...state,
         loading: false,
-        data: true,
+        data: {
+          isAuthorized: true,
+          role: action.payload
+        },
         success: true
       };
     case IsUserAuthorizedActionTypes.CHECK_USER_TOKEN_ERROR:
       return {
         loading: false,
         error: action.payload,
-        data: false,
+        data: {
+          isAuthorized: false,
+          role: null
+        },
         success: false
       };
     default:

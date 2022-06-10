@@ -33,8 +33,8 @@ function Map({
   onOpenBigPopup
 }: Props) {
   const { t } = useTranslation();
-  const { data: isAuthorized } = useTypedSelector(
-    state => state.isUserAuthorized
+  const { isAuthorized } = useTypedSelector(
+    state => state.isUserAuthorized.data
   );
   const {
     bounds,

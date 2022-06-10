@@ -14,7 +14,6 @@ export const upload = multer({
     }),
     bucket: 'mapua-storage',
     key: (_, file, cb) => {
-      console.log(file);
       cb(null, `files/${Date.now().toString()}-${file.originalname}`);
     }
   }),
