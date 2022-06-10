@@ -7,7 +7,7 @@ const jwtStrategy = new JWTstrategy(
   },
   async (token, done) => {
     try {
-      return done(null, token._id);
+      return done(null, { _id: token._id, role: token.role });
     } catch (error) {
       done(error);
     }

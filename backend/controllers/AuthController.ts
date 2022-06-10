@@ -147,7 +147,7 @@ const AuthController = {
 };
 
 function _tokenGeneration(user: IUser) {
-  const body = { _id: user._id, email: user.email };
+  const body = { _id: user._id, email: user.email, role: user.role };
   const token = tokenGenerator.accessToken(body);
 
   return token;

@@ -155,7 +155,7 @@ const LocationsController = {
           imageUrls.push(file.location);
         });
 
-        const _id = req.user;
+        const { _id } = req.user;
         const userData = await User.findById(_id);
         if (!userData) {
           return res.status(400).json({ error: req.t('auth.user_not_exist') });
