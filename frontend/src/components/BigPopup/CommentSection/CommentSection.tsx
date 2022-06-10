@@ -15,8 +15,8 @@ const CommentSection = () => {
   );
   const { comments } = useTypedSelector(state => state.locationComments);
   const { fetchComments } = useTypedDispatch();
-  const { data: isAuthorized } = useTypedSelector(
-    state => state.isUserAuthorized
+  const { isAuthorized } = useTypedSelector(
+    state => state.isUserAuthorized.data
   );
 
   useEffect(() => {

@@ -54,9 +54,10 @@ function Login() {
 
   const { t } = useTranslation();
 
-  const { data: isAuthorized, error } = useTypedSelector(
-    state => state.isUserAuthorized
-  );
+  const {
+    data: { isAuthorized },
+    error
+  } = useTypedSelector(state => state.isUserAuthorized);
   useEffect(() => {
     if (error && typeof error === 'string') {
       SetErrorSnackbar(error);
@@ -72,8 +73,9 @@ function Login() {
   useEffect(() => {
     if (location.search.includes('oauth=1')) {
       const accessToken = Cookies.get('accessToken') || '';
-      const userId = Cookies.get('userId') || '';
-      loginOAuth(accessToken, userId);
+      // const userId = Cookies.get('userId') || '';
+      // loginOAuth(accessToken, userId);
+      loginOAuth(accessToken);
     }
   }, []);
 

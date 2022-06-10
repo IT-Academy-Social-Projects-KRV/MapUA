@@ -30,8 +30,8 @@ function App() {
     ResetSnackbar();
   };
 
-  const { data: isAuthorized } = useTypedSelector(
-    state => state.isUserAuthorized
+  const { isAuthorized } = useTypedSelector(
+    state => state.isUserAuthorized.data
   );
   const { checkIsUserAuthorized, fetchUserData } = useTypedDispatch();
 

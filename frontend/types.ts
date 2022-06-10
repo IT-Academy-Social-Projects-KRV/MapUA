@@ -13,7 +13,10 @@ export type boundsType = {
     lng: number;
   };
 };
-
+export type isUserAuthorizedType = {
+  isAuthorized: boolean;
+  role: string | null;
+};
 export type AuthorInfoType = {
   imageUrl: string;
   displayName: string;
