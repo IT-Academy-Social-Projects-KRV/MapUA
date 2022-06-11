@@ -32,8 +32,8 @@ const PointPopup = () => {
   const { updatePopupLocation, toggleVisitedField, toggleFavoriteField } =
     useTypedDispatch();
 
-  const { data: isAuthorized } = useTypedSelector(
-    state => state.isUserAuthorized
+  const { isAuthorized } = useTypedSelector(
+    state => state.isUserAuthorized.data
   );
 
   const {

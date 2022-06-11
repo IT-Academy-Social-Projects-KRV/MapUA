@@ -14,6 +14,7 @@ interface LoginUserLoadingAction {
 }
 interface LoginUserSuccessAction {
   type: IsUserAuthorizedActionTypes.LOGIN_USER_SUCCESS;
+  payload: string;
 }
 interface LoginUserErrorAction {
   type: IsUserAuthorizedActionTypes.LOGIN_USER_ERROR;
@@ -25,6 +26,7 @@ interface CheckUserTokenLoadingAction {
 }
 interface CheckUserTokenSuccessAction {
   type: IsUserAuthorizedActionTypes.CHECK_USER_TOKEN_SUCCESS;
+  payload: string;
 }
 interface CheckUserTokenErrorAction {
   type: IsUserAuthorizedActionTypes.CHECK_USER_TOKEN_ERROR;
