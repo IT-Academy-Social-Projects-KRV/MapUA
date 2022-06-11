@@ -6,8 +6,6 @@ import {
   CardContent,
   CardMedia,
   Collapse,
-  Stack,
-  TextField,
   Typography
 } from '@mui/material';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
@@ -15,19 +13,9 @@ import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { CardComponent } from './СardComponent/CardComponent';
 import { IconsComponent } from './IconsComponent/IconsComponent';
 import { StyledPopupButtonsWrapper } from '../design/StyledPopupButtonsWrapper';
-import {
-  Controller,
-  // SubmitHandler,
-  useForm,
-  useFormState
-} from 'react-hook-form';
+import { useForm, useFormState } from 'react-hook-form';
 
-import {
-  CancelButton,
-  EditButton,
-  SaveBox,
-  SaveButton
-} from 'components/design/StyledProfile';
+import { EditButton } from 'components/design/StyledProfile';
 import { useTranslation } from 'react-i18next';
 import { LocationForm } from '../../../types';
 // import { useDispatch } from 'react-redux';
@@ -41,14 +29,8 @@ const PointPopup = () => {
   const [showEditPanel, setShowEditPanel] = useState(false);
   const [expanded, setExpanded] = useState(false);
 
-  const {
-    updatePopupLocation,
-    toggleVisitedField,
-    toggleFavoriteField
-    // updateLocationData
-  } = useTypedDispatch();
-
-  const {} = useTypedSelector(state => state);
+  const { updatePopupLocation, toggleVisitedField, toggleFavoriteField } =
+    useTypedDispatch();
 
   const { data: isAuthorized } = useTypedSelector(
     state => state.isUserAuthorized
@@ -72,7 +54,7 @@ const PointPopup = () => {
     arrayPhotos
   } = useTypedSelector(state => state.popupLocation.data);
 
-  const { handleSubmit, control, register } = useForm<LocationForm>({
+  const { control } = useForm<LocationForm>({
     mode: 'onBlur',
     defaultValues: { locationName, description }
     // resolver: yupResolver(EditProfileSchema)
@@ -118,27 +100,6 @@ const PointPopup = () => {
 
     return updatePopupLocation(locationId, { rating: updatedRating });
   };
-
-  // const onSubmit: SubmitHandler<LocationForm> = async data => {
-  //   console.log(true);
-
-  //   const formData = new FormData();
-  //   // if (userImage) {
-  //   //   formData.append('image', userImage);
-  //   // }
-  //   // formData.append('id', id);
-  //   formData.append('locationName', data.locationName);
-  //   formData.append('description', data.description);
-
-  //   console.log(true, 'true');
-
-  // //   updateLocationData(
-  // //     formData,
-  // //     t('profile.profilePage.profilePageUpdatedSuccessfully')
-  // //   );
-  // //   setShowEditPanel(false);
-  // // };
-  // locationAuthorId?._id === userId
 
   const editData = () => {
     setShowEditPanel(true);
@@ -208,4 +169,5 @@ const PointPopup = () => {
     </>
   );
 };
+
 export default PointPopup;

@@ -1,14 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import UploadInput from 'components/design/UploadInputCreateLocation';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTranslation } from 'react-i18next';
-import {
-  Typography,
-  Button,
-  Autocomplete,
-  TextField,
-  Stack
-} from '@mui/material';
+import { Typography, TextField, Stack } from '@mui/material';
 import {
   Controller,
   useForm,
@@ -16,10 +10,8 @@ import {
   useFormState
 } from 'react-hook-form';
 import { CreatingLocationSchema } from 'utils/validation';
-import { getFiltersForUser } from '../../static/mainFIlters';
-import { useTypedSelector } from '../../redux/hooks/useTypedSelector';
-import { useTypedDispatch } from '../../redux/hooks/useTypedDispatch';
 import { StyledCreateLocationWrapper } from '../design/StyledCreateLocationWrapper';
+import { useTypedDispatch } from '../../redux/hooks/useTypedDispatch';
 import {
   CancelButton,
   SaveBox,
@@ -45,14 +37,13 @@ const EditLocation = ({
   locationId
 }: Props) => {
   const [files, setFiles] = useState<File[]>([]);
-  const [filters, setFilters] = useState('');
   const [locationImageName, setLocationImageName] = useState<string>('');
 
   const { t } = useTranslation();
 
   const { updateLocationData } = useTypedDispatch();
 
-  const { handleSubmit, control, reset } = useForm<EditingLocation>({
+  const { handleSubmit, control } = useForm<EditingLocation>({
     mode: 'onBlur',
     resolver: yupResolver(CreatingLocationSchema)
   });
@@ -60,12 +51,6 @@ const EditLocation = ({
   const { errors } = useFormState({
     control
   });
-
-  console.log(locationNamelocationName, 'locationNamelocationName');
-
-  const onChangeAutocomplete = (e: any, value: any) => {
-    setFilters(value);
-  };
 
   const onSubmit: SubmitHandler<EditingLocation> = async ({
     locationName,
@@ -85,8 +70,6 @@ const EditLocation = ({
       locationId
     );
   };
-
-  console.log(locationId, 'locationId');
 
   const handleFilesChange = (e: any) => {
     const { files: filesLst } = e.currentTarget;
