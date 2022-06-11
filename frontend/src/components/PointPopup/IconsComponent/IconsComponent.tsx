@@ -1,5 +1,5 @@
-import { IconButton } from '@mui/material';
 import React, { FC, MouseEventHandler } from 'react';
+import { IconButton, ListItemIcon, ListItemText } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
@@ -117,10 +117,10 @@ export const IconsComponent: FC<Props> = ({
         }}
       >
         <MenuItem onClick={handleClose}>
-          <IconButton size="small" onClick={() => null}>
-            <ReportIcon />
-            Report
-          </IconButton>
+          <ListItemIcon onClick={() => null}>
+            <ReportIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Report</ListItemText>
         </MenuItem>
         {((author && author._id === userId) ||
           role === 'moderator' ||

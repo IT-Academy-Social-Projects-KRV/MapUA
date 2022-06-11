@@ -1,22 +1,31 @@
-import React from 'react';
+import React, { useState, MouseEvent } from 'react';
 import {
   Avatar,
   Box,
   IconButton,
   ListItem,
   ListItemAvatar,
-  Typography
+  Typography,
+  ListItemIcon,
+  ListItemText
 } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
+import { useTranslation } from 'react-i18next';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { getPath } from 'utils/createPath';
+import { useForm, SubmitHandler, useFormState } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ReportIcon from '@mui/icons-material/Report';
+import EditIcon from '@mui/icons-material/Edit';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import { CommentSectionSchema } from 'utils/validation';
+import EditCommentField from './EditCommentField';
 import { StyledCommentBox } from '../../design/StyledCommentBox';
 
 interface Props {
@@ -25,26 +34,74 @@ interface Props {
   createdAt: Date;
   authorsName: string;
   authorsImage: string;
+  id: string | undefined;
+  locationId: string;
+  likes: string[];
+  dislikes: string[];
 }
+
+type CommentCheck = {
+  commentText: string;
+};
 
 const Comment = ({
   authorId,
   text,
   createdAt,
   authorsName,
-  authorsImage
+  authorsImage,
+  id,
+  locationId,
+  likes,
+  dislikes
 }: Props) => {
   const date = new Date(createdAt);
+  const { t } = useTranslation();
+  const [showEditComment, setShowEditComment] = useState(false);
   const { _id: userId } = useTypedSelector(state => state.userData.data);
   const { role } = useTypedSelector(state => state.isUserAuthorized.data);
-
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const { editComment } = useTypedDispatch();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const { handleSubmit, control } = useForm<CommentCheck>({
+    mode: 'onBlur',
+    resolver: yupResolver(CommentSectionSchema)
+  });
+
+  const { errors } = useFormState({
+    control
+  });
+
+  const handleEditComment = () => {
+    setShowEditComment(true);
+    handleClose();
+  };
+
+  const closeEditData = () => {
+    setShowEditComment(false);
+  };
+
+  const onSubmit: SubmitHandler<CommentCheck> = data => {
+    const comment = {
+      text: data.commentText,
+      author: authorId,
+      locationId,
+      likes,
+      dislikes
+    };
+
+    editComment(comment, id);
+
+    closeEditData();
   };
 
   return (
@@ -86,25 +143,47 @@ const Comment = ({
             }}
           >
             <MenuItem onClick={handleClose}>
-              <IconButton size="small" onClick={() => null}>
-                <ReportIcon />
-                Report
-              </IconButton>
+              <ListItemIcon onClick={() => null}>
+                <ReportIcon fontSize="small" />
+              </ListItemIcon>
+              <ListItemText>Report</ListItemText>
             </MenuItem>
             {((authorId && authorId === userId) ||
               role === 'moderator' ||
               role === 'admin') && (
-              <MenuItem onClick={handleClose}>
-                <IconButton size="small" onClick={() => null}>
-                  <DeleteIcon />
-                  Delete
-                </IconButton>
-              </MenuItem>
+              <>
+                <MenuItem onClick={handleClose}>
+                  <ListItemIcon onClick={() => null}>
+                    <DeleteIcon fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText>Delete</ListItemText>
+                </MenuItem>
+                <MenuItem onClick={handleEditComment}>
+                  <ListItemIcon>
+                    <EditIcon fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText>
+                    {t('profile.profilePage.editComment')}
+                  </ListItemText>
+                </MenuItem>
+              </>
             )}
           </Menu>
         </Box>
       </ListItemAvatar>
-      <Typography variant="subtitle1">{text}</Typography>
+      {showEditComment ? (
+        <EditCommentField
+          errors={errors}
+          onSubmit={onSubmit}
+          handleSubmit={handleSubmit}
+          control={control}
+          text={text}
+          closeEditData={closeEditData}
+          name=""
+        />
+      ) : (
+        <Typography variant="subtitle1">{text}</Typography>
+      )}
       <StyledCommentBox>
         <Typography variant="subtitle2">{date.toLocaleDateString()}</Typography>
         <IconButton>
