@@ -10,17 +10,17 @@ import {
 } from '@mui/material';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
+import { useForm, useFormState } from 'react-hook-form';
+import { EditButton } from 'components/design/StyledProfile';
+import { useTranslation } from 'react-i18next';
 import { CardComponent } from './СardComponent/CardComponent';
 import { IconsComponent } from './IconsComponent/IconsComponent';
 import { StyledPopupButtonsWrapper } from '../design/StyledPopupButtonsWrapper';
-import { useForm, useFormState } from 'react-hook-form';
 
-import { EditButton } from 'components/design/StyledProfile';
-import { useTranslation } from 'react-i18next';
 import { LocationForm } from '../../../types';
-// import { useDispatch } from 'react-redux';
 import EditLocation from '../EditLocation/EditLocation';
 
+// import { useDispatch } from 'react-redux';
 // import { yupResolver } from '@hookform/resolvers/yup';
 // import { EditProfileSchema } from 'utils/validation';
 

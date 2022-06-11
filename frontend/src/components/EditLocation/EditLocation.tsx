@@ -10,13 +10,13 @@ import {
   useFormState
 } from 'react-hook-form';
 import { CreatingLocationSchema } from 'utils/validation';
-import { StyledCreateLocationWrapper } from '../design/StyledCreateLocationWrapper';
-import { useTypedDispatch } from '../../redux/hooks/useTypedDispatch';
 import {
   CancelButton,
   SaveBox,
   SaveButton
 } from 'components/design/StyledProfile';
+import { StyledCreateLocationWrapper } from '../design/StyledCreateLocationWrapper';
+import { useTypedDispatch } from '../../redux/hooks/useTypedDispatch';
 
 type Props = {
   locationNamelocationName: string;
