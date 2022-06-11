@@ -39,7 +39,7 @@ export const deleteComment =
   (commentId: string) =>
   async (dispatch: Dispatch<LocationCommentsActions>) => {
     try {
-      await axios().delete(`comments/${commentId}`);
+      await axios().delete(`deletecomment/${commentId}`);
       dispatch({
         type: LocationCommentsActionTypes.DELETE_COMENTS,
         payload: commentId
