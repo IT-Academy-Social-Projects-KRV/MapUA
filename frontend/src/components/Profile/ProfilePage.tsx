@@ -22,7 +22,7 @@ import {
   ProfileUserWrapper,
   SaveBox,
   UploadBox,
-  EditButton,
+  SubscribeButton,
   TypographyDate
 } from '../design/StyledProfile';
 import BasicTabs from './BasicTabs';
@@ -138,9 +138,13 @@ export default function ProfilePage() {
                   : displayName}
               </Typography>
 
-              <EditButton size="large" variant="contained" onClick={editData}>
+              <SubscribeButton
+                size="large"
+                variant="contained"
+                onClick={editData}
+              >
                 {t('profile.profilePage.editProfile')}
-              </EditButton>
+              </SubscribeButton>
             </UploadBox>
           )}
 

@@ -114,7 +114,7 @@ export default function BasicTabs({
       <TabPanel value={value} index={2}>
         {userDescription.data.subscriptions.length > 0
           ? userDescription.data.subscriptions
-          : `${t('profile.basicTabs.noSubscribers')}`}
+          : `${t('profile.basicTabs.noSubscriptions')}`}
       </TabPanel>
     </Box>
   );

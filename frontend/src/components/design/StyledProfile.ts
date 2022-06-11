@@ -59,7 +59,7 @@ export const SaveBox = styled(Box)`
   justify-content: center;
   margin: 2vh auto;
 `;
-export const EditButton = styled(Button)`
+export const SubscribeButton = styled(Button)`
   margin: 2vh auto;
 `;
 export const SubsrcibeButton = styled(Button)`
