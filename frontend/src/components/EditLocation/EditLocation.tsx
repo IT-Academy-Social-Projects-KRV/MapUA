@@ -130,6 +130,13 @@ const EditLocation = ({
             />
           )}
         />
+
+        <UploadInput
+          handleFilesChange={handleFilesChange}
+          setlocationImageName={setLocationImageName}
+          locationImageName={locationImageName}
+        />
+
         <SaveBox>
           <Stack direction="row" spacing={2}>
             <SaveButton size="large" variant="contained" type="submit">
@@ -144,12 +151,6 @@ const EditLocation = ({
             </CancelButton>
           </Stack>
         </SaveBox>
-
-        <UploadInput
-          handleFilesChange={handleFilesChange}
-          setlocationImageName={setLocationImageName}
-          locationImageName={locationImageName}
-        />
       </Stack>
     </StyledCreateLocationWrapper>
   );

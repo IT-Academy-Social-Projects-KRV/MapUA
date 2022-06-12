@@ -133,11 +133,11 @@ const PointPopup = () => {
                 {locationName}
               </Typography>
 
-              {locationAuthorId?._id === userId && (
+              {/* {locationAuthorId?._id === userId && (
                 <EditButton size="large" variant="contained" onClick={editData}>
                   {t('createLocation.editLocation')}
                 </EditButton>
-              )}
+              )} */}
 
               <StyledPopupButtonsWrapper>
                 <IconsComponent
@@ -146,6 +146,8 @@ const PointPopup = () => {
                   locationIsFavorite={favorite.includes(locationId)}
                   locationIsVisited={visited.includes(locationId)}
                   handleVisitedClick={handleVisitedClick}
+                  editData={editData}
+                  locationAuthorId={locationAuthorId}
                 />
               </StyledPopupButtonsWrapper>
             </Box>

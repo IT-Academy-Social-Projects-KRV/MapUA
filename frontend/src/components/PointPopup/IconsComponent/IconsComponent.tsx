@@ -16,6 +16,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTranslation } from 'react-i18next';
 import ReportIcon from '@mui/icons-material/Report';
+import { EditButton } from 'components/design/StyledProfile';
+import EditIcon from '@mui/icons-material/Edit';
 
 type Props = {
   handleRating: Function;
@@ -23,6 +25,8 @@ type Props = {
   handleVisitedClick: MouseEventHandler<HTMLButtonElement>;
   locationIsFavorite: boolean | '' | undefined;
   locationIsVisited: boolean | '' | undefined;
+  editData: any;
+  locationAuthorId: any;
 };
 
 export const IconsComponent: FC<Props> = ({
@@ -30,7 +34,9 @@ export const IconsComponent: FC<Props> = ({
   handleFavoriteClick,
   locationIsFavorite,
   locationIsVisited,
-  handleVisitedClick
+  handleVisitedClick,
+  editData,
+  locationAuthorId
 }) => {
   const { t } = useTranslation();
 
@@ -132,6 +138,14 @@ export const IconsComponent: FC<Props> = ({
             </IconButton>
           </MenuItem>
         )}
+        <MenuItem onClick={handleClose}>
+          {locationAuthorId?._id === userId && (
+            <IconButton size="small" onClick={editData}>
+              <EditIcon />
+              {t('createLocation.editLocation')}
+            </IconButton>
+          )}
+        </MenuItem>
       </Menu>
     </>
   );
