@@ -1,8 +1,17 @@
-import { Avatar, IconButton, Typography, Box, TextField } from '@mui/material';
+import {
+  Avatar,
+  IconButton,
+  Typography,
+  Box,
+  TextField,
+  Badge
+} from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React, { FC, MouseEventHandler } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
+import { getPath } from 'utils/createPath';
+import { Link } from 'react-router-dom';
 import userImageNotFound from '../../../static/image-not-found.jpg';
 import { StyledCardComponentBox } from '../../design/StyledCardComponentBox';
 
@@ -20,7 +29,12 @@ export const CardComponent: FC<Props> = ({
   const { createdAt, author } = useTypedSelector(
     state => state.popupLocation.data
   );
-  // const { displayName } = useTypedSelector(state => state.userData.data);
+  const { _id, subscriptions } = useTypedSelector(state => state.userData.data);
+  const {
+    data: { _id: otherUserId }
+  } = useTypedSelector(state => state.otherUserData);
+
+  const isSubscribed = subscriptions.includes(otherUserId);
   const { t } = useTranslation();
 
   return (
@@ -28,12 +42,17 @@ export const CardComponent: FC<Props> = ({
       <Box>
         <StyledCardComponentBox>
           {t('pointPopUp.locationCreatedBy')}
-          <Avatar
-            aria-label="author"
-            src={(author && author.imageUrl) || userImageNotFound}
-          />
-
-          {(author && author.displayName) || 'undefined'}
+          <Badge color="secondary" variant="dot" invisible={!isSubscribed}>
+            <Link to={getPath(_id, author?._id)}>
+              <Avatar
+                aria-label="author"
+                src={(author && author.imageUrl) || userImageNotFound}
+              />
+            </Link>
+          </Badge>
+          <Link to={getPath(_id, author?._id)}>
+            {(author && author.displayName) || 'undefined'}
+          </Link>
 
           <Typography>{createdAt.toLocaleDateString()}</Typography>
         </StyledCardComponentBox>
@@ -42,7 +61,7 @@ export const CardComponent: FC<Props> = ({
           disabled
           multiline
           fullWidth
-          minRows={2}
+          rows={4}
           defaultValue={description}
         />
       </Box>

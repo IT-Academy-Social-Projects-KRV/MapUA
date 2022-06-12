@@ -56,11 +56,6 @@ export const updateUserData =
         type: SnackbarActionsType.SET_SUCCESS,
         payload: notification
       });
-      setTimeout(() => {
-        dispatch({
-          type: SnackbarActionsType.RESET_SNACKBAR
-        });
-      }, 3000);
     } catch (error: any) {
       dispatch({
         type: UserDataActionTypes.UPDATE_USER_DATA_ERROR,
@@ -70,11 +65,39 @@ export const updateUserData =
         type: SnackbarActionsType.SET_ERROR,
         payload: error.response.data?.error || 'lost network'
       });
-      setTimeout(() => {
-        dispatch({
-          type: SnackbarActionsType.RESET_SNACKBAR
-        });
-      }, 3000);
+      throw new Error(error);
+    }
+  };
+
+export const toogleUserSubscription =
+  (otherUserId: string, userId: string, notification: string) =>
+  async (dispatch: Dispatch<UserDataAction | SnackbarActions>) => {
+    try {
+      dispatch({ type: UserDataActionTypes.UPDATE_USER_DATA_LOADING });
+      const response = await axios().patch(
+        `${process.env.REACT_APP_API_URI}subscriptions`,
+        {
+          userId,
+          subscriptionId: otherUserId
+        }
+      );
+      dispatch({
+        type: UserDataActionTypes.UPDATE_USER_DATA_SUCCESS,
+        payload: response.data
+      });
+      dispatch({
+        type: SnackbarActionsType.SET_SUCCESS,
+        payload: notification
+      });
+    } catch (error: any) {
+      dispatch({
+        type: UserDataActionTypes.UPDATE_USER_DATA_ERROR,
+        payload: error.response.data?.error || 'lost network'
+      });
+      dispatch({
+        type: SnackbarActionsType.SET_ERROR,
+        payload: error.response.data?.error || 'lost network'
+      });
       throw new Error(error);
     }
   };

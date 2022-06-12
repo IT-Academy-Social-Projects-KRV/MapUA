@@ -2,7 +2,8 @@
 export enum CreateLocationActionTypes {
   CREATE_LOCATION_LOADING = 'CREATE_LOCATION_LOADING',
   CREATE_LOCATION_SUCCESS = 'CREATE_LOCATION_SUCCESS',
-  CREATE_LOCATION_ERROR = 'CREATE_LOCATION_ERROR'
+  CREATE_LOCATION_ERROR = 'CREATE_LOCATION_ERROR',
+  AFTER_CREATE_LOCATION_RESET = 'AFTER_CREATE_LOCATION_RESET'
 }
 
 interface CreateLocationLoadingAction {
@@ -15,8 +16,11 @@ interface CreateLocationErrorAction {
   type: CreateLocationActionTypes.CREATE_LOCATION_ERROR;
   payload: string;
 }
-
+interface AfterCreateLocationReset {
+  type: CreateLocationActionTypes.AFTER_CREATE_LOCATION_RESET;
+}
 export type CreateLocationAction =
   | CreateLocationLoadingAction
   | CreateLocationSuccessAction
-  | CreateLocationErrorAction;
+  | CreateLocationErrorAction
+  | AfterCreateLocationReset;
