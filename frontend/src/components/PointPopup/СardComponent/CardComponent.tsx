@@ -48,7 +48,7 @@ export const CardComponent: FC<Props> = ({
           disabled
           multiline
           fullWidth
-          rows={2}
+          rows={4}
           defaultValue={description}
         />
       </Box>

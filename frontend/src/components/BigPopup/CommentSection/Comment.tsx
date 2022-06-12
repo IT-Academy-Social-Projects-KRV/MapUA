@@ -58,6 +58,7 @@ const Comment = ({
   const date = new Date(createdAt);
   const { t } = useTranslation();
   const [showEditComment, setShowEditComment] = useState(false);
+  const [disabledEditButton, setDisabledEditButton] = useState(false);
   const { _id: userId } = useTypedSelector(state => state.userData.data);
   const { role } = useTypedSelector(state => state.isUserAuthorized.data);
   const { editComment } = useTypedDispatch();
@@ -83,11 +84,13 @@ const Comment = ({
 
   const handleEditComment = () => {
     setShowEditComment(true);
+    setDisabledEditButton(true);
     handleClose();
   };
 
   const closeEditData = () => {
     setShowEditComment(false);
+    setDisabledEditButton(false);
   };
 
   const onSubmit: SubmitHandler<CommentCheck> = data => {
@@ -151,14 +154,17 @@ const Comment = ({
             {((authorId && authorId === userId) ||
               role === 'moderator' ||
               role === 'admin') && (
-              <>
+              <Box>
                 <MenuItem onClick={handleClose}>
                   <ListItemIcon onClick={() => null}>
                     <DeleteIcon fontSize="small" />
                   </ListItemIcon>
                   <ListItemText>Delete</ListItemText>
                 </MenuItem>
-                <MenuItem onClick={handleEditComment}>
+                <MenuItem
+                  disabled={disabledEditButton}
+                  onClick={handleEditComment}
+                >
                   <ListItemIcon>
                     <EditIcon fontSize="small" />
                   </ListItemIcon>
@@ -166,20 +172,20 @@ const Comment = ({
                     {t('profile.profilePage.editComment')}
                   </ListItemText>
                 </MenuItem>
-              </>
+              </Box>
             )}
           </Menu>
         </Box>
       </ListItemAvatar>
       {showEditComment ? (
         <EditCommentField
+          name="newCommentText"
           errors={errors}
           onSubmit={onSubmit}
           handleSubmit={handleSubmit}
           control={control}
           text={text}
           closeEditData={closeEditData}
-          name=""
         />
       ) : (
         <Typography variant="subtitle1">{text}</Typography>
