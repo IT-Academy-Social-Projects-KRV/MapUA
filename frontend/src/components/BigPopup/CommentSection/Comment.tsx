@@ -28,7 +28,6 @@ interface Props {
   createdAt: Date;
   authorsName: string;
   authorsImage: string;
-  authorId: string;
 }
 
 const Comment = ({
