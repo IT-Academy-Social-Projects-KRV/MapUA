@@ -50,6 +50,8 @@
       "yourName": "Your name:",
       "profilePageUpdatedSuccessfully": "Profile page updated successfully!",
       "editComment": "Edit"
+      "subscribe": "Subscribe",
+      "unsubscribe": "Unsubscribe"
     }
   },
   "forgotPassword": {

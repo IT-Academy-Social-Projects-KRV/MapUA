@@ -62,6 +62,9 @@ export const SaveBox = styled(Box)`
 export const EditButton = styled(Button)`
   margin: 2vh auto;
 `;
+export const SubsrcibeButton = styled(Button)`
+  margin: 2vh auto;
+`;
 export const TypographyDate = styled(Typography)`
   margin: 0;
 `;
