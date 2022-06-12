@@ -16,7 +16,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTranslation } from 'react-i18next';
 import ReportIcon from '@mui/icons-material/Report';
-import { EditButton } from 'components/design/StyledProfile';
 import EditIcon from '@mui/icons-material/Edit';
 
 type Props = {

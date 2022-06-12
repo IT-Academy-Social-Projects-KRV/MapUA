@@ -11,8 +11,6 @@ import {
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useForm, useFormState } from 'react-hook-form';
-import { EditButton } from 'components/design/StyledProfile';
-import { useTranslation } from 'react-i18next';
 import { CardComponent } from './СardComponent/CardComponent';
 import { IconsComponent } from './IconsComponent/IconsComponent';
 import { StyledPopupButtonsWrapper } from '../design/StyledPopupButtonsWrapper';
@@ -25,7 +23,6 @@ import EditLocation from '../EditLocation/EditLocation';
 // import { EditProfileSchema } from 'utils/validation';
 
 const PointPopup = () => {
-  const { t } = useTranslation();
   const [showEditPanel, setShowEditPanel] = useState(false);
   const [expanded, setExpanded] = useState(false);
 
@@ -132,12 +129,6 @@ const PointPopup = () => {
               <Typography color="text.secondary" variant="h4" paddingX={5}>
                 {locationName}
               </Typography>
-
-              {/* {locationAuthorId?._id === userId && (
-                <EditButton size="large" variant="contained" onClick={editData}>
-                  {t('createLocation.editLocation')}
-                </EditButton>
-              )} */}
 
               <StyledPopupButtonsWrapper>
                 <IconsComponent
