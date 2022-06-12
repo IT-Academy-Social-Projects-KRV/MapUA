@@ -51,7 +51,6 @@ export default function PersonProfilePage() {
       );
     }
   };
-
   return (
     <ProfileFormWrapper>
       <ProfileContentWrapper sx={{ height: 'auto' }}>
@@ -76,7 +75,6 @@ export default function PersonProfilePage() {
           </SubsrcibeButton>
         )}
       </ProfileContentWrapper>
-
       <ProfileUserWrapper>
         <BasicTabs />
       </ProfileUserWrapper>

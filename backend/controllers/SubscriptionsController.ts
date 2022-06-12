@@ -4,9 +4,9 @@ import User, { IUser } from '../models/UserModel';
 const SubscriptionsController = {
   async toggleSubscriptions(req: Request, res: Response) {
     try {
-      // userId - id of a user whose subscriptions we are interested in
-      // and subscriptionIdm which we want to toggle
+
       const { userId, subscriptionId } = req.body;
+
 
       if (!userId || !subscriptionId) {
         return res

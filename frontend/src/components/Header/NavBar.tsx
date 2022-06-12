@@ -27,8 +27,8 @@ const StyledLangButton: React.FC<
 );
 
 function NavBar() {
-  const { data: isAuthorized } = useTypedSelector(
-    state => state.isUserAuthorized
+  const { isAuthorized } = useTypedSelector(
+    state => state.isUserAuthorized.data
   );
   const { t, i18n } = useTranslation();
   const lng = localStorage.getItem('i18nextLng');

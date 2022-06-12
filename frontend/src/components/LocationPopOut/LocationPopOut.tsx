@@ -35,7 +35,8 @@ export function LocationPopOut({
     <Marker
       icon={L.icon({
         iconUrl: icon,
-        iconSize: [30, 30]
+        iconSize: [30, 30],
+        iconAnchor: [18, 28]
       })}
       eventHandlers={{
         click: e => {

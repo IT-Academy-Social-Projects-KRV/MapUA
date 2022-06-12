@@ -27,8 +27,8 @@ export default function NestedList() {
     state => state.mapInfo.selectedFilters
   );
   const { subscriptions } = useTypedSelector(state => state.userData.data);
-  const { data: isAuthorized } = useTypedSelector(
-    state => state.isUserAuthorized
+  const { isAuthorized } = useTypedSelector(
+    state => state.isUserAuthorized.data
   );
 
   const {

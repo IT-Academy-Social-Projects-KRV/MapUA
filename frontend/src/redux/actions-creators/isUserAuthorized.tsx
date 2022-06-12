@@ -21,7 +21,7 @@ export const login =
 
       dispatch({
         type: IsUserAuthorizedActionTypes.LOGIN_USER_SUCCESS,
-        payload: response.data
+        payload: response.data.role
       });
       localStorage.setItem('accessToken', response.data.token);
       dispatch({
@@ -41,7 +41,7 @@ export const login =
   };
 
 export const loginOAuth =
-  (token: string, id: string) =>
+  (token: string) =>
   async (dispatch: Dispatch<isUserAuthorizedAction>) => {
     dispatch({
       type: IsUserAuthorizedActionTypes.LOGIN_USER_LOADING
@@ -49,12 +49,7 @@ export const loginOAuth =
 
     dispatch({
       type: IsUserAuthorizedActionTypes.LOGIN_USER_SUCCESS,
-      payload: {
-        user: {
-          _id: id
-        },
-        token
-      }
+      payload: 'user'
     });
 
     localStorage.setItem('accessToken', token);
@@ -70,7 +65,8 @@ export const checkIsUserAuthorized =
 
       if (response.status === 200)
         dispatch({
-          type: IsUserAuthorizedActionTypes.CHECK_USER_TOKEN_SUCCESS
+          type: IsUserAuthorizedActionTypes.CHECK_USER_TOKEN_SUCCESS,
+          payload: response.data.role
         });
     } catch (error: any) {
       dispatch({

@@ -1,13 +1,29 @@
 import React from 'react';
-import { Avatar, IconButton, ListItem, Typography } from '@mui/material';
+
+import {
+  Avatar,
+  Box,
+  IconButton,
+  ListItem,
+  ListItemAvatar,
+  Typography
+} from '@mui/material';
 import { Link } from 'react-router-dom';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { getPath } from 'utils/createPath';
+
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ReportIcon from '@mui/icons-material/Report';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+
 import { StyledCommentBox } from '../../design/StyledCommentBox';
 
 interface Props {
+  authorId: string | undefined;
   text: string;
   createdAt: Date;
   authorsName: string;
@@ -16,25 +32,82 @@ interface Props {
 }
 
 const Comment = ({
+  authorId,
   text,
   createdAt,
   authorsName,
-  authorsImage,
-  authorId
+  authorsImage
 }: Props) => {
   const date = new Date(createdAt);
-  const { _id } = useTypedSelector(state => state.userData.data);
+  const { _id: userId } = useTypedSelector(state => state.userData.data);
+  const { role } = useTypedSelector(state => state.isUserAuthorized.data);
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <ListItem alignItems="flex-start" sx={{ display: 'block', pl: 0 }}>
-      <Link to={getPath(_id, authorId)}>
-        <Avatar alt="Vasya" src={authorsImage} />
-      </Link>
-      <Link to={getPath(_id, authorId)}>
-        <Typography component="span" variant="h6" color="text.primary">
-          {authorsName}
-        </Typography>
-      </Link>
+      <ListItemAvatar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Box sx={{ display: 'flex' }}>
+          <Link to={getPath(userId, authorId)}>
+            <Avatar
+              sx={{ mr: 2 }}
+              alt="Comment's author avatar"
+              src={authorsImage}
+            />
+          </Link>
+          <Link to={getPath(userId, authorId)}>
+            <Typography component="span" variant="h6" color="text.primary">
+              {authorsName}
+            </Typography>
+          </Link>
+        </Box>
+        <Box>
+          <IconButton
+            id="basic-button"
+            aria-controls={open ? 'basic-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? 'true' : undefined}
+            onClick={handleClick}
+          >
+            <MoreHorizIcon />
+          </IconButton>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={() => {
+              handleClose();
+            }}
+            MenuListProps={{
+              'aria-labelledby': 'basic-button'
+            }}
+          >
+            <MenuItem onClick={handleClose}>
+              <IconButton size="small" onClick={() => null}>
+                <ReportIcon />
+                Report
+              </IconButton>
+            </MenuItem>
+            {((authorId && authorId === userId) ||
+              role === 'moderator' ||
+              role === 'admin') && (
+              <MenuItem onClick={handleClose}>
+                <IconButton size="small" onClick={() => null}>
+                  <DeleteIcon />
+                  Delete
+                </IconButton>
+              </MenuItem>
+            )}
+          </Menu>
+        </Box>
+      </ListItemAvatar>
       <Typography variant="subtitle1">{text}</Typography>
       <StyledCommentBox>
         <Typography variant="subtitle2">{date.toLocaleDateString()}</Typography>
