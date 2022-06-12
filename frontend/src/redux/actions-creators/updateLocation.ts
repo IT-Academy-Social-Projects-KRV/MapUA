@@ -25,8 +25,6 @@ export const updateLocationData =
         }
       );
 
-      console.log(response, 'response');
-
       dispatch({
         type: LocationDataActionTypes.UPDATE_LOCATION_DATA_SUCCESS,
         payload: response.data
