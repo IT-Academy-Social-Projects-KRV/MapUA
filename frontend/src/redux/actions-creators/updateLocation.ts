@@ -16,7 +16,7 @@ export const updateLocationData =
       dispatch({ type: LocationDataActionTypes.UPDATE_LOCATION_DATA_LOADING });
 
       const response = await axios().patch(
-        `${process.env.REACT_APP_API_URI}locations/${id}`,
+        `${process.env.REACT_APP_API_URI}update_location/${id}`,
         formData,
         {
           headers: {
