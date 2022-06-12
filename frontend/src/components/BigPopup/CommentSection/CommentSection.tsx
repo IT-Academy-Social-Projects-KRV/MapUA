@@ -42,16 +42,21 @@ const CommentSection = () => {
             _id: commentId,
             text,
             author,
-            createdAt
+            createdAt,
+            likes,
+            dislikes
           }: CommentType<AuthorInfoType>) => (
             <Comment
               key={commentId}
               authorId={author._id}
               createdAt={createdAt!}
               text={text}
+              id={commentId}
               authorsImage={author.imageUrl}
               authorsName={author.displayName}
-              authorId={author._id}
+              locationId={locationId}
+              likes={likes}
+              dislikes={dislikes}
             />
           )
         )}

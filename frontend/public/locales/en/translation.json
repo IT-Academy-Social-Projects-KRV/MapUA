@@ -49,6 +49,7 @@
       "logout": "Logout",
       "yourName": "Your name:",
       "profilePageUpdatedSuccessfully": "Profile page updated successfully!",
+      "editComment": "Edit"
       "subscribe": "Subscribe",
       "unsubscribe": "Unsubscribe"
     }
@@ -90,7 +91,7 @@
       "locationDescriptionMinLengthError": "Location description must be at least 10 symbols long",
       "locationDescriptionMaxLengthError": "Location description must be no more than 200 symbols",
       "emptyLocationFiltersError": "Please select at least one filter",
-      "emptyCommentTextError": "Your comment cannot be empty",
+      "emptyCommentTextError": "Your comment can't be empty",
       "commentTextMinLengthError": "Your comment must be at least 5 symbols long",
       "commentTextMaxLengthError": "Your comment must be less than 50 symbols"
     }
