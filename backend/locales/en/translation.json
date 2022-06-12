@@ -45,5 +45,8 @@
   "other": {
     "server_error": "Server error"
   },
+  "subsriptions": {
+    "fields_error": "You need to provide user id and subscription id"
+  },
   "forbidden_role_action": "You do not have permission to perform this action"
 }

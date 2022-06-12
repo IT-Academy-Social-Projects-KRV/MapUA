@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {
   Avatar,
   Box,
@@ -12,11 +13,13 @@ import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { getPath } from 'utils/createPath';
+
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ReportIcon from '@mui/icons-material/Report';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+
 import { StyledCommentBox } from '../../design/StyledCommentBox';
 
 interface Props {
@@ -25,6 +28,7 @@ interface Props {
   createdAt: Date;
   authorsName: string;
   authorsImage: string;
+  authorId: string;
 }
 
 const Comment = ({
