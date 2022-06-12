@@ -49,7 +49,9 @@
       "logout": "Logout",
       "yourName": "Your name:",
       "profilePageUpdatedSuccessfully": "Profile page updated successfully!",
-      "editComment": "Edit"
+      "editComment": "Edit",
+      "subscribe": "Subscribe",
+      "unsubscribe": "Unsubscribe"
     }
   },
   "forgotPassword": {

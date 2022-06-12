@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
@@ -10,26 +10,47 @@ import {
   ProfileAvatar,
   ProfileContentWrapper,
   ProfileFormWrapper,
-  ProfileUserWrapper
+  ProfileUserWrapper,
+  SubsrcibeButton
 } from '../design/StyledProfile';
 import BasicTabs from './BasicTabs';
 
 export default function PersonProfilePage() {
-  const { loading: userLoading } = useTypedSelector(
-    state => state.otherUserData
-  );
   const { t } = useTranslation();
+  const {
+    loading: userLoading,
+    data: { _id: otherUserId, displayName, imageUrl: userAvatar }
+  } = useTypedSelector(state => state.otherUserData);
+  const {
+    data: { _id: userId, subscriptions }
+  } = useTypedSelector(state => state.userData);
+
+  const { data: isAuthorized } = useTypedSelector(
+    state => state.isUserAuthorized
+  );
+
+  const { fetchOtherUserData, toogleUserSubscription } = useTypedDispatch();
+
+  const isSubscribed = subscriptions.includes(otherUserId);
+
   const params = useParams();
-  const { fetchOtherUserData } = useTypedDispatch();
   useEffect(() => {
     fetchOtherUserData(params?.id || '');
   }, [params.id]);
-  const {
-    data: { displayName, imageUrl: userAvatar }
-  } = useTypedSelector(state => state.otherUserData);
+
   if (userLoading) {
     return <h1>{t('profile.profile.loading')}</h1>;
   }
+
+  const handleSubscription = () => {
+    if (isAuthorized) {
+      toogleUserSubscription(
+        otherUserId,
+        userId,
+        t('profile.profilePage.profilePageUpdatedSuccessfully')
+      );
+    }
+  };
   return (
     <ProfileFormWrapper>
       <ProfileContentWrapper sx={{ height: 'auto' }}>
@@ -42,6 +63,17 @@ export default function PersonProfilePage() {
             ? `${t('profile.profilePage.yourName')}`
             : displayName}
         </Typography>
+        {isAuthorized && (
+          <SubsrcibeButton
+            size="large"
+            variant="contained"
+            onClick={handleSubscription}
+          >
+            {!isSubscribed
+              ? t('profile.profilePage.subscribe')
+              : t('profile.profilePage.unsubscribe')}
+          </SubsrcibeButton>
+        )}
       </ProfileContentWrapper>
       <ProfileUserWrapper>
         <BasicTabs />
