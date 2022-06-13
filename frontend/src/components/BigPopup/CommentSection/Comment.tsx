@@ -21,12 +21,11 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { StyledCommentBox } from '../../design/StyledCommentBox';
 
 interface Props {
-  authorId: string | undefined;
+  authorId: string;
   text: string;
   createdAt: Date;
   authorsName: string;
   authorsImage: string;
-  _id: string;
 }
 
 const Comment = ({
@@ -34,8 +33,7 @@ const Comment = ({
   text,
   createdAt,
   authorsName,
-  authorsImage,
-  _id
+  authorsImage
 }: Props) => {
   const date = new Date(createdAt);
   const { _id: userId } = useTypedSelector(state => state.userData.data);
@@ -99,7 +97,10 @@ const Comment = ({
               role === 'moderator' ||
               role === 'admin') && (
               <MenuItem onClick={handleClose}>
-                <IconButton size="small" onClick={() => deleteComment(_id)}>
+                <IconButton
+                  size="small"
+                  onClick={() => deleteComment(authorId)}
+                >
                   <DeleteIcon />
                   Delete
                 </IconButton>
