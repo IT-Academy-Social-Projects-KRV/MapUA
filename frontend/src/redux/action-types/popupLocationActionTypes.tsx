@@ -20,7 +20,11 @@ export enum LocationActionTypes {
 
   ADD_COMMENT_LOADING = 'ADD_COMMENT_LOADING',
   ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS',
-  ADD_COMMENT_ERROR = 'ADD_COMMENT_ERROR'
+  ADD_COMMENT_ERROR = 'ADD_COMMENT_ERROR',
+
+  UPDATE_LOCATION_DATA_LOADING = 'UPDATE_LOCATION_DATA_LOADING',
+  UPDATE_LOCATION_DATA_SUCCESS = 'UPDATE_LOCATION_DATA_SUCCESS',
+  UPDATE_LOCATION_DATA_ERROR = 'UPDATE_LOCATION_DATA_ERROR'
 }
 
 interface FetchLocationLoadingAction {
@@ -70,6 +74,17 @@ interface UpdateLocationErrorAction {
   type: LocationActionTypes.UPDATE_LOCATION_ERROR;
   payload: string;
 }
+interface UpdateLocationDataLoadingAction {
+  type: LocationActionTypes.UPDATE_LOCATION_DATA_LOADING;
+}
+interface UpdateLocationDataSuccessAction {
+  type: LocationActionTypes.UPDATE_LOCATION_DATA_SUCCESS;
+  payload: locationType;
+}
+interface UpdateLocationDataErrorAction {
+  type: LocationActionTypes.UPDATE_LOCATION_DATA_ERROR;
+  payload: string;
+}
 
 export type LocationActions =
   | FetchLocationLoadingAction
@@ -83,4 +98,7 @@ export type LocationActions =
   | ToggleFavoriteFieldErrorAction
   | UpdateLocationLoadingAction
   | UpdateLocationSuccessAction
-  | UpdateLocationErrorAction;
+  | UpdateLocationErrorAction
+  | UpdateLocationDataLoadingAction
+  | UpdateLocationDataSuccessAction
+  | UpdateLocationDataErrorAction;
