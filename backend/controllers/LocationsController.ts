@@ -148,7 +148,7 @@ const LocationsController = {
       });
 
       return res.status(200).json({
-        updatedData: changedData,
+        changedData,
         message: req.t('locations_list.update_location_success')
       });
     } catch (err: any) {
