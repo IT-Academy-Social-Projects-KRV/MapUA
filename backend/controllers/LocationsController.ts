@@ -106,11 +106,9 @@ const LocationsController = {
       );
 
       if (locationAuthorId?.author.toString() !== userId) {
-        return res
-          .status(300)
-          .json({
-            error: req.t('locations_list.update_location_id_not_exist')
-          });
+        return res.status(300).json({
+          error: req.t('locations_list.update_location_id_not_exist')
+        });
       }
 
       const imageUrls: string[] = [];
@@ -144,7 +142,12 @@ const LocationsController = {
         {
           new: true
         }
-      );
+      ).populate({
+        path: 'author',
+        select: 'displayName imageUrl'
+      });
+
+      console.log(changedData, 'changedDatachangedDatachangedData');
 
       return res.status(200).json({
         updatedData: changedData,
