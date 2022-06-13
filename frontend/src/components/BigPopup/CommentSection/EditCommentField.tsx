@@ -63,7 +63,12 @@ const EditCommentField = ({
       >
         {newCommentText === text ||
         !newCommentText ||
+<<<<<<< HEAD
         newCommentText.length < 5 ? (
+=======
+        newCommentText.length < 5 ||
+        newCommentText.length > 50 ? (
+>>>>>>> bd13203e2a215241b62a6561dc4a53e577f1e791
           <Button
             disabled
             variant="outlined"

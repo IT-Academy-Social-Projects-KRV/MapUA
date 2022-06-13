@@ -23,7 +23,7 @@ export type AuthorInfoType = {
   displayName: string;
 };
 export type CommentType<T> = {
-  _id?: string;
+  _id: string;
   author: T;
   locationId: string;
   text: string;
@@ -32,7 +32,15 @@ export type CommentType<T> = {
   createdAt?: Date;
   updatedAt?: Date;
 };
-
+export type AddCommentType<T> = {
+  author: T;
+  locationId: string;
+  text: string;
+  likes: string[];
+  dislikes: string[];
+  createdAt?: Date;
+  updatedAt?: Date;
+};
 export type locationType = {
   _id: string;
   author?: AuthorInfoType;
@@ -46,6 +54,12 @@ export type locationType = {
   description: string;
   createdAt: Date;
   updatedAt: Date;
+};
+
+export type updateLocationType = {
+  locationName: string;
+  arrayPhotos: string[];
+  description: string;
 };
 
 export type LocationPopOutData = {
@@ -83,6 +97,12 @@ export type PrivateUserDataType = {
 export type UserForm = {
   displayName: string;
   description: string;
+  imageUrl: FileList;
+};
+
+export type LocationForm = {
+  locationName: any;
+  description: any;
   imageUrl: FileList;
 };
 

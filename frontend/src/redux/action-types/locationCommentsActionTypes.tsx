@@ -5,6 +5,7 @@ import { AuthorInfoType, CommentType } from '../../../types';
 export enum LocationCommentsActionTypes {
   ADD_COMMENT = 'ADD_COMMENT',
   FETCH_COMMENTS = 'FETCH_COMMENTS',
+  DELETE_COMMENT = 'DELETE_COMMENT',
   EDIT_COMMENT = 'EDIT_COMMENT'
 }
 
@@ -23,7 +24,13 @@ interface EditCommentAction {
   payload: CommentType<AuthorInfoType>;
 }
 
+interface DeleteCommentsAction {
+  type: LocationCommentsActionTypes.DELETE_COMMENT;
+  payload: string;
+}
+
 export type LocationCommentsActions =
   | AddCommentAction
   | FetchCommentsAction
-  | EditCommentAction;
+  | EditCommentAction
+  | DeleteCommentsAction;
