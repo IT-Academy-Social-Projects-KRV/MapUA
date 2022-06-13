@@ -75,7 +75,7 @@ export default function NestedList() {
     console.log('value', value);
   };
 
-  const OnChaked = (nestedFilter: any) => {
+  const onChecked = (nestedFilter: any) => {
     switch (currentLanguage) {
       case 'ua':
         return selectedFiltersUa.some(f => f === nestedFilter);
@@ -119,7 +119,7 @@ export default function NestedList() {
                       className="pl-4"
                     >
                       <Checkbox
-                        checked={OnChaked(nestedFilter)}
+                        checked={onChecked(nestedFilter)}
                         edge="start"
                         onChange={() => null}
                         value={nestedFilter}
