@@ -8,6 +8,7 @@ import {
   Typography
 } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
@@ -36,6 +37,7 @@ const Comment = ({
   authorsImage
 }: Props) => {
   const date = new Date(createdAt);
+  const { t } = useTranslation();
   const { _id: userId } = useTypedSelector(state => state.userData.data);
   const { role } = useTypedSelector(state => state.isUserAuthorized.data);
   const { deleteComment } = useTypedDispatch();
@@ -102,7 +104,7 @@ const Comment = ({
                   onClick={() => deleteComment(authorId)}
                 >
                   <DeleteIcon />
-                  Delete
+                  {t('profile.profilePage.editComment')}
                 </IconButton>
               </MenuItem>
             )}
