@@ -165,8 +165,6 @@ export const updatePopupLocationAfterEditing =
         }
       );
 
-      console.log(data, 'data');
-
       if (data) {
         dispatch({
           type: LocationActionTypes.UPDATE_LOCATION_DATA_SUCCESS,

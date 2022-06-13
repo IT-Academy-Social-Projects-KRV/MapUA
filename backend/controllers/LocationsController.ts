@@ -147,8 +147,6 @@ const LocationsController = {
         select: 'displayName imageUrl'
       });
 
-      console.log(changedData, 'changedDatachangedDatachangedData');
-
       return res.status(200).json({
         updatedData: changedData,
         message: req.t('locations_list.update_location_success')
