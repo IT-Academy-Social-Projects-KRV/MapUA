@@ -17,7 +17,6 @@ import { StyledCardComponentBox } from '../../design/StyledCardComponentBox';
 import userImageNotFound from '../../../static/image-not-found.jpg';
 
 type Props = {
-  // description: string;
   handleExpandClick: MouseEventHandler<HTMLButtonElement>;
   expanded: boolean;
   showEditPanel: boolean;
@@ -26,7 +25,6 @@ type Props = {
 };
 
 export const CardComponent: FC<Props> = ({
-  // description,
   handleExpandClick,
   expanded,
   showEditPanel,
@@ -91,7 +89,6 @@ export const CardComponent: FC<Props> = ({
             multiline
             fullWidth
             rows={4}
-            // defaultValue={description}
             value={description}
           />
         )}
