@@ -66,9 +66,10 @@ const EditLocation = ({
 
     updateLocationData(
       formData,
-      t('createLocation.locationSuccessfullyCreated'),
+      t('createLocation.locationSuccessfullyEdited'),
       locationId
     );
+    closeEditData();
   };
 
   const handleFilesChange = (e: any) => {
