@@ -1,9 +1,14 @@
 import { Dispatch } from 'redux';
+import axios from 'services/axios';
 import {
   LocationCommentsActions,
   LocationCommentsActionTypes
 } from 'redux/action-types/locationCommentsActionTypes';
-import axios from 'services/axios';
+import {
+  SnackbarActions,
+  SnackbarActionsType
+} from '../action-types/snackbarActionTypes';
+
 import { CommentType } from '../../../types';
 
 export const sendComment =
@@ -35,6 +40,7 @@ export const fetchComments =
       throw new Error(error);
     }
   };
+
 export const deleteComment =
   (commentId: string) =>
   async (dispatch: Dispatch<LocationCommentsActions>) => {
@@ -43,6 +49,26 @@ export const deleteComment =
       dispatch({
         type: LocationCommentsActionTypes.DELETE_COMENTS,
         payload: commentId
+      });
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  };
+
+export const editComment =
+  (comment: {}, id?: string) =>
+  async (dispatch: Dispatch<LocationCommentsActions | SnackbarActions>) => {
+    try {
+      const { data } = await axios().patch(`comments/${id}`, {
+        comment
+      });
+      dispatch({
+        type: LocationCommentsActionTypes.EDIT_COMMENT,
+        payload: data.comment
+      });
+      dispatch({
+        type: SnackbarActionsType.SET_SUCCESS,
+        payload: data.message
       });
     } catch (error: any) {
       throw new Error(error);

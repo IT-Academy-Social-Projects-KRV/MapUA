@@ -22,6 +22,12 @@ export const locationCommentsReducer = (
           ...state.comments.filter(comments => comments._id !== action.payload)
         ]
       };
+    case LocationCommentsActionTypes.EDIT_COMMENT:
+      return {
+        comments: state.comments.map(comment =>
+          comment._id === action.payload._id ? action.payload : comment
+        )
+      };
     default:
       return state;
   }

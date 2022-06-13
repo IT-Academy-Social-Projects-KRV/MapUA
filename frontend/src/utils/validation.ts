@@ -49,7 +49,7 @@ export const CreatingLocationSchema = yup.object().shape({
 export const CommentSectionSchema = yup.object().shape({
   commentText: yup
     .string()
+    .required('utils.validation.emptyCommentTextError')
     .min(5, 'utils.validation.commentTextMinLengthError')
     .max(50, 'utils.validation.commentTextMaxLengthError')
-    .required('utils.validation.emptyCommentTextError')
 });
