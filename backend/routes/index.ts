@@ -17,7 +17,6 @@ import {
 } from '../utils/validationSchemes';
 import { validateRequest } from '../utils/validation';
 
-
 const router = express.Router();
 
 router.get(
@@ -93,6 +92,8 @@ router.patch(
   CommentsController.editLocationComment
 );
 
+router.delete('/comments/:id', CommentsController.deleteLocationComment);
+
 router.get(
   '/signin-google',
   passport.authenticate('google', { scope: ['email', 'profile'] })
@@ -144,6 +145,5 @@ router.put(
   UserController.toggleVisited
 );
 router.get('/profile/:id', UserController.getOtherUserProfile);
-router.delete('/deletecomment/:id', CommentsController.deleteLocationComments);
 
 export default router;

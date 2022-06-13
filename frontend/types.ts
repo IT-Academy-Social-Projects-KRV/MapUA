@@ -32,7 +32,15 @@ export type CommentType<T> = {
   createdAt?: Date;
   updatedAt?: Date;
 };
-
+export type AddCommentType<T> = {
+  author: T;
+  locationId: string;
+  text: string;
+  likes: string[];
+  dislikes: string[];
+  createdAt?: Date;
+  updatedAt?: Date;
+};
 export type locationType = {
   _id: string;
   author?: AuthorInfoType;
