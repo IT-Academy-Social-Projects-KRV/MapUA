@@ -28,7 +28,7 @@ const CommentForm = () => {
     state => state.popupLocation.data
   );
 
-  const { handleSubmit, control } = useForm<CommentCheck>({
+  const { handleSubmit, control, reset } = useForm<CommentCheck>({
     resolver: yupResolver(CommentSectionSchema)
   });
 
@@ -47,6 +47,7 @@ const CommentForm = () => {
     };
     if (commentText) {
       sendComment(commentBody);
+      reset();
     }
   };
 
