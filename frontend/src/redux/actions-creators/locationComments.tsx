@@ -41,6 +41,20 @@ export const fetchComments =
     }
   };
 
+export const deleteComment =
+  (commentId: string) =>
+  async (dispatch: Dispatch<LocationCommentsActions>) => {
+    try {
+      await axios().delete(`deletecomment/${commentId}`);
+      dispatch({
+        type: LocationCommentsActionTypes.DELETE_COMENTS,
+        payload: commentId
+      });
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  };
+
 export const editComment =
   (comment: {}, id?: string) =>
   async (dispatch: Dispatch<LocationCommentsActions | SnackbarActions>) => {

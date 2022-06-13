@@ -14,6 +14,7 @@ import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useTranslation } from 'react-i18next';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
+import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { getPath } from 'utils/createPath';
 import { useForm, SubmitHandler, useFormState } from 'react-hook-form';
@@ -29,7 +30,7 @@ import EditCommentField from './EditCommentField';
 import { StyledCommentBox } from '../../design/StyledCommentBox';
 
 interface Props {
-  authorId: string | undefined;
+  authorId: string;
   text: string;
   createdAt: Date;
   authorsName: string;
@@ -62,6 +63,7 @@ const Comment = ({
   const { _id: userId } = useTypedSelector(state => state.userData.data);
   const { role } = useTypedSelector(state => state.isUserAuthorized.data);
   const { editComment } = useTypedDispatch();
+  const { deleteComment } = useTypedDispatch();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -156,10 +158,12 @@ const Comment = ({
               role === 'admin') && (
               <Box>
                 <MenuItem onClick={handleClose}>
-                  <ListItemIcon onClick={() => null}>
+                  <ListItemIcon onClick={() => deleteComment(authorId)}>
                     <DeleteIcon fontSize="small" />
                   </ListItemIcon>
-                  <ListItemText>Delete</ListItemText>
+                  <ListItemText>
+                    {t('profile.profilePage.deleteComment')}
+                  </ListItemText>
                 </MenuItem>
                 <MenuItem
                   disabled={disabledEditButton}
