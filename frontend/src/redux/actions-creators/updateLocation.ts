@@ -1,13 +1,13 @@
-import {
-  SnackbarActions,
-  SnackbarActionsType
-} from './../action-types/snackbarActionTypes';
 import { Dispatch } from 'redux';
 import {
   LocationDataAction,
   LocationDataActionTypes
 } from 'redux/action-types/updateLocationActionTypes';
 import axios from 'services/axios';
+import {
+  SnackbarActions,
+  SnackbarActionsType
+} from '../action-types/snackbarActionTypes';
 
 export const updateLocationData =
   (formData: FormData, notification: string, id: string) =>

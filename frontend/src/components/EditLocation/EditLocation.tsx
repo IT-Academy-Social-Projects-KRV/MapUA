@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import UploadInput from 'components/design/UploadInputCreateLocation';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTranslation } from 'react-i18next';
@@ -14,7 +15,6 @@ import {
   SaveBox,
   SaveButton
 } from 'components/design/StyledProfile';
-import React, { useState } from 'react';
 import { useTypedDispatch } from '../../redux/hooks/useTypedDispatch';
 import { StyledCreateLocationWrapper } from '../design/StyledCreateLocationWrapper';
 

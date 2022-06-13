@@ -24,7 +24,8 @@
   "location_comments": {
     "comment_not_have_properties": "Comment doesn't have all needed properties",
     "comment_add_success": "Your comment added successfully",
-    "comment_length_error": "Comment must be at least 5 and max 50 characters long"
+    "comment_length_error": "Comment must be at least 5 and max 50 characters long",
+    "edit_comment_success": "Your comment edited successfully"
   },
   "user_profile": {
     "change_user_info_success": "Data Successfully updated",
@@ -45,6 +46,9 @@
   },
   "other": {
     "server_error": "Server error"
+  },
+  "subsriptions": {
+    "fields_error": "You need to provide user id and subscription id"
   },
   "forbidden_role_action": "You do not have permission to perform this action"
 }
