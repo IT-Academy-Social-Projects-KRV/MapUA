@@ -11,15 +11,14 @@ import {
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useForm, useFormState } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { CreatingLocationSchema } from 'utils/validation';
 import { CardComponent } from './СardComponent/CardComponent';
 import { IconsComponent } from './IconsComponent/IconsComponent';
 import { StyledPopupButtonsWrapper } from '../design/StyledPopupButtonsWrapper';
 
 import { LocationForm } from '../../../types';
 import EditLocation from '../EditLocation/EditLocation';
-
-import { yupResolver } from '@hookform/resolvers/yup';
-import { CreatingLocationSchema } from 'utils/validation';
 
 const PointPopup = () => {
   const [showEditPanel, setShowEditPanel] = useState(false);
@@ -106,7 +105,7 @@ const PointPopup = () => {
   };
 
   return (
-    <>
+    <Box>
       {showEditPanel && locationAuthorId?._id === userId ? (
         <EditLocation
           locationNamelocationName={locationName}
@@ -158,7 +157,7 @@ const PointPopup = () => {
           </Card>
         </Box>
       )}
-    </>
+    </Box>
   );
 };
 
