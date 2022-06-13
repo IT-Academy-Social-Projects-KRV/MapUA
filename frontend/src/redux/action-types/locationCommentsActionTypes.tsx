@@ -34,5 +34,3 @@ export type LocationCommentsActions =
   | FetchCommentsAction
   | EditCommentAction
   | DeleteCommentsAction;
-
-

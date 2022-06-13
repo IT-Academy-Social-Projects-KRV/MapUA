@@ -14,7 +14,6 @@ import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useTranslation } from 'react-i18next';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
-import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { getPath } from 'utils/createPath';
 import { useForm, SubmitHandler, useFormState } from 'react-hook-form';
@@ -35,7 +34,7 @@ interface Props {
   createdAt: Date;
   authorsName: string;
   authorsImage: string;
-  id: string | undefined;
+  id: string;
   locationId: string;
   likes: string[];
   dislikes: string[];
@@ -157,8 +156,8 @@ const Comment = ({
               role === 'moderator' ||
               role === 'admin') && (
               <Box>
-                <MenuItem onClick={handleClose}>
-                  <ListItemIcon onClick={() => deleteComment(authorId)}>
+                <MenuItem onClick={() => deleteComment(id)}>
+                  <ListItemIcon>
                     <DeleteIcon fontSize="small" />
                   </ListItemIcon>
                   <ListItemText>
