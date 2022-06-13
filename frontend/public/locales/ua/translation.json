@@ -16,11 +16,15 @@
   "createLocation": {
     "creatingLocation": "Створення локації",
     "enterLocName": "Введіть назву локації",
+    "updateLocation": "Оновіть локацію",
+    "editLocation": "Відредагуйте локацію",
     "enterDescription": "Мінімум 10 символів",
     "favorites": "Обрані",
     "doneAndSubmit": "Додати локацію",
     "couldNotCreateLocation": "Не вдалося створити локацію",
-    "locationSuccessfullyCreated": "Локація успішно створена!"
+    "locationSuccessfullyCreated": "Локація успішно створена!",
+    "locationSuccessfullyEdited": "Локація успішно відредагована!"
+
   },
   "profile": {
     "basicTabs": {
