@@ -23,7 +23,7 @@ export type AuthorInfoType = {
   displayName: string;
 };
 export type CommentType<T> = {
-  _id?: string;
+  _id: string;
   author: T;
   locationId: string;
   text: string;

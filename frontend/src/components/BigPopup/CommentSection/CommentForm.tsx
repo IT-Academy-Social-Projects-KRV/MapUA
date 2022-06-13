@@ -38,6 +38,7 @@ const CommentForm = () => {
 
   const onSendComment: SubmitHandler<CommentCheck> = ({ commentText }) => {
     const commentBody: CommentType<string> = {
+      _id: userId,
       author: userId,
       locationId: locationId!,
       text: commentText,
