@@ -26,7 +26,10 @@ const CommentsController = {
         select: 'displayName imageUrl'
       });
 
-      return res.status(200).json(comment);
+      return res.status(200).json({
+        message: req.t('location_comments.comment_add_success'),
+        comment
+      });
     } catch (err: any) {
       return res.status(500).json({ error: req.t('other.server_error'), err });
     }
@@ -56,12 +59,14 @@ const CommentsController = {
       return res.status(500).json({ error: req.t('other.server_error'), err });
     }
   },
-  async deleteLocationComments(req: Request, res: Response) {
+  async deleteLocationComment(req: Request, res: Response) {
     try {
       await Comment.deleteOne({ _id: req.params.id });
-      return res.status(200).json(req.t('comment deleted'));
+      return res.status(200).json({
+        message: req.t('location_comments.comment_deleted_successfully')
+      });
     } catch (err: any) {
-      return res.status(500).json({ error: req.t('server_error'), err });
+      return res.status(500).json({ error: req.t('other.server_error'), err });
     }
   }
 };
