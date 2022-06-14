@@ -5,6 +5,7 @@ import AuthController from '../controllers/AuthController';
 import CommentsController from '../controllers/CommentsController';
 import SubscriptionsController from '../controllers/SubscriptionsController';
 import passport from '../libs/passport';
+import multer from 'multer';
 import { upload } from '../utils/upload';
 import {
   CommentSchema,
