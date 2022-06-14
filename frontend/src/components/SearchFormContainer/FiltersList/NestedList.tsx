@@ -47,7 +47,6 @@ export default function NestedList() {
   }, [subscriptions, isAuthorized, currentLanguage]);
 
   const filters = useTypedSelector(state => state.filtersList.filters);
-  console.log(filters);
   const AddSelectedFiltersUaLogic = (selectedValue: string) => {
     if (selectedFiltersUa.some(f => f === selectedValue)) {
       setSelectedFiltersUa(selectedFiltersUa.filter(f => f !== selectedValue));

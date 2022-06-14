@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { Tabs, Tab, Typography, Box, TextField } from '@mui/material';
 import { Controller, Control, FieldError } from 'react-hook-form';
-import { v4 } from 'uuid';
+import ProfileTabsData from 'components/ProfileTabsData';
 import { UserForm } from '../../../types';
 
 interface TabPanelProps {
@@ -107,19 +107,19 @@ export default function BasicTabs({
       )}
       <Box>
         <TabPanel value={value} index={1}>
-          {userDescription.data.subscribers.length > 0
-            ? userDescription.data.subscribers.map((s: any) => (
-                <div key={v4()}>{s.displayName}</div>
-              ))
-            : `${t('profile.basicTabs.noSubscribers')}`}
+          {userDescription.data.subscribers.length > 0 ? (
+            <ProfileTabsData array={userDescription.data.subscribers} />
+          ) : (
+            `${t('profile.basicTabs.noSubscribers')}`
+          )}
         </TabPanel>
       </Box>
       <TabPanel value={value} index={2}>
-        {userDescription.data.subscriptions.length > 0
-          ? userDescription.data.subscriptions.map((s: any) => (
-              <div key={v4()}>{s.displayName}</div>
-            ))
-          : `${t('profile.basicTabs.noSubscriptions')}`}
+        {userDescription.data.subscriptions.length > 0 ? (
+          <ProfileTabsData array={userDescription.data.subscriptions} />
+        ) : (
+          `${t('profile.basicTabs.noSubscriptions')}`
+        )}
       </TabPanel>
     </Box>
   );

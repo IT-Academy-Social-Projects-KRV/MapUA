@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { Tabs, Tab, Typography, Box } from '@mui/material';
-import { v4 } from 'uuid';
+import ProfileTabsData from '../ProfileTabsData/index';
 
 interface TabPanelProps {
   index: number;
@@ -15,6 +15,7 @@ const defaultProps = {
 
 function TabPanel(props: React.PropsWithChildren<TabPanelProps>) {
   const { children, value, index } = props;
+
   return (
     <Box
       role="tabpanel"
@@ -46,7 +47,9 @@ export default function BasicTabs() {
     setValue(newValue);
   };
 
-  const userInfo = useTypedSelector(state => state.otherUserData);
+  const { data: otherUserData } = useTypedSelector(
+    state => state.otherUserData
+  );
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -64,26 +67,26 @@ export default function BasicTabs() {
       <Box>
         <TabPanel value={value} index={0}>
           <Typography component="span">
-            {userInfo.data.description ||
+            {otherUserData.description ||
               `${t('profile.basicTabs.noDescription')}`}
           </Typography>
         </TabPanel>
       </Box>
       <Box>
         <TabPanel value={value} index={1}>
-          {userInfo.data.subscribers.length > 0
-            ? userInfo.data.subscribers.map((s: any) => (
-                <div key={v4()}>{s.displayName}</div>
-              ))
-            : `${t('profile.basicTabs.noSubscribers')}`}
+          {otherUserData.subscribers.length > 0 ? (
+            <ProfileTabsData array={otherUserData.subscribers} />
+          ) : (
+            `${t('profile.basicTabs.noSubscribers')}`
+          )}
         </TabPanel>
       </Box>
       <TabPanel value={value} index={2}>
-        {userInfo.data.subscriptions.length > 0
-          ? userInfo.data.subscriptions.map((s: any) => (
-              <div key={v4()}>{s.displayName}</div>
-            ))
-          : `${t('profile.basicTabs.noSubscriptions')}`}
+        {otherUserData.subscriptions.length > 0 ? (
+          <ProfileTabsData array={otherUserData.subscriptions} />
+        ) : (
+          `${t('profile.basicTabs.noSubscriptions')}`
+        )}
       </TabPanel>
     </Box>
   );
