@@ -1,6 +1,7 @@
 import { Response, Request } from 'express';
 import Location from '../models/Locations';
 import User from '../models/UserModel';
+import { isUserHasRights } from '../utils/isUserHasRights';
 
 const LocationsController = {
   async getLocationsByZoom(req: Request, res: Response) {
@@ -55,6 +56,7 @@ const LocationsController = {
   async getLocationById(req: Request, res: Response) {
     try {
       const id = req.params.id;
+      const { userId, role } = req.user;
 
       const locations = await Location.findById(id).populate({
         path: 'author',
@@ -65,6 +67,9 @@ const LocationsController = {
         return res
           .status(400)
           .json({ error: req.t('locations_list.location_not_found') });
+      }
+      if (isUserHasRights(userId, role, locations.author.toString())) {
+        return res.status(403).json({});
       }
       return res.json(locations);
     } catch (err: any) {

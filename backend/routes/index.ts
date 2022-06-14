@@ -5,7 +5,6 @@ import AuthController from '../controllers/AuthController';
 import CommentsController from '../controllers/CommentsController';
 import SubscriptionsController from '../controllers/SubscriptionsController';
 import passport from '../libs/passport';
-import multer from 'multer';
 import { upload } from '../utils/upload';
 import {
   CommentSchema,
@@ -16,7 +15,6 @@ import {
   userDataSchema
 } from '../utils/validationSchemes';
 import { validateRequest } from '../utils/validation';
-
 
 const router = express.Router();
 
@@ -68,7 +66,11 @@ router.patch(
   validateRequest,
   LocationsController.updateLocationLikesById
 );
-router.get('/locations/:id', LocationsController.getLocationById);
+router.get(
+  '/locations/:id',
+  passport.authenticate('jwt', { session: false }),
+  LocationsController.getLocationById
+);
 router.post(
   '/locations/create',
   upload.array('image'),
