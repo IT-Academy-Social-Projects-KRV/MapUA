@@ -66,11 +66,7 @@ router.patch(
   validateRequest,
   LocationsController.updateLocationLikesById
 );
-router.get(
-  '/locations/:id',
-  passport.authenticate('jwt', { session: false }),
-  LocationsController.getLocationById
-);
+router.get('/locations/:id', LocationsController.getLocationById);
 router.post(
   '/locations/create',
   upload.array('image'),
@@ -95,7 +91,11 @@ router.patch(
   CommentsController.editLocationComment
 );
 
-router.delete('/comments/:id', CommentsController.deleteLocationComment);
+router.delete(
+  '/comments/:id',
+  passport.authenticate('jwt', { session: false }),
+  CommentsController.deleteLocationComment
+);
 
 router.get(
   '/signin-google',

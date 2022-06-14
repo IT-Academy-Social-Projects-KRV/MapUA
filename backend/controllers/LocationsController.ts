@@ -1,7 +1,6 @@
 import { Response, Request } from 'express';
 import Location from '../models/Locations';
 import User from '../models/UserModel';
-import { isUserHasRights } from '../utils/isUserHasRights';
 
 const LocationsController = {
   async getLocationsByZoom(req: Request, res: Response) {
@@ -10,16 +9,16 @@ const LocationsController = {
       const searchName = req.query.name as string;
       const filters = JSON.parse(req.query.filters as any);
       let locations = (
-        await Location.find({
-          'coordinates.0': {
-            $gt: bounds._southWest.lat,
-            $lt: bounds._northEast.lat
-          },
-          'coordinates.1': {
-            $gt: bounds._southWest.lng,
-            $lt: bounds._northEast.lng
-          }
-        })
+          await Location.find({
+            'coordinates.0': {
+              $gt: bounds._southWest.lat,
+              $lt: bounds._northEast.lat
+            },
+            'coordinates.1': {
+              $gt: bounds._southWest.lng,
+              $lt: bounds._northEast.lng
+            }
+          })
       ).map(l => ({
         _id: l._id,
         coordinates: l.coordinates,
@@ -35,18 +34,18 @@ const LocationsController = {
       }
       if (filters.length > 0) {
         locations = locations.filter(l =>
-          [...l.filters].some(el => filters.includes(el))
+            [...l.filters].some(el => filters.includes(el))
         );
       } else {
         locations = locations.slice(
-          0,
-          locations.length < 50 ? locations.length : 50
+            0,
+            locations.length < 50 ? locations.length : 50
         );
       }
       if (!locations) {
         return res
-          .status(404)
-          .json({ error: req.t('locations_list.locations_not_found') });
+            .status(404)
+            .json({ error: req.t('locations_list.locations_not_found') });
       }
       return res.json({ locations });
     } catch (err: any) {
@@ -56,7 +55,6 @@ const LocationsController = {
   async getLocationById(req: Request, res: Response) {
     try {
       const id = req.params.id;
-      const { userId, role } = req.user;
 
       const locations = await Location.findById(id).populate({
         path: 'author',
@@ -65,11 +63,8 @@ const LocationsController = {
 
       if (!locations) {
         return res
-          .status(400)
-          .json({ error: req.t('locations_list.location_not_found') });
-      }
-      if (isUserHasRights(userId, role, locations.author.toString())) {
-        return res.status(403).json({});
+            .status(400)
+            .json({ error: req.t('locations_list.location_not_found') });
       }
       return res.json(locations);
     } catch (err: any) {
@@ -80,19 +75,19 @@ const LocationsController = {
     try {
       const id = req.params.id;
       const location = await Location.findByIdAndUpdate(
-        id,
-        {
-          $set: { ...req.body }
-        },
-        { new: true }
+          id,
+          {
+            $set: { ...req.body }
+          },
+          { new: true }
       ).populate({
         path: 'author',
         select: 'displayName imageUrl'
       });
       if (!location) {
         return res
-          .status(400)
-          .json({ error: req.t('locations_list.location_not_found') });
+            .status(400)
+            .json({ error: req.t('locations_list.location_not_found') });
       }
       return res.status(200).json(location);
     } catch (err: any) {
@@ -107,15 +102,15 @@ const LocationsController = {
       const { _id: userId } = req.user;
 
       const locationAuthorId = await Location.findById(locationId).select(
-        'author'
+          'author'
       );
 
       if (locationAuthorId?.author.toString() !== userId) {
         return res
-          .status(300)
-          .json({
-            error: req.t('locations_list.update_location_id_not_exist')
-          });
+            .status(300)
+            .json({
+              error: req.t('locations_list.update_location_id_not_exist')
+            });
       }
 
       const imageUrls: string[] = [];
@@ -140,15 +135,15 @@ const LocationsController = {
       }
 
       const changedData = await Location.findByIdAndUpdate(
-        locationId,
-        {
-          $set: {
-            ...newData
+          locationId,
+          {
+            $set: {
+              ...newData
+            }
+          },
+          {
+            new: true
           }
-        },
-        {
-          new: true
-        }
       );
 
       return res.status(200).json({
@@ -193,12 +188,12 @@ const LocationsController = {
         });
         await userLocation.save();
         return res
-          .status(200)
-          .json({ message: req.t('locations_list.location_add_success') });
+            .status(200)
+            .json({ message: req.t('locations_list.location_add_success') });
       } else {
         res
-          .status(400)
-          .json({ error: req.t('locations_list.location_already_exist') });
+            .status(400)
+            .json({ error: req.t('locations_list.location_already_exist') });
       }
     } catch (err: any) {
       return res.status(500).json({ error: req.t('other.server_error'), err });
