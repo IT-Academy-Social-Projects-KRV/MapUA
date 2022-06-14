@@ -41,7 +41,7 @@ export const CardComponent: FC<Props> = ({
     data: { _id: otherUserId }
   } = useTypedSelector(state => state.otherUserData);
 
-  const isSubscribed = subscriptions.includes(otherUserId);
+  const isSubscribed = subscriptions.some((s: any) => s._id === otherUserId);
   const { t } = useTranslation();
 
   return (

@@ -7,92 +7,90 @@ const SubscriptionsController = {
       const { subscriptionId } = req.body;
       const { _id: userId } = req.user;
 
-      console.log('userId: ', userId);
-
       if (!userId || !subscriptionId) {
         return res
           .status(400)
           .json({ error: req.t('subsriptions.fields_error') });
       }
 
-      // let subscriberUserData = await User.findOne({
-      //   _id: userId
-      // });
-
       let subscriberUserData = await User.findOne({
         _id: userId
       });
-      // .populate({
-      //   path: 'subscriptions',
-      //   select: 'displayName imageUrl'
-      // });
-
-      // console.log('subscriberUserData: ', subscriberUserData);
-    
       let subscriptionUserData = await User.findOne({
         _id: subscriptionId
       });
-    
-      if (!subscriberUserData || !subscriptionUserData) {     
+
+      if (!subscriberUserData || !subscriptionUserData) {
         return res.status(400).json({ error: req.t('auth.user_not_exist') });
       }
 
-      const findSubcsiber = (s:any) => s._id.toString() ===  subscriptionId;
+      const findSubscriber = (s: any) => s._id.toString() ===  subscriptionId;
 
       let updatedSubscriber;
-      let updatedSubscriptor;
+      let updatedSubscription;
 
-      if (subscriberUserData.subscriptions.find(findSubcsiber)) {
-        // subscriberUserData.subscriptions =
-        //   subscriberUserData.subscriptions
-        //     .filter((s:any) => s._id.toString() !== subscriptionId);
-        // subscriptionUserData.subscribers =
-        //   subscriptionUserData.subscribers.filter(s => s !== userId);
-        updatedSubscriber = await User.updateOne({
+      if (subscriberUserData.subscriptions.find(findSubscriber)) {
+        updatedSubscriber = await User.findByIdAndUpdate({
           _id: userId
-        }, 
-        { 
-          $pull: { subscriptions: subscriptionId} 
+        },
+        {
+          $pull: { subscriptions: subscriptionId }
         },
         {
           new: true
         }).populate({
-          path: 'subscriptions',
+          path: 'subscribers subscriptions',
           select: 'displayName imageUrl'
         });
 
-        updatedSubscriptor = await User.updateOne({
+        updatedSubscription = await User.findByIdAndUpdate({
           _id: subscriptionId
-        }, 
-        { 
-          $push: { subscribers: subscriptionId} 
+        },
+        {
+          $pull: { subscribers: userId }
         },
         {
           new: true
         }).populate({
-          path: 'subscriptions',
+          path: 'subscribers subscriptions',
           select: 'displayName imageUrl'
         });
       } else {
-        // console.log('subscriptionId: ', subscriptionId);
-        // console.log("subscriber1: ", subscriberUserData.subscriptions);
-        subscriberUserData.subscriptions.push(subscriptionId);
-        // console.log("subscriber2: ", subscriberUserData.subscriptions);
-        subscriptionUserData.subscribers.push(userId);
+        updatedSubscriber = await User.findByIdAndUpdate({
+            _id: userId
+          },
+          {
+            $push: { subscriptions: subscriptionId }
+          },
+          {
+            new: true
+          }).populate({
+          path: 'subscribers subscriptions',
+          select: 'displayName imageUrl'
+        });
+
+        updatedSubscription = await User.findByIdAndUpdate({
+            _id: subscriptionId
+          },
+          {
+            $push: { subscribers: userId }
+          },
+          {
+            new: true
+          }).populate({
+          path: 'subscribers subscriptions',
+          select: 'displayName imageUrl'
+        });
       }
-      
-      console.log("updatedSubscriber: ", updatedSubscriber);
-      console.log("updatedSubscriptor: ", updatedSubscriptor);
-      // console.log("subscription: ", subscriptionUserData.subscribers);
 
-      // await subscriberUserData.save();
-      // await subscriptionUserData.save();
-
+      if (!updatedSubscriber || !updatedSubscription) {
+        return res.status(400).json({ error: req.t('auth.user_not_exist') });
+      }
       return res
         .status(200)
         .json({
-          subscriptions: subscriberUserData.subscriptions,
-          subscribers: subscriptionUserData.subscribers
+          subscriptions: updatedSubscriber.subscriptions,
+          subscribers: updatedSubscription.subscribers
         });
     } catch (err: any) {
       return res.status(500).json({ error: req.t('other.server_error'), err });

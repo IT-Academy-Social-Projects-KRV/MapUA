@@ -83,8 +83,8 @@ export type UserDataType = {
   displayName: string;
   description: string;
   imageUrl: string;
-  subscribers: string[];
-  subscriptions: string[];
+  subscribers: AuthorInfoType[];
+  subscriptions: AuthorInfoType[];
   favorite: string[];
   visited: string[];
   personalLocations: string[];

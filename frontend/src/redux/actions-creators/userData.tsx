@@ -8,6 +8,10 @@ import {
   SnackbarActions,
   SnackbarActionsType
 } from '../action-types/snackbarActionTypes';
+import {
+  OtherUserDataAction,
+  OtherUserDataActionTypes
+} from '../action-types/otherUserDataActionTypes';
 
 const { REACT_APP_API_URI } = process.env;
 
@@ -68,21 +72,33 @@ export const updateUserData =
       throw new Error(error);
     }
   };
-export const toogleUserSubscription =
-  (otherUserId: string, userId: string, notification: string) =>
-  async (dispatch: Dispatch<UserDataAction | SnackbarActions>) => {
+export const toggleUserSubscription =
+  (otherUserId: string, notification: string) =>
+  async (
+    dispatch: Dispatch<UserDataAction | SnackbarActions | OtherUserDataAction>
+  ) => {
     try {
       dispatch({ type: UserDataActionTypes.UPDATE_USER_DATA_LOADING });
+      dispatch({
+        type: OtherUserDataActionTypes.UPDATE_OTHER_USER_DATA_LOADING
+      });
       const response = await axios().patch(
         `${process.env.REACT_APP_API_URI}subscriptions`,
         {
-          userId,
           subscriptionId: otherUserId
         }
       );
       dispatch({
         type: UserDataActionTypes.UPDATE_USER_DATA_SUCCESS,
-        payload: response.data
+        payload: {
+          subscriptions: response.data.subscriptions
+        }
+      });
+      dispatch({
+        type: OtherUserDataActionTypes.UPDATE_OTHER_USER_DATA_SUCCESS,
+        payload: {
+          subscribers: response.data.subscribers
+        }
       });
       dispatch({
         type: SnackbarActionsType.SET_SUCCESS,
@@ -91,6 +107,10 @@ export const toogleUserSubscription =
     } catch (error: any) {
       dispatch({
         type: UserDataActionTypes.UPDATE_USER_DATA_ERROR,
+        payload: error.response.data?.error || 'lost network'
+      });
+      dispatch({
+        type: OtherUserDataActionTypes.UPDATE_OTHER_USER_DATA_ERROR,
         payload: error.response.data?.error || 'lost network'
       });
       dispatch({

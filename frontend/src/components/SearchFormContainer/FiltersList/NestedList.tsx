@@ -47,6 +47,7 @@ export default function NestedList() {
   }, [subscriptions, isAuthorized, currentLanguage]);
 
   const filters = useTypedSelector(state => state.filtersList.filters);
+  console.log(filters);
   const AddSelectedFiltersUaLogic = (selectedValue: string) => {
     if (selectedFiltersUa.some(f => f === selectedValue)) {
       setSelectedFiltersUa(selectedFiltersUa.filter(f => f !== selectedValue));
@@ -100,7 +101,7 @@ export default function NestedList() {
       </ListItemButton>
       <Collapse in={open} timeout="auto">
         <StyledList>
-          {/* {filters.map((filter: any) => (
+          {filters.map((filter: any) => (
             <Box key={filter.id}>
               <ListItemButton onClick={() => handleClickNested(filter.id)}>
                 <ListItemText primary={filter.type} />
@@ -110,24 +111,46 @@ export default function NestedList() {
                 <StyledList>
                   {filter.values?.map((nestedFilter: any, index: number) => (
                     <ListItemButton
-                      onClick={() => OnChange(nestedFilter, filter.id, index)}
+                      onClick={() =>
+                        OnChange(
+                          typeof nestedFilter === 'object'
+                            ? nestedFilter.displayName
+                            : nestedFilter,
+                          filter.id,
+                          index
+                        )
+                      }
                       // eslint-disable-next-line react/no-array-index-key
                       key={index}
                       className="pl-4"
                     >
                       <Checkbox
-                        checked={OnChaked(nestedFilter)}
+                        checked={OnChaked(
+                          typeof nestedFilter === 'object'
+                            ? nestedFilter.displayName
+                            : nestedFilter
+                        )}
                         edge="start"
                         onChange={() => null}
-                        value={nestedFilter}
+                        value={
+                          typeof nestedFilter === 'object'
+                            ? nestedFilter.displayName
+                            : nestedFilter
+                        }
                       />
-                      <ListItemText primary={nestedFilter} />
+                      <ListItemText
+                        primary={
+                          typeof nestedFilter === 'object'
+                            ? nestedFilter.displayName
+                            : nestedFilter
+                        }
+                      />
                     </ListItemButton>
                   ))}
                 </StyledList>
               </Collapse>
             </Box>
-          ))} */}
+          ))}
         </StyledList>
       </Collapse>
     </StyledList>

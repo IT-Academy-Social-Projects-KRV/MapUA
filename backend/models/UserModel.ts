@@ -46,14 +46,18 @@ const schema = new Schema(
     imageUrl: {
       type: String
     },
-    subscribers: {
-      type: [],
-      default: []
-    },
+    // subscribers: {
+    //   type: [],
+    //   default: []
+    // },
     // subscriptions: {
     //   type: [],
     //   default: []
     // },
+    subscribers: [{
+      type: Schema.Types.ObjectId,
+      ref: 'User'
+    }],
     subscriptions: [{
       type: Schema.Types.ObjectId,
       ref: 'User'

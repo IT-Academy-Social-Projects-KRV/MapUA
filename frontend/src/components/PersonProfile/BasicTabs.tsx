@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { Tabs, Tab, Typography, Box } from '@mui/material';
+import { v4 } from 'uuid';
 
 interface TabPanelProps {
   index: number;
@@ -71,13 +72,17 @@ export default function BasicTabs() {
       <Box>
         <TabPanel value={value} index={1}>
           {userInfo.data.subscribers.length > 0
-            ? userInfo.data.subscribers
+            ? userInfo.data.subscribers.map((s: any) => (
+                <div key={v4()}>{s.displayName}</div>
+              ))
             : `${t('profile.basicTabs.noSubscribers')}`}
         </TabPanel>
       </Box>
       <TabPanel value={value} index={2}>
         {userInfo.data.subscriptions.length > 0
-          ? userInfo.data.subscriptions
+          ? userInfo.data.subscriptions.map((s: any) => (
+              <div key={v4()}>{s.displayName}</div>
+            ))
           : `${t('profile.basicTabs.noSubscriptions')}`}
       </TabPanel>
     </Box>

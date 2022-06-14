@@ -22,21 +22,16 @@ export default function PersonProfilePage() {
     data: { _id: otherUserId, displayName, imageUrl: userAvatar }
   } = useTypedSelector(state => state.otherUserData);
   const {
-    data: { _id: userId, subscriptions }
+    data: { subscriptions }
   } = useTypedSelector(state => state.userData);
-
-  console.log('subscriptions: ', subscriptions);
 
   const { data: isAuthorized } = useTypedSelector(
     state => state.isUserAuthorized
   );
 
-  const { fetchOtherUserData, toogleUserSubscription } = useTypedDispatch();
+  const { fetchOtherUserData, toggleUserSubscription } = useTypedDispatch();
 
-  // const findSubcsiber = (s: any) => s._id.toString() === otherUserId;
-  const isSubscribed = subscriptions.includes(otherUserId);
-  // const isSubscribed = subscriptions.find(findSubcsiber);
-  console.log('isSubscribed: ', isSubscribed);
+  const isSubscribed = subscriptions.some((s: any) => s._id === otherUserId);
 
   const params = useParams();
   useEffect(() => {
@@ -49,9 +44,8 @@ export default function PersonProfilePage() {
 
   const handleSubscription = () => {
     if (isAuthorized) {
-      toogleUserSubscription(
+      toggleUserSubscription(
         otherUserId,
-        userId,
         t('profile.profilePage.profilePageUpdatedSuccessfully')
       );
     }
@@ -74,9 +68,9 @@ export default function PersonProfilePage() {
             variant="contained"
             onClick={handleSubscription}
           >
-            {!isSubscribed
-              ? t('profile.profilePage.subscribe')
-              : t('profile.profilePage.unsubscribe')}
+            {isSubscribed
+              ? t('profile.profilePage.unsubscribe')
+              : t('profile.profilePage.subscribe')}
           </SubsrcibeButton>
         )}
       </ProfileContentWrapper>
