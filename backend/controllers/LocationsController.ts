@@ -102,8 +102,21 @@ const LocationsController = {
 
   async changeLocationData(req: Request, res: Response) {
     try {
-      let { id } = req.params;
-      let { locationName, description, filters } = req.body;
+      let { id: locationId } = req.params;
+      let { locationName, description } = req.body;
+      const { _id: userId } = req.user;
+
+      const locationAuthorId = await Location.findById(locationId).select(
+        'author'
+      );
+
+      if (locationAuthorId?.author.toString() !== userId) {
+        return res
+          .status(300)
+          .json({
+            error: req.t('locations_list.update_location_id_not_exist')
+          });
+      }
 
       const imageUrls: string[] = [];
 
@@ -111,15 +124,23 @@ const LocationsController = {
         imageUrls.push(file.location);
       });
 
-      const newData = {
-        locationName: locationName,
-        description: description,
-        filters: filters,
-        arrayPhotos: imageUrls
-      };
+      let newData = {};
+
+      if (imageUrls.length === 0) {
+        newData = {
+          locationName: locationName,
+          description: description
+        };
+      } else {
+        newData = {
+          locationName: locationName,
+          description: description,
+          arrayPhotos: imageUrls
+        };
+      }
 
       const changedData = await Location.findByIdAndUpdate(
-        id,
+        locationId,
         {
           $set: {
             ...newData

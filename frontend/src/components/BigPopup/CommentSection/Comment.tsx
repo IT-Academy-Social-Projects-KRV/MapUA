@@ -29,12 +29,12 @@ import EditCommentField from './EditCommentField';
 import { StyledCommentBox } from '../../design/StyledCommentBox';
 
 interface Props {
-  authorId: string | undefined;
+  authorId: string;
   text: string;
   createdAt: Date;
   authorsName: string;
   authorsImage: string;
-  id: string | undefined;
+  id: string;
   locationId: string;
   likes: string[];
   dislikes: string[];
@@ -62,6 +62,7 @@ const Comment = ({
   const { _id: userId } = useTypedSelector(state => state.userData.data);
   const { role } = useTypedSelector(state => state.isUserAuthorized.data);
   const { editComment } = useTypedDispatch();
+  const { deleteComment } = useTypedDispatch();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -155,11 +156,13 @@ const Comment = ({
               role === 'moderator' ||
               role === 'admin') && (
               <Box>
-                <MenuItem onClick={handleClose}>
-                  <ListItemIcon onClick={() => null}>
+                <MenuItem onClick={() => deleteComment(id)}>
+                  <ListItemIcon>
                     <DeleteIcon fontSize="small" />
                   </ListItemIcon>
-                  <ListItemText>Delete</ListItemText>
+                  <ListItemText>
+                    {t('profile.profilePage.deleteComment')}
+                  </ListItemText>
                 </MenuItem>
                 <MenuItem
                   disabled={disabledEditButton}

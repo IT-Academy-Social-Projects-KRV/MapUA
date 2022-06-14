@@ -54,7 +54,7 @@ router.patch(
 router.get('/locations/', LocationsController.getLocationsByZoom);
 
 router.patch(
-  '/locations/:id',
+  '/update_location/:id',
   passport.authenticate('jwt', { session: false }),
   upload.array('image'),
   LocationsController.changeLocationData
@@ -94,6 +94,8 @@ router.patch(
   validateRequest,
   CommentsController.editLocationComment
 );
+
+router.delete('/comments/:id', CommentsController.deleteLocationComment);
 
 router.get(
   '/signin-google',

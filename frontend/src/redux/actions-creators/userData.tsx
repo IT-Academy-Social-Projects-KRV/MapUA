@@ -68,7 +68,6 @@ export const updateUserData =
       throw new Error(error);
     }
   };
-
 export const toogleUserSubscription =
   (otherUserId: string, userId: string, notification: string) =>
   async (dispatch: Dispatch<UserDataAction | SnackbarActions>) => {

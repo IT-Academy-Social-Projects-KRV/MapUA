@@ -9,19 +9,22 @@ import {
   SnackbarActionsType
 } from '../action-types/snackbarActionTypes';
 
-import { CommentType } from '../../../types';
+import { AddCommentType } from '../../../types';
 
 export const sendComment =
-  (comment: CommentType<string>) =>
-  async (dispatch: Dispatch<LocationCommentsActions>) => {
+  (comment: AddCommentType<string>) =>
+  async (dispatch: Dispatch<LocationCommentsActions | SnackbarActions>) => {
     try {
       const { data } = await axios().post('comments/create', { comment });
-      if (data) {
-        dispatch({
-          type: LocationCommentsActionTypes.ADD_COMMENT,
-          payload: data
-        });
-      }
+
+      dispatch({
+        type: LocationCommentsActionTypes.ADD_COMMENT,
+        payload: data.comment
+      });
+      dispatch({
+        type: SnackbarActionsType.SET_SUCCESS,
+        payload: data.message
+      });
     } catch (error: any) {
       throw new Error(error);
     }
@@ -41,8 +44,26 @@ export const fetchComments =
     }
   };
 
+export const deleteComment =
+  (id: string) =>
+  async (dispatch: Dispatch<LocationCommentsActions | SnackbarActions>) => {
+    try {
+      const { data } = await axios().delete(`comments/${id}`);
+      dispatch({
+        type: LocationCommentsActionTypes.DELETE_COMMENT,
+        payload: id
+      });
+      dispatch({
+        type: SnackbarActionsType.SET_SUCCESS,
+        payload: data.message
+      });
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  };
+
 export const editComment =
-  (comment: {}, id?: string) =>
+  (comment: {}, id: string) =>
   async (dispatch: Dispatch<LocationCommentsActions | SnackbarActions>) => {
     try {
       const { data } = await axios().patch(`comments/${id}`, {

@@ -61,7 +61,10 @@ const EditCommentField = ({
         justifyContent="space-evenly"
         alignItems="stretch"
       >
-        {newCommentText === text ? (
+        {newCommentText === text ||
+        !newCommentText ||
+        newCommentText.length < 5 ||
+        newCommentText.length > 50 ? (
           <Button
             disabled
             variant="outlined"

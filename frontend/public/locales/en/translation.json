@@ -15,12 +15,16 @@
   },
   "createLocation": {
     "creatingLocation": "Creating location",
+    "updateLocation": "Update location",
+    "editLocation": "Edit location",
     "enterLocName": "Enter location name",
     "enterDescription": "Minimum 10 symbols",
     "favorites": "Favorites",
     "doneAndSubmit": "Done and submit",
     "couldNotCreateLocation": "Could not create location",
-    "locationSuccessfullyCreated": "Location successfully created!"
+    "locationSuccessfullyCreated": "Location successfully created!",
+    "locationSuccessfullyEdited": "Location successfully edited!"
+
   },
   "profile": {
     "basicTabs": {
@@ -49,7 +53,8 @@
       "logout": "Logout",
       "yourName": "Your name:",
       "profilePageUpdatedSuccessfully": "Profile page updated successfully!",
-      "editComment": "Edit"
+      "deleteComment": "Delete",
+      "editComment": "Edit",
       "subscribe": "Subscribe",
       "unsubscribe": "Unsubscribe"
     }
