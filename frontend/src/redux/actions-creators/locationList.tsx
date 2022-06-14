@@ -27,7 +27,6 @@ export const fetchLocations =
       if (locationName) url += `&name=${locationName}`;
       if (filters) url += `&filters=${JSON.stringify(filters)}`;
       if (authFilters) url += `&authFilters=${JSON.stringify(authFilters)}`;
-      // console.log('url', url);
 
       const options = {
         headers: {

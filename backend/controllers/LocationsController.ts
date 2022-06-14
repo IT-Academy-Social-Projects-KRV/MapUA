@@ -9,15 +9,12 @@ const LocationsController = {
       const searchName = req.query.name as string;
       const filters = JSON.parse(req.query.filters as any);
       const authFilters = JSON.parse(req.query.authFilters as any);
-      // console.log('bounds', bounds);
-      // console.log('searchName', searchName);
-      // console.log('filters', filters);
-      // console.log('authFilters', authFilters);
+
+      const personalFiltersNames = ['visited', 'favorites', 'personal'];
+      let subscriptionsId = filters.filter((f: string) => f.match(/^\d/));
 
       let locations = (
         await Location.find({
-          // $or: [
-          // {
           'coordinates.0': {
             $gt: bounds._southWest.lat,
             $lt: bounds._northEast.lat
@@ -26,9 +23,6 @@ const LocationsController = {
             $gt: bounds._southWest.lng,
             $lt: bounds._northEast.lng
           }
-          // },
-          //   { _id: authFilters }
-          // ]
         })
       ).map(l => ({
         _id: l._id,
@@ -36,9 +30,9 @@ const LocationsController = {
         name: l.locationName,
         locationName: l.locationName,
         arrayPhotos: l.arrayPhotos,
-        filters: l.filters
+        filters: l.filters,
+        author: l.author
       }));
-      // console.log('locations', locations);
 
       if (searchName) {
         locations = locations.filter(l => {
@@ -46,26 +40,33 @@ const LocationsController = {
         });
       }
 
-      const personalFiltersNames = ['visited', 'favorites', 'personal'];
       if (
         filters.length > 0 &&
-        !personalFiltersNames.some(el => filters.includes(el))
+        !personalFiltersNames.some(el => filters.includes(el)) &&
+        subscriptionsId.length === 0
       ) {
         locations = locations.filter(l => {
           return [...l.filters].some(el => filters.includes(el));
         });
       }
+
       if (authFilters.length > 0) {
         locations = locations.filter(l => {
           return [l._id.toHexString()].some(el => authFilters.includes(el));
         });
-        // console.log('aaa', locations);
+      }
+      
+      if (subscriptionsId.length > 0) {  
+        locations = locations.filter(l => {
+          return [l.author.toHexString()].some(el => subscriptionsId.includes(el));
+        });
       } else {
         locations = locations.slice(
           0,
           locations.length < 50 ? locations.length : 50
         );
       }
+
       if (!locations) {
         return res
           .status(404)

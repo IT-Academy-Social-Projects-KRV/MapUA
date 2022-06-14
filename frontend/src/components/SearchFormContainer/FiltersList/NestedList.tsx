@@ -26,6 +26,7 @@ export default function NestedList() {
   const selectedFilters = useTypedSelector(
     state => state.mapInfo.selectedFilters
   );
+
   const { subscriptions } = useTypedSelector(state => state.userData.data);
   const { data: isAuthorized } = useTypedSelector(
     state => state.isUserAuthorized
@@ -47,7 +48,6 @@ export default function NestedList() {
   }, [subscriptions, isAuthorized, currentLanguage]);
 
   const filters = useTypedSelector(state => state.filtersList.filters);
-
   const AddSelectedFiltersUaLogic = (selectedValue: string) => {
     if (selectedFiltersUa.some(f => f === selectedValue)) {
       setSelectedFiltersUa(selectedFiltersUa.filter(f => f !== selectedValue));
@@ -60,11 +60,16 @@ export default function NestedList() {
     let value: string = selectedValue;
     if (currentLanguage === 'ua') {
       AddSelectedFiltersUaLogic(selectedValue);
-      value = mainFilters[filterId - 1].values[index];
+      if (filterId === 4) {
+        value = selectedValue;
+      } else value = mainFilters[filterId - 1].values[index];
     }
 
     if (currentLanguage === 'en') {
-      AddSelectedFiltersUaLogic(mainFiltersUa[filterId - 1].values[index]);
+      if (filterId === 4) {
+        AddSelectedFiltersUaLogic(selectedValue);
+      } else
+        AddSelectedFiltersUaLogic(mainFiltersUa[filterId - 1].values[index]);
     }
 
     if (selectedFilters.some(f => f === value)) {
@@ -72,7 +77,6 @@ export default function NestedList() {
     } else {
       setFilters([...selectedFilters, value]);
     }
-    console.log('value', value);
   };
 
   const onChecked = (nestedFilter: any) => {
