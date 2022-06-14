@@ -48,7 +48,7 @@ router.patch(
 
 router.patch(
   '/subscriptions',
-  // passport.authenticate('jwt', { session: false }),
+  passport.authenticate('jwt', { session: false }),
   SubscriptionsController.toggleSubscriptions
 );
 

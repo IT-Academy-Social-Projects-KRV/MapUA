@@ -9,6 +9,8 @@ export enum UserDataActionTypes {
   UPDATE_USER_DATA_SUCCESS = 'UPDATE_USER_DATA_SUCCESS',
   UPDATE_USER_DATA_ERROR = 'UPDATE_USER_DATA_ERROR',
   DELETE_USER_DATA = 'DELETE_USER_DATA'
+  // UPDATE_USER_SUBSCRIPTION_DATA_LOADING = 'UPDATE_USER_SUBSCRIPTION_DATA_LOADING',
+  // UPDATE_USER_DATA_SUBSCRIPTION_SUCCESS = 'UPDATE_USER_DATA_SUBSCRIPTION_SUCCESS'
 }
 
 interface FetchUserDataLoadingAction {
@@ -30,6 +32,14 @@ interface UpdateUserDataSuccessAction {
   type: UserDataActionTypes.UPDATE_USER_DATA_SUCCESS;
   payload: Partial<UserDataType>;
 }
+
+// interface UpdateUserDataLoadingAction {
+//   type: UserDataActionTypes.UPDATE_USER_SUBSCRIPTION_DATA_LOADING;
+// }
+// interface UpdateUserDataSuccessAction {
+//   type: UserDataActionTypes.UPDATE_USER_SUBSCRIPTION_DATA_LOADING;
+//   payload: Partial<UserDataType>;
+// }
 interface UpdateUserDataErrorAction {
   type: UserDataActionTypes.UPDATE_USER_DATA_ERROR;
   payload: string;

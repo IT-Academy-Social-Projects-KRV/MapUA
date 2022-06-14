@@ -25,13 +25,18 @@ export default function PersonProfilePage() {
     data: { _id: userId, subscriptions }
   } = useTypedSelector(state => state.userData);
 
+  console.log('subscriptions: ', subscriptions);
+
   const { data: isAuthorized } = useTypedSelector(
     state => state.isUserAuthorized
   );
 
   const { fetchOtherUserData, toogleUserSubscription } = useTypedDispatch();
 
+  // const findSubcsiber = (s: any) => s._id.toString() === otherUserId;
   const isSubscribed = subscriptions.includes(otherUserId);
+  // const isSubscribed = subscriptions.find(findSubcsiber);
+  console.log('isSubscribed: ', isSubscribed);
 
   const params = useParams();
   useEffect(() => {

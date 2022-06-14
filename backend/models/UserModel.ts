@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema }  from 'mongoose';
 import bcrypt from 'bcrypt';
 import { userInfo } from 'os';
 import { Role } from '../types';
@@ -21,7 +21,7 @@ export interface IUser extends Document {
   personalLocations: string[];
 }
 
-const schema = new mongoose.Schema(
+const schema = new Schema(
   {
     email: {
       type: String,
@@ -50,10 +50,14 @@ const schema = new mongoose.Schema(
       type: [],
       default: []
     },
-    subscriptions: {
-      type: [],
-      default: []
-    },
+    // subscriptions: {
+    //   type: [],
+    //   default: []
+    // },
+    subscriptions: [{
+      type: Schema.Types.ObjectId,
+      ref: 'User'
+    }],
     favorite: {
       type: [],
       default: []

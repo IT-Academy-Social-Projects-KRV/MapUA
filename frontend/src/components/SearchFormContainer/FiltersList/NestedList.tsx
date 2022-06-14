@@ -100,7 +100,7 @@ export default function NestedList() {
       </ListItemButton>
       <Collapse in={open} timeout="auto">
         <StyledList>
-          {filters.map((filter: any) => (
+          {/* {filters.map((filter: any) => (
             <Box key={filter.id}>
               <ListItemButton onClick={() => handleClickNested(filter.id)}>
                 <ListItemText primary={filter.type} />
@@ -127,7 +127,7 @@ export default function NestedList() {
                 </StyledList>
               </Collapse>
             </Box>
-          ))}
+          ))} */}
         </StyledList>
       </Collapse>
     </StyledList>

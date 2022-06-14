@@ -25,7 +25,6 @@ const CommentsController = {
         path: 'author',
         select: 'displayName imageUrl'
       });
-
       return res.status(200).json({
         message: req.t('location_comments.comment_add_success'),
         comment
