@@ -12,7 +12,7 @@ import { CommentSectionSchema } from 'utils/validation';
 import { useTranslation } from 'react-i18next';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
-import { CommentType } from '../../../../types';
+import { AddCommentType } from '../../../../types';
 import { StyledCommentFormButton } from '../../design/StyledCommentFormButton';
 
 type CommentCheck = {
@@ -28,7 +28,7 @@ const CommentForm = () => {
     state => state.popupLocation.data
   );
 
-  const { handleSubmit, control } = useForm<CommentCheck>({
+  const { handleSubmit, control, reset } = useForm<CommentCheck>({
     resolver: yupResolver(CommentSectionSchema)
   });
 
@@ -37,15 +37,17 @@ const CommentForm = () => {
   });
 
   const onSendComment: SubmitHandler<CommentCheck> = ({ commentText }) => {
-    const commentBody: CommentType<string> = {
+    const commentBody: AddCommentType<string> = {
       author: userId,
       locationId: locationId!,
       text: commentText,
       likes: [],
       dislikes: []
     };
+
     if (commentText) {
       sendComment(commentBody);
+      reset();
     }
   };
 
@@ -54,16 +56,15 @@ const CommentForm = () => {
       <Controller
         name="commentText"
         control={control}
+        defaultValue=""
         render={({ field }) => (
           <TextField
+            {...field}
             fullWidth
             multiline
             rows={5}
             placeholder={t('bigPopup.commentSection.commentForm.addComment')}
             variant="outlined"
-            onChange={e => field.onChange(e)}
-            onBlur={field.onBlur}
-            defaultValue={field.value}
             error={!!errors.commentText?.message}
             helperText={t(
               !errors.commentText ? '' : String(errors.commentText.message)

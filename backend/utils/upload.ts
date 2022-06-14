@@ -14,12 +14,11 @@ export const upload = multer({
     }),
     bucket: 'mapua-storage',
     key: (_, file, cb) => {
-      console.log(file);
       cb(null, `files/${Date.now().toString()}-${file.originalname}`);
     }
   }),
   fileFilter: (_, file, cb) => {
-    const fileTypes = /jpeg|jpg|png|gif/;
+    const fileTypes = /jpeg|jpg|png|gif|svg/;
     const mimetype = fileTypes.test(file.mimetype);
     const extname = fileTypes.test(path.extname(file.originalname));
     if (mimetype && extname) {

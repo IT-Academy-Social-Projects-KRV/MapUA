@@ -14,27 +14,23 @@ const defaultProps: Props = {
   severity: 'error'
 };
 
-const ExtendSnackbar: FC<Props> = ({
-  open,
-  notification,
-  onClose,
-  severity
-}) => (
-  <Snackbar
-    anchorOrigin={{
-      vertical: 'top',
-      horizontal: 'right'
-    }}
-    sx={{ zIndex: 10000 }}
-    open={open}
-    autoHideDuration={3000}
-    onClose={onClose}
-  >
-    <Alert onClose={onClose} severity={severity} sx={{ mt: '1vh' }}>
-      {notification}
-    </Alert>
-  </Snackbar>
-);
+const ExtendSnackbar: FC<Props> = ({ open, notification, onClose, severity }) =>
+  open ? (
+    <Snackbar
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'right'
+      }}
+      sx={{ zIndex: 10000 }}
+      open={open}
+      autoHideDuration={3000}
+      onClose={onClose}
+    >
+      <Alert onClose={onClose} severity={severity}>
+        {notification}
+      </Alert>
+    </Snackbar>
+  ) : null;
 
 ExtendSnackbar.defaultProps = defaultProps;
 

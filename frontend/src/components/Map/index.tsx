@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { TileLayer, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useTranslation } from 'react-i18next';
@@ -12,31 +12,34 @@ import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import L from 'leaflet';
 import Locations from './Locations/Locations';
 import MyZoomComponent from './ZoomComponent';
+
 import { StyledMapContainer } from '../design/StyledMapContainer';
 import { StyledAddLocationButton } from '../design/StyledAddLocationButton';
+import { latlngType } from '../../../types';
+import DrawMarkerCreateLocation from './DrawMarkerWhenLocationCreate';
 
 interface Props {
   onOpenBigPopup: Function;
   onOpenLocationForm: Function;
   setCoordinate: Function;
   isOpen: boolean;
-  showAddLocationButton: boolean;
-  setIsAddLocationActive: Function;
+  toggleIsAddLocation: Function;
   isAddLocationActive: boolean;
+  coordinate: latlngType;
 }
 
 function Map({
   onOpenLocationForm,
   setCoordinate,
   isOpen,
-  showAddLocationButton,
-  setIsAddLocationActive,
+  toggleIsAddLocation,
   isAddLocationActive,
-  onOpenBigPopup
+  onOpenBigPopup,
+  coordinate
 }: Props) {
   const { t } = useTranslation();
-  const { data: isAuthorized } = useTypedSelector(
-    state => state.isUserAuthorized
+  const { isAuthorized } = useTypedSelector(
+    state => state.isUserAuthorized.data
   );
   const {
     bounds,
@@ -60,7 +63,7 @@ function Map({
     }
   }, [selectedFilters, bounds]);
 
-  const formRef = React.useRef<any>(null);
+  const formRef = useRef<any>(null);
   const [, SetCoordinateByClick] = useState<any>({});
   const debouncedValue = useDebounce(searchName, 1000);
   const { setBounds, fetchLocations } = useTypedDispatch();
@@ -105,9 +108,7 @@ function Map({
 
         {isAuthorized && !isOpen && (
           <StyledAddLocationButton
-            onClick={() =>
-              setIsAddLocationActive((prevState: boolean) => !prevState)
-            }
+            onClick={() => toggleIsAddLocation()}
             style={{
               background: isAddLocationActive ? 'yellow' : 'white',
               color: isAddLocationActive ? 'black' : '#1976d2'
@@ -118,6 +119,7 @@ function Map({
               : `${t('map.addLocation')}`}
           </StyledAddLocationButton>
         )}
+        {isOpen && <DrawMarkerCreateLocation coordinate={coordinate} />}
       </StyledMapContainer>
     </StyledMapWrapper>
   );

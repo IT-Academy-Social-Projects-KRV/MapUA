@@ -60,6 +60,7 @@ export default function BasicTabs({
   };
 
   const userDescription = useTypedSelector(state => state.userData);
+
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -105,11 +106,15 @@ export default function BasicTabs({
       )}
       <Box>
         <TabPanel value={value} index={1}>
-          Item Two
+          {userDescription.data.subscribers.length > 0
+            ? userDescription.data.subscribers
+            : `${t('profile.basicTabs.noSubscribers')}`}
         </TabPanel>
       </Box>
       <TabPanel value={value} index={2}>
-        Item Three
+        {userDescription.data.subscriptions.length > 0
+          ? userDescription.data.subscriptions
+          : `${t('profile.basicTabs.noSubscriptions')}`}
       </TabPanel>
     </Box>
   );

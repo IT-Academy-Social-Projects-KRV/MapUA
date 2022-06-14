@@ -42,13 +42,14 @@ export const CreatingLocationSchema = yup.object().shape({
   locationDescription: yup
     .string()
     .min(10, 'utils.validation.locationDescriptionMinLengthError')
+    .max(200, 'utils.validation.locationDescriptionMaxLengthError')
     .required('utils.validation.emptyLocationDescriptionError')
 });
 
 export const CommentSectionSchema = yup.object().shape({
   commentText: yup
     .string()
+    .required('utils.validation.emptyCommentTextError')
     .min(5, 'utils.validation.commentTextMinLengthError')
     .max(50, 'utils.validation.commentTextMaxLengthError')
-    .required('utils.validation.emptyCommentTextError')
 });

@@ -1,9 +1,9 @@
 import express from 'express';
 import UserController from '../controllers/UserController';
-import SubscriptionsController from '../controllers/SubscriptionsController';
 import LocationsController from '../controllers/LocationsController';
 import AuthController from '../controllers/AuthController';
 import CommentsController from '../controllers/CommentsController';
+import SubscriptionsController from '../controllers/SubscriptionsController';
 import passport from '../libs/passport';
 import multer from 'multer';
 import { upload } from '../utils/upload';
@@ -46,14 +46,21 @@ router.patch(
   // UserController.changePrivateUserData
 );
 
-router.get(
+router.patch(
   '/subscriptions',
-  passport.authenticate('jwt', { session: false }),
-  SubscriptionsController.getSubscriptions
+  // passport.authenticate('jwt', { session: false }),
+  SubscriptionsController.toggleSubscriptions
 );
 
 router.get('/locations/', LocationsController.getLocationsByZoom);
-router.patch('/locations', LocationsController.changeLocationInfo);
+
+router.patch(
+  '/update_location/:id',
+  passport.authenticate('jwt', { session: false }),
+  upload.array('image'),
+  LocationsController.changeLocationData
+);
+
 router.patch(
   '/locations/:id',
   updateLocationLikesSchema,
@@ -77,6 +84,15 @@ router.post(
   CommentsController.createLocationComment
 );
 router.get('/comments/:locationId', CommentsController.getLocationComments);
+
+router.patch(
+  '/comments/:id',
+  CommentSchema,
+  validateRequest,
+  CommentsController.editLocationComment
+);
+
+router.delete('/comments/:id', CommentsController.deleteLocationComment);
 
 router.get(
   '/signin-google',
@@ -128,5 +144,6 @@ router.put(
   passport.authenticate('jwt', { session: false }),
   UserController.toggleVisited
 );
+router.get('/profile/:id', UserController.getOtherUserProfile);
 
 export default router;

@@ -1,20 +1,47 @@
 import { Response, Request } from 'express';
-import User from '../models/UserModel';
+import User, { IUser } from '../models/UserModel';
 
 const SubscriptionsController = {
-  async getSubscriptions(req: Request, res: Response) {
+  async toggleSubscriptions(req: Request, res: Response) {
     try {
-      const _id = req.user;
+      const { userId, subscriptionId } = req.body;
 
-      const userData = await User.findById(_id, {
-        subscriptions: true
+      if (!userId || !subscriptionId) {
+        return res
+          .status(400)
+          .json({ error: req.t('subsriptions.fields_error') });
+      }
+
+      let subscriberUserData = await User.findOne({
+        _id: userId
+      });
+      let subscriptionUserData = await User.findOne({
+        _id: subscriptionId
       });
 
-      if (!userData) {
+      if (!subscriberUserData || !subscriptionUserData) {
         return res.status(400).json({ error: req.t('auth.user_not_exist') });
       }
 
-      return res.status(200).json({ userData });
+      if (subscriberUserData.subscriptions.includes(subscriptionId)) {
+        subscriberUserData.subscriptions =
+          subscriberUserData.subscriptions.filter(s => s !== subscriptionId);
+        subscriptionUserData.subscribers =
+          subscriptionUserData.subscribers.filter(s => s !== userId);
+      } else {
+        subscriberUserData.subscriptions.push(subscriptionId);
+        subscriptionUserData.subscribers.push(userId);
+      }
+
+      await subscriberUserData.save();
+      await subscriptionUserData.save();
+
+      return res
+        .status(200)
+        .json({
+          subscriptions: subscriberUserData.subscriptions,
+          subscribers: subscriptionUserData.subscribers
+        });
     } catch (err: any) {
       return res.status(500).json({ error: req.t('other.server_error'), err });
     }

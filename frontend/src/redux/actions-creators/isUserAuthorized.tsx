@@ -5,7 +5,10 @@ import {
   IsUserAuthorizedActionTypes
 } from 'redux/action-types/isUserAuthorizedActionTypes';
 import axios from 'services/axios';
-import { SnackbarActions, SnackbarActionsType } from "../action-types/snackbarActionTypes";
+import {
+  SnackbarActions,
+  SnackbarActionsType
+} from '../action-types/snackbarActionTypes';
 
 export const login =
   (email: string, password: string, notification: string) =>
@@ -18,18 +21,13 @@ export const login =
 
       dispatch({
         type: IsUserAuthorizedActionTypes.LOGIN_USER_SUCCESS,
-        payload: response.data
+        payload: response.data.role
       });
       localStorage.setItem('accessToken', response.data.token);
       dispatch({
         type: SnackbarActionsType.SET_SUCCESS,
         payload: notification
       });
-      setTimeout(() => {
-        dispatch({
-          type: SnackbarActionsType.RESET_SNACKBAR
-        });
-      }, 3000);
     } catch (error: any) {
       dispatch({
         type: IsUserAuthorizedActionTypes.LOGIN_USER_ERROR,
@@ -43,25 +41,22 @@ export const login =
   };
 
 export const loginOAuth =
-  (token: string, id: string) => async (dispatch: Dispatch<isUserAuthorizedAction>) => {
+  (token: string) =>
+  async (dispatch: Dispatch<isUserAuthorizedAction>) => {
     dispatch({
       type: IsUserAuthorizedActionTypes.LOGIN_USER_LOADING
     });
 
     dispatch({
       type: IsUserAuthorizedActionTypes.LOGIN_USER_SUCCESS,
-      payload: {
-        user: {
-          _id: id
-        },
-        token
-      }
+      payload: 'user'
     });
 
     localStorage.setItem('accessToken', token);
   };
 
-export const checkIsUserAuthorized = () => async (dispatch: Dispatch<isUserAuthorizedAction>) => {
+export const checkIsUserAuthorized =
+  () => async (dispatch: Dispatch<isUserAuthorizedAction>) => {
     try {
       dispatch({
         type: IsUserAuthorizedActionTypes.CHECK_USER_TOKEN_LOADING
@@ -70,7 +65,8 @@ export const checkIsUserAuthorized = () => async (dispatch: Dispatch<isUserAutho
 
       if (response.status === 200)
         dispatch({
-          type: IsUserAuthorizedActionTypes.CHECK_USER_TOKEN_SUCCESS
+          type: IsUserAuthorizedActionTypes.CHECK_USER_TOKEN_SUCCESS,
+          payload: response.data.role
         });
     } catch (error: any) {
       dispatch({
@@ -82,9 +78,10 @@ export const checkIsUserAuthorized = () => async (dispatch: Dispatch<isUserAutho
     }
   };
 
-export const logout = () => async (dispatch: Dispatch<isUserAuthorizedAction>) => {
-  dispatch({
-    type: IsUserAuthorizedActionTypes.LOGOUT_USER
-  });
-  localStorage.removeItem('accessToken');
-};
+export const logout =
+  () => async (dispatch: Dispatch<isUserAuthorizedAction>) => {
+    dispatch({
+      type: IsUserAuthorizedActionTypes.LOGOUT_USER
+    });
+    localStorage.removeItem('accessToken');
+  };

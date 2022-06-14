@@ -1,5 +1,8 @@
-import { IconButton } from '@mui/material';
 import React, { FC, MouseEventHandler } from 'react';
+import { IconButton, ListItemIcon, ListItemText } from '@mui/material';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
@@ -9,8 +12,11 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import TourOutlinedIcon from '@mui/icons-material/TourOutlined';
 import TourIcon from '@mui/icons-material/Tour';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTranslation } from 'react-i18next';
+import ReportIcon from '@mui/icons-material/Report';
+import EditIcon from '@mui/icons-material/Edit';
 
 type Props = {
   handleRating: Function;
@@ -18,6 +24,8 @@ type Props = {
   handleVisitedClick: MouseEventHandler<HTMLButtonElement>;
   locationIsFavorite: boolean | '' | undefined;
   locationIsVisited: boolean | '' | undefined;
+  editData: any;
+  locationAuthorId: any;
 };
 
 export const IconsComponent: FC<Props> = ({
@@ -25,13 +33,26 @@ export const IconsComponent: FC<Props> = ({
   handleFavoriteClick,
   locationIsFavorite,
   locationIsVisited,
-  handleVisitedClick
+  handleVisitedClick,
+  editData,
+  locationAuthorId
 }) => {
   const { t } = useTranslation();
 
   const { rating } = useTypedSelector(state => state.popupLocation.data);
 
+  const { author } = useTypedSelector(state => state.popupLocation.data);
   const { _id: userId } = useTypedSelector(state => state.userData.data);
+  const { role } = useTypedSelector(state => state.isUserAuthorized.data);
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <>
@@ -80,6 +101,51 @@ export const IconsComponent: FC<Props> = ({
       >
         {locationIsVisited ? <TourIcon /> : <TourOutlinedIcon />}
       </IconButton>
+      <IconButton
+        id="basic-button"
+        aria-controls={open ? 'basic-menu' : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        onClick={handleClick}
+      >
+        <MoreHorizIcon />
+      </IconButton>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={() => {
+          handleClose();
+        }}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button'
+        }}
+      >
+        <MenuItem onClick={handleClose}>
+          <ListItemIcon onClick={() => null}>
+            <ReportIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Report</ListItemText>
+        </MenuItem>
+        {((author && author._id === userId) ||
+          role === 'moderator' ||
+          role === 'admin') && (
+          <MenuItem onClick={handleClose}>
+            <IconButton size="small" onClick={() => null}>
+              <DeleteIcon />
+              Delete
+            </IconButton>
+          </MenuItem>
+        )}
+        <MenuItem onClick={handleClose}>
+          {locationAuthorId?._id === userId && (
+            <IconButton size="small" onClick={editData}>
+              <EditIcon />
+              {t('createLocation.editLocation')}
+            </IconButton>
+          )}
+        </MenuItem>
+      </Menu>
     </>
   );
 };

@@ -30,6 +30,13 @@ export const createLocationReducer = (
         data: true,
         success: true
       };
+    case CreateLocationActionTypes.AFTER_CREATE_LOCATION_RESET:
+      return {
+        loading: false,
+        error: null,
+        data: false,
+        success: false
+      };
     case CreateLocationActionTypes.CREATE_LOCATION_ERROR:
       return {
         loading: false,

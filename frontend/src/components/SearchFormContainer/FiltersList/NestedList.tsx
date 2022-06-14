@@ -28,8 +28,8 @@ export default function NestedList() {
   );
 
   const { subscriptions } = useTypedSelector(state => state.userData.data);
-  const { data: isAuthorized } = useTypedSelector(
-    state => state.isUserAuthorized
+  const { isAuthorized } = useTypedSelector(
+    state => state.isUserAuthorized.data
   );
 
   const {

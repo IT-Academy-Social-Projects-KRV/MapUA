@@ -10,24 +10,36 @@ import {
 } from '@mui/material';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
+import { useForm, useFormState } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { CreatingLocationSchema } from 'utils/validation';
 import { CardComponent } from './СardComponent/CardComponent';
 import { IconsComponent } from './IconsComponent/IconsComponent';
 import { StyledPopupButtonsWrapper } from '../design/StyledPopupButtonsWrapper';
 
+import { LocationForm } from '../../../types';
+import EditLocation from '../EditLocation/EditLocation';
+
 const PointPopup = () => {
+  const [showEditPanel, setShowEditPanel] = useState(false);
   const [expanded, setExpanded] = useState(false);
 
   const { updatePopupLocation, toggleVisitedField, toggleFavoriteField } =
     useTypedDispatch();
 
-  const { data: isAuthorized } = useTypedSelector(
-    state => state.isUserAuthorized
+  const { isAuthorized } = useTypedSelector(
+    state => state.isUserAuthorized.data
   );
+
   const {
     _id: userId,
     favorite,
     visited
   } = useTypedSelector(state => state.userData.data);
+
+  const { author: locationAuthorId } = useTypedSelector(
+    state => state.popupLocation.data
+  );
 
   const {
     _id: locationId,
@@ -36,6 +48,16 @@ const PointPopup = () => {
     description,
     arrayPhotos
   } = useTypedSelector(state => state.popupLocation.data);
+
+  const { control } = useForm<LocationForm>({
+    mode: 'onBlur',
+    defaultValues: { locationName, description },
+    resolver: yupResolver(CreatingLocationSchema)
+  });
+
+  const { errors } = useFormState({
+    control
+  });
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -74,43 +96,69 @@ const PointPopup = () => {
     return updatePopupLocation(locationId, { rating: updatedRating });
   };
 
+  const editData = () => {
+    setShowEditPanel(true);
+  };
+
+  const closeEditData = () => {
+    setShowEditPanel(false);
+  };
+
   return (
     <Box>
-      <Card>
-        <CardMedia
-          sx={{ p: 2 }}
-          component="img"
-          image={arrayPhotos[0]}
-          alt={locationName}
+      {showEditPanel && locationAuthorId?._id === userId ? (
+        <EditLocation
+          locationNamelocationName={locationName}
+          closeEditData={closeEditData}
+          descriptiondescription={description}
+          locationId={locationId}
         />
-
+      ) : (
         <Box>
-          <Typography color="text.secondary" variant="h4" paddingX={5}>
-            {locationName}
-          </Typography>
-          <StyledPopupButtonsWrapper>
-            <IconsComponent
-              handleRating={handleRating}
-              handleFavoriteClick={handleFavoriteClick}
-              locationIsFavorite={favorite.includes(locationId)}
-              locationIsVisited={visited.includes(locationId)}
-              handleVisitedClick={handleVisitedClick}
+          <Card>
+            <CardMedia
+              sx={{ p: 2 }}
+              component="img"
+              image={arrayPhotos[0]}
+              alt={locationName}
             />
-          </StyledPopupButtonsWrapper>
-        </Box>
 
-        <CardContent>
-          <CardComponent
-            description={description}
-            handleExpandClick={handleExpandClick}
-            expanded={expanded}
-          />
-        </CardContent>
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <CommentSection />
-        </Collapse>
-      </Card>
+            <Box>
+              <Typography color="text.secondary" variant="h4" paddingX={5}>
+                {locationName}
+              </Typography>
+
+              <StyledPopupButtonsWrapper>
+                <IconsComponent
+                  handleRating={handleRating}
+                  handleFavoriteClick={handleFavoriteClick}
+                  locationIsFavorite={favorite.includes(locationId)}
+                  locationIsVisited={visited.includes(locationId)}
+                  handleVisitedClick={handleVisitedClick}
+                  editData={editData}
+                  locationAuthorId={locationAuthorId}
+                />
+              </StyledPopupButtonsWrapper>
+            </Box>
+
+            <CardContent>
+              <CardComponent
+                description={description}
+                handleExpandClick={handleExpandClick}
+                expanded={expanded}
+                showEditPanel={showEditPanel}
+                control={control}
+                errors={errors}
+              />
+            </CardContent>
+            <Collapse in={expanded} timeout="auto" unmountOnExit>
+              <CommentSection />
+            </Collapse>
+          </Card>
+        </Box>
+      )}
     </Box>
   );
 };
+
 export default PointPopup;

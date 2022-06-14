@@ -8,6 +8,8 @@ import * as MapInfoActionCreators from './mapInfo';
 import * as CreateLocationActionCreator from './createLocation';
 import * as LocationCommentsActionCreators from './locationComments';
 import * as SnackbarActionCreators from './snackbar';
+import * as updateLocationData from './updateLocation';
+import * as OtherUserActionCreators from './otherUserData';
 
 export default {
   ...UserActionCreators,
@@ -19,5 +21,7 @@ export default {
   ...MapInfoActionCreators,
   ...CreateLocationActionCreator,
   ...LocationCommentsActionCreators,
-  ...SnackbarActionCreators
+  ...SnackbarActionCreators,
+  ...updateLocationData,
+  ...OtherUserActionCreators
 };
