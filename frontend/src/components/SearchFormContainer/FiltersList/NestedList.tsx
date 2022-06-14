@@ -26,6 +26,7 @@ export default function NestedList() {
   const selectedFilters = useTypedSelector(
     state => state.mapInfo.selectedFilters
   );
+
   const { subscriptions } = useTypedSelector(state => state.userData.data);
   const { isAuthorized } = useTypedSelector(
     state => state.isUserAuthorized.data
@@ -54,15 +55,21 @@ export default function NestedList() {
       setSelectedFiltersUa([...selectedFiltersUa, selectedValue]);
     }
   };
+
   const OnChange = (selectedValue: string, filterId: number, index: number) => {
     let value: string = selectedValue;
     if (currentLanguage === 'ua') {
       AddSelectedFiltersUaLogic(selectedValue);
-      value = mainFilters[filterId - 1].values[index];
+      if (filterId === 4) {
+        value = selectedValue;
+      } else value = mainFilters[filterId - 1].values[index];
     }
 
     if (currentLanguage === 'en') {
-      AddSelectedFiltersUaLogic(mainFiltersUa[filterId - 1].values[index]);
+      if (filterId === 4) {
+        AddSelectedFiltersUaLogic(selectedValue);
+      } else
+        AddSelectedFiltersUaLogic(mainFiltersUa[filterId - 1].values[index]);
     }
 
     if (selectedFilters.some(f => f === value)) {
@@ -72,7 +79,7 @@ export default function NestedList() {
     }
   };
 
-  const OnChaked = (nestedFilter: any) => {
+  const onChecked = (nestedFilter: any) => {
     switch (currentLanguage) {
       case 'ua':
         return selectedFiltersUa.some(f => f === nestedFilter);
@@ -116,7 +123,7 @@ export default function NestedList() {
                       className="pl-4"
                     >
                       <Checkbox
-                        checked={OnChaked(nestedFilter)}
+                        checked={onChecked(nestedFilter)}
                         edge="start"
                         onChange={() => null}
                         value={nestedFilter}

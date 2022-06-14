@@ -23,7 +23,10 @@ export const mapInfoReducer = (
     case MapInfoActionsType.SET_LOCATION_NAME:
       return { ...state, locationName: action.payload };
     case MapInfoActionsType.SET_FILTERS:
-      return { ...state, selectedFilters: action.payload };
+      return {
+        ...state,
+        selectedFilters: action.payload
+      };
     default:
       return state;
   }
