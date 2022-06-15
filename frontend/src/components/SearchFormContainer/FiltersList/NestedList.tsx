@@ -120,7 +120,7 @@ export default function NestedList() {
                       onClick={() =>
                         OnChange(
                           typeof nestedFilter === 'object'
-                            ? nestedFilter.displayName
+                            ? nestedFilter._id
                             : nestedFilter,
                           filter.id,
                           index
@@ -133,16 +133,10 @@ export default function NestedList() {
                       <Checkbox
                         checked={onChecked(
                           typeof nestedFilter === 'object'
-                            ? nestedFilter.displayName
+                            ? nestedFilter._id
                             : nestedFilter
                         )}
                         edge="start"
-                        onChange={() => null}
-                        value={
-                          typeof nestedFilter === 'object'
-                            ? nestedFilter.displayName
-                            : nestedFilter
-                        }
                       />
                       <ListItemText
                         primary={

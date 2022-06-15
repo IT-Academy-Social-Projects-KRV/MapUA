@@ -20,6 +20,7 @@ export const fetchLocations =
       dispatch({
         type: LocationListActionsType.FETCH_LOCATION_LIST_LOADING
       });
+      console.log(filters);
 
       let url = `${REACT_APP_API_URI}locations/?bounds=${JSON.stringify(
         bounds
