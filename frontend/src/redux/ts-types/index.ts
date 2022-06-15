@@ -7,7 +7,6 @@ import {
   FiltersDataType,
   CommentType,
   AuthorInfoType,
-  updateLocationType,
   isUserAuthorizedType
 } from '../../../types';
 
@@ -25,7 +24,6 @@ export type userDataStateType = InitialStateType<UserDataType>;
 export type privateUserDataStateType = InitialStateType<PrivateUserDataType>;
 export type locationListStateType = InitialStateType<locationType[]>;
 export type popupLocationStateType = InitialStateType<locationType>;
-export type updateLocationStateType = InitialStateType<updateLocationType>;
 export type otherUserDataStateType = InitialStateType<UserDataType>;
 export type locationCommentsStateType = {
   comments: CommentType<AuthorInfoType>[];

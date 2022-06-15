@@ -62,7 +62,7 @@ export default function PersonProfilePage() {
             ? `${t('profile.profilePage.yourName')}`
             : displayName}
         </Typography>
-        {isAuthorized && (
+        {isAuthorized.isAuthorized && (
           <SubsrcibeButton
             size="large"
             variant="contained"

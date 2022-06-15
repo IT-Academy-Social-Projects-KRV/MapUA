@@ -13,13 +13,13 @@ import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useForm, useFormState } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { CreatingLocationSchema } from 'utils/validation';
+import EditLocation from 'components/EditLocation/EditLocation';
 import { CardComponent } from './СardComponent/CardComponent';
 import { IconsComponent } from './IconsComponent/IconsComponent';
 import { StyledPopupButtonsWrapper } from '../design/StyledPopupButtonsWrapper';
 import LocationImageCarousel from './LocationImageCarousel/LocationImageCarousel';
 
 import { LocationForm } from '../../../types';
-import EditLocation from '../EditLocation/EditLocation';
 
 const PointPopup = () => {
   const [showEditPanel, setShowEditPanel] = useState(false);
@@ -141,7 +141,6 @@ const PointPopup = () => {
 
             <CardContent>
               <CardComponent
-                description={description}
                 handleExpandClick={handleExpandClick}
                 expanded={expanded}
                 showEditPanel={showEditPanel}

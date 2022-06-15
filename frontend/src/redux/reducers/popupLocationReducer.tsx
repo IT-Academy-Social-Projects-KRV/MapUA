@@ -69,11 +69,38 @@ export const popupLocationReducer = (
         },
         success: true
       };
+
     case LocationActionTypes.UPDATE_LOCATION_ERROR:
       return {
         ...state,
         loading: false,
         error: action.payload,
+        success: false
+      };
+
+    case LocationActionTypes.UPDATE_LOCATION_DATA_LOADING:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+        success: false
+      };
+    case LocationActionTypes.UPDATE_LOCATION_DATA_SUCCESS:
+      return {
+        loading: false,
+        error: null,
+        data: {
+          ...action.payload,
+          createdAt: new Date(action.payload.createdAt),
+          updatedAt: new Date(action.payload.updatedAt)
+        },
+        success: true
+      };
+    case LocationActionTypes.UPDATE_LOCATION_DATA_ERROR:
+      return {
+        loading: false,
+        error: action.payload,
+        data: initialState.data,
         success: false
       };
     default:
