@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { getPath } from 'utils/createPath';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 // import { v4 } from 'uuid';
+import { v4 } from 'uuid';
 import userImageNotFound from '../../static/image-not-found.jpg';
 
 type Props = {
@@ -17,7 +18,7 @@ const ProfileTabsData = ({ array }: Props) => {
   return (
     <Box>
       {array.map((s: any) => (
-        <StyledTabComponentBox>
+        <StyledTabComponentBox key={v4()}>
           <Link to={getPath(_id, s?._id)}>
             <Avatar
               aria-label="User"
