@@ -8,6 +8,11 @@ const LocationsController = {
       const bounds = JSON.parse(req.query.bounds as string);
       const searchName = req.query.name as string;
       const filters = JSON.parse(req.query.filters as any);
+      const authFilters = JSON.parse(req.query.authFilters as any);
+
+      const personalFiltersNames = ['visited', 'favorites', 'personal'];
+      let subscriptionsId = filters.filter((f: string) => f.match(/^\d/));
+
       let locations = (
         await Location.find({
           'coordinates.0': {
@@ -25,28 +30,49 @@ const LocationsController = {
         name: l.locationName,
         locationName: l.locationName,
         arrayPhotos: l.arrayPhotos,
-        filters: l.filters
+        filters: l.filters,
+        author: l.author
       }));
+
       if (searchName) {
         locations = locations.filter(l => {
           return l.name.toLowerCase().startsWith(searchName.toLowerCase());
         });
       }
-      if (filters.length > 0) {
-        locations = locations.filter(l =>
-          [...l.filters].some(el => filters.includes(el))
-        );
+
+      if (
+        filters.length > 0 &&
+        !personalFiltersNames.some(el => filters.includes(el)) &&
+        subscriptionsId.length === 0
+      ) {
+        locations = locations.filter(l => {
+          return [...l.filters].some(el => filters.includes(el));
+        });
+      }
+
+      if (authFilters.length > 0) {
+        locations = locations.filter(l => {
+          return [l._id.toHexString()].some(el => authFilters.includes(el));
+        });
+      }
+      
+      if (subscriptionsId.length > 0) {  
+        locations = locations.filter(l => {
+          return [l.author.toHexString()].some(el => subscriptionsId.includes(el));
+        });
       } else {
         locations = locations.slice(
           0,
           locations.length < 50 ? locations.length : 50
         );
       }
+
       if (!locations) {
         return res
           .status(404)
           .json({ error: req.t('locations_list.locations_not_found') });
       }
+
       return res.json({ locations });
     } catch (err: any) {
       return res.status(500).json({ error: req.t('other.server_error'), err });
@@ -187,6 +213,11 @@ const LocationsController = {
           author: _id
         });
         await userLocation.save();
+
+        await userData.updateOne({
+          $push: { personalLocations: userLocation._id.toString() }
+        });
+
         return res
           .status(200)
           .json({ message: req.t('locations_list.location_add_success') });

@@ -47,6 +47,22 @@ function Map({
     selectedFilters
   } = useTypedSelector(state => state.mapInfo);
 
+  const { favorite, visited, personalLocations, subscriptions } =
+    useTypedSelector(state => state.userData.data);
+
+  let authorizedFilters: string[] = [];
+  useEffect(() => {
+    if (selectedFilters.includes('favorites')) {
+      authorizedFilters = [...authorizedFilters, ...favorite];
+    }
+    if (selectedFilters.includes('visited')) {
+      authorizedFilters = [...authorizedFilters, ...visited];
+    }
+    if (selectedFilters.includes('personal')) {
+      authorizedFilters = [...authorizedFilters, ...personalLocations];
+    }
+  }, [selectedFilters, bounds]);
+
   const formRef = useRef<any>(null);
   const [, SetCoordinateByClick] = useState<any>({});
   const debouncedValue = useDebounce(searchName, 1000);
@@ -58,8 +74,13 @@ function Map({
   }, []);
 
   useEffect(() => {
-    fetchLocations(bounds, debouncedValue, selectedFilters);
-  }, [bounds, debouncedValue, JSON.stringify(selectedFilters)]);
+    fetchLocations(bounds, debouncedValue, selectedFilters, authorizedFilters);
+  }, [
+    bounds,
+    debouncedValue,
+    JSON.stringify(selectedFilters),
+    JSON.stringify(authorizedFilters)
+  ]);
 
   return (
     <StyledMapWrapper ref={formRef}>
