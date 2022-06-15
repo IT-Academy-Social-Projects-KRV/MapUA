@@ -64,7 +64,7 @@ const CreateLocation = ({
 
   useEffect(() => {
     if (success) {
-      fetchLocations(bounds, searchName, selectedFilters);
+      fetchLocations(bounds, searchName, selectedFilters, []);
       closeBigPopup();
       setIsAddLocation(false);
       reset();
@@ -81,15 +81,14 @@ const CreateLocation = ({
 
   const onSubmit: SubmitHandler<CreatingLocation> = async ({
     locationName,
-    locationDescription,
-    locationFilters
+    locationDescription
   }) => {
     const formData = new FormData();
     formData.append('locationName', locationName);
     formData.append('description', locationDescription);
     formData.append('coordinates', String(coordinate.lat));
     formData.append('coordinates', String(coordinate.lng));
-    formData.append('filters', String(locationFilters));
+    formData.append('filters', String(filters));
 
     for (let i = 0; i < files.length; i += 1) {
       formData.append('image', files[i]);
