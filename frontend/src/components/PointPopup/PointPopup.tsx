@@ -117,17 +117,10 @@ const PointPopup = () => {
       ) : (
         <Box>
           <Card>
-            {/* <CardMedia
-              sx={{ p: 2 }}
-              component="img"
-              image={arrayPhotos[0]}
-              alt={locationName}
-            /> */}
             <LocationImageCarousel
               arrayPhotos={arrayPhotos}
               locationName={locationName}
             />
-
             <Box>
               <Typography color="text.secondary" variant="h4" paddingX={5}>
                 {locationName}

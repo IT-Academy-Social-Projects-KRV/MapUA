@@ -44,16 +44,6 @@
       1,
       { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
     ]
-    // "import/extensions": [
-    //   "error",
-    //   "always",
-    //   {
-    //     "js": "never",
-    //     "jsx": "never",
-    //     "ts": "never",
-    //     "tsx": "never"
-    //   }
-    // ]
   },
   "settings": {
     "import/resolver": {
