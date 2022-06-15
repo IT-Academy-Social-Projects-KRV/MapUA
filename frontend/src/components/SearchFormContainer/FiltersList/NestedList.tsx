@@ -117,18 +117,40 @@ export default function NestedList() {
                 <StyledList>
                   {filter.values?.map((nestedFilter: any, index: number) => (
                     <ListItemButton
-                      onClick={() => OnChange(nestedFilter, filter.id, index)}
+                      onClick={() =>
+                        OnChange(
+                          typeof nestedFilter === 'object'
+                            ? nestedFilter.displayName
+                            : nestedFilter,
+                          filter.id,
+                          index
+                        )
+                      }
                       // eslint-disable-next-line react/no-array-index-key
                       key={index}
                       className="pl-4"
                     >
                       <Checkbox
-                        checked={onChecked(nestedFilter)}
+                        checked={onChecked(
+                          typeof nestedFilter === 'object'
+                            ? nestedFilter.displayName
+                            : nestedFilter
+                        )}
                         edge="start"
                         onChange={() => null}
-                        value={nestedFilter}
+                        value={
+                          typeof nestedFilter === 'object'
+                            ? nestedFilter.displayName
+                            : nestedFilter
+                        }
                       />
-                      <ListItemText primary={nestedFilter} />
+                      <ListItemText
+                        primary={
+                          typeof nestedFilter === 'object'
+                            ? nestedFilter.displayName
+                            : nestedFilter
+                        }
+                      />
                     </ListItemButton>
                   ))}
                 </StyledList>

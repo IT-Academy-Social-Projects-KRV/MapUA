@@ -1,9 +1,13 @@
 import { UserDataType } from '../../../types';
+
 /* eslint-disable no-unused-vars */
 export enum OtherUserDataActionTypes {
   FETCH_OTHER_USER_DATA_LOADING = 'FETCH_OTHER_USER_DATA_LOADING',
   FETCH_OTHER_USER_DATA_SUCCESS = 'FETCH_OTHER_USER_DATA_SUCCESS',
-  FETCH_OTHER_USER_DATA_ERROR = 'FETCH_OTHER_USER_DATA_ERROR'
+  FETCH_OTHER_USER_DATA_ERROR = 'FETCH_OTHER_USER_DATA_ERROR',
+  UPDATE_OTHER_USER_DATA_LOADING = 'UPDATE_OTHER_USER_DATA_LOADING',
+  UPDATE_OTHER_USER_DATA_SUCCESS = 'UPDATE_OTHER_USER_DATA_SUCCESS',
+  UPDATE_OTHER_USER_DATA_ERROR = 'UPDATE_OTHER_USER_DATA_ERROR'
 }
 
 interface FetchOtherUserLoadingAction {
@@ -18,7 +22,22 @@ interface FetchOtherUserErrorAction {
   payload: string;
 }
 
+interface UpdateOtherUserLoadingAction {
+  type: OtherUserDataActionTypes.UPDATE_OTHER_USER_DATA_LOADING;
+}
+interface UpdateOtherUserSuccessAction {
+  type: OtherUserDataActionTypes.UPDATE_OTHER_USER_DATA_SUCCESS;
+  payload: Partial<UserDataType>;
+}
+interface UpdateOtherUserErrorAction {
+  type: OtherUserDataActionTypes.UPDATE_OTHER_USER_DATA_ERROR;
+  payload: string;
+}
+
 export type OtherUserDataAction =
   | FetchOtherUserLoadingAction
   | FetchOtherUserSuccessAction
-  | FetchOtherUserErrorAction;
+  | FetchOtherUserErrorAction
+  | UpdateOtherUserLoadingAction
+  | UpdateOtherUserSuccessAction
+  | UpdateOtherUserErrorAction;

@@ -11,7 +11,6 @@ const facebookStrategy = new FacebookStrategy(
   },
   async (accessToken:any, refreshToken:any, profile:any, done:any) => {
     try {
-      console.log('profile', profile);
       const email = profile?.emails?.[0].value;
       let user = null;
 

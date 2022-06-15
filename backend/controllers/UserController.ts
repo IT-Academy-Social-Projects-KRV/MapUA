@@ -8,7 +8,6 @@ const UserController = {
       const { _id } = req.user;
 
       const userData = await User.findById(_id, {
-        email: true,
         displayName: true,
         description: true,
         imageUrl: true,
@@ -17,6 +16,9 @@ const UserController = {
         favorite: true,
         visited: true,
         personalLocations: true
+      }).populate({
+        path: 'subscribers subscriptions',
+        select: 'displayName imageUrl'
       });
 
       if (!userData) {
@@ -83,7 +85,10 @@ const UserController = {
         {
           new: true
         }
-      );
+      ).populate({
+        path: 'subscribers subscriptions',
+        select: 'displayName imageUrl'
+      });
       return res.status(200).json({
         updatedUser: changeData,
         message: req.t('locations_list.toggle_favourite')
@@ -127,7 +132,10 @@ const UserController = {
         {
           new: true
         }
-      );
+      ).populate({
+        path: 'subscribers subscriptions',
+        select: 'displayName imageUrl'
+      });
       return res.status(200).json({
         updatedUser: changeData,
         message: req.t('locations_list.toggle_visited')
@@ -157,7 +165,10 @@ const UserController = {
         {
           new: true
         }
-      );
+      ).populate({
+        path: 'subscribers subscriptions',
+        select: 'displayName imageUrl'
+      });
       if (!changeData) {
         return res.status(400).json({ error: req.t('auth.user_not_exist') });
       }
@@ -178,6 +189,9 @@ const UserController = {
         favorite: true,
         visited: true,
         personalLocations: true
+      }).populate({
+        path: 'subscribers subscriptions',
+        select: 'displayName imageUrl'
       });
 
       if (!userData) {
