@@ -153,8 +153,6 @@ export const updatePopupLocationAfterEditing =
         type: LocationActionTypes.UPDATE_LOCATION_DATA_LOADING
       });
 
-      // const { data } = await axios().patch(`locations/${id}`, location);
-
       const { data } = await axios().patch(
         `${process.env.REACT_APP_API_URI}update_location/${id}`,
         formData,

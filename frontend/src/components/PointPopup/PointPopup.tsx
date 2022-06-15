@@ -21,7 +21,6 @@ import { StyledPopupButtonsWrapper } from '../design/StyledPopupButtonsWrapper';
 import { LocationForm } from '../../../types';
 
 const PointPopup = () => {
-  // const { fetchPopupLocation } = useTypedDispatch();
   const [showEditPanel, setShowEditPanel] = useState(false);
   const [expanded, setExpanded] = useState(false);
 
@@ -31,8 +30,6 @@ const PointPopup = () => {
   const { isAuthorized } = useTypedSelector(
     state => state.isUserAuthorized.data
   );
-
-  // const updateData = useTypedSelector(state => state.updateLocation.data);
 
   const {
     _id: userId,
@@ -65,10 +62,6 @@ const PointPopup = () => {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-
-  // useEffect(() => {
-  //   fetchPopupLocation(locationId);
-  // }, [updateData]);
 
   const handleFavoriteClick = () => {
     if (isAuthorized) toggleFavoriteField(locationId);
@@ -150,7 +143,6 @@ const PointPopup = () => {
 
             <CardContent>
               <CardComponent
-                // description={description}
                 handleExpandClick={handleExpandClick}
                 expanded={expanded}
                 showEditPanel={showEditPanel}
