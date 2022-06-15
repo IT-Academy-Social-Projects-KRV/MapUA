@@ -4,7 +4,7 @@ import {
   Box,
   Card,
   CardContent,
-  CardMedia,
+  // CardMedia,
   Collapse,
   Typography
 } from '@mui/material';
@@ -16,6 +16,7 @@ import { CreatingLocationSchema } from 'utils/validation';
 import { CardComponent } from './СardComponent/CardComponent';
 import { IconsComponent } from './IconsComponent/IconsComponent';
 import { StyledPopupButtonsWrapper } from '../design/StyledPopupButtonsWrapper';
+import LocationImageCarousel from './LocationImageCarousel/LocationImageCarousel';
 
 import { LocationForm } from '../../../types';
 import EditLocation from '../EditLocation/EditLocation';
@@ -116,13 +117,10 @@ const PointPopup = () => {
       ) : (
         <Box>
           <Card>
-            <CardMedia
-              sx={{ p: 2 }}
-              component="img"
-              image={arrayPhotos[0]}
-              alt={locationName}
+            <LocationImageCarousel
+              arrayPhotos={arrayPhotos}
+              locationName={locationName}
             />
-
             <Box>
               <Typography color="text.secondary" variant="h4" paddingX={5}>
                 {locationName}
