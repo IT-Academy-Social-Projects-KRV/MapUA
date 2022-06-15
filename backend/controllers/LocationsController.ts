@@ -9,6 +9,8 @@ const LocationsController = {
       const searchName = req.query.name as string;
       const filters = JSON.parse(req.query.filters as any);
       const authFilters = JSON.parse(req.query.authFilters as any);
+      console.log('authFilters', authFilters);
+      console.log('filters', filters);
 
       const personalFiltersNames = ['visited', 'favorites', 'personal'];
       let subscriptionsId = filters.filter((f: string) => f.match(/^\d/));
