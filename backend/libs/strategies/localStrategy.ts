@@ -9,6 +9,7 @@ export const localStrategySignUp = new LocalStrategy(
   },
   async (req, email, password, done) => {
     try {
+      const displayName = req.body.displayName;
       const user = await UserModel.findOne({ email });
       if (user) {
         return done(null, false, {
@@ -16,7 +17,11 @@ export const localStrategySignUp = new LocalStrategy(
         });
       }
 
-      const newUser = await UserModel.create({ email, passwordHash: password });
+      const newUser = await UserModel.create({
+        displayName,
+        email,
+        passwordHash: password
+      });
 
       return done(null, newUser);
     } catch (error) {

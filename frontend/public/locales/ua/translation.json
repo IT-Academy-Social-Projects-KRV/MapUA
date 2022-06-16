@@ -2,6 +2,7 @@
   "common": {
     "login": "Увійти",
     "enterYourEmail": "Будь ласка, введіть вашу електронну адресу",
+    "enterYourDisplayName": "Будь ласка, введіть вашe ім'я",
     "enterPassword": "Будь ласка, введіть ваш пароль",
     "forgotPassword": "Забули пароль?",
     "password": "Пароль",
@@ -34,7 +35,7 @@
       "subscriptions": "Підписки",
       "enterDescription": "Будь ласка, введіть опис",
       "noDescription": "Опис відсутній",
-      "noSubscribers": "Корисувач не має підписників",
+      "noSubscribers": "Користувач не має підписників",
       "noSubscriptions": "Користувач не підписаний ні на кого"
     },
     "profile": {
@@ -78,6 +79,7 @@
   "utils": {
     "validation": {
       "emptyEmailError": "Email не може бути порожнім",
+      "emptyDisplayNameError": "Name не може бути порожнім",
       "wrongEmailError": "Введіть коректний email",
       "emptyPasswordError": "Пароль не може бути порожнім",
       "passwordMinLengthError": "Пароль повинен містити не менше 6 символів",
@@ -145,7 +147,7 @@
       "spring": "весна",
       "autumn": "осінь",
       "fullYear": "цілий рік",
-      "seasonal": "сезоно"
+      "seasonal": "сезонно"
     },
     "personal": "Персональні",
     "personalValues": {
