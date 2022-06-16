@@ -91,6 +91,8 @@ export default function NestedList() {
         return false;
     }
   };
+  console.log(`en ${selectedFilters}`);
+  console.log(`ua ${selectedFiltersUa}`);
 
   const handleClick = () => {
     setOpen(!open);
