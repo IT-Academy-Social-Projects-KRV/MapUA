@@ -10,7 +10,8 @@ const initialState: mapInfoStateType = {
     _southWest: { lat: 45.62940492064501, lng: 22.456054687500004 }
   },
   locationName: '',
-  selectedFilters: []
+  selectedFilters: [],
+  authorizedFilters: []
 };
 
 export const mapInfoReducer = (
@@ -26,6 +27,11 @@ export const mapInfoReducer = (
       return {
         ...state,
         selectedFilters: action.payload
+      };
+    case MapInfoActionsType.SET_AUTHORIZED_FILTERS:
+      return {
+        ...state,
+        authorizedFilters: action.payload
       };
     default:
       return state;

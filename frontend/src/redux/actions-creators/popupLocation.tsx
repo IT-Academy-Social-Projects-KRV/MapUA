@@ -31,7 +31,6 @@ export const fetchPopupLocation =
         });
       }
     } catch (error: any) {
-      console.error(error);
       dispatch({
         type: LocationActionTypes.FETCH_LOCATION_ERROR,
         payload: 'could not get location'
@@ -69,7 +68,6 @@ export const toggleVisitedField =
         });
       }
     } catch (error: any) {
-      console.error(error);
       dispatch({
         type: LocationActionTypes.TOGGLE_VISITED_FIELD_ERROR,
         payload: 'Could not toggle visited field'

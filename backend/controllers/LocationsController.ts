@@ -55,10 +55,12 @@ const LocationsController = {
           return [l._id.toHexString()].some(el => authFilters.includes(el));
         });
       }
-      
-      if (subscriptionsId.length > 0) {  
+
+      if (subscriptionsId.length > 0) {
         locations = locations.filter(l => {
-          return [l.author.toHexString()].some(el => subscriptionsId.includes(el));
+          return [l.author.toHexString()].some(el =>
+            subscriptionsId.includes(el)
+          );
         });
       } else {
         locations = locations.slice(
@@ -215,13 +217,20 @@ const LocationsController = {
         });
         await userLocation.save();
 
-        await userData.updateOne({
-          $push: { personalLocations: userLocation._id.toString() }
-        });
+        const changeData = await User.findByIdAndUpdate(
+          _id,
+          {
+            $push: { personalLocations: userLocation._id.toString() }
+          },
+          {
+            new: true
+          }
+        );
 
-        return res
-          .status(200)
-          .json({ message: req.t('locations_list.location_add_success') });
+        return res.status(200).json({
+          personalLocations: changeData?.personalLocations,
+          message: req.t('locations_list.location_add_success')
+        });
       } else {
         res
           .status(400)

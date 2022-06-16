@@ -41,5 +41,5 @@ export type mapInfoStateType = {
   bounds: boundsType;
   locationName: string;
   selectedFilters: string[];
-  // authorizedFilters: string[];
+  authorizedFilters: string[];
 };
