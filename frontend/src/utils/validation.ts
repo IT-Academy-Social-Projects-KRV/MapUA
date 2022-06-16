@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-export const AuthFormSchema = yup.object().shape({
+export const LoginFormSchema = yup.object().shape({
   email: yup
     .string()
     .email('utils.validation.wrongEmailError')
@@ -10,6 +10,19 @@ export const AuthFormSchema = yup.object().shape({
     .min(6, 'utils.validation.passwordMinLengthError')
     .max(36, 'utils.validation.passwordMaxLengthError')
     .required('utils.validation.emptyPasswordError')
+});
+
+export const RegistrationFormSchema = yup.object().shape({
+  displayName: yup.string().required('utils.validation.emptyDisplayName'),
+  email: yup
+      .string()
+      .email('utils.validation.wrongEmailError')
+      .required('utils.validation.emptyEmailError'),
+  password: yup
+      .string()
+      .min(6, 'utils.validation.passwordMinLengthError')
+      .max(36, 'utils.validation.passwordMaxLengthError')
+      .required('utils.validation.emptyPasswordError')
 });
 
 export const ForgotPasswordSchema = yup.object().shape({

@@ -23,12 +23,13 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import { useTranslation } from 'react-i18next';
-import { AuthFormSchema } from 'utils/validation';
+import { RegistrationFormSchema } from 'utils/validation';
 import { StyledPaperForm } from '../design/StyledPaperForm';
 import { StyledAuthFormWrapper } from '../design/StyledAuthFormWrapper';
 import { useTypedDispatch } from '../../redux/hooks/useTypedDispatch';
 
 type SignUp = {
+  displayName: string;
   email: string;
   password: string;
 };
@@ -42,7 +43,7 @@ function Registration() {
 
   const { handleSubmit, control } = useForm<SignUp>({
     mode: 'onBlur',
-    resolver: yupResolver(AuthFormSchema)
+    resolver: yupResolver(RegistrationFormSchema)
   });
 
   const { errors } = useFormState({
@@ -86,6 +87,26 @@ function Registration() {
                 <Typography align="center" variant="h4">
                   {t('registration.createProfile')}
                 </Typography>
+                <Controller
+                  control={control}
+                  name="displayName"
+                  render={({ field }) => (
+                    <TextField
+                      placeholder={t('common.enterYourDisplayName')}
+                      label="Name"
+                      fullWidth
+                      onChange={e => field.onChange(e)}
+                      onBlur={field.onBlur}
+                      defaultValue={field.value}
+                      error={!!errors.displayName?.message}
+                      helperText={t(
+                        !errors.displayName
+                          ? ''
+                          : String(errors.displayName.message)
+                      )}
+                    />
+                  )}
+                />
                 <Controller
                   control={control}
                   name="email"
