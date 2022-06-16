@@ -65,12 +65,7 @@ const EditCommentField = ({
         !newCommentText ||
         newCommentText.length < 5 ||
         newCommentText.length > 50 ? (
-          <Button
-            disabled
-            variant="outlined"
-            type="submit"
-            startIcon={<CheckIcon />}
-          >
+          <Button disabled variant="outlined" startIcon={<CheckIcon />}>
             {t('profile.profilePage.save')}
           </Button>
         ) : (

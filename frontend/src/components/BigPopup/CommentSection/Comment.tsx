@@ -150,7 +150,9 @@ const Comment = ({
               <ListItemIcon onClick={() => null}>
                 <ReportIcon fontSize="small" />
               </ListItemIcon>
-              <ListItemText>Report</ListItemText>
+              <ListItemText>
+                {t('bigPopup.commentSection.commentSection.complainToComment')}
+              </ListItemText>
             </MenuItem>
             {((authorId && authorId === userId) ||
               role === 'moderator' ||
@@ -161,7 +163,7 @@ const Comment = ({
                     <DeleteIcon fontSize="small" />
                   </ListItemIcon>
                   <ListItemText>
-                    {t('profile.profilePage.deleteComment')}
+                    {t('bigPopup.commentSection.commentSection.deleteComment')}
                   </ListItemText>
                 </MenuItem>
                 <MenuItem
@@ -172,7 +174,7 @@ const Comment = ({
                     <EditIcon fontSize="small" />
                   </ListItemIcon>
                   <ListItemText>
-                    {t('profile.profilePage.editComment')}
+                    {t('bigPopup.commentSection.commentSection.editComment')}
                   </ListItemText>
                 </MenuItem>
               </Box>
@@ -191,10 +193,14 @@ const Comment = ({
           closeEditData={closeEditData}
         />
       ) : (
-        <Typography variant="subtitle1">{text}</Typography>
+        <Typography mt={2} variant="subtitle1">
+          {text}
+        </Typography>
       )}
       <StyledCommentBox>
-        <Typography variant="subtitle2">{date.toLocaleDateString()}</Typography>
+        <Typography mr={2} variant="subtitle2">
+          {date.toLocaleDateString()}
+        </Typography>
         <IconButton>
           <ThumbUpOutlinedIcon fontSize="small" />
         </IconButton>

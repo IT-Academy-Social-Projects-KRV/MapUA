@@ -125,26 +125,27 @@ export const IconsComponent: FC<Props> = ({
           <ListItemIcon onClick={() => null}>
             <ReportIcon fontSize="small" />
           </ListItemIcon>
-          <ListItemText>Report</ListItemText>
+          <ListItemText>{t('createLocation.complainToLocation')}</ListItemText>
         </MenuItem>
         {((author && author._id === userId) ||
           role === 'moderator' ||
           role === 'admin') && (
           <MenuItem onClick={handleClose}>
-            <IconButton size="small" onClick={() => null}>
-              <DeleteIcon />
-              Delete
-            </IconButton>
+            <ListItemIcon onClick={() => null}>
+              <DeleteIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>{t('createLocation.deleteLocation')}</ListItemText>
           </MenuItem>
         )}
-        <MenuItem onClick={handleClose}>
-          {locationAuthorId?._id === userId && (
-            <IconButton size="small" onClick={editData}>
-              <EditIcon />
-              {t('createLocation.editLocation')}
-            </IconButton>
-          )}
-        </MenuItem>
+
+        {locationAuthorId?._id === userId && (
+          <MenuItem onClick={editData}>
+            <ListItemIcon>
+              <EditIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>{t('createLocation.editLocation')}</ListItemText>
+          </MenuItem>
+        )}
       </Menu>
     </>
   );
