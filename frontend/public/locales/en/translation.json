@@ -2,6 +2,7 @@
   "common": {
     "login": "Login",
     "enterYourEmail": "Please enter your email",
+    "enterYourDisplayName": "Please enter your name",
     "enterPassword": "Please enter your password",
     "forgotPassword": "Forgot password?",
     "password": "Password",
@@ -79,6 +80,7 @@
   "utils": {
     "validation": {
       "emptyEmailError": "Email can't be empty",
+      "emptyDisplayNameError": "Name can't be empty",
       "wrongEmailError": "Please enter a valid email",
       "emptyPasswordError": "Password can't be empty",
       "passwordMinLengthError": "Password must be at least 6 symbols long",

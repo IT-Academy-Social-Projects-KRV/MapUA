@@ -25,7 +25,7 @@ import {
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useTranslation } from 'react-i18next';
-import { AuthFormSchema } from 'utils/validation';
+import { LoginFormSchema } from 'utils/validation';
 import { StyledPaperForm } from '../design/StyledPaperForm';
 import { StyledAuthFormWrapper } from '../design/StyledAuthFormWrapper';
 
@@ -45,7 +45,7 @@ function Login() {
 
   const { handleSubmit, control } = useForm<SignIn>({
     mode: 'onBlur',
-    resolver: yupResolver(AuthFormSchema)
+    resolver: yupResolver(LoginFormSchema)
   });
 
   const { errors } = useFormState({
