@@ -5,6 +5,10 @@ import {
   LocationActionTypes
 } from 'redux/action-types/popupLocationActionTypes';
 import {
+  SnackbarActions,
+  SnackbarActionsType
+} from 'redux/action-types/snackbarActionTypes';
+import {
   UserDataAction,
   UserDataActionTypes
 } from '../action-types/userDataActionTypes';
@@ -138,5 +142,42 @@ export const updatePopupLocation =
         //   : error.message
       });
       throw new Error(error);
+    }
+  };
+
+export const updatePopupLocationAfterEditing =
+  (id: string | undefined, formData: FormData, notification: string) =>
+  async (dispatch: Dispatch<LocationActions | SnackbarActions>) => {
+    try {
+      dispatch({
+        type: LocationActionTypes.UPDATE_LOCATION_DATA_LOADING
+      });
+
+      const { data } = await axios().patch(
+        `${process.env.REACT_APP_API_URI}update_location/${id}`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+      );
+
+      if (data) {
+        dispatch({
+          type: LocationActionTypes.UPDATE_LOCATION_DATA_SUCCESS,
+          payload: data.changedData
+        });
+      }
+
+      dispatch({
+        type: SnackbarActionsType.SET_SUCCESS,
+        payload: notification
+      });
+    } catch (error: any) {
+      dispatch({
+        type: SnackbarActionsType.SET_ERROR,
+        payload: error.response.data?.error || 'lost network'
+      });
     }
   };

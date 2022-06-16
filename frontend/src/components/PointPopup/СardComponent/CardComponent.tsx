@@ -17,7 +17,6 @@ import { StyledCardComponentBox } from '../../design/StyledCardComponentBox';
 import userImageNotFound from '../../../static/image-not-found.jpg';
 
 type Props = {
-  description: string;
   handleExpandClick: MouseEventHandler<HTMLButtonElement>;
   expanded: boolean;
   showEditPanel: boolean;
@@ -26,14 +25,13 @@ type Props = {
 };
 
 export const CardComponent: FC<Props> = ({
-  description,
   handleExpandClick,
   expanded,
   showEditPanel,
   control,
   errors
 }) => {
-  const { createdAt, author } = useTypedSelector(
+  const { createdAt, author, description } = useTypedSelector(
     state => state.popupLocation.data
   );
   const { _id, subscriptions } = useTypedSelector(state => state.userData.data);
@@ -41,7 +39,7 @@ export const CardComponent: FC<Props> = ({
     data: { _id: otherUserId }
   } = useTypedSelector(state => state.otherUserData);
 
-  const isSubscribed = subscriptions.includes(otherUserId);
+  const isSubscribed = subscriptions.some((s: any) => s._id === otherUserId);
   const { t } = useTranslation();
 
   return (
@@ -91,7 +89,7 @@ export const CardComponent: FC<Props> = ({
             multiline
             fullWidth
             rows={4}
-            defaultValue={description}
+            value={description}
           />
         )}
       </Box>

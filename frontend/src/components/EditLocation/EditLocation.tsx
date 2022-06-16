@@ -38,11 +38,8 @@ const EditLocation = ({
 }: Props) => {
   const [files, setFiles] = useState<File[]>([]);
   const [locationImageName, setLocationImageName] = useState<string>('');
-
   const { t } = useTranslation();
-
-  const { updateLocationData } = useTypedDispatch();
-
+  const { updatePopupLocationAfterEditing } = useTypedDispatch();
   const { handleSubmit, control } = useForm<EditingLocation>({
     mode: 'onBlur',
     resolver: yupResolver(CreatingLocationSchema)
@@ -64,11 +61,12 @@ const EditLocation = ({
       formData.append('image', files[i]);
     }
 
-    updateLocationData(
+    updatePopupLocationAfterEditing(
+      locationId,
       formData,
-      t('createLocation.locationSuccessfullyEdited'),
-      locationId
+      t('createLocation.locationSuccessfullyEdited')
     );
+
     closeEditData();
   };
 

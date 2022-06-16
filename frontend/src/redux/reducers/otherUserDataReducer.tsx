@@ -48,6 +48,25 @@ export const otherUserDataReducer = (
         data: initialState.data,
         success: false
       };
+    case OtherUserDataActionTypes.UPDATE_OTHER_USER_DATA_LOADING:
+      return { ...state, loading: true, error: null, success: false };
+    case OtherUserDataActionTypes.UPDATE_OTHER_USER_DATA_SUCCESS:
+      return {
+        loading: false,
+        error: null,
+        data: {
+          ...state.data,
+          ...action.payload
+        },
+        success: true
+      };
+    case OtherUserDataActionTypes.UPDATE_OTHER_USER_DATA_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+        success: false
+      };
     default:
       return state;
   }

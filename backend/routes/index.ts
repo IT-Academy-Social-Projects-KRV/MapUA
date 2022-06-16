@@ -48,7 +48,7 @@ router.patch(
 
 router.patch(
   '/subscriptions',
-  // passport.authenticate('jwt', { session: false }),
+  passport.authenticate('jwt', { session: false }),
   SubscriptionsController.toggleSubscriptions
 );
 
@@ -92,7 +92,11 @@ router.patch(
   CommentsController.editLocationComment
 );
 
-router.delete('/comments/:id', CommentsController.deleteLocationComment);
+router.delete(
+  '/comments/:id',
+  passport.authenticate('jwt', { session: false }),
+  CommentsController.deleteLocationComment
+);
 
 router.get(
   '/signin-google',

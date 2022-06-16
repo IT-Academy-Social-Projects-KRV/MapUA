@@ -1,5 +1,6 @@
 import { Response, Request } from 'express';
 import Comment from '../models/CommentModel';
+import { rightsChecker } from '../utils/rightsChecker';
 
 const CommentsController = {
   async getLocationComments(req: Request, res: Response) {
@@ -25,7 +26,6 @@ const CommentsController = {
         path: 'author',
         select: 'displayName imageUrl'
       });
-
       return res.status(200).json({
         message: req.t('location_comments.comment_add_success'),
         comment
@@ -61,7 +61,20 @@ const CommentsController = {
   },
   async deleteLocationComment(req: Request, res: Response) {
     try {
+      const comment = await Comment.findById({ _id: req.params.id }).select(
+        'author'
+      );
+
+      const { _id: userId, role } = req.user;
+
+      const isUserHasRights = rightsChecker(userId, role, comment?.author!);
+
+      if (!isUserHasRights) {
+        return res.status(403).json({ error: req.t('forbidden_role_action') });
+      }
+
       await Comment.deleteOne({ _id: req.params.id });
+
       return res.status(200).json({
         message: req.t('location_comments.comment_deleted_successfully')
       });

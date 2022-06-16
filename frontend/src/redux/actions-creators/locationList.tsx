@@ -9,7 +9,12 @@ import { boundsType } from '../../../types';
 const { REACT_APP_API_URI } = process.env;
 
 export const fetchLocations =
-  (bounds: boundsType, locationName?: string, filters?: string[]) =>
+  (
+    bounds: boundsType,
+    locationName?: string,
+    filters?: string[],
+    authFilters?: string[]
+  ) =>
   async (dispatch: Dispatch<LocationListActions>) => {
     try {
       dispatch({
@@ -21,6 +26,7 @@ export const fetchLocations =
       )}`;
       if (locationName) url += `&name=${locationName}`;
       if (filters) url += `&filters=${JSON.stringify(filters)}`;
+      if (authFilters) url += `&authFilters=${JSON.stringify(authFilters)}`;
 
       const options = {
         headers: {

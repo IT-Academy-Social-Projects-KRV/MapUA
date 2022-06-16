@@ -9,7 +9,6 @@ import { listOfFiltersOptionsReducer } from './listOfFiltersOptionsReducer';
 import { createLocationReducer } from './createLocationReducer';
 import { locationCommentsReducer } from './locationCommentsReducer';
 import { snackbarReducer } from './snackbarReducer';
-import { updateLocationDataReducer } from './updateLocationDataReducer';
 import { otherUserDataReducer } from './otherUserDataReducer';
 
 export const rootReducer = combineReducers({
@@ -23,7 +22,6 @@ export const rootReducer = combineReducers({
   createLocation: createLocationReducer,
   locationComments: locationCommentsReducer,
   snackbar: snackbarReducer,
-  updateLocation: updateLocationDataReducer,
   otherUserData: otherUserDataReducer
 });
 

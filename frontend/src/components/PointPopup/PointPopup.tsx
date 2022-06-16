@@ -4,7 +4,7 @@ import {
   Box,
   Card,
   CardContent,
-  CardMedia,
+  // CardMedia,
   Collapse,
   Typography
 } from '@mui/material';
@@ -13,12 +13,13 @@ import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useForm, useFormState } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { CreatingLocationSchema } from 'utils/validation';
+import EditLocation from 'components/EditLocation/EditLocation';
 import { CardComponent } from './СardComponent/CardComponent';
 import { IconsComponent } from './IconsComponent/IconsComponent';
 import { StyledPopupButtonsWrapper } from '../design/StyledPopupButtonsWrapper';
+import LocationImageCarousel from './LocationImageCarousel/LocationImageCarousel';
 
 import { LocationForm } from '../../../types';
-import EditLocation from '../EditLocation/EditLocation';
 
 const PointPopup = () => {
   const [showEditPanel, setShowEditPanel] = useState(false);
@@ -116,13 +117,10 @@ const PointPopup = () => {
       ) : (
         <Box>
           <Card>
-            <CardMedia
-              sx={{ p: 2 }}
-              component="img"
-              image={arrayPhotos[0]}
-              alt={locationName}
+            <LocationImageCarousel
+              arrayPhotos={arrayPhotos}
+              locationName={locationName}
             />
-
             <Box>
               <Typography color="text.secondary" variant="h4" paddingX={5}>
                 {locationName}
@@ -143,7 +141,6 @@ const PointPopup = () => {
 
             <CardContent>
               <CardComponent
-                description={description}
                 handleExpandClick={handleExpandClick}
                 expanded={expanded}
                 showEditPanel={showEditPanel}

@@ -65,6 +65,7 @@ export const getFiltersForUser = () =>
       current.forLoggedUser ? prev : [...prev, ...current.values],
     [] as string[]
   );
+
 export const mainFiltersUa = [
   {
     id: 1,
