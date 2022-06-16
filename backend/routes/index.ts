@@ -68,6 +68,7 @@ router.patch(
   LocationsController.updateLocationLikesById
 );
 router.get('/locations/:id', LocationsController.getLocationById);
+
 router.post(
   '/locations/create',
   upload.array('image'),
@@ -75,6 +76,11 @@ router.post(
   validateRequest,
   passport.authenticate('jwt', { session: false }),
   LocationsController.postPersonalLocation
+);
+router.delete(
+  '/locations/:id',
+  passport.authenticate('jwt', { session: false }),
+  LocationsController.deleteLocation
 );
 
 router.post(

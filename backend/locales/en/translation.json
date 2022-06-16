@@ -38,6 +38,9 @@
     "add_location_description_error": "Location description must be at least 10 and max 200 characters long",
     "add_location_coordinates_error": "Invalid location coordinates"
   },
+  "del_location": {
+    "location_del_success": "Location successfully deleted"
+  },
   "jwt_token": {
     "token_not_provided": "Token wasn't provided",
     "token_expired": "Token was expired.",

@@ -1,6 +1,7 @@
 import { Response, Request } from 'express';
 import Location from '../models/Locations';
 import User from '../models/UserModel';
+import { rightsChecker } from '../utils/rightsChecker';
 
 const LocationsController = {
   async getLocationsByZoom(req: Request, res: Response) {
@@ -236,6 +237,39 @@ const LocationsController = {
           .status(400)
           .json({ error: req.t('locations_list.location_already_exist') });
       }
+    } catch (err: any) {
+      return res.status(500).json({ error: req.t('other.server_error'), err });
+    }
+  },
+  async deleteLocation(req: Request, res: Response) {
+    try {
+      const locationId = req.params.id;
+      const location = await Location.findById(locationId);
+      if (!location) {
+        return res
+          .status(400)
+          .json({ error: req.t('locations_list.location_not_found') });
+      }
+
+      const { _id: userId, role } = req.user;
+
+      const isUserHasRights = rightsChecker(userId, role, location.author!);
+
+      if (!isUserHasRights) {
+        return res.status(403).json({ error: req.t('forbidden_role_action') });
+      }
+
+      const userData = await User.findById(userId);
+
+      if (!userData) {
+        return res.status(403).json({ error: req.t('auth.user_not_exist') });
+      }
+
+      if (userData.personalLocations.includes(locationId)) {
+        const index = userData.personalLocations.indexOf(locationId);
+        userData.personalLocations.splice(index, 1);
+      }
+      userData.save();
     } catch (err: any) {
       return res.status(500).json({ error: req.t('other.server_error'), err });
     }

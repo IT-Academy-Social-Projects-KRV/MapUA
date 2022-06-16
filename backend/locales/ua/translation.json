@@ -38,6 +38,9 @@
     "add_location_description_error": "Опис локації має містити мінімум 10 та максимум 200 символів",
     "add_location_coordinates_error": "Задані невірні координати локації"
   },
+  "del_location": {
+    "location_del_success": "Локація упсішно видалена"
+  },
   "jwt_token": {
     "token_not_provided": "Токен не був наданий",
     "token_expired": "Термін дії токену закінчився",
