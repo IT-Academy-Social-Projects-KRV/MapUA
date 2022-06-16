@@ -17,6 +17,8 @@
     "creatingLocation": "Creating location",
     "updateLocation": "Update location",
     "editLocation": "Edit location",
+    "deleteLocation": "Delete location",
+    "complainToLocation": "Complain to location",
     "enterLocName": "Enter location name",
     "enterDescription": "Minimum 10 symbols",
     "favorites": "Favorites",
@@ -52,8 +54,7 @@
       "logout": "Logout",
       "yourName": "Your name:",
       "profilePageUpdatedSuccessfully": "Profile page updated successfully!",
-      "deleteComment": "Delete",
-      "editComment": "Edit",
+
       "subscribe": "Subscribe",
       "unsubscribe": "Unsubscribe"
     }
@@ -115,7 +116,10 @@
         "send": "Send"
       },
       "commentSection": {
-        "commentsSection": "Comments section"
+        "commentsSection": "Comments section",
+        "deleteComment": "Delete comment",
+        "editComment": "Edit comment",
+        "complainToComment": "Complain to comment"
       }
     }
   },

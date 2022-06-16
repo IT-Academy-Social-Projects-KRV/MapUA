@@ -17,7 +17,9 @@
     "creatingLocation": "Створення локації",
     "enterLocName": "Введіть назву локації",
     "updateLocation": "Оновіть локацію",
-    "editLocation": "Відредагуйте локацію",
+    "editLocation": "Редагувати локацію",
+    "deleteLocation": "Видалити локацію",
+    "complainToLocation": "Поскаржитись на локацію",
     "enterDescription": "Мінімум 10 символів",
     "favorites": "Обрані",
     "doneAndSubmit": "Додати локацію",
@@ -52,8 +54,6 @@
       "logout": "Вийти",
       "yourName": "Ваше ім'я:",
       "profilePageUpdatedSuccessfully": "Дані профілю успішно оновлені!",
-      "deleteComment": "Видалити",
-      "editComment": "Редагувати",
       "subscribe": "Підписатись",
       "unsubscribe": "Відписатись"
     }
@@ -115,7 +115,10 @@
         "send": "Надіслати"
       },
       "commentSection": {
-        "commentsSection": "Коментарі"
+        "commentsSection": "Коментарі",
+        "deleteComment": "Видалити коментар",
+        "editComment": "Редагувати коментар",
+        "complainToComment": "Поскаржитись на коментар"
       }
     }
   },
