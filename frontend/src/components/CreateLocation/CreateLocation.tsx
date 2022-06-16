@@ -49,7 +49,8 @@ const CreateLocation = ({
   const {
     bounds,
     locationName: searchName,
-    selectedFilters
+    selectedFilters,
+    authorizedFilters
   } = useTypedSelector(state => state.mapInfo);
   const { createLocation, fetchLocations } = useTypedDispatch();
 
@@ -64,7 +65,7 @@ const CreateLocation = ({
 
   useEffect(() => {
     if (success) {
-      fetchLocations(bounds, searchName, selectedFilters, []);
+      fetchLocations(bounds, searchName, selectedFilters, authorizedFilters);
       closeBigPopup();
       setIsAddLocation(false);
       reset();

@@ -23,20 +23,22 @@ export default function NestedList() {
   const [openNested, setOpenNested] = useState<NestType>({});
   const [selectedFiltersUa, setSelectedFiltersUa] = useState<string[]>([]);
 
-  const selectedFilters = useTypedSelector(
-    state => state.mapInfo.selectedFilters
-  );
-  console.log('selectedFilters', selectedFilters);
+  const { bounds, selectedFilters } = useTypedSelector(state => state.mapInfo);
 
   const { subscriptions } = useTypedSelector(state => state.userData.data);
   const { isAuthorized } = useTypedSelector(
     state => state.isUserAuthorized.data
   );
 
+  const { favorite, visited, personalLocations } = useTypedSelector(
+    state => state.userData.data
+  );
+
   const {
     setFilters,
     setAuthorizedListOfFiltersOptions,
-    setUnauthorizedListOfFiltersOptions
+    setUnauthorizedListOfFiltersOptions,
+    setAuthorizedFilters
   } = useTypedDispatch();
 
   useEffect(() => {
@@ -47,6 +49,23 @@ export default function NestedList() {
       setUnauthorizedListOfFiltersOptions(t);
     }
   }, [subscriptions, isAuthorized, currentLanguage]);
+
+  useEffect(() => {
+    let authorizedFilters: string[] = [];
+    setAuthorizedFilters([]);
+    if (selectedFilters.includes('favorites')) {
+      authorizedFilters = [...authorizedFilters, ...favorite];
+      setAuthorizedFilters(authorizedFilters);
+    }
+    if (selectedFilters.includes('visited')) {
+      authorizedFilters = [...authorizedFilters, ...visited];
+      setAuthorizedFilters(authorizedFilters);
+    }
+    if (selectedFilters.includes('personal')) {
+      authorizedFilters = [...authorizedFilters, ...personalLocations];
+      setAuthorizedFilters(authorizedFilters);
+    }
+  }, [selectedFilters, bounds]);
 
   const filters = useTypedSelector(state => state.filtersList.filters);
   const AddSelectedFiltersUaLogic = (selectedValue: string) => {

@@ -44,24 +44,9 @@ function Map({
   const {
     bounds,
     locationName: searchName,
-    selectedFilters
+    selectedFilters,
+    authorizedFilters
   } = useTypedSelector(state => state.mapInfo);
-
-  const { favorite, visited, personalLocations, subscriptions } =
-    useTypedSelector(state => state.userData.data);
-
-  let authorizedFilters: string[] = [];
-  useEffect(() => {
-    if (selectedFilters.includes('favorites')) {
-      authorizedFilters = [...authorizedFilters, ...favorite];
-    }
-    if (selectedFilters.includes('visited')) {
-      authorizedFilters = [...authorizedFilters, ...visited];
-    }
-    if (selectedFilters.includes('personal')) {
-      authorizedFilters = [...authorizedFilters, ...personalLocations];
-    }
-  }, [selectedFilters, bounds]);
 
   const formRef = useRef<any>(null);
   const [, SetCoordinateByClick] = useState<any>({});

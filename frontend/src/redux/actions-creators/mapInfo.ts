@@ -22,3 +22,9 @@ export function setFilters(filter: string[]): MapInfoActions {
     payload: filter
   };
 }
+export function setAuthorizedFilters(authFilter: string[]): MapInfoActions {
+  return {
+    type: MapInfoActionsType.SET_AUTHORIZED_FILTERS,
+    payload: authFilter
+  };
+}
