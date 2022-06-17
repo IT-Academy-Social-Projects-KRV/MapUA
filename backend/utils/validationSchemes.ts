@@ -1,6 +1,6 @@
 import { body, check } from 'express-validator';
 
-export const userAuthSchema = [
+export const userLoginSchema = [
   body('email')
     .isEmail()
     .withMessage((value, { req, location, path }) => {
@@ -12,6 +12,25 @@ export const userAuthSchema = [
       return req.t('auth.invalid_password_length', { value, location, path });
     })
 ];
+
+export const userRegistrationSchema = [
+    body('displayName')
+        .isString()
+        .withMessage((value, { req, location, path }) => {
+            return req.t('auth.invalid_display_name', { value, location, path });
+        }),
+    body('email')
+        .isEmail()
+        .withMessage((value, { req, location, path }) => {
+            return req.t('auth.invalid_email', { value, location, path });
+        }),
+    body('password')
+        .isLength({ min: 6, max: 50 })
+        .withMessage((value, { req, location, path }) => {
+            return req.t('auth.invalid_password_length', { value, location, path });
+        })
+];
+
 export const forgotPasswordSchema = [
   body('email')
     .isEmail()
