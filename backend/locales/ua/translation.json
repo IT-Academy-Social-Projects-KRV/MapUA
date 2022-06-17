@@ -1,6 +1,7 @@
 {
   "auth": {
     "invalid_email": "Введіть правильний email",
+    "invalid_display_name": "Введіть правильне ім'я",
     "invalid_password_length": "Пароль повинен містити не менше 6 та максимум 50 символів",
     "user_already_exists": "Користувач з таким email вже зареєстрований",
     "user_not_exist": "Такого користувача не існує",

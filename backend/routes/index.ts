@@ -12,7 +12,8 @@ import {
   forgotPasswordSchema,
   postPersonalLocationSchema,
   updateLocationLikesSchema,
-  userAuthSchema,
+  userLoginSchema,
+  userRegistrationSchema,
   userDataSchema
 } from '../utils/validationSchemes';
 import { validateRequest } from '../utils/validation';
@@ -25,8 +26,13 @@ router.get(
   UserController.getProfile
 );
 
-router.post('/signup', userAuthSchema, validateRequest, AuthController.signUp);
-router.post('/signin', userAuthSchema, validateRequest, AuthController.signIn);
+router.post(
+  '/signup',
+  userRegistrationSchema,
+  validateRequest,
+  AuthController.signUp
+);
+router.post('/signin', userLoginSchema, validateRequest, AuthController.signIn);
 router.post(
   '/forgot-password',
   forgotPasswordSchema,

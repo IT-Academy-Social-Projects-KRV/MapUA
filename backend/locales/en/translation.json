@@ -1,6 +1,7 @@
 {
   "auth": {
     "invalid_email": "Please enter valid email",
+    "invalid_display_name": "Please enter valid name",
     "invalid_password_length": "Password must be at least 6 and 50 max characters long",
     "user_already_exists": "User with such email already registered",
     "user_not_exist": "User not found",
