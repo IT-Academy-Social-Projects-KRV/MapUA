@@ -33,7 +33,8 @@ const PointPopup = ({ toggleClose }: Props) => {
     toggleVisitedField,
     toggleFavoriteField,
     deleteLocation,
-    fetchLocations
+    fetchLocations,
+    clearPopupLocation
   } = useTypedDispatch();
 
   const { isAuthorized } = useTypedSelector(
@@ -91,9 +92,10 @@ const PointPopup = ({ toggleClose }: Props) => {
   } = useTypedSelector(state => state.mapInfo);
 
   useEffect(() => {
-    if (isDeleted) {
+    if (isDeleted && locationId) {
       fetchLocations(bounds, searchName, selectedFilters, authorizedFilters);
       toggleClose();
+      clearPopupLocation();
     }
   }, [isDeleted]);
 

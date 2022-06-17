@@ -187,3 +187,14 @@ export const updatePopupLocationAfterEditing =
       });
     }
   };
+
+export const clearPopupLocation =
+  () => async (dispatch: Dispatch<LocationActions>) => {
+    try {
+      dispatch({
+        type: LocationActionTypes.LOCATION_DATA_CLEAR
+      });
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  };

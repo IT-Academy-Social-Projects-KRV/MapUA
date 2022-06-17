@@ -270,7 +270,9 @@ const LocationsController = {
         const index = userData.personalLocations.indexOf(locationId);
         userData.personalLocations.splice(index, 1);
       }
+
       userData.save();
+
       return res.status(200).json({
         locationId: locationId,
         message: req.t('del_location.location_del_success')

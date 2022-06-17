@@ -103,6 +103,9 @@ export const popupLocationReducer = (
         data: initialState.data,
         success: false
       };
+
+    case LocationActionTypes.LOCATION_DATA_CLEAR:
+      return { ...initialState };
     default:
       return state;
   }
