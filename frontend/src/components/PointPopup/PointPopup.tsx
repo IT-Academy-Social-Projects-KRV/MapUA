@@ -1,5 +1,5 @@
 import CommentSection from 'components/BigPopup/CommentSection/CommentSection';
-import React, { useState, MouseEvent } from 'react';
+import React, { useState, MouseEvent, useEffect } from 'react';
 import {
   Box,
   Card,
@@ -21,12 +21,20 @@ import LocationImageCarousel from './LocationImageCarousel/LocationImageCarousel
 
 import { LocationForm } from '../../../types';
 
-const PointPopup = () => {
+type Props = {
+  toggleClose: Function;
+};
+const PointPopup = ({ toggleClose }: Props) => {
   const [showEditPanel, setShowEditPanel] = useState(false);
   const [expanded, setExpanded] = useState(false);
 
-  const { updatePopupLocation, toggleVisitedField, toggleFavoriteField } =
-    useTypedDispatch();
+  const {
+    updatePopupLocation,
+    toggleVisitedField,
+    toggleFavoriteField,
+    deleteLocation,
+    fetchLocations
+  } = useTypedDispatch();
 
   const { isAuthorized } = useTypedSelector(
     state => state.isUserAuthorized.data
@@ -41,7 +49,7 @@ const PointPopup = () => {
   const { author: locationAuthorId } = useTypedSelector(
     state => state.popupLocation.data
   );
-
+  const isDeleted = useTypedSelector(state => state.deleteLocation.data);
   const {
     _id: locationId,
     rating,
@@ -70,6 +78,24 @@ const PointPopup = () => {
   const handleVisitedClick = () => {
     if (isAuthorized) toggleVisitedField(locationId);
   };
+
+  const handleDeleteClick = () => {
+    if (isAuthorized) deleteLocation(locationId);
+  };
+
+  const {
+    bounds,
+    locationName: searchName,
+    selectedFilters,
+    authorizedFilters
+  } = useTypedSelector(state => state.mapInfo);
+
+  useEffect(() => {
+    if (isDeleted) {
+      fetchLocations(bounds, searchName, selectedFilters, authorizedFilters);
+      toggleClose();
+    }
+  }, [isDeleted]);
 
   const handleRating = (
     e: MouseEvent<HTMLButtonElement>,
@@ -135,6 +161,7 @@ const PointPopup = () => {
                   handleVisitedClick={handleVisitedClick}
                   editData={editData}
                   locationAuthorId={locationAuthorId}
+                  handleDeleteClick={handleDeleteClick}
                 />
               </StyledPopupButtonsWrapper>
             </Box>

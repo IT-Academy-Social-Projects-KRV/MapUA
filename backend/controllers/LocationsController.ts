@@ -259,6 +259,7 @@ const LocationsController = {
         return res.status(403).json({ error: req.t('forbidden_role_action') });
       }
 
+      await Location.deleteOne({ _id: locationId });
       const userData = await User.findById(userId);
 
       if (!userData) {
@@ -270,6 +271,10 @@ const LocationsController = {
         userData.personalLocations.splice(index, 1);
       }
       userData.save();
+      return res.status(200).json({
+        locationId: locationId,
+        message: req.t('del_location.location_del_success')
+      });
     } catch (err: any) {
       return res.status(500).json({ error: req.t('other.server_error'), err });
     }
