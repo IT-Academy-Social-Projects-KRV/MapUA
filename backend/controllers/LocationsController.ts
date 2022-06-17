@@ -1,8 +1,9 @@
 import { Response, Request } from 'express';
 import Location from '../models/Locations';
 import User from '../models/UserModel';
+import Comments from '../models/CommentModel';
 import { rightsChecker } from '../utils/rightsChecker';
-
+import mongoose from 'mongoose';
 const LocationsController = {
   async getLocationsByZoom(req: Request, res: Response) {
     try {
@@ -272,6 +273,20 @@ const LocationsController = {
       }
 
       userData.save();
+
+      await User.updateMany(
+        { favorite: locationId },
+        { $pull: { favorite: locationId } }
+      );
+
+      await User.updateMany(
+        { visited: locationId },
+        { $pull: { favorite: locationId } }
+      );
+
+      await Comments.deleteMany({
+        locationId: locationId
+      });
 
       return res.status(200).json({
         locationId: locationId,
