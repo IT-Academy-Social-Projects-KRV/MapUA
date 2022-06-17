@@ -13,7 +13,7 @@ export const LoginFormSchema = yup.object().shape({
 });
 
 export const RegistrationFormSchema = yup.object().shape({
-  displayName: yup.string().required('utils.validation.emptyDisplayName'),
+  displayName: yup.string().required('utils.validation.emptyDisplayNameError'),
   email: yup
     .string()
     .email('utils.validation.wrongEmailError')
