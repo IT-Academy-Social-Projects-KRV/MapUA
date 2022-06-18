@@ -22,7 +22,7 @@ type Props = {
   handleRating: Function;
   handleFavoriteClick: MouseEventHandler<HTMLButtonElement>;
   handleVisitedClick: MouseEventHandler<HTMLButtonElement>;
-  handleDeleteClick: MouseEventHandler<HTMLDivElement>;
+  handleDeleteClick: any;
   locationIsFavorite: boolean | '' | undefined;
   locationIsVisited: boolean | '' | undefined;
   editData: any;
@@ -132,8 +132,8 @@ export const IconsComponent: FC<Props> = ({
         {((author && author._id === userId) ||
           role === 'moderator' ||
           role === 'admin') && (
-          <MenuItem onClick={handleClose}>
-            <ListItemIcon onClick={handleDeleteClick}>
+          <MenuItem onClick={handleDeleteClick}>
+            <ListItemIcon>
               <DeleteIcon fontSize="small" />
             </ListItemIcon>
             <ListItemText>{t('createLocation.deleteLocation')}</ListItemText>

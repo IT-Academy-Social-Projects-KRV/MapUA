@@ -267,12 +267,10 @@ const LocationsController = {
         return res.status(403).json({ error: req.t('auth.user_not_exist') });
       }
 
-      if (userData.personalLocations.includes(locationId)) {
-        const index = userData.personalLocations.indexOf(locationId);
-        userData.personalLocations.splice(index, 1);
-      }
-
-      userData.save();
+      await User.updateOne(
+        { personalLocations: locationId },
+        { $pull: { personalLocations: locationId } }
+      );
 
       await User.updateMany(
         { favorite: locationId },
