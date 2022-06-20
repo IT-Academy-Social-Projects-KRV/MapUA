@@ -75,8 +75,6 @@ const LocationsController = {
         });
       }
 
-      console.log(locations);
-
       if (authFilters.length > 0) {
         locations = locations.filter(l => {
           return [l._id.toHexString()].some(el => authFilters.includes(el));

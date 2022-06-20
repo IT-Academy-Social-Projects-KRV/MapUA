@@ -9,7 +9,7 @@ import {
   StyledMediaBox,
   StyledTooltip
 } from '../design/StyledLocationPopOut';
-import icon from '../../static/map-point-svgrepo-com.svg';
+import icon from '../../static/pin-308802.svg';
 import img from '../../static/image-not-found.jpg';
 
 interface Props {
@@ -35,8 +35,8 @@ export function LocationPopOut({
     <Marker
       icon={L.icon({
         iconUrl: icon,
-        iconSize: [30, 30],
-        iconAnchor: [18, 28]
+        iconSize: [50, 50],
+        iconAnchor: [20, 46]
       })}
       eventHandlers={{
         click: e => {
