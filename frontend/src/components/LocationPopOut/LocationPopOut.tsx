@@ -36,7 +36,7 @@ export function LocationPopOut({
       icon={L.icon({
         iconUrl: icon,
         iconSize: [50, 50],
-        iconAnchor: [18, 28]
+        iconAnchor: [20, 46]
       })}
       eventHandlers={{
         click: e => {
