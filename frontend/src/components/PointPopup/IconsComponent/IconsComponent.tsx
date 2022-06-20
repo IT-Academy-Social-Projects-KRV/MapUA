@@ -22,6 +22,7 @@ type Props = {
   handleRating: Function;
   handleFavoriteClick: MouseEventHandler<HTMLButtonElement>;
   handleVisitedClick: MouseEventHandler<HTMLButtonElement>;
+  handleDeleteClick: any;
   locationIsFavorite: boolean | '' | undefined;
   locationIsVisited: boolean | '' | undefined;
   editData: any;
@@ -35,7 +36,8 @@ export const IconsComponent: FC<Props> = ({
   locationIsVisited,
   handleVisitedClick,
   editData,
-  locationAuthorId
+  locationAuthorId,
+  handleDeleteClick
 }) => {
   const { t } = useTranslation();
 
@@ -58,18 +60,18 @@ export const IconsComponent: FC<Props> = ({
     <>
       <IconButton onClick={e => handleRating(e, 'likes')}>
         {rating.likes.includes(userId) ? (
-          <ThumbUpIcon fontSize="small" />
+          <ThumbUpIcon fontSize="small" sx={{ mr: '5px' }} />
         ) : (
-          <ThumbUpOutlinedIcon fontSize="small" />
+          <ThumbUpOutlinedIcon fontSize="small" sx={{ mr: '5px' }} />
         )}
         {rating.likes.length}
       </IconButton>
 
       <IconButton onClick={e => handleRating(e, 'dislikes')}>
         {rating.dislikes.includes(userId) ? (
-          <ThumbDownIcon fontSize="small" />
+          <ThumbDownIcon fontSize="small" sx={{ mr: '5px' }} />
         ) : (
-          <ThumbDownAltOutlinedIcon fontSize="small" />
+          <ThumbDownAltOutlinedIcon fontSize="small" sx={{ mr: '5px' }} />
         )}
         {rating.dislikes.length}
       </IconButton>
@@ -130,8 +132,8 @@ export const IconsComponent: FC<Props> = ({
         {((author && author._id === userId) ||
           role === 'moderator' ||
           role === 'admin') && (
-          <MenuItem onClick={handleClose}>
-            <ListItemIcon onClick={() => null}>
+          <MenuItem onClick={handleDeleteClick}>
+            <ListItemIcon>
               <DeleteIcon fontSize="small" />
             </ListItemIcon>
             <ListItemText>{t('createLocation.deleteLocation')}</ListItemText>

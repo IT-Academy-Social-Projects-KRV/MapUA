@@ -26,7 +26,8 @@
     "doneAndSubmit": "Додати локацію",
     "couldNotCreateLocation": "Не вдалося створити локацію",
     "locationSuccessfullyCreated": "Локація успішно створена!",
-    "locationSuccessfullyEdited": "Локація успішно відредагована!"
+    "locationSuccessfullyEdited": "Локація успішно відредагована!",
+    "openComments": "Коментарі"
   },
   "profile": {
     "basicTabs": {
@@ -131,7 +132,8 @@
     "locationCreatedBy": "Локація створена:",
     "removeFromVisited": "Видалити з відвіданих",
     "removeFromFavorite": "Видалити з обраних",
-    "addToFavorite": "Додати до обраних"
+    "addToFavorite": "Додати до обраних",
+    "locationDelete": "Локація упсішно видалена"
   },
   "mainFilters": {
     "cost": "Вартість",

@@ -1,7 +1,9 @@
 import { Response, Request } from 'express';
 import Location from '../models/Locations';
 import User from '../models/UserModel';
-
+import Comments from '../models/CommentModel';
+import { rightsChecker } from '../utils/rightsChecker';
+import mongoose from 'mongoose';
 const LocationsController = {
   async getLocationsByZoom(req: Request, res: Response) {
     try {
@@ -72,8 +74,6 @@ const LocationsController = {
           ].some(el => filters.includes(el));
         });
       }
-
-      console.log(locations);
 
       if (authFilters.length > 0) {
         locations = locations.filter(l => {
@@ -261,6 +261,62 @@ const LocationsController = {
           .status(400)
           .json({ error: req.t('locations_list.location_already_exist') });
       }
+    } catch (err: any) {
+      return res.status(500).json({ error: req.t('other.server_error'), err });
+    }
+  },
+  async deleteLocation(req: Request, res: Response) {
+    try {
+      const locationId = req.params.id;
+      const location = await Location.findById(locationId);
+      if (!location) {
+        return res
+          .status(400)
+          .json({ error: req.t('locations_list.location_not_found') });
+      }
+
+      const { _id: userId, role } = req.user;
+
+      const isUserHasRights = rightsChecker(userId, role, location.author!);
+
+      if (!isUserHasRights) {
+        return res.status(403).json({ error: req.t('forbidden_role_action') });
+      }
+
+      await Location.deleteOne({ _id: locationId });
+      const userData = await User.findById(userId);
+
+      if (!userData) {
+        return res.status(403).json({ error: req.t('auth.user_not_exist') });
+      }
+
+      const changeData = await User.updateOne(
+        { personalLocations: locationId },
+        { $pull: { personalLocations: locationId } }
+      );
+
+      await User.updateMany(
+        { favorite: locationId },
+        { $pull: { favorite: locationId } }
+      );
+
+      await User.updateMany(
+        { visited: locationId },
+        { $pull: { visited: locationId } }
+      );
+
+      await Comments.deleteMany({
+        locationId: locationId
+      });
+
+      const changedUserData = await User.findById(userId);
+      return res.status(200).json({
+        locationId: locationId,
+        personalLocations: changedUserData?.personalLocations,
+        visited: changedUserData?.visited,
+        favorite: changedUserData?.favorite,
+        message: req.t('del_location.location_del_success')
+      });
     } catch (err: any) {
       return res.status(500).json({ error: req.t('other.server_error'), err });
     }

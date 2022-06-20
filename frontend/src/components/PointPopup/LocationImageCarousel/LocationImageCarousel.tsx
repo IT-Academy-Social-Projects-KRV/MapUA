@@ -33,7 +33,8 @@ export default ({ arrayPhotos, locationName }: Props) => (
             maxHeight: '400px',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            border: '2px solid #bfbfbf'
+            border: '2px solid #bfbfbf',
+            boxSizing: 'border-box'
           }}
           component="img"
           image={photo}

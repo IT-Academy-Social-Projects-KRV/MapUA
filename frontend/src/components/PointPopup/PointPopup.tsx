@@ -1,5 +1,5 @@
 import CommentSection from 'components/BigPopup/CommentSection/CommentSection';
-import React, { useState, MouseEvent } from 'react';
+import React, { useState, MouseEvent, useEffect } from 'react';
 import {
   Box,
   Card,
@@ -14,6 +14,7 @@ import { useForm, useFormState } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { CreatingLocationSchema } from 'utils/validation';
 import EditLocation from 'components/EditLocation/EditLocation';
+import { useTranslation } from 'react-i18next';
 import { CardComponent } from './СardComponent/CardComponent';
 import { IconsComponent } from './IconsComponent/IconsComponent';
 import { StyledPopupButtonsWrapper } from '../design/StyledPopupButtonsWrapper';
@@ -21,12 +22,22 @@ import LocationImageCarousel from './LocationImageCarousel/LocationImageCarousel
 
 import { LocationForm } from '../../../types';
 
-const PointPopup = () => {
+type Props = {
+  toggleClose: Function;
+};
+const PointPopup = ({ toggleClose }: Props) => {
+  const { t } = useTranslation();
   const [showEditPanel, setShowEditPanel] = useState(false);
   const [expanded, setExpanded] = useState(false);
 
-  const { updatePopupLocation, toggleVisitedField, toggleFavoriteField } =
-    useTypedDispatch();
+  const {
+    updatePopupLocation,
+    toggleVisitedField,
+    toggleFavoriteField,
+    deleteLocation,
+    fetchLocations,
+    clearPopupLocation
+  } = useTypedDispatch();
 
   const { isAuthorized } = useTypedSelector(
     state => state.isUserAuthorized.data
@@ -41,7 +52,7 @@ const PointPopup = () => {
   const { author: locationAuthorId } = useTypedSelector(
     state => state.popupLocation.data
   );
-
+  const isDeleted = useTypedSelector(state => state.deleteLocation.data);
   const {
     _id: locationId,
     rating,
@@ -70,6 +81,25 @@ const PointPopup = () => {
   const handleVisitedClick = () => {
     if (isAuthorized) toggleVisitedField(locationId);
   };
+  const handleDeleteClick = () => {
+    if (isAuthorized)
+      deleteLocation(locationId, t('pointPopUp.locationDelete'));
+  };
+
+  const {
+    bounds,
+    locationName: searchName,
+    selectedFilters,
+    authorizedFilters
+  } = useTypedSelector(state => state.mapInfo);
+
+  useEffect(() => {
+    if (isDeleted && locationId) {
+      fetchLocations(bounds, searchName, selectedFilters, authorizedFilters);
+      toggleClose();
+      clearPopupLocation();
+    }
+  }, [isDeleted]);
 
   const handleRating = (
     e: MouseEvent<HTMLButtonElement>,
@@ -135,6 +165,7 @@ const PointPopup = () => {
                   handleVisitedClick={handleVisitedClick}
                   editData={editData}
                   locationAuthorId={locationAuthorId}
+                  handleDeleteClick={handleDeleteClick}
                 />
               </StyledPopupButtonsWrapper>
             </Box>
