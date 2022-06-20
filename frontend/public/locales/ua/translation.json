@@ -26,7 +26,8 @@
     "doneAndSubmit": "Додати локацію",
     "couldNotCreateLocation": "Не вдалося створити локацію",
     "locationSuccessfullyCreated": "Локація успішно створена!",
-    "locationSuccessfullyEdited": "Локація успішно відредагована!"
+    "locationSuccessfullyEdited": "Локація успішно відредагована!",
+    "openComments": "Коментарі"
   },
   "profile": {
     "basicTabs": {

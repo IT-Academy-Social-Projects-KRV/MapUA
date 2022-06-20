@@ -97,7 +97,13 @@ export const CardComponent: FC<Props> = ({
           transform: !expanded ? 'rotate(0deg)' : 'rotate(180deg)'
         }}
       >
-        {!expanded ? <Box>Відкрийте коментарі</Box> : ''}
+        {!expanded ? (
+          <Box sx={{ fontSize: '20px' }}>
+            {t('createLocation.openComments')}
+          </Box>
+        ) : (
+          ''
+        )}
 
         <ExpandMoreIcon />
       </IconButton>
