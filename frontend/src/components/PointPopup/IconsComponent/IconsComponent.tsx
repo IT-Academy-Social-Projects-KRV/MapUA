@@ -58,21 +58,18 @@ export const IconsComponent: FC<Props> = ({
     <>
       <IconButton onClick={e => handleRating(e, 'likes')}>
         {rating.likes.includes(userId) ? (
-          <ThumbUpIcon fontSize="small" sx={{ marginRight: '5px' }} />
+          <ThumbUpIcon fontSize="small" sx={{ mr: '5px' }} />
         ) : (
-          <ThumbUpOutlinedIcon fontSize="small" sx={{ marginRight: '5px' }} />
+          <ThumbUpOutlinedIcon fontSize="small" sx={{ mr: '5px' }} />
         )}
         {rating.likes.length}
       </IconButton>
 
       <IconButton onClick={e => handleRating(e, 'dislikes')}>
         {rating.dislikes.includes(userId) ? (
-          <ThumbDownIcon fontSize="small" sx={{ marginRight: '5px' }} />
+          <ThumbDownIcon fontSize="small" sx={{ mr: '5px' }} />
         ) : (
-          <ThumbDownAltOutlinedIcon
-            fontSize="small"
-            sx={{ marginRight: '5px' }}
-          />
+          <ThumbDownAltOutlinedIcon fontSize="small" sx={{ mr: '5px' }} />
         )}
         {rating.dislikes.length}
       </IconButton>
