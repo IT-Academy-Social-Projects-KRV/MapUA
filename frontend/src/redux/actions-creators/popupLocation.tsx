@@ -12,11 +12,16 @@ import {
   UserDataAction,
   UserDataActionTypes
 } from '../action-types/userDataActionTypes';
+import {
+  DeleteLocationActions,
+  DeleteLocationActionTypes
+} from '../action-types/deleteLocationActionTypes';
 
 const { REACT_APP_API_URI } = process.env;
 
 export const fetchPopupLocation =
-  (id: string) => async (dispatch: Dispatch<LocationActions>) => {
+  (id: string) =>
+  async (dispatch: Dispatch<LocationActions | DeleteLocationActions>) => {
     try {
       dispatch({
         type: LocationActionTypes.FETCH_LOCATION_LOADING
@@ -28,6 +33,9 @@ export const fetchPopupLocation =
         dispatch({
           type: LocationActionTypes.FETCH_LOCATION_SUCCESS,
           payload: data
+        });
+        dispatch({
+          type: DeleteLocationActionTypes.DELETE_LOCATION_RESET
         });
       }
     } catch (error: any) {
@@ -177,5 +185,16 @@ export const updatePopupLocationAfterEditing =
         type: SnackbarActionsType.SET_ERROR,
         payload: error.response.data?.error || 'lost network'
       });
+    }
+  };
+
+export const clearPopupLocation =
+  () => async (dispatch: Dispatch<LocationActions>) => {
+    try {
+      dispatch({
+        type: LocationActionTypes.LOCATION_DATA_CLEAR
+      });
+    } catch (error: any) {
+      throw new Error(error);
     }
   };

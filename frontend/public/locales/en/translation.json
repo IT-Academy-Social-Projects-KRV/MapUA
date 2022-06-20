@@ -132,7 +132,8 @@
     "locationCreatedBy": "Location created by:",
     "removeFromVisited": "Remove from visited",
     "removeFromFavorite": "Remove from favorite",
-    "addToFavorite": "Add to favorite"
+    "addToFavorite": "Add to favorite",
+    "locationDelete": "Location successfully deleted"
   },
   "mainFilters": {
     "cost": "Cost",

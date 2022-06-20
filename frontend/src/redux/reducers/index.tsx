@@ -10,6 +10,7 @@ import { createLocationReducer } from './createLocationReducer';
 import { locationCommentsReducer } from './locationCommentsReducer';
 import { snackbarReducer } from './snackbarReducer';
 import { otherUserDataReducer } from './otherUserDataReducer';
+import { deleteLocationReducer } from './deleteLocationReducer';
 
 export const rootReducer = combineReducers({
   isUserAuthorized: isUserAuthorizedReducer,
@@ -22,7 +23,8 @@ export const rootReducer = combineReducers({
   createLocation: createLocationReducer,
   locationComments: locationCommentsReducer,
   snackbar: snackbarReducer,
-  otherUserData: otherUserDataReducer
+  otherUserData: otherUserDataReducer,
+  deleteLocation: deleteLocationReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

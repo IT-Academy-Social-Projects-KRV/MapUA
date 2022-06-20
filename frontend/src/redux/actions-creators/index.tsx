@@ -9,6 +9,7 @@ import * as CreateLocationActionCreator from './createLocation';
 import * as LocationCommentsActionCreators from './locationComments';
 import * as SnackbarActionCreators from './snackbar';
 import * as OtherUserActionCreators from './otherUserData';
+import * as DeleteLocationActionCreators from './deleteLocation';
 
 export default {
   ...UserActionCreators,
@@ -21,5 +22,6 @@ export default {
   ...CreateLocationActionCreator,
   ...LocationCommentsActionCreators,
   ...SnackbarActionCreators,
-  ...OtherUserActionCreators
+  ...OtherUserActionCreators,
+  ...DeleteLocationActionCreators
 };

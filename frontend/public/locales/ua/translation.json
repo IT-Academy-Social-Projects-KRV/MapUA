@@ -131,7 +131,8 @@
     "locationCreatedBy": "Локація створена:",
     "removeFromVisited": "Видалити з відвіданих",
     "removeFromFavorite": "Видалити з обраних",
-    "addToFavorite": "Додати до обраних"
+    "addToFavorite": "Додати до обраних",
+    "locationDelete": "Локація упсішно видалена"
   },
   "mainFilters": {
     "cost": "Вартість",

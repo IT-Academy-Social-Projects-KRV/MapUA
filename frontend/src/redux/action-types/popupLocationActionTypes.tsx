@@ -24,7 +24,9 @@ export enum LocationActionTypes {
 
   UPDATE_LOCATION_DATA_LOADING = 'UPDATE_LOCATION_DATA_LOADING',
   UPDATE_LOCATION_DATA_SUCCESS = 'UPDATE_LOCATION_DATA_SUCCESS',
-  UPDATE_LOCATION_DATA_ERROR = 'UPDATE_LOCATION_DATA_ERROR'
+  UPDATE_LOCATION_DATA_ERROR = 'UPDATE_LOCATION_DATA_ERROR',
+
+  LOCATION_DATA_CLEAR = 'LOCATION_DATA_CLEAR'
 }
 
 interface FetchLocationLoadingAction {
@@ -86,6 +88,10 @@ interface UpdateLocationDataErrorAction {
   payload: string;
 }
 
+interface LocationDataClearAction {
+  type: LocationActionTypes.LOCATION_DATA_CLEAR;
+}
+
 export type LocationActions =
   | FetchLocationLoadingAction
   | FetchLocationSuccessAction
@@ -101,4 +107,5 @@ export type LocationActions =
   | UpdateLocationErrorAction
   | UpdateLocationDataLoadingAction
   | UpdateLocationDataSuccessAction
-  | UpdateLocationDataErrorAction;
+  | UpdateLocationDataErrorAction
+  | LocationDataClearAction;

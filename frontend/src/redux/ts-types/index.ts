@@ -28,6 +28,7 @@ export type otherUserDataStateType = InitialStateType<UserDataType>;
 export type locationCommentsStateType = {
   comments: CommentType<AuthorInfoType>[];
 };
+export type deleteLocationStateType = InitialStateType<boolean>;
 // Sync
 export type snackbarStateType = {
   type: AlertColor | undefined;

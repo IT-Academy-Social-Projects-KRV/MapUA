@@ -12,6 +12,7 @@ interface PopupProps {
   toggleClose: any;
   location: locationType | null;
 }
+
 export default function BigPopup(props: PopupProps) {
   const { isOpen, toggleClose, location } = props;
 
@@ -31,7 +32,7 @@ export default function BigPopup(props: PopupProps) {
             <ArrowLeftIcon />
           </StyledArrowLeftButton>
           <Box sx={{ width: '35rem' }}>
-            <PointPopup />
+            <PointPopup toggleClose={toggleClose} />
           </Box>
         </Drawer>
       </Box>
