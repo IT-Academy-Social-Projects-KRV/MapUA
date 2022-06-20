@@ -14,6 +14,7 @@ import { useForm, useFormState } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { CreatingLocationSchema } from 'utils/validation';
 import EditLocation from 'components/EditLocation/EditLocation';
+import { useTranslation } from 'react-i18next';
 import { CardComponent } from './СardComponent/CardComponent';
 import { IconsComponent } from './IconsComponent/IconsComponent';
 import { StyledPopupButtonsWrapper } from '../design/StyledPopupButtonsWrapper';
@@ -25,6 +26,7 @@ type Props = {
   toggleClose: Function;
 };
 const PointPopup = ({ toggleClose }: Props) => {
+  const { t } = useTranslation();
   const [showEditPanel, setShowEditPanel] = useState(false);
   const [expanded, setExpanded] = useState(false);
 
@@ -79,9 +81,9 @@ const PointPopup = ({ toggleClose }: Props) => {
   const handleVisitedClick = () => {
     if (isAuthorized) toggleVisitedField(locationId);
   };
-
   const handleDeleteClick = () => {
-    if (isAuthorized) deleteLocation(locationId);
+    if (isAuthorized)
+      deleteLocation(locationId, t('pointPopUp.locationDelete'));
   };
 
   const {

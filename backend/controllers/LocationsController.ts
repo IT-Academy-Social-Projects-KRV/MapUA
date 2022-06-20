@@ -267,7 +267,7 @@ const LocationsController = {
         return res.status(403).json({ error: req.t('auth.user_not_exist') });
       }
 
-      await User.updateOne(
+      const changeData = await User.updateOne(
         { personalLocations: locationId },
         { $pull: { personalLocations: locationId } }
       );
@@ -279,15 +279,19 @@ const LocationsController = {
 
       await User.updateMany(
         { visited: locationId },
-        { $pull: { favorite: locationId } }
+        { $pull: { visited: locationId } }
       );
 
       await Comments.deleteMany({
         locationId: locationId
       });
 
+      const changedUserData = await User.findById(userId);
       return res.status(200).json({
         locationId: locationId,
+        personalLocations: changedUserData?.personalLocations,
+        visited: changedUserData?.visited,
+        favorite: changedUserData?.favorite,
         message: req.t('del_location.location_del_success')
       });
     } catch (err: any) {
