@@ -13,6 +13,7 @@ import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { Controller } from 'react-hook-form';
 import { getPath } from 'utils/createPath';
 import { Link } from 'react-router-dom';
+import { StyledDescriptionTypography } from 'components/design/StyledDescriptionTypography';
 import { StyledCardComponentBox } from '../../design/StyledCardComponentBox';
 import userImageNotFound from '../../../static/image-not-found.jpg';
 
@@ -83,16 +84,12 @@ export const CardComponent: FC<Props> = ({
             )}
           />
         ) : (
-          <TextField
-            margin="normal"
-            disabled
-            multiline
-            fullWidth
-            rows={4}
-            value={description}
-          />
+          <StyledDescriptionTypography>
+            {description}
+          </StyledDescriptionTypography>
         )}
       </Box>
+
       <IconButton
         onClick={handleExpandClick}
         sx={{
@@ -100,6 +97,8 @@ export const CardComponent: FC<Props> = ({
           transform: !expanded ? 'rotate(0deg)' : 'rotate(180deg)'
         }}
       >
+        {!expanded ? <Box>Відкрийте коментарі</Box> : ''}
+
         <ExpandMoreIcon />
       </IconButton>
     </>
