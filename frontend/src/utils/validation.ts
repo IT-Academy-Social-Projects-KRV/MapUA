@@ -13,7 +13,11 @@ export const LoginFormSchema = yup.object().shape({
 });
 
 export const RegistrationFormSchema = yup.object().shape({
-  displayName: yup.string().required('utils.validation.emptyDisplayNameError'),
+  displayName: yup
+    .string()
+    .min(2, 'utils.validation.DisplayNameMinLengthError')
+    .max(50, 'utils.validation.DisplayNameMaxLengthError')
+    .required('utils.validation.emptyDisplayNameError'),
   email: yup
     .string()
     .email('utils.validation.wrongEmailError')
@@ -36,14 +40,14 @@ export const EditProfileSchema = yup.object().shape({
   displayName: yup
     .string()
     .required('utils.validation.emptyProfileNameError')
-    .min(5, 'utils.validation.profileNameMinLengthError')
-    .max(20, 'utils.validation.profileNameMaxLengthError'),
+    .min(2, 'utils.validation.profileNameMinLengthError')
+    .max(50, 'utils.validation.profileNameMaxLengthError'),
 
   description: yup
     .string()
     .required('utils.validation.emptyDescriptionProfileError')
     .min(5, 'utils.validation.descriptionProfileMinLengthError')
-    .max(50, 'utils.validation.descriptionProfileMaxLengthError')
+    .max(300, 'utils.validation.descriptionProfileMaxLengthError')
 });
 
 export const CreatingLocationSchema = yup.object().shape({
@@ -55,7 +59,7 @@ export const CreatingLocationSchema = yup.object().shape({
   locationDescription: yup
     .string()
     .min(10, 'utils.validation.locationDescriptionMinLengthError')
-    .max(200, 'utils.validation.locationDescriptionMaxLengthError')
+    .max(1000, 'utils.validation.locationDescriptionMaxLengthError')
     .required('utils.validation.emptyLocationDescriptionError')
 });
 
@@ -64,5 +68,5 @@ export const CommentSectionSchema = yup.object().shape({
     .string()
     .required('utils.validation.emptyCommentTextError')
     .min(5, 'utils.validation.commentTextMinLengthError')
-    .max(50, 'utils.validation.commentTextMaxLengthError')
+    .max(500, 'utils.validation.commentTextMaxLengthError')
 });

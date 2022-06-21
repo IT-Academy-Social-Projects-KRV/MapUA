@@ -14,21 +14,22 @@ export const userLoginSchema = [
 ];
 
 export const userRegistrationSchema = [
-    body('displayName')
-        .isString()
-        .withMessage((value, { req, location, path }) => {
-            return req.t('auth.invalid_display_name', { value, location, path });
-        }),
-    body('email')
-        .isEmail()
-        .withMessage((value, { req, location, path }) => {
-            return req.t('auth.invalid_email', { value, location, path });
-        }),
-    body('password')
-        .isLength({ min: 6, max: 50 })
-        .withMessage((value, { req, location, path }) => {
-            return req.t('auth.invalid_password_length', { value, location, path });
-        })
+  body('displayName')
+    .isString()
+    .isLength({ min: 2, max: 50 })
+    .withMessage((value, { req, location, path }) => {
+      return req.t('auth.invalid_display_name', { value, location, path });
+    }),
+  body('email')
+    .isEmail()
+    .withMessage((value, { req, location, path }) => {
+      return req.t('auth.invalid_email', { value, location, path });
+    }),
+  body('password')
+    .isLength({ min: 6, max: 50 })
+    .withMessage((value, { req, location, path }) => {
+      return req.t('auth.invalid_password_length', { value, location, path });
+    })
 ];
 
 export const forgotPasswordSchema = [
@@ -61,7 +62,7 @@ export const CommentSchema = [
   body('comment.text')
     .exists({ checkFalsy: true })
     .isString()
-    .isLength({ min: 5, max: 50 })
+    .isLength({ min: 5, max: 500 })
     .withMessage((value, { req, location, path }) => {
       return req.t('location_comments.comment_length_error', {
         value,
@@ -105,7 +106,7 @@ export const postPersonalLocationSchema = [
     }),
   body('description')
     .isString()
-    .isLength({ min: 10, max: 200 })
+    .isLength({ min: 10, max: 1000 })
     .withMessage((value, { req, location, path }) => {
       return req.t('add_location.add_location_description_error', {
         value,
@@ -128,7 +129,7 @@ export const userDataSchema = [
   body('id').exists({ checkFalsy: true }).withMessage('Invalid id'),
   body('displayName')
     .isString()
-    .isLength({ min: 5, max: 20 })
+    .isLength({ min: 2, max: 50 })
     .withMessage((value, { req, location, path }) => {
       return req.t('user_profile.change_user_info_error_name', {
         value,
@@ -138,7 +139,7 @@ export const userDataSchema = [
     }),
   body('description')
     .isString()
-    .isLength({ min: 5, max: 50 })
+    .isLength({ min: 5, max: 300 })
     .withMessage((value, { req, location, path }) => {
       return req.t('user_profile.change_user_info_error_description', {
         value,
