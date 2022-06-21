@@ -85,6 +85,8 @@
       "emptyPasswordError": "Пароль не може бути порожнім",
       "passwordMinLengthError": "Пароль повинен містити не менше 6 символів",
       "passwordMaxLengthError": "Пароль повинен містити не більше 36 символів",
+      "DisplayNameMinLengthError": "Iм`я повиненно містити не менше 2 символів",
+      "DisplayNameMaxLengthError": "Iм`я повиненно містити не більше 50 символів",
       "emptyProfileNameError": "Ім’я не може бути порожнім",
       "emptyDescriptionProfileError": "Опис не може бути порожнім",
       "descriptionProfileMinLengthError": "Опис має містити не менше 5 символів",
