@@ -35,7 +35,7 @@ export function LocationPopOut({
     <Marker
       icon={L.icon({
         iconUrl: icon,
-        iconSize: [50, 50],
+        iconSize: [40, 40],
         iconAnchor: [20, 46]
       })}
       eventHandlers={{
