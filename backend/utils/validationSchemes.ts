@@ -18,7 +18,11 @@ export const userRegistrationSchema = [
     .isString()
     .isLength({ min: 2, max: 50 })
     .withMessage((value, { req, location, path }) => {
-      return req.t('auth.invalid_display_name', { value, location, path });
+      return req.t('user_profile.change_user_info_error_name', {
+        value,
+        location,
+        path
+      });
     }),
   body('email')
     .isEmail()
