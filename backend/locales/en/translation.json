@@ -25,18 +25,18 @@
   "location_comments": {
     "comment_not_have_properties": "Comment doesn't have all needed properties",
     "comment_add_success": "Your comment added successfully",
-    "comment_length_error": "Comment must be at least 5 and max 50 characters long",
+    "comment_length_error": "Comment must be at least 5 and max 500 characters long",
     "edit_comment_success": "Your comment edited successfully",
     "comment_deleted_successfully": "Your comment deleted successfully"
   },
   "user_profile": {
     "change_user_info_success": "Data Successfully updated",
-    "change_user_info_error_name": "Name must be at least 5 and max 20 characters long",
-    "change_user_info_error_description": "Description must be at least 5 and max 50 characters long"
+    "change_user_info_error_name": "Name must be at least 2 and max 50 characters long",
+    "change_user_info_error_description": "Description must be at least 5 and max 300 characters long"
   },
   "add_location": {
     "add_location_name_error": "Location name must be at least 5 and max 50 characters long",
-    "add_location_description_error": "Location description must be at least 10 and max 200 characters long",
+    "add_location_description_error": "Location description must be at least 10 and max 1000 characters long",
     "add_location_coordinates_error": "Invalid location coordinates"
   },
   "del_location": {
