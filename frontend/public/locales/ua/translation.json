@@ -90,7 +90,7 @@
       "emptyProfileNameError": "Ім’я не може бути порожнім",
       "emptyDescriptionProfileError": "Опис не може бути порожнім",
       "descriptionProfileMinLengthError": "Опис має містити не менше 5 символів",
-      "descriptionProfileMaxLengthError": "Опис має бути не більше ніж 50",
+      "descriptionProfileMaxLengthError": "Опис має бути не більше ніж 300 символів",
       "profileNameMinLengthError": "Ім’я має містити не менше 2 символів",
       "profileNameMaxLengthError": "Ім’я має містити не більше 300 символів",
       "emptyLocationNameError": "Назва локації не може бути порожньою",
