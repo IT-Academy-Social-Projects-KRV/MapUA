@@ -45,6 +45,9 @@ export const IconsComponent: FC<Props> = ({
 
   const { author } = useTypedSelector(state => state.popupLocation.data);
   const { _id: userId } = useTypedSelector(state => state.userData.data);
+  const { isAuthorized } = useTypedSelector(
+    state => state.isUserAuthorized.data
+  );
   const { role } = useTypedSelector(state => state.isUserAuthorized.data);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -58,7 +61,13 @@ export const IconsComponent: FC<Props> = ({
 
   return (
     <>
-      <IconButton onClick={e => handleRating(e, 'likes')}>
+      <IconButton
+        onClick={e => {
+          if (isAuthorized) {
+            handleRating(e, 'likes');
+          }
+        }}
+      >
         {rating.likes.includes(userId) ? (
           <ThumbUpIcon fontSize="small" sx={{ mr: '5px' }} />
         ) : (
@@ -67,7 +76,13 @@ export const IconsComponent: FC<Props> = ({
         {rating.likes.length}
       </IconButton>
 
-      <IconButton onClick={e => handleRating(e, 'dislikes')}>
+      <IconButton
+        onClick={e => {
+          if (isAuthorized) {
+            handleRating(e, 'dislikes');
+          }
+        }}
+      >
         {rating.dislikes.includes(userId) ? (
           <ThumbDownIcon fontSize="small" sx={{ mr: '5px' }} />
         ) : (
