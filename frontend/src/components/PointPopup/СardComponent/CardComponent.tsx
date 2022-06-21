@@ -36,11 +36,8 @@ export const CardComponent: FC<Props> = ({
     state => state.popupLocation.data
   );
   const { _id, subscriptions } = useTypedSelector(state => state.userData.data);
-  const {
-    data: { _id: otherUserId }
-  } = useTypedSelector(state => state.otherUserData);
 
-  const isSubscribed = subscriptions.some((s: any) => s._id === otherUserId);
+  const isSubscribed = subscriptions.some((s: any) => s._id === author?._id);
   const { t } = useTranslation();
 
   return (
