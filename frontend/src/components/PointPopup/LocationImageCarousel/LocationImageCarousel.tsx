@@ -21,6 +21,7 @@ export default ({ arrayPhotos, locationName }: Props) => (
     navigation
     style={{ marginBottom: '30px' }}
     centeredSlides
+    initialSlide={1}
     pagination={{ clickable: true }}
     slidesPerView={1}
     spaceBetween={20}
