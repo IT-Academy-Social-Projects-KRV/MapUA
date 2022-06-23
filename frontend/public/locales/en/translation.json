@@ -122,10 +122,11 @@
         "send": "Send"
       },
       "commentSection": {
-        "commentsSection": "Comments section",
+        "commentsSection": "Comments section,",
         "deleteComment": "Delete comment",
         "editComment": "Edit comment",
-        "complainToComment": "Complain to comment"
+        "complainToComment": "Complain to comment",
+        "numberOfCommentars": "number of comments -"
       }
     }
   },
