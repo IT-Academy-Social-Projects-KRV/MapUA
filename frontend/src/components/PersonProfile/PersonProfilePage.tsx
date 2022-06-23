@@ -14,6 +14,7 @@ import {
   SubsrcibeButton
 } from '../design/StyledProfile';
 import BasicTabs from './BasicTabs';
+import CircularLoader from '../CircularLoader/CircularLoader';
 
 export default function PersonProfilePage() {
   const { t } = useTranslation();
@@ -39,7 +40,7 @@ export default function PersonProfilePage() {
   }, [params.id]);
 
   if (userLoading) {
-    return <h1>{t('profile.profile.loading')}</h1>;
+    return <CircularLoader />;
   }
 
   const handleSubscription = () => {

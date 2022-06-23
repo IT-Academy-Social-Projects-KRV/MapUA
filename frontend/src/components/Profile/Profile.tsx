@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import ProfilePage from './ProfilePage';
 import { useTypedSelector } from '../../redux/hooks/useTypedSelector';
 import { useTypedDispatch } from '../../redux/hooks/useTypedDispatch';
+import CircularLoader from '../CircularLoader/CircularLoader';
 
 function Profile() {
   const accessToken = localStorage.getItem('accessToken');
@@ -33,7 +34,7 @@ function Profile() {
   }, [isAuthorized]);
 
   if (userLoading || privateUserLoading) {
-    return <h1>{t('profile.profile.loading')}</h1>;
+    return <CircularLoader />;
   }
 
   if (userError || privateUserError) {
