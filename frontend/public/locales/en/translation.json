@@ -152,6 +152,11 @@
       "fullYear": "full year",
       "seasonal": "seasonal"
     },
+    "verified": "Verified locations",
+    "verifiedValues": {
+      "verified": "verified",
+      "unverified": "unverified"
+    },
     "personal": "Personal",
     "personalValues": {
       "visited": "visited",

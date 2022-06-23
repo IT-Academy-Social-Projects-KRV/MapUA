@@ -151,6 +151,11 @@
       "fullYear": "цілий рік",
       "seasonal": "сезонно"
     },
+    "verified": "Перевірені локації",
+    "verifiedValues": {
+      "verified": "перевірені",
+      "unverified": "неперевірені"
+    },
     "personal": "Персональні",
     "personalValues": {
       "visited": "відвідані",
