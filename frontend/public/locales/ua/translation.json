@@ -60,6 +60,11 @@
       "unsubscribe": "Відписатись"
     }
   },
+  "personalProfile": {
+    "personalProfilePage": {
+      "subscriptionUpdated": "Підписку успішно оновлено!"
+    }
+  },
   "forgotPassword": {
     "sentPassword": "надіслати пароль",
     "rememberPassword": "Я пам'ятаю пароль"

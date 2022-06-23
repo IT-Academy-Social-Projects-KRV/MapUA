@@ -61,6 +61,11 @@
       "unsubscribe": "Unsubscribe"
     }
   },
+  "personalProfile": {
+    "personalProfilePage": {
+      "subscriptionUpdated": "Subscription updated successfully!"
+    }
+  },
   "forgotPassword": {
     "sentPassword": "sent password",
     "rememberPassword": "I remember password"
