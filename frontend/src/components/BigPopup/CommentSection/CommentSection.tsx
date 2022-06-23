@@ -29,6 +29,10 @@ const CommentSection = () => {
     <CardContent>
       <Divider>
         {t('bigPopup.commentSection.commentSection.commentsSection')}
+        {comments &&
+          ` ${t('bigPopup.commentSection.commentSection.numberOfCommentars')} ${
+            comments.length
+          }`}
       </Divider>
       <List>
         {isAuthorized && (
