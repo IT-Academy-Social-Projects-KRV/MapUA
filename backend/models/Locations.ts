@@ -5,6 +5,7 @@ type ratingType = {
   dislikes: string[];
 };
 
+type Status = 'verified' | 'unverified' | 'waiting';
 export interface ILocation extends Document {
   locationName: string;
   coordinates: [number, number];
@@ -13,6 +14,7 @@ export interface ILocation extends Document {
   rating: ratingType;
   filters: string[];
   author: mongoose.Types.ObjectId;
+  verificationStatus: Status;
 }
 
 const schema = new mongoose.Schema(
@@ -26,6 +28,7 @@ const schema = new mongoose.Schema(
       dislikes: { type: Array, default: [] }
     },
     filters: { type: Array, default: [] },
+    verificationStatus: { type: String },
     author: { type: Schema.Types.ObjectId, ref: 'User', required: true }
   },
   { timestamps: true }
