@@ -17,7 +17,7 @@ export const setAuthorizedListOfFiltersOptions =
       payload: [
         ...createLocalizationMainFilters(t),
         {
-          id: 4,
+          id: 5,
           forLoggedUser: true,
           type: createSubscriptionsTranslation(t),
           values: subscriptions
