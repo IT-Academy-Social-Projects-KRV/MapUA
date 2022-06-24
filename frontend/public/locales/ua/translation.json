@@ -19,6 +19,7 @@
     "enterLocName": "Введіть назву локації",
     "updateLocation": "Оновіть локацію",
     "editLocation": "Редагувати локацію",
+    "reportLocation": "Поскаржитися на локацію",
     "deleteLocation": "Видалити локацію",
     "complainToLocation": "Поскаржитись на локацію",
     "enterDescription": "Мінімум 10 символів",
