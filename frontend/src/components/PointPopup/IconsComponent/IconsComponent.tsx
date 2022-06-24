@@ -17,6 +17,8 @@ import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTranslation } from 'react-i18next';
 import ReportIcon from '@mui/icons-material/Report';
 import EditIcon from '@mui/icons-material/Edit';
+import ReportIconModerator from '@mui/icons-material/ReportGmailerrorred';
+import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 
 type Props = {
   handleRating: Function;
@@ -27,6 +29,7 @@ type Props = {
   locationIsVisited: boolean | '' | undefined;
   editData: any;
   locationAuthorId: any;
+  locationId: any;
 };
 
 export const IconsComponent: FC<Props> = ({
@@ -37,9 +40,12 @@ export const IconsComponent: FC<Props> = ({
   handleVisitedClick,
   editData,
   locationAuthorId,
-  handleDeleteClick
+  handleDeleteClick,
+  locationId
 }) => {
   const { t } = useTranslation();
+
+  const { addReportToLocation } = useTypedDispatch();
 
   const { rating } = useTypedSelector(state => state.popupLocation.data);
 
@@ -57,6 +63,18 @@ export const IconsComponent: FC<Props> = ({
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  // const [report, setReport] = React.useState<any>(false);
+
+  const reportLocation = () => {
+    // setReport({ reported: true })
+
+    addReportToLocation(
+      locationId,
+      true,
+      t('createLocation.locationSuccessfullyEdited')
+    );
   };
 
   return (
@@ -161,6 +179,17 @@ export const IconsComponent: FC<Props> = ({
               <EditIcon fontSize="small" />
             </ListItemIcon>
             <ListItemText>{t('createLocation.editLocation')}</ListItemText>
+          </MenuItem>
+        )}
+
+        {(locationAuthorId?._id === userId ||
+          role === 'moderator' ||
+          role === 'admin') && (
+          <MenuItem onClick={() => reportLocation()}>
+            <ListItemIcon>
+              <ReportIconModerator fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>{t('createLocation.reportLocation')}</ListItemText>
           </MenuItem>
         )}
       </Menu>
