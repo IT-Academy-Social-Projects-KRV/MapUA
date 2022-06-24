@@ -104,6 +104,7 @@ function Login() {
   if (loading) {
     return <CircularLoader />;
   }
+
   return (
     <StyledAuthFormWrapper>
       <Grid container justifyContent="center">
