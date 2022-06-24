@@ -5,6 +5,7 @@ type ratingType = {
   dislikes: string[];
 };
 
+type Status = 'verified' | 'unverified' | 'waiting';
 export interface ILocation extends Document {
   locationName: string;
   coordinates: [number, number];
@@ -12,6 +13,7 @@ export interface ILocation extends Document {
   description: string;
   rating: ratingType;
   filters: string[];
+  verificationStatus: Status;
   author: mongoose.Types.ObjectId;
 }
 
@@ -26,6 +28,11 @@ const schema = new mongoose.Schema(
       dislikes: { type: Array, default: [] }
     },
     filters: { type: Array, default: [] },
+    verificationStatus: {
+      type: String,
+      enum: ['verified', 'unverified', 'waiting'],
+      default: 'unverified'
+    },
     author: { type: Schema.Types.ObjectId, ref: 'User', required: true }
   },
   { timestamps: true }

@@ -36,7 +36,7 @@ const LocationsController = {
       );
       
       const verifiedFiltersArray = filters.filter((f: string) =>
-      verifiedFiltersNames.includes(f)
+        verifiedFiltersNames.includes(f)
       );
 
       let subscriptionsId = filters.filter((f: string) => f.match(/^\d/));
@@ -59,6 +59,7 @@ const LocationsController = {
         locationName: l.locationName,
         arrayPhotos: l.arrayPhotos,
         filters: l.filters,
+        verificationStatus: l.verificationStatus,
         author: l.author
       }));
 
@@ -75,13 +76,12 @@ const LocationsController = {
           ].some(el => filters.includes(el));
         });
       }
-
       
       if (verifiedFiltersArray.length > 0) {
         locations = locations.filter(l => {
-          return [
-            ...l.filters.filter((f: string) => verifiedFiltersNames.includes(f))
-          ].some(el => filters.includes(el));
+          return [l.verificationStatus]
+            .filter((f: string) => verifiedFiltersNames.includes(f))
+            .some(el => filters.includes(el));
         });
       }
 
