@@ -28,7 +28,11 @@ const schema = new mongoose.Schema(
       dislikes: { type: Array, default: [] }
     },
     filters: { type: Array, default: [] },
-    verificationStatus: { type: String },
+    verificationStatus: {
+      type: String,
+      enum: ['verified', 'unverified', 'waiting'],
+      default: 'unverified'
+    },
     author: { type: Schema.Types.ObjectId, ref: 'User', required: true }
   },
   { timestamps: true }
