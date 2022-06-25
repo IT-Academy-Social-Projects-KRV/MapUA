@@ -23,12 +23,14 @@ export type AuthorInfoType = {
   displayName: string;
 };
 export type CommentType<T> = {
+  comments: CommentType<AuthorInfoType>[];
   _id: string;
   author: T;
   locationId: string;
   text: string;
   likes: string[];
   dislikes: string[];
+  parentComment?: string;
   createdAt?: Date;
   updatedAt?: Date;
 };

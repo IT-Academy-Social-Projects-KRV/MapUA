@@ -117,13 +117,18 @@
     "commentSection": {
       "commentForm": {
         "addComment": "Додати коментар",
-        "send": "Надіслати"
+        "send": "Надіслати",
+        "reply": "Відповісти",
+        "cancel": "Відмінити"
       },
       "commentSection": {
         "commentsSection": "Коментарі",
         "deleteComment": "Видалити коментар",
         "editComment": "Редагувати коментар",
-        "complainToComment": "Поскаржитись на коментар"
+        "complainToComment": "Поскаржитись на коментар",
+        "replyToComment": "Відповісти на коментар",
+        "showAnswers": "Показати відповіді",
+        "hideAnswers": "Приховати відповіді"
       }
     }
   },
