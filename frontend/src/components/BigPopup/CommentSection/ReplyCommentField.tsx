@@ -46,7 +46,7 @@ const ReplyCommentField = ({
             margin="dense"
             onChange={e => handleReplyCommentText(e, field)}
             onBlur={field.onBlur}
-            defaultValue={`${authorsName},\n`}
+            defaultValue=""
             error={!!errors.commentText?.message}
             helperText={t(
               !errors.commentText ? '' : String(errors.commentText.message)

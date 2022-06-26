@@ -6,7 +6,7 @@ interface IComment {
   text: string;
   likes: string[];
   dislikes: string[];
-  parentComment: string;
+  parentComment: mongoose.Types.ObjectId;
 }
 
 const schema = new mongoose.Schema(
@@ -33,7 +33,8 @@ const schema = new mongoose.Schema(
       default: []
     },
     parentComment: {
-      type: Schema.Types.ObjectId
+      type: Schema.Types.ObjectId,
+      default: null
     }
   },
   { timestamps: true }
