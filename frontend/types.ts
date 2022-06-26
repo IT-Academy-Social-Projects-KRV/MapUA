@@ -54,6 +54,7 @@ export type locationType = {
   description: string;
   createdAt: Date;
   updatedAt: Date;
+  verificationStatus: string;
 };
 
 export type updateLocationType = {

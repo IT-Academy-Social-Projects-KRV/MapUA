@@ -21,7 +21,9 @@ export const initialState: popupLocationStateType = {
     arrayPhotos: [],
     description: '',
     createdAt: new Date(),
-    updatedAt: new Date()
+    updatedAt: new Date(),
+
+    verificationStatus: ''
   }
 };
 

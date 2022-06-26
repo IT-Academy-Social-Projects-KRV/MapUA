@@ -50,7 +50,8 @@ const LocationsController = {
         locationName: l.locationName,
         arrayPhotos: l.arrayPhotos,
         filters: l.filters,
-        author: l.author
+        author: l.author,
+        verificationStatus: l.verificationStatus
       }));
 
       if (searchName) {
