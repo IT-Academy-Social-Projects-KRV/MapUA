@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # sh ./.build.sh
-
+pwd
 echo "\n$(tput setaf 3)Deploy script start\n"
 
 # Heroku CLI must be installed to execute this part
