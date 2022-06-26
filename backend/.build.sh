@@ -1,13 +1,17 @@
 #!/bin/bash
 
-echo "\n$(tput setaf 3)Build script start\n"
+echo "$(tput setaf 3)Build script start"
 rm -rf ./dist
-yarn build
+
+# Typescript must be installed locally for this command to be executed
+node_modules/.bin/tsc -p .
 
 cp ./package.json ./dist
 cp .gitignore ./dist
 cp .env ./dist
+cp swagger-config.yml ./dist
 
 cd dist/
 yarn install --production=true
-echo "\n$(tput setaf 3)Build script end\n"
+
+echo "$(tput setaf 3)Build script end"

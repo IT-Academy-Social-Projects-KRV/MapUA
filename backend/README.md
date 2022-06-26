@@ -7,7 +7,7 @@ To run backend, you can use **docker** installed on your machine as well.
 
 1. cd backend/
 2. yarn install to install all packages
-3. yarn start to run local server (default port is 3001)
+3. yarn dev to run local server (default port is 3001)
 4. Done!
 
 ### Technologies Used
@@ -16,6 +16,10 @@ To run backend, you can use **docker** installed on your machine as well.
 - **mongoose** - an ODM for MongoDB  
   and more, this list will be updated in the near future...
 
-[Server on which backend located](http://159.89.0.180)
+[Server on which backend located](https://mapua-backend-app.herokuapp.com/)
 
 To run Swagger http://localhost:3001/api-docs/
+
+### To build backend use bash ./build.sh
+
+### To deploy backend use bash ./deploy.sh
