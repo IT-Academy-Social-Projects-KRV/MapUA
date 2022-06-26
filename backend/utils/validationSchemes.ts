@@ -91,6 +91,16 @@ export const CommentSchema = [
         location,
         path
       });
+    }),
+  body('comment.parentComment')
+    .optional()
+    .isString()
+    .withMessage((value, { req, location, path }) => {
+      return req.t('location_comments.comment_not_have_properties', {
+        value,
+        location,
+        path
+      });
     })
 ];
 export const updateLocationLikesSchema = [

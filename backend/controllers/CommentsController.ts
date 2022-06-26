@@ -65,6 +65,11 @@ const CommentsController = {
         'author'
       );
 
+      if (!comment) {
+        return res
+          .status(400)
+          .json({ error: req.t('location_comments.comment_not_found') });
+      }
       const { _id: userId, role } = req.user;
 
       const isUserHasRights = rightsChecker(userId, role, comment?.author!);
@@ -73,7 +78,7 @@ const CommentsController = {
         return res.status(403).json({ error: req.t('forbidden_role_action') });
       }
 
-      await Comment.deleteOne({ _id: req.params.id });
+      await comment.deleteOne();
 
       return res.status(200).json({
         message: req.t('location_comments.comment_deleted_successfully')

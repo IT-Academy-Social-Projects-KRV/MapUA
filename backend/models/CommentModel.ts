@@ -1,6 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 
 interface IComment {
+  _id?: mongoose.Types.ObjectId;
   author: mongoose.Types.ObjectId;
   locationId: mongoose.Types.ObjectId;
   text: string;
@@ -34,10 +35,25 @@ const schema = new mongoose.Schema(
     },
     parentComment: {
       type: Schema.Types.ObjectId,
+      ref: 'Comments',
       default: null
     }
   },
   { timestamps: true }
 );
+schema.pre('deleteOne', { document: true }, async function (next) {
+  try {
+    const comment: IComment = this;
 
-export default mongoose.model<IComment>('Comments', schema);
+    const comments = await Comment.find({ parentComment: comment._id });
+    for (const el of comments) {
+      await el.deleteOne();
+    }
+  } catch (e) {
+  } finally {
+    next();
+  }
+});
+const Comment = mongoose.model<IComment>('Comments', schema);
+
+export default Comment;
