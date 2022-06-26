@@ -11,8 +11,7 @@ const LocationsController = {
       const searchName = req.query.name as string;
       const filters = JSON.parse(req.query.filters as any);
       const authFilters = JSON.parse(req.query.authFilters as any);
-
-      // const personalFiltersNames = ['visited', 'favorites', 'personal'];
+      
       const costFiltersNames = ['free', 'low cost', 'high cost'];
       const seasonalFiltersNames = [
         'winter',
@@ -80,7 +79,6 @@ const LocationsController = {
       if (verifiedFiltersArray.length > 0) {
         locations = locations.filter(l => {
           return [l.verificationStatus]
-            .filter((f: string) => verifiedFiltersNames.includes(f))
             .some(el => filters.includes(el));
         });
       }
