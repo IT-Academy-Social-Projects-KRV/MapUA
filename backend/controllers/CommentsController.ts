@@ -10,7 +10,7 @@ const CommentsController = {
         .sort({ createdAt: -1 })
         .populate({
           path: 'author',
-          select: 'displayName imageUrl'
+          select: 'displayName imageUrl role'
         });
       return res.json(comments);
     } catch (err: any) {

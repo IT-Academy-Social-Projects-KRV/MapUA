@@ -6,7 +6,7 @@ import {
   Controller,
   useFormState
 } from 'react-hook-form';
-import { StyledBadge } from 'components/design/StyledBadge';
+import { StyledProfileBadge } from 'components/design/StyledProfileBadge';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { EditProfileSchema } from 'utils/validation';
 import { useTranslation } from 'react-i18next';
@@ -132,17 +132,18 @@ export default function ProfilePage() {
             </Box>
           ) : (
             <UploadBox>
-              <ProfileAvatar
-                aria-label="avatar"
-                src={userAvatar || userImageNotFound}
-              />
-              <StyledBadge color="info" badgeContent={isAuthorized.role}>
-                <Typography mt={2} variant="h5" component="h4" align="center">
-                  {displayName === undefined
-                    ? `${t('profile.profilePage.yourName')}`
-                    : displayName}
-                </Typography>
-              </StyledBadge>
+              <StyledProfileBadge color="info" badgeContent={isAuthorized.role}>
+                <ProfileAvatar
+                  aria-label="avatar"
+                  src={userAvatar || userImageNotFound}
+                />
+              </StyledProfileBadge>
+              <Typography mt={2} variant="h5" component="h4" align="center">
+                {displayName === undefined
+                  ? `${t('profile.profilePage.yourName')}`
+                  : displayName}
+              </Typography>
+
               <EditButton size="large" variant="contained" onClick={editData}>
                 {t('profile.profilePage.editProfile')}
               </EditButton>

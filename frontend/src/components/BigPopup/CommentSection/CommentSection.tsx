@@ -49,11 +49,12 @@ const CommentSection = () => {
             <Comment
               key={commentId}
               authorId={author._id}
+              authorsImage={author.imageUrl}
+              authorsName={author.displayName}
+              authorRole={author.role}
               createdAt={createdAt!}
               text={text}
               id={commentId}
-              authorsImage={author.imageUrl}
-              authorsName={author.displayName}
               locationId={locationId}
               likes={likes}
               dislikes={dislikes}
