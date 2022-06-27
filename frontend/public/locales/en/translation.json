@@ -28,6 +28,7 @@
     "couldNotCreateLocation": "Could not create location",
     "locationSuccessfullyCreated": "Location successfully created!",
     "locationSuccessfullyEdited": "Location successfully edited!",
+    "locationSuccessfullyReported": "Location successfully reported!",
     "openComments": "Comments"
   },
   "profile": {

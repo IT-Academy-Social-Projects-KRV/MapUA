@@ -69,7 +69,7 @@ export const IconsComponent: FC<Props> = ({
     addReportToLocation(
       locationId,
       true,
-      t('createLocation.locationSuccessfullyEdited')
+      t('createLocation.locationSuccessfullyReported')
     );
   };
 
