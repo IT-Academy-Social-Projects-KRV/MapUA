@@ -6,6 +6,7 @@ import {
   Controller,
   useFormState
 } from 'react-hook-form';
+import { StyledBadge } from 'components/design/StyledBadge';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { EditProfileSchema } from 'utils/validation';
 import { useTranslation } from 'react-i18next';
@@ -39,6 +40,9 @@ export default function ProfilePage() {
   } = useTypedSelector(state => state.userData);
   const { email, createdAt, updatedAt } = useTypedSelector(
     state => state.privateUserData.data
+  );
+  const { data: isAuthorized } = useTypedSelector(
+    state => state.isUserAuthorized
   );
   const [showEditPanel, setShowEditPanel] = useState(false);
   const [userImage, setUserImage] = useState<File | null>();
@@ -132,12 +136,13 @@ export default function ProfilePage() {
                 aria-label="avatar"
                 src={userAvatar || userImageNotFound}
               />
-              <Typography mt={2} variant="h5" component="h4" align="center">
-                {displayName === undefined
-                  ? `${t('profile.profilePage.yourName')}`
-                  : displayName}
-              </Typography>
-
+              <StyledBadge color="info" badgeContent={isAuthorized.role}>
+                <Typography mt={2} variant="h5" component="h4" align="center">
+                  {displayName === undefined
+                    ? `${t('profile.profilePage.yourName')}`
+                    : displayName}
+                </Typography>
+              </StyledBadge>
               <EditButton size="large" variant="contained" onClick={editData}>
                 {t('profile.profilePage.editProfile')}
               </EditButton>
