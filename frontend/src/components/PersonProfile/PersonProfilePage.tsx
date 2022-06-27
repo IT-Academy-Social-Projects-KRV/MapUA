@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useParams } from 'react-router-dom';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
-import { StyledBadge } from 'components/design/StyledBadge';
 import userImageNotFound from '../../static/user-image-not-found.png';
 import {
   ProfileAvatar,
@@ -58,22 +57,11 @@ export default function PersonProfilePage() {
           aria-label="avatar"
           src={userAvatar || userImageNotFound}
         />
-
-        {/* <ProfileAvatar
-          aria-label="avatar"
-          src={userAvatar || userImageNotFound}
-        /> */}
-        <StyledBadge
-          color="info"
-          badgeContent={isAuthorized.role}
-          invisible={false}
-        >
-          <Typography mt={2} variant="h5" component="h4" align="center">
-            {displayName === undefined
-              ? `${t('profile.profilePage.yourName')}`
-              : displayName}
-          </Typography>
-        </StyledBadge>
+        <Typography mt={2} variant="h5" component="h4" align="center">
+          {displayName === undefined
+            ? `${t('profile.profilePage.yourName')}`
+            : displayName}
+        </Typography>
         {isAuthorized.isAuthorized && (
           <SubsrcibeButton
             size="large"
