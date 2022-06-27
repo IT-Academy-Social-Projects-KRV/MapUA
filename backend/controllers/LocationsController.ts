@@ -1,4 +1,4 @@
-import { Response, Request } from 'express';
+import e, { Response, Request } from 'express';
 import Location from '../models/Locations';
 import User from '../models/UserModel';
 import Comments from '../models/CommentModel';
@@ -78,8 +78,14 @@ const LocationsController = {
       
       if (verifiedFiltersArray.length > 0) {
         locations = locations.filter(l => {
-          return [l.verificationStatus]
-            .some(el => filters.includes(el));
+          return verifiedFiltersArray.some((el: string )=> {
+            if (el === 'unverified'){
+              return el === l.verificationStatus || l.verificationStatus === 'waiting'
+            } 
+            else {
+             return el === l.verificationStatus
+            }
+          })
         });
       }
 
