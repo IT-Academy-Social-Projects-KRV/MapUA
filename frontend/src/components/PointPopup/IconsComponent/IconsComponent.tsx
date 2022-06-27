@@ -65,11 +65,7 @@ export const IconsComponent: FC<Props> = ({
     setAnchorEl(null);
   };
 
-  // const [report, setReport] = React.useState<any>(false);
-
   const reportLocation = () => {
-    // setReport({ reported: true })
-
     addReportToLocation(
       locationId,
       true,
