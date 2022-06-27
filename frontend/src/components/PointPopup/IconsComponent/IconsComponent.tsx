@@ -182,9 +182,7 @@ export const IconsComponent: FC<Props> = ({
           </MenuItem>
         )}
 
-        {(locationAuthorId?._id === userId ||
-          role === 'moderator' ||
-          role === 'admin') && (
+        {(role === 'moderator' || role === 'admin') && (
           <MenuItem onClick={() => reportLocation()}>
             <ListItemIcon>
               <ReportIconModerator fontSize="small" />
