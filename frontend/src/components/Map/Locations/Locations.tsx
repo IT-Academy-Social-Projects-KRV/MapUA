@@ -10,16 +10,25 @@ function Locations({ onOpenBigPopup }: Props) {
   const { data: locations } = useTypedSelector(state => state.locationList);
   return (
     <>
-      {locations.map(({ _id, coordinates, locationName, arrayPhotos }) => (
-        <LocationPopOut
-          key={_id}
-          id={_id}
-          coordinates={coordinates}
-          locationName={locationName}
-          arrayPhotos={arrayPhotos}
-          onOpenBigPopup={onOpenBigPopup}
-        />
-      ))}
+      {locations.map(
+        ({
+          _id,
+          coordinates,
+          locationName,
+          arrayPhotos,
+          verificationStatus
+        }) => (
+          <LocationPopOut
+            key={_id}
+            id={_id}
+            coordinates={coordinates}
+            locationName={locationName}
+            arrayPhotos={arrayPhotos}
+            onOpenBigPopup={onOpenBigPopup}
+            verificationStatus={verificationStatus}
+          />
+        )
+      )}
     </>
   );
 }

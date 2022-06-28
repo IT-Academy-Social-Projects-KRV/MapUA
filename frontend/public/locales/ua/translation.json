@@ -19,6 +19,7 @@
     "enterLocName": "Введіть назву локації",
     "updateLocation": "Оновіть локацію",
     "editLocation": "Редагувати локацію",
+    "reportLocation": "Поскаржитися на локацію",
     "deleteLocation": "Видалити локацію",
     "complainToLocation": "Поскаржитись на локацію",
     "enterDescription": "Мінімум 10 символів",
@@ -27,6 +28,7 @@
     "couldNotCreateLocation": "Не вдалося створити локацію",
     "locationSuccessfullyCreated": "Локація успішно створена!",
     "locationSuccessfullyEdited": "Локація успішно відредагована!",
+    "locationSuccessfullyReported": "На локацію успішно подано рапорт!",
     "openComments": "Коментарі"
   },
   "profile": {
@@ -60,6 +62,11 @@
       "unsubscribe": "Відписатись"
     }
   },
+  "personalProfile": {
+    "personalProfilePage": {
+      "subscriptionUpdated": "Підписку успішно оновлено!"
+    }
+  },
   "forgotPassword": {
     "sentPassword": "надіслати пароль",
     "rememberPassword": "Я пам'ятаю пароль"
@@ -85,22 +92,24 @@
       "emptyPasswordError": "Пароль не може бути порожнім",
       "passwordMinLengthError": "Пароль повинен містити не менше 6 символів",
       "passwordMaxLengthError": "Пароль повинен містити не більше 36 символів",
+      "DisplayNameMinLengthError": "Iм`я повиненно містити не менше 2 символів",
+      "DisplayNameMaxLengthError": "Iм`я повиненно містити не більше 50 символів",
       "emptyProfileNameError": "Ім’я не може бути порожнім",
       "emptyDescriptionProfileError": "Опис не може бути порожнім",
       "descriptionProfileMinLengthError": "Опис має містити не менше 5 символів",
-      "descriptionProfileMaxLengthError": "Опис має бути не більше ніж 50",
-      "profileNameMinLengthError": "Ім’я має містити не менше 5 символів",
-      "profileNameMaxLengthError": "Ім’я має містити не більше 20 символів",
+      "descriptionProfileMaxLengthError": "Опис має бути не більше ніж 300 символів",
+      "profileNameMinLengthError": "Ім’я має містити не менше 2 символів",
+      "profileNameMaxLengthError": "Ім’я має містити не більше 300 символів",
       "emptyLocationNameError": "Назва локації не може бути порожньою",
       "locationNameMinLengthError": "Назва локації має містити не менше 5 символів",
       "locationNameMaxLengthError": "Назва локації має містити не більше 50 символів",
       "emptyLocationDescriptionError": "Опис локації не може бути порожнім",
       "locationDescriptionMinLengthError": "Опис локації повинен містити не менше 10 символів",
-      "locationDescriptionMaxLengthError": "Опис місця має містити не більше 200 символів",
+      "locationDescriptionMaxLengthError": "Опис місця має містити не більше 1000 символів",
       "emptyLocationFiltersError": "Виберіть хоча б один фільтр",
       "emptyCommentTextError": "Ваш коментар не може бути порожнім",
       "commentTextMinLengthError": "Ваш коментар повинен містити мінімум 5 символів",
-      "commentTextMaxLengthError": "Ваш коментар має містити менше 50 символів"
+      "commentTextMaxLengthError": "Ваш коментар має містити менше 500 символів"
     }
   },
   "map": {
@@ -118,10 +127,11 @@
         "send": "Надіслати"
       },
       "commentSection": {
-        "commentsSection": "Коментарі",
+        "commentsSection": "Cекція коментарів,",
         "deleteComment": "Видалити коментар",
         "editComment": "Редагувати коментар",
-        "complainToComment": "Поскаржитись на коментар"
+        "complainToComment": "Поскаржитись на коментар",
+        "numberOfCommentars": "кількість коментарів - "
       }
     }
   },

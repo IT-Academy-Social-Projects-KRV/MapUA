@@ -69,10 +69,18 @@ router.patch(
 
 router.patch(
   '/locations/:id',
+  passport.authenticate('jwt', { session: false }),
   updateLocationLikesSchema,
   validateRequest,
   LocationsController.updateLocationLikesById
 );
+
+router.patch(
+  '/locations/report/:id',
+  passport.authenticate('jwt', { session: false }),
+  LocationsController.updateLocationReportById
+);
+
 router.get('/locations/:id', LocationsController.getLocationById);
 
 router.post(

@@ -3,3 +3,6 @@ node_modules
 yarn-error.log
 Mac/OSX
 .DS_Store
+
+# A folder for a production
+dist

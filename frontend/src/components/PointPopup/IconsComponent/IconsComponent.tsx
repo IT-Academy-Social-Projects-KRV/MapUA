@@ -17,6 +17,8 @@ import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTranslation } from 'react-i18next';
 import ReportIcon from '@mui/icons-material/Report';
 import EditIcon from '@mui/icons-material/Edit';
+import ReportIconModerator from '@mui/icons-material/ReportGmailerrorred';
+import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 
 type Props = {
   handleRating: Function;
@@ -27,6 +29,7 @@ type Props = {
   locationIsVisited: boolean | '' | undefined;
   editData: any;
   locationAuthorId: any;
+  locationId: any;
 };
 
 export const IconsComponent: FC<Props> = ({
@@ -37,14 +40,20 @@ export const IconsComponent: FC<Props> = ({
   handleVisitedClick,
   editData,
   locationAuthorId,
-  handleDeleteClick
+  handleDeleteClick,
+  locationId
 }) => {
   const { t } = useTranslation();
+
+  const { addReportToLocation } = useTypedDispatch();
 
   const { rating } = useTypedSelector(state => state.popupLocation.data);
 
   const { author } = useTypedSelector(state => state.popupLocation.data);
   const { _id: userId } = useTypedSelector(state => state.userData.data);
+  const { isAuthorized } = useTypedSelector(
+    state => state.isUserAuthorized.data
+  );
   const { role } = useTypedSelector(state => state.isUserAuthorized.data);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -56,9 +65,23 @@ export const IconsComponent: FC<Props> = ({
     setAnchorEl(null);
   };
 
+  const reportLocation = () => {
+    addReportToLocation(
+      locationId,
+      true,
+      t('createLocation.locationSuccessfullyReported')
+    );
+  };
+
   return (
     <>
-      <IconButton onClick={e => handleRating(e, 'likes')}>
+      <IconButton
+        onClick={e => {
+          if (isAuthorized) {
+            handleRating(e, 'likes');
+          }
+        }}
+      >
         {rating.likes.includes(userId) ? (
           <ThumbUpIcon fontSize="small" sx={{ mr: '5px' }} />
         ) : (
@@ -67,7 +90,13 @@ export const IconsComponent: FC<Props> = ({
         {rating.likes.length}
       </IconButton>
 
-      <IconButton onClick={e => handleRating(e, 'dislikes')}>
+      <IconButton
+        onClick={e => {
+          if (isAuthorized) {
+            handleRating(e, 'dislikes');
+          }
+        }}
+      >
         {rating.dislikes.includes(userId) ? (
           <ThumbDownIcon fontSize="small" sx={{ mr: '5px' }} />
         ) : (
@@ -146,6 +175,15 @@ export const IconsComponent: FC<Props> = ({
               <EditIcon fontSize="small" />
             </ListItemIcon>
             <ListItemText>{t('createLocation.editLocation')}</ListItemText>
+          </MenuItem>
+        )}
+
+        {(role === 'moderator' || role === 'admin') && (
+          <MenuItem onClick={() => reportLocation()}>
+            <ListItemIcon>
+              <ReportIconModerator fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>{t('createLocation.reportLocation')}</ListItemText>
           </MenuItem>
         )}
       </Menu>

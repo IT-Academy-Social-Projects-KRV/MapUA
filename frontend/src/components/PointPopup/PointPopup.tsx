@@ -106,7 +106,6 @@ const PointPopup = ({ toggleClose }: Props) => {
     type: 'likes' | 'dislikes'
   ) => {
     e.preventDefault();
-
     const updatedRating = { ...rating };
     if (rating[type].includes(userId)) {
       updatedRating[type] = updatedRating[type].filter(
@@ -123,7 +122,6 @@ const PointPopup = ({ toggleClose }: Props) => {
         value => value !== userId
       );
     }
-
     return updatePopupLocation(locationId, { rating: updatedRating });
   };
 
@@ -166,6 +164,7 @@ const PointPopup = ({ toggleClose }: Props) => {
                   editData={editData}
                   locationAuthorId={locationAuthorId}
                   handleDeleteClick={handleDeleteClick}
+                  locationId={locationId}
                 />
               </StyledPopupButtonsWrapper>
             </Box>

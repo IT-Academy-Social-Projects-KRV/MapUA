@@ -18,6 +18,7 @@
     "creatingLocation": "Creating location",
     "updateLocation": "Update location",
     "editLocation": "Edit location",
+    "reportLocation": "Report location",
     "deleteLocation": "Delete location",
     "complainToLocation": "Complain to location",
     "enterLocName": "Enter location name",
@@ -27,6 +28,7 @@
     "couldNotCreateLocation": "Could not create location",
     "locationSuccessfullyCreated": "Location successfully created!",
     "locationSuccessfullyEdited": "Location successfully edited!",
+    "locationSuccessfullyReported": "Location successfully reported!",
     "openComments": "Comments"
   },
   "profile": {
@@ -61,6 +63,11 @@
       "unsubscribe": "Unsubscribe"
     }
   },
+  "personalProfile": {
+    "personalProfilePage": {
+      "subscriptionUpdated": "Subscription updated successfully!"
+    }
+  },
   "forgotPassword": {
     "sentPassword": "sent password",
     "rememberPassword": "I remember password"
@@ -77,6 +84,7 @@
     "registrationSuccess": "Registration successful!",
     "registrationFail": "Something went wrong",
     "create": "Create"
+
   },
   "utils": {
     "validation": {
@@ -84,12 +92,14 @@
       "emptyDisplayNameError": "Name can't be empty",
       "wrongEmailError": "Please enter a valid email",
       "emptyPasswordError": "Password can't be empty",
+      "DisplayNameMinLengthError": "Name must be at least 2 symbols long",
+      "DisplayNameMaxLengthError": "Name must be no more than 50 symbols",
       "passwordMinLengthError": "Password must be at least 6 symbols long",
       "passwordMaxLengthError": "Password must be no more than 36 symbols",
       "emptyProfileNameError": "Name can't be empty",
       "emptyDescriptionProfileError": "Description can't be empty",
-      "descriptionProfileMinLengthError": "Name must be at least 5 symbols long",
-      "descriptionProfileMaxLengthError": "Name must be no more than at least 50 symbols long",
+      "descriptionProfileMinLengthError": "Name must be at least 2 symbols long",
+      "descriptionProfileMaxLengthError": "Name must be no more than at least 300 symbols long",
       "profileNameMinLengthError": "Name must be at least 5 symbols long",
       "profileNameMaxLengthError": "Name must be no more than 20 symbols",
       "emptyLocationNameError": "Location name can't be empty",
@@ -97,11 +107,11 @@
       "locationNameMaxLengthError": "Location name must be less than 50 symbols",
       "emptyLocationDescriptionError": "Location description can't be empty",
       "locationDescriptionMinLengthError": "Location description must be at least 10 symbols long",
-      "locationDescriptionMaxLengthError": "Location description must be no more than 200 symbols",
+      "locationDescriptionMaxLengthError": "Location description must be no more than 1000 symbols",
       "emptyLocationFiltersError": "Please select at least one filter",
       "emptyCommentTextError": "Your comment can't be empty",
       "commentTextMinLengthError": "Your comment must be at least 5 symbols long",
-      "commentTextMaxLengthError": "Your comment must be less than 50 symbols"
+      "commentTextMaxLengthError": "Your comment must be less than 500 symbols"
     }
   },
   "map": {
@@ -119,10 +129,11 @@
         "send": "Send"
       },
       "commentSection": {
-        "commentsSection": "Comments section",
+        "commentsSection": "Comments section,",
         "deleteComment": "Delete comment",
         "editComment": "Edit comment",
-        "complainToComment": "Complain to comment"
+        "complainToComment": "Complain to comment",
+        "numberOfCommentars": "number of comments -"
       }
     }
   },

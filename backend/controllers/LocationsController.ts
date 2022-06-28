@@ -58,8 +58,8 @@ const LocationsController = {
         locationName: l.locationName,
         arrayPhotos: l.arrayPhotos,
         filters: l.filters,
-        verificationStatus: l.verificationStatus,
-        author: l.author
+        author: l.author,
+        verificationStatus: l.verificationStatus
       }));
 
       if (searchName) {
@@ -165,6 +165,38 @@ const LocationsController = {
           .json({ error: req.t('locations_list.location_not_found') });
       }
       return res.status(200).json(location);
+    } catch (err: any) {
+      return res.status(500).json({ error: err.message });
+    }
+  },
+
+  async updateLocationReportById(req: Request, res: Response) {
+    try {
+      const id = req.params.id;
+      let { reported } = req.body;
+
+      let newData = {};
+
+      newData = {
+        reported: reported
+      };
+
+      const location = await Location.findByIdAndUpdate(
+        id,
+        {
+          $set: { ...newData }
+        },
+        { new: true }
+      ).populate({
+        path: 'author',
+        select: 'displayName imageUrl'
+      });
+      if (!location) {
+        return res
+          .status(400)
+          .json({ error: req.t('locations_list.location_not_found') });
+      }
+      return res.status(200).json({ changedData: location });
     } catch (err: any) {
       return res.status(500).json({ error: err.message });
     }

@@ -52,8 +52,10 @@ export type locationType = {
   coordinates: [number, number];
   arrayPhotos: string[];
   description: string;
+  reported: boolean;
   createdAt: Date;
   updatedAt: Date;
+  verificationStatus: string;
 };
 
 export type updateLocationType = {
