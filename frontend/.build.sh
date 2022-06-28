@@ -1,16 +1,10 @@
 #!/bin/bash
 
 echo "$(tput setaf 3)Build script start"
-rm -rf ./dist
+rm -rf ./build
 
 # Typescript must be installed locally for this command to be executed
-node_modules/.bin/tsc -p .
-
-cp ./package.json ./dist
-cp .gitignore ./dist
-cp .env ./dist
-
-cd dist/
-yarn install --production=true
+yarn build --production=true
+mv build server
 
 echo "$(tput setaf 3)Build script end"
