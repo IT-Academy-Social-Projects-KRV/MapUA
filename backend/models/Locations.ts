@@ -13,6 +13,7 @@ export interface ILocation extends Document {
   description: string;
   rating: ratingType;
   filters: string[];
+  verificationStatus: Status;
   author: mongoose.Types.ObjectId;
   verificationStatus: Status;
   reported: boolean;
