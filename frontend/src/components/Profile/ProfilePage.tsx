@@ -41,9 +41,10 @@ export default function ProfilePage() {
   const { email, createdAt, updatedAt } = useTypedSelector(
     state => state.privateUserData.data
   );
-  const { data: isAuthorized } = useTypedSelector(
-    state => state.isUserAuthorized
-  );
+  const {
+    data: { role }
+  } = useTypedSelector(state => state.isUserAuthorized);
+
   const [showEditPanel, setShowEditPanel] = useState(false);
   const [userImage, setUserImage] = useState<File | null>();
 
@@ -132,7 +133,11 @@ export default function ProfilePage() {
             </Box>
           ) : (
             <UploadBox>
-              <StyledProfileBadge color="info" badgeContent={isAuthorized.role}>
+              <StyledProfileBadge
+                color="info"
+                badgeContent={role}
+                invisible={role === 'user'}
+              >
                 <ProfileAvatar
                   aria-label="avatar"
                   src={userAvatar || userImageNotFound}
