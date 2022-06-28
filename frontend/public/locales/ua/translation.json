@@ -122,10 +122,11 @@
         "send": "Надіслати"
       },
       "commentSection": {
-        "commentsSection": "Коментарі",
+        "commentsSection": "Cекція коментарів,",
         "deleteComment": "Видалити коментар",
         "editComment": "Редагувати коментар",
-        "complainToComment": "Поскаржитись на коментар"
+        "complainToComment": "Поскаржитись на коментар",
+        "numberOfCommentars": "кількість коментарів - "
       }
     }
   },
