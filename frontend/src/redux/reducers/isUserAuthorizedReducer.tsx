@@ -5,7 +5,7 @@ import {
 import { isUserAuthorizedStateType } from '../ts-types';
 
 const initialState: isUserAuthorizedStateType = {
-  loading: true,
+  loading: false,
   error: null,
   data: {
     isAuthorized: false,

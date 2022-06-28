@@ -18,6 +18,7 @@
     "creatingLocation": "Creating location",
     "updateLocation": "Update location",
     "editLocation": "Edit location",
+    "reportLocation": "Report location",
     "deleteLocation": "Delete location",
     "complainToLocation": "Complain to location",
     "enterLocName": "Enter location name",
@@ -27,6 +28,7 @@
     "couldNotCreateLocation": "Could not create location",
     "locationSuccessfullyCreated": "Location successfully created!",
     "locationSuccessfullyEdited": "Location successfully edited!",
+    "locationSuccessfullyReported": "Location successfully reported!",
     "openComments": "Comments"
   },
   "profile": {
@@ -38,9 +40,6 @@
       "noDescription": "There is no description",
       "noSubscribers": "user has no subscribers",
       "noSubscriptions": "user has no subscriptions"
-    },
-    "profile": {
-      "loading": "Loading..."
     },
     "profilePage": {
       "lostNetwork": "Lost Network",
@@ -58,6 +57,11 @@
       "profilePageUpdatedSuccessfully": "Profile page updated successfully!",
       "subscribe": "Subscribe",
       "unsubscribe": "Unsubscribe"
+    }
+  },
+  "personalProfile": {
+    "personalProfilePage": {
+      "subscriptionUpdated": "Subscription updated successfully!"
     }
   },
   "forgotPassword": {
@@ -120,10 +124,11 @@
         "send": "Send"
       },
       "commentSection": {
-        "commentsSection": "Comments section",
+        "commentsSection": "Comments section,",
         "deleteComment": "Delete comment",
         "editComment": "Edit comment",
-        "complainToComment": "Complain to comment"
+        "complainToComment": "Complain to comment",
+        "numberOfCommentars": "number of comments -"
       }
     }
   },
@@ -153,6 +158,11 @@
       "autumn": "autumn",
       "fullYear": "full year",
       "seasonal": "seasonal"
+    },
+    "verified": "Verified locations",
+    "verifiedValues": {
+      "verified": "verified",
+      "unverified": "unverified"
     },
     "personal": "Personal",
     "personalValues": {

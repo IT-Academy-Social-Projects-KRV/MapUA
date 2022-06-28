@@ -1,4 +1,4 @@
-import { Response, Request } from 'express';
+import e, { Response, Request } from 'express';
 import Location from '../models/Locations';
 import User from '../models/UserModel';
 import Comments from '../models/CommentModel';
@@ -11,8 +11,7 @@ const LocationsController = {
       const searchName = req.query.name as string;
       const filters = JSON.parse(req.query.filters as any);
       const authFilters = JSON.parse(req.query.authFilters as any);
-
-      // const personalFiltersNames = ['visited', 'favorites', 'personal'];
+      
       const costFiltersNames = ['free', 'low cost', 'high cost'];
       const seasonalFiltersNames = [
         'winter',
@@ -22,12 +21,21 @@ const LocationsController = {
         'full year',
         'seasonal'
       ];
+      
+      const verifiedFiltersNames = [
+        'verified',
+        'unverified'
+      ];
 
-      let costFiltersArray = filters.filter((f: string) =>
+      const costFiltersArray = filters.filter((f: string) =>
         costFiltersNames.includes(f)
       );
-      let seasonalFiltersArray = filters.filter((f: string) =>
+      const seasonalFiltersArray = filters.filter((f: string) =>
         seasonalFiltersNames.includes(f)
+      );
+      
+      const verifiedFiltersArray = filters.filter((f: string) =>
+        verifiedFiltersNames.includes(f)
       );
 
       let subscriptionsId = filters.filter((f: string) => f.match(/^\d/));
@@ -50,7 +58,8 @@ const LocationsController = {
         locationName: l.locationName,
         arrayPhotos: l.arrayPhotos,
         filters: l.filters,
-        author: l.author
+        author: l.author,
+        verificationStatus: l.verificationStatus
       }));
 
       if (searchName) {
@@ -64,6 +73,19 @@ const LocationsController = {
           return [
             ...l.filters.filter((f: string) => costFiltersNames.includes(f))
           ].some(el => filters.includes(el));
+        });
+      }
+      
+      if (verifiedFiltersArray.length > 0) {
+        locations = locations.filter(l => {
+          return verifiedFiltersArray.some((el: string )=> {
+            if (el === 'unverified'){
+              return el === l.verificationStatus || l.verificationStatus === 'waiting'
+            } 
+            else {
+             return el === l.verificationStatus
+            }
+          })
         });
       }
 
@@ -143,6 +165,38 @@ const LocationsController = {
           .json({ error: req.t('locations_list.location_not_found') });
       }
       return res.status(200).json(location);
+    } catch (err: any) {
+      return res.status(500).json({ error: err.message });
+    }
+  },
+
+  async updateLocationReportById(req: Request, res: Response) {
+    try {
+      const id = req.params.id;
+      let { reported } = req.body;
+
+      let newData = {};
+
+      newData = {
+        reported: reported
+      };
+
+      const location = await Location.findByIdAndUpdate(
+        id,
+        {
+          $set: { ...newData }
+        },
+        { new: true }
+      ).populate({
+        path: 'author',
+        select: 'displayName imageUrl'
+      });
+      if (!location) {
+        return res
+          .status(400)
+          .json({ error: req.t('locations_list.location_not_found') });
+      }
+      return res.status(200).json({ changedData: location });
     } catch (err: any) {
       return res.status(500).json({ error: err.message });
     }

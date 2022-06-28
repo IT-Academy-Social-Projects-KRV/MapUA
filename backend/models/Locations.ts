@@ -13,8 +13,9 @@ export interface ILocation extends Document {
   description: string;
   rating: ratingType;
   filters: string[];
-  author: mongoose.Types.ObjectId;
   verificationStatus: Status;
+  author: mongoose.Types.ObjectId;
+  reported: boolean;
 }
 
 const schema = new mongoose.Schema(
@@ -33,6 +34,7 @@ const schema = new mongoose.Schema(
       enum: ['verified', 'unverified', 'waiting'],
       default: 'unverified'
     },
+    reported: { type: Boolean },
     author: { type: Schema.Types.ObjectId, ref: 'User', required: true }
   },
   { timestamps: true }

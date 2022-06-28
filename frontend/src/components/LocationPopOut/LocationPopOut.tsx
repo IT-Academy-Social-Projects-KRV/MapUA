@@ -10,8 +10,11 @@ import {
   StyledMediaBox,
   StyledTooltip
 } from '../design/StyledLocationPopOut';
-import icon from '../../static/pin-308802.svg';
+import verifiedIcon from '../../static/verified-icon.svg';
+import unverifiedIcon from '../../static/unverified-icon.svg';
+import waitingIcon from '../../static/waiting-icon.svg';
 import img from '../../static/image-not-found.jpg';
+import { verificationStatusTypes } from '../../static/verificationStatusTypes';
 
 interface Props {
   id: string;
@@ -19,6 +22,7 @@ interface Props {
   locationName: string;
   arrayPhotos: string[];
   onOpenBigPopup: Function;
+  verificationStatus: string;
 }
 
 export function LocationPopOut({
@@ -26,17 +30,33 @@ export function LocationPopOut({
   coordinates,
   locationName,
   arrayPhotos,
-  onOpenBigPopup
+  onOpenBigPopup,
+  verificationStatus
 }: Props) {
   const [, setSearchParams] = useSearchParams();
   const locationData = useTypedSelector(state => state.popupLocation);
   const { loading } = locationData;
   const { fetchPopupLocation } = useTypedDispatch();
 
+  let locationIcon: string = unverifiedIcon;
+  switch (verificationStatus) {
+    case verificationStatusTypes.VERIFIED:
+      locationIcon = verifiedIcon;
+      break;
+    case verificationStatusTypes.UNVERIFIED:
+      locationIcon = unverifiedIcon;
+      break;
+    case verificationStatusTypes.WAITING:
+      locationIcon = waitingIcon;
+      break;
+    default:
+      break;
+  }
+
   return (
     <Marker
       icon={L.icon({
-        iconUrl: icon,
+        iconUrl: locationIcon,
         iconSize: [40, 40],
         iconAnchor: [20, 46]
       })}
