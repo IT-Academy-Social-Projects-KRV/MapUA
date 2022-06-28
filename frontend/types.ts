@@ -55,6 +55,7 @@ export type locationType = {
   reported: boolean;
   createdAt: Date;
   updatedAt: Date;
+  verificationStatus: string;
 };
 
 export type updateLocationType = {

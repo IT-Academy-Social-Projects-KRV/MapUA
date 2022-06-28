@@ -2,7 +2,7 @@ import React from 'react';
 import { Marker } from 'react-leaflet';
 import L from 'leaflet';
 import { latlngType } from '../../../../types';
-import icon from '../../../static/marker.png';
+import icon from '../../../static/creation-icon.svg';
 
 // import shadow from '../../../static/leaf-shadow.png';
 

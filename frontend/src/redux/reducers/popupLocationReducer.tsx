@@ -22,7 +22,9 @@ export const initialState: popupLocationStateType = {
     description: '',
     reported: false,
     createdAt: new Date(),
-    updatedAt: new Date()
+    updatedAt: new Date(),
+
+    verificationStatus: ''
   }
 };
 
