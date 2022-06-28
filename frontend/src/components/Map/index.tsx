@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState, useRef } from 'react';
+import { useParams } from 'react-router-dom';
 import { TileLayer, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useTranslation } from 'react-i18next';
@@ -41,6 +42,11 @@ function Map({
   const { isAuthorized } = useTypedSelector(
     state => state.isUserAuthorized.data
   );
+
+  const { locationId } = useParams();
+
+  const { setLocationName } = useTypedDispatch();
+
   const {
     bounds,
     locationName: searchName,
@@ -64,8 +70,15 @@ function Map({
     bounds,
     debouncedValue,
     JSON.stringify(selectedFilters),
-    JSON.stringify(authorizedFilters)
+    JSON.stringify(authorizedFilters),
+    locationId
   ]);
+
+  useEffect(() => {
+    if (!locationId) {
+      setLocationName('');
+    }
+  }, [locationId]);
 
   return (
     <StyledMapWrapper ref={formRef}>

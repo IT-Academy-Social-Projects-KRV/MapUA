@@ -5,6 +5,7 @@ import { Tabs, Tab, Typography, Box, TextField } from '@mui/material';
 import { Controller, Control, FieldError } from 'react-hook-form';
 import ProfileTabsData from 'components/ProfileTabsData';
 import { UserForm } from '../../../types';
+import { ModerationTab } from './ModerationTab';
 
 interface TabPanelProps {
   index: number;
@@ -73,6 +74,7 @@ export default function BasicTabs({
           <Tab label={t('profile.basicTabs.description')} {...a11yProps(0)} />
           <Tab label={t('profile.basicTabs.subscribers')} {...a11yProps(1)} />
           <Tab label={t('profile.basicTabs.subscriptions')} {...a11yProps(2)} />
+          <Tab label="moderations" {...a11yProps(3)} />
         </Tabs>
       </Box>
       {showEditPanel ? (
@@ -120,6 +122,9 @@ export default function BasicTabs({
         ) : (
           `${t('profile.basicTabs.noSubscriptions')}`
         )}
+      </TabPanel>
+      <TabPanel value={value} index={3}>
+        <ModerationTab />
       </TabPanel>
     </Box>
   );

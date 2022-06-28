@@ -68,6 +68,7 @@ function App() {
       <NavBar />
       <Routes>
         <Route path="/" element={<HomeScreen />} />
+        <Route path="/:locationId" element={<HomeScreen />} />
         <Route
           path="/registration"
           element={
