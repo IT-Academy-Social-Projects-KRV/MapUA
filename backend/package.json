@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node-dev index.ts --clear --notify"
+    "start": "node index.js",
+    "dev": "ts-node-dev index.ts --clear --notify",
+    "build": "tsc -p ."
   },
   "keywords": [],
   "author": "",
@@ -61,5 +63,8 @@
     "eslint-config-airbnb": "^15.1.0",
     "eslint-plugin-import": "^2.7.0",
     "prettier": "2.6.2"
+  },
+  "engines": {
+    "node": "16.x"
   }
 }
