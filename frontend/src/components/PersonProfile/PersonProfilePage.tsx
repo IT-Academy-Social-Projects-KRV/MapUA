@@ -46,7 +46,7 @@ export default function PersonProfilePage() {
     if (isAuthorized) {
       toggleUserSubscription(
         otherUserId,
-        t('profile.profilePage.profilePageUpdatedSuccessfully')
+        t('personalProfile.personalProfilePage.subscriptionUpdated')
       );
     }
   };
