@@ -44,7 +44,7 @@ export const IconsComponent: FC<Props> = ({
   locationId
 }) => {
   const { t } = useTranslation();
-  const { addReportToLocation,SetSuccessSnackbar } = useTypedDispatch();
+  const { addReportToLocation, SetSuccessSnackbar } = useTypedDispatch();
   const { rating } = useTypedSelector(state => state.popupLocation.data);
 
   const { author } = useTypedSelector(state => state.popupLocation.data);
