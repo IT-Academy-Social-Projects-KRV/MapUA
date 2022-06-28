@@ -4,6 +4,7 @@ import { CardMedia, Typography } from '@mui/material';
 import { Marker } from 'react-leaflet';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
+import { useSearchParams } from 'react-router-dom';
 import {
   StyledBox,
   StyledMediaBox,
@@ -27,6 +28,7 @@ export function LocationPopOut({
   arrayPhotos,
   onOpenBigPopup
 }: Props) {
+  const [, setSearchParams] = useSearchParams();
   const locationData = useTypedSelector(state => state.popupLocation);
   const { loading } = locationData;
   const { fetchPopupLocation } = useTypedDispatch();
@@ -43,6 +45,7 @@ export function LocationPopOut({
           if (!loading) {
             e.originalEvent.stopPropagation();
             fetchPopupLocation(id);
+            setSearchParams({ locationName });
             onOpenBigPopup(locationData);
           }
         }

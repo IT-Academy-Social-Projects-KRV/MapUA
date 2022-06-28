@@ -126,3 +126,24 @@ export const deleteUserData = () => (dispatch: Dispatch<UserDataAction>) => {
     type: UserDataActionTypes.DELETE_USER_DATA
   });
 };
+export const fetchTopUsers =
+  () => async (dispatch: Dispatch<UserDataAction>) => {
+    try {
+      dispatch({ type: UserDataActionTypes.FETCH_TOP_USERS_LOADING });
+      const response = await axios().get(`${REACT_APP_API_URI}topUsers`, {
+        headers: {
+          'Accept-Language': localStorage.getItem('i18nextLng') || ''
+        }
+      });
+      dispatch({
+        type: UserDataActionTypes.FETCH_TOP_USERS_SUCCESS,
+        payload: response.data
+      });
+    } catch (error: any) {
+      dispatch({
+        type: UserDataActionTypes.FETCH_TOP_USERS_ERROR,
+        payload: 'An error occurred while loading user data'
+      });
+      throw new Error(error);
+    }
+  };

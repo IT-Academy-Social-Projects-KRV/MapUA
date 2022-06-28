@@ -17,6 +17,7 @@ import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTranslation } from 'react-i18next';
 import ReportIcon from '@mui/icons-material/Report';
 import EditIcon from '@mui/icons-material/Edit';
+import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 
 type Props = {
   handleRating: Function;
@@ -40,7 +41,7 @@ export const IconsComponent: FC<Props> = ({
   handleDeleteClick
 }) => {
   const { t } = useTranslation();
-
+  const { SetSuccessSnackbar } = useTypedDispatch();
   const { rating } = useTypedSelector(state => state.popupLocation.data);
 
   const { author } = useTypedSelector(state => state.popupLocation.data);
@@ -57,6 +58,12 @@ export const IconsComponent: FC<Props> = ({
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const copyToClipBoard = async () => {
+    const params = new URLSearchParams(window.location.search);
+    const path = `http://localhost:3000/?${params.toString()}`;
+    await navigator.clipboard.writeText(path);
+    SetSuccessSnackbar(t('pointPopUp.copy'));
   };
 
   return (
@@ -91,7 +98,11 @@ export const IconsComponent: FC<Props> = ({
         {rating.dislikes.length}
       </IconButton>
 
-      <IconButton size="small" title={t('pointPopUp.toShare')}>
+      <IconButton
+        size="small"
+        onClick={copyToClipBoard}
+        title={t('pointPopUp.toShare')}
+      >
         <ShareIcon />
       </IconButton>
 

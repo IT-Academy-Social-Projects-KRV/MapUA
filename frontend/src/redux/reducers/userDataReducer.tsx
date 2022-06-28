@@ -3,7 +3,7 @@ import {
   UserDataActionTypes
 } from 'redux/action-types/userDataActionTypes';
 import image from '../../static/image-not-found.jpg';
-import { userDataStateType } from '../ts-types';
+import { topUserStateType, userDataStateType } from '../ts-types';
 
 const initialState: userDataStateType = {
   loading: false,
@@ -20,6 +20,12 @@ const initialState: userDataStateType = {
     visited: [],
     personalLocations: []
   }
+};
+const topUserInitialState: topUserStateType = {
+  loading: false,
+  error: null,
+  success: false,
+  data: []
 };
 
 export const userDataReducer = (
@@ -73,6 +79,36 @@ export const userDataReducer = (
         error: null,
         data: initialState.data,
         success: false
+      };
+    default:
+      return state;
+  }
+};
+export const topUsersReducer = (
+  state = topUserInitialState,
+  action: UserDataAction
+): topUserStateType => {
+  switch (action.type) {
+    case UserDataActionTypes.FETCH_TOP_USERS_LOADING:
+      return {
+        loading: true,
+        error: null,
+        data: topUserInitialState.data,
+        success: false
+      };
+    case UserDataActionTypes.FETCH_TOP_USERS_SUCCESS:
+      return {
+        loading: false,
+        error: null,
+        data: action.payload,
+        success: true
+      };
+    case UserDataActionTypes.FETCH_TOP_USERS_ERROR:
+      return {
+        loading: false,
+        error: null,
+        data: topUserInitialState.data,
+        success: true
       };
     default:
       return state;

@@ -55,7 +55,12 @@ export type locationType = {
   createdAt: Date;
   updatedAt: Date;
 };
-
+export type topLocationType = {
+  _id: string;
+  arrayPhotos: string[];
+  locationName: string;
+  likes: number;
+};
 export type updateLocationType = {
   locationName: string;
   arrayPhotos: string[];
@@ -88,6 +93,12 @@ export type UserDataType = {
   favorite: string[];
   visited: string[];
   personalLocations: string[];
+};
+export type TopUserType = {
+  _id?: string;
+  displayName: string;
+  imageUrl: string;
+  count: number;
 };
 export type PrivateUserDataType = {
   email: string;
