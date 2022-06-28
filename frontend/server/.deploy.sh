@@ -1,9 +1,9 @@
 #!/bin/bash
 
-APP_NAME="mapua-frontend-app"
+APP_NAME="mapua-frontend-appppp"
 
 # Uncomment if you don't neet to build the app (as it is a time consuming process)
-# source ./.build.sh;
+# source ../.build.sh;
 
 echo "$(tput setaf 3)Deploy script start";
 
@@ -21,7 +21,7 @@ heroku open --app $APP_NAME;
 
 # #!/bin/bash
 
-# APP_NAME="mapua-frontend-app"
+# APP_NAME="mapua-frontend-appppp"
 
 # # Uncomment if you don't neet to build the app (as it is a time consuming process)
 # # source ./.build.sh;
