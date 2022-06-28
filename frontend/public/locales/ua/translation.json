@@ -41,9 +41,6 @@
       "noSubscribers": "Користувач не має підписників",
       "noSubscriptions": "Користувач не підписаний ні на кого"
     },
-    "profile": {
-      "loading": "Завантаження..."
-    },
     "profilePage": {
       "lostNetwork": "Проблеми зі зв'язком",
       "dataSuccessChanged": "Дані успішно змінено",

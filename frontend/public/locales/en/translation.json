@@ -41,9 +41,6 @@
       "noSubscribers": "user has no subscribers",
       "noSubscriptions": "user has no subscriptions"
     },
-    "profile": {
-      "loading": "Loading..."
-    },
     "profilePage": {
       "lostNetwork": "Lost Network",
       "dataSuccessChanged": "Data successfully changed",
@@ -58,7 +55,6 @@
       "logout": "Logout",
       "yourName": "Your name:",
       "profilePageUpdatedSuccessfully": "Profile page updated successfully!",
-
       "subscribe": "Subscribe",
       "unsubscribe": "Unsubscribe"
     }
@@ -84,7 +80,6 @@
     "registrationSuccess": "Registration successful!",
     "registrationFail": "Something went wrong",
     "create": "Create"
-
   },
   "utils": {
     "validation": {
