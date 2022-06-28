@@ -164,6 +164,7 @@ const PointPopup = ({ toggleClose }: Props) => {
                   editData={editData}
                   locationAuthorId={locationAuthorId}
                   handleDeleteClick={handleDeleteClick}
+                  locationId={locationId}
                 />
               </StyledPopupButtonsWrapper>
             </Box>

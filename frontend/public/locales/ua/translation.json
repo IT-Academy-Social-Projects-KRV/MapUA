@@ -19,6 +19,7 @@
     "enterLocName": "Введіть назву локації",
     "updateLocation": "Оновіть локацію",
     "editLocation": "Редагувати локацію",
+    "reportLocation": "Поскаржитися на локацію",
     "deleteLocation": "Видалити локацію",
     "complainToLocation": "Поскаржитись на локацію",
     "enterDescription": "Мінімум 10 символів",
@@ -27,6 +28,7 @@
     "couldNotCreateLocation": "Не вдалося створити локацію",
     "locationSuccessfullyCreated": "Локація успішно створена!",
     "locationSuccessfullyEdited": "Локація успішно відредагована!",
+    "locationSuccessfullyReported": "На локацію успішно подано рапорт!",
     "openComments": "Коментарі"
   },
   "profile": {
