@@ -2,8 +2,6 @@ import React, { SyntheticEvent, useEffect } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import HomeScreen from 'screens/HomeScreen';
-import NavBar from 'components/Header/NavBar';
-import Footer from 'components/Footer/Footer';
 import Login from 'components/Login/Login';
 import ForgotPassword from 'components/ForgotPassword/ForgotPassword';
 import Registration from 'components/Registration/Registration';
@@ -12,6 +10,8 @@ import Profile from 'components/Profile/Profile';
 import Page404 from 'components/Page_404/Page404';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import PersonProfile from 'components/PersonProfile/PersonProfile';
+import TopList from 'screens/TopList/TopList';
+import Layout from 'components/Layout/Layout';
 import { useTypedDispatch } from './redux/hooks/useTypedDispatch';
 import ExtendSnackbar from './components/ExtendSnackbar/ExtendSnackbar';
 
@@ -65,31 +65,35 @@ function App() {
           }
         }}
       />
-      <NavBar />
       <Routes>
-        <Route path="/" element={<HomeScreen />} />
-        <Route
-          path="/registration"
-          element={
-            isAuthorized ? <Navigate to="/" replace /> : <Registration />
-          }
-        />
-        <Route
-          path="/login"
-          element={isAuthorized ? <Navigate to="/" replace /> : <Login />}
-        />
-        <Route
-          path="/forgot-password"
-          element={
-            isAuthorized ? <Navigate to="/" replace /> : <ForgotPassword />
-          }
-        />
-        <Route path="/test-redux-components" element={<ComposeComponents />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/profile/:id" element={<PersonProfile />} />
-        <Route path="/*" element={<Page404 />} />
+        <Route path="/" element={<Layout />}>
+          <Route index element={<HomeScreen />} />
+          <Route
+            path="/registration"
+            element={
+              isAuthorized ? <Navigate to="/" replace /> : <Registration />
+            }
+          />
+          <Route
+            path="/login"
+            element={isAuthorized ? <Navigate to="/" replace /> : <Login />}
+          />
+          <Route
+            path="/forgot-password"
+            element={
+              isAuthorized ? <Navigate to="/" replace /> : <ForgotPassword />
+            }
+          />
+          <Route
+            path="/test-redux-components"
+            element={<ComposeComponents />}
+          />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/:id" element={<PersonProfile />} />
+          <Route path="/top" element={<TopList />} />
+          <Route path="/*" element={<Page404 />} />
+        </Route>
       </Routes>
-      <Footer />
     </BrowserRouter>
   );
 }

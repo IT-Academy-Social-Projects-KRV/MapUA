@@ -1,4 +1,4 @@
-import { UserDataType } from '../../../types';
+import { TopUserType, UserDataType } from '../../../types';
 
 /* eslint-disable no-unused-vars */
 export enum UserDataActionTypes {
@@ -8,7 +8,10 @@ export enum UserDataActionTypes {
   UPDATE_USER_DATA_LOADING = 'UPDATE_USER_DATA_LOADING',
   UPDATE_USER_DATA_SUCCESS = 'UPDATE_USER_DATA_SUCCESS',
   UPDATE_USER_DATA_ERROR = 'UPDATE_USER_DATA_ERROR',
-  DELETE_USER_DATA = 'DELETE_USER_DATA'
+  DELETE_USER_DATA = 'DELETE_USER_DATA',
+  FETCH_TOP_USERS_LOADING = 'FETCH_TOP_USERS_LOADING',
+  FETCH_TOP_USERS_SUCCESS = 'FETCH_TOP_USERS_SUCCESS',
+  FETCH_TOP_USERS_ERROR = 'FETCH_TOP_USERS_ERROR'
 }
 
 interface FetchUserDataLoadingAction {
@@ -20,6 +23,17 @@ interface FetchUserDataSuccessAction {
 }
 interface FetchUserDataErrorAction {
   type: UserDataActionTypes.FETCH_USER_DATA_ERROR;
+  payload: string;
+}
+interface FetchTopUsersLoadingAction {
+  type: UserDataActionTypes.FETCH_TOP_USERS_LOADING;
+}
+interface FetchTopUsersSuccessAction {
+  type: UserDataActionTypes.FETCH_TOP_USERS_SUCCESS;
+  payload: TopUserType[];
+}
+interface FetchTopUsersErrorAction {
+  type: UserDataActionTypes.FETCH_TOP_USERS_ERROR;
   payload: string;
 }
 
@@ -46,4 +60,7 @@ export type UserDataAction =
   | UpdateUserDataLoadingAction
   | UpdateUserDataSuccessAction
   | UpdateUserDataErrorAction
-  | DeleteUserDataErrorAction;
+  | DeleteUserDataErrorAction
+  | FetchTopUsersLoadingAction
+  | FetchTopUsersSuccessAction
+  | FetchTopUsersErrorAction;

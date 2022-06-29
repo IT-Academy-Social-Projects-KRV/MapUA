@@ -7,7 +7,9 @@ import {
   FiltersDataType,
   CommentType,
   AuthorInfoType,
-  isUserAuthorizedType
+  isUserAuthorizedType,
+  topLocationType,
+  TopUserType
 } from '../../../types';
 
 export type InitialStateType<T> = {
@@ -21,8 +23,10 @@ export type InitialStateType<T> = {
 export type isUserAuthorizedStateType = InitialStateType<isUserAuthorizedType>;
 export type createLocationStateType = InitialStateType<boolean>;
 export type userDataStateType = InitialStateType<UserDataType>;
+export type topUserStateType = InitialStateType<TopUserType[]>;
 export type privateUserDataStateType = InitialStateType<PrivateUserDataType>;
 export type locationListStateType = InitialStateType<locationType[]>;
+export type topLocationStateType = InitialStateType<topLocationType[]>;
 export type popupLocationStateType = InitialStateType<locationType>;
 export type otherUserDataStateType = InitialStateType<UserDataType>;
 export type locationCommentsStateType = {

@@ -202,6 +202,26 @@ const UserController = {
     } catch (err: any) {
       return res.status(500).json({ error: req.t('other.server_error'), err });
     }
+  },
+  async getTopUsers(req: Request, res: Response) {
+    try {
+      let users = await User.aggregate([
+        {
+          $project: {
+            count: { $size: { $ifNull: ['$personalLocations', []] } },
+            displayName: 1,
+            imageUrl: 1
+          }
+        },
+        {
+          $sort: { count: -1 }
+        }
+      ]);
+      users = users.slice(0, users.length < 20 ? users.length : 20);
+      return res.json(users);
+    } catch (err: any) {
+      return res.status(500).json({ error: req.t('other.server_error'), err });
+    }
   }
 };
 export default UserController;
