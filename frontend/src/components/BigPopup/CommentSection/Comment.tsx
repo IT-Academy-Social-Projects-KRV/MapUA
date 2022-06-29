@@ -175,16 +175,16 @@ const Comment = ({
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Box sx={{ display: 'flex' }}>
               <Link to={getPath(userId, authorId)}>
-              <StyledCommentBadge
-                color="info"
-                badgeContent={authorRole}
-                invisible={authorRole === 'user'}
+                <StyledCommentBadge
+                  color="info"
+                  badgeContent={authorRole}
+                  invisible={authorRole === 'user'}
                 >
-                <Avatar
-                  sx={{ mr: 2 }}
-                  alt="Comment's author avatar"
-                  src={authorsImage}
-                />
+                  <Avatar
+                    sx={{ mr: 2 }}
+                    alt="Comment's author avatar"
+                    src={authorsImage}
+                  />
                 </StyledCommentBadge>
               </Link>
               <Link to={getPath(userId, authorId)}>
