@@ -6,6 +6,7 @@ import CommentsController from '../controllers/CommentsController';
 import SubscriptionsController from '../controllers/SubscriptionsController';
 import passport from '../libs/passport';
 import multer from 'multer';
+import RoleChecker from '../middlewares/RoleChecker';
 import { upload } from '../utils/upload';
 import {
   CommentSchema,
@@ -59,6 +60,13 @@ router.patch(
 );
 
 router.get('/locations/', LocationsController.getLocationsByZoom);
+
+router.get(
+  '/locations/waiting',
+  passport.authenticate('jwt', { session: false }),
+  RoleChecker.restrictTo('moderator', 'admin'),
+  LocationsController.getWaitingForVerifyLocations
+);
 
 router.patch(
   '/update_location/:id',

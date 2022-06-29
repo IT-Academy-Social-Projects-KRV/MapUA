@@ -36,10 +36,12 @@
       "description": "Опис",
       "subscribers": "Підписники",
       "subscriptions": "Підписки",
+      "waitingForVerify": "Очікують перевірки",
       "enterDescription": "Будь ласка, введіть опис",
       "noDescription": "Опис відсутній",
       "noSubscribers": "Користувач не має підписників",
-      "noSubscriptions": "Користувач не підписаний ні на кого"
+      "noSubscriptions": "Користувач не підписаний ні на кого",
+      "noWaitingForVerify": "Локації відсутні"
     },
     "profilePage": {
       "lostNetwork": "Проблеми зі зв'язком",

@@ -5,7 +5,7 @@ import { Tabs, Tab, Typography, Box, TextField } from '@mui/material';
 import { Controller, Control, FieldError } from 'react-hook-form';
 import ProfileTabsData from 'components/ProfileTabsData';
 import { UserForm } from '../../../types';
-import { ModerationTab } from './ModerationTab';
+import { WaitingForVerifyTab } from './WaitingForVerifyTab';
 
 interface TabPanelProps {
   index: number;
@@ -60,6 +60,7 @@ export default function BasicTabs({
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+  const { role } = useTypedSelector(state => state.isUserAuthorized.data);
 
   const userDescription = useTypedSelector(state => state.userData);
 
@@ -74,7 +75,12 @@ export default function BasicTabs({
           <Tab label={t('profile.basicTabs.description')} {...a11yProps(0)} />
           <Tab label={t('profile.basicTabs.subscribers')} {...a11yProps(1)} />
           <Tab label={t('profile.basicTabs.subscriptions')} {...a11yProps(2)} />
-          <Tab label="moderations" {...a11yProps(3)} />
+          {(role === 'moderator' || role === 'admin') && (
+            <Tab
+              label={t('profile.basicTabs.waitingForVerify')}
+              {...a11yProps(3)}
+            />
+          )}
         </Tabs>
       </Box>
       {showEditPanel ? (
@@ -124,7 +130,7 @@ export default function BasicTabs({
         )}
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <ModerationTab />
+        <WaitingForVerifyTab />
       </TabPanel>
     </Box>
   );
