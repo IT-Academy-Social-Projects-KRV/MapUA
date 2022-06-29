@@ -1,6 +1,6 @@
 #!/bin/bash
 
-APP_NAME="mapua-frontend-appppp"
+APP_NAME="mapua-frontend-appappappapp"
 
 # Uncomment if you don't neet to build the app (as it is a time consuming process)
 # source ../.build.sh;
