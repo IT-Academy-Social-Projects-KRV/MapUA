@@ -23,9 +23,17 @@ export const createLocalizationMainFilters = (t: any) => {
         t('mainFilters.seasonalValues.seasonal')
       ]
     },
-
     {
       id: 3,
+      forLoggedUser: false,
+      type: t('mainFilters.verified'),
+      values: [
+        t('mainFilters.verifiedValues.verified'),
+        t('mainFilters.verifiedValues.unverified')
+      ]
+    },
+    {
+      id: 4,
       forLoggedUser: true,
       type: t('mainFilters.personal'),
       values: [
@@ -53,6 +61,12 @@ export const mainFilters = [
   },
   {
     id: 3,
+    forLoggedUser: false,
+    type: 'Verified',
+    values: ['verified', 'unverified']
+  },
+  {
+    id: 4,
     forLoggedUser: true,
     type: 'Personal',
     values: ['visited', 'favorites', 'personal']
@@ -81,6 +95,12 @@ export const mainFiltersUa = [
   },
   {
     id: 3,
+    forLoggedUser: false,
+    type: 'Перевірені локації',
+    values: ['перевірені', 'неперевірені']
+  },
+  {
+    id: 4,
     forLoggedUser: true,
     type: 'Personal',
     values: ['відвідані', 'улюблені', 'персональні']

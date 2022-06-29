@@ -15,6 +15,7 @@ import { ForgotPasswordSchema } from 'utils/validation';
 import { StyledPaperForm } from '../design/StyledPaperForm';
 import { StyledAuthFormWrapper } from '../design/StyledAuthFormWrapper';
 import { useTypedDispatch } from '../../redux/hooks/useTypedDispatch';
+import CircularLoader from '../CircularLoader/CircularLoader';
 
 type EmailCheck = {
   email: string;
@@ -53,6 +54,10 @@ function ForgotPassword() {
       setLoading(false);
     }
   };
+
+  if (loading) {
+    return <CircularLoader />;
+  }
 
   return (
     <StyledAuthFormWrapper>

@@ -15,7 +15,8 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "baseUrl": "src/"
+    "baseUrl": "src/",
+    "outDir": "./dist" /* Specify an output folder for all emitted files. */,
   },
   "include": ["**/*.ts", "**/*.tsx", "src/", "src/i18n"]
 }

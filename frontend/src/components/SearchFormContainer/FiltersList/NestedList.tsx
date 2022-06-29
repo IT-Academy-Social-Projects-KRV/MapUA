@@ -80,13 +80,13 @@ export default function NestedList() {
     let value: string = selectedValue;
     if (currentLanguage === 'ua') {
       AddSelectedFiltersUaLogic(selectedValue);
-      if (filterId === 4) {
+      if (filterId === 5) {
         value = selectedValue;
       } else value = mainFilters[filterId - 1].values[index];
     }
 
     if (currentLanguage === 'en') {
-      if (filterId === 4) {
+      if (filterId === 5) {
         AddSelectedFiltersUaLogic(selectedValue);
       } else
         AddSelectedFiltersUaLogic(mainFiltersUa[filterId - 1].values[index]);

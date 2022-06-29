@@ -19,6 +19,7 @@
     "enterLocName": "Введіть назву локації",
     "updateLocation": "Оновіть локацію",
     "editLocation": "Редагувати локацію",
+    "reportLocation": "Поскаржитися на локацію",
     "deleteLocation": "Видалити локацію",
     "complainToLocation": "Поскаржитись на локацію",
     "enterDescription": "Мінімум 10 символів",
@@ -27,6 +28,7 @@
     "couldNotCreateLocation": "Не вдалося створити локацію",
     "locationSuccessfullyCreated": "Локація успішно створена!",
     "locationSuccessfullyEdited": "Локація успішно відредагована!",
+    "locationSuccessfullyReported": "На локацію успішно подано рапорт!",
     "openComments": "Коментарі"
   },
   "profile": {
@@ -38,9 +40,6 @@
       "noDescription": "Опис відсутній",
       "noSubscribers": "Користувач не має підписників",
       "noSubscriptions": "Користувач не підписаний ні на кого"
-    },
-    "profile": {
-      "loading": "Завантаження..."
     },
     "profilePage": {
       "lostNetwork": "Проблеми зі зв'язком",
@@ -58,6 +57,11 @@
       "profilePageUpdatedSuccessfully": "Дані профілю успішно оновлені!",
       "subscribe": "Підписатись",
       "unsubscribe": "Відписатись"
+    }
+  },
+  "personalProfile": {
+    "personalProfilePage": {
+      "subscriptionUpdated": "Підписку успішно оновлено!"
     }
   },
   "forgotPassword": {
@@ -122,7 +126,7 @@
         "cancel": "Відмінити"
       },
       "commentSection": {
-        "commentsSection": "Коментарі",
+        "commentsSection": "Cекція коментарів,",
         "deleteComment": "Видалити коментар",
         "editComment": "Редагувати коментар",
         "complainToComment": "Поскаржитись на коментар",
@@ -130,7 +134,8 @@
         "showAnswers": "Показати відповіді",
         "hideAnswers": "Приховати відповіді",
         "noComments": "Під цією локацією ще немає коментарів",
-        "deletedOriginalComment": "Цей коментар був видалений користувачем"
+        "deletedOriginalComment": "Цей коментар був видалений користувачем",
+        "numberOfCommentars": "кількість коментарів - "
       }
     }
   },
@@ -159,6 +164,11 @@
       "autumn": "осінь",
       "fullYear": "цілий рік",
       "seasonal": "сезонно"
+    },
+    "verified": "Перевірені локації",
+    "verifiedValues": {
+      "verified": "перевірені",
+      "unverified": "неперевірені"
     },
     "personal": "Персональні",
     "personalValues": {

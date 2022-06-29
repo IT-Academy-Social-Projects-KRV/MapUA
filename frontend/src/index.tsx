@@ -8,12 +8,12 @@ import React, { Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
 import theme from 'theme';
 
-// imports to fix for popup icon
 import L from 'leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 
 import { Provider } from 'react-redux';
+import CircularLoader from './components/CircularLoader/CircularLoader';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
@@ -32,7 +32,7 @@ const rootElement = document.getElementById('root');
 const root = createRoot(rootElement!);
 
 root.render(
-  <Suspense fallback={<div>Loading...</div>}>
+  <Suspense fallback={<CircularLoader />}>
     <React.StrictMode>
       <ThemeProvider theme={theme}>
         <CoreThemeProvider theme={theme}>

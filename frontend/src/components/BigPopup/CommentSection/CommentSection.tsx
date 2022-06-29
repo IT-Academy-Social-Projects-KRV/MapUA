@@ -1,5 +1,12 @@
 import React, { useEffect } from 'react';
-import { CardContent, List, Skeleton, Typography, Stack } from '@mui/material';
+import {
+  CardContent,
+  List,
+  Skeleton,
+  Typography,
+  Stack,
+  Divider
+} from '@mui/material';
 import { t } from 'i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
@@ -27,6 +34,13 @@ const CommentSection = () => {
 
   return (
     <CardContent>
+      <Divider sx={{ mb: 4 }}>
+        {t('bigPopup.commentSection.commentSection.commentsSection')}
+        {comments &&
+          ` ${t('bigPopup.commentSection.commentSection.numberOfCommentars')} ${
+            comments.length
+          }`}
+      </Divider>
       {isAuthorized && <CommentForm />}
       {!comments.length ? (
         <Stack spacing={1} mt={2}>

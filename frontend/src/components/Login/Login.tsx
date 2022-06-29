@@ -28,6 +28,7 @@ import { useTranslation } from 'react-i18next';
 import { LoginFormSchema } from 'utils/validation';
 import { StyledPaperForm } from '../design/StyledPaperForm';
 import { StyledAuthFormWrapper } from '../design/StyledAuthFormWrapper';
+import CircularLoader from '../CircularLoader/CircularLoader';
 
 type SignIn = {
   email: string;
@@ -56,7 +57,8 @@ function Login() {
 
   const {
     data: { isAuthorized },
-    error
+    error,
+    loading
   } = useTypedSelector(state => state.isUserAuthorized);
   useEffect(() => {
     if (error && typeof error === 'string') {
@@ -98,6 +100,10 @@ function Login() {
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
+
+  if (loading) {
+    return <CircularLoader />;
+  }
 
   return (
     <StyledAuthFormWrapper>
