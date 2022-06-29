@@ -18,9 +18,11 @@ export const locationCommentsReducer = (
       return { comments: [...action.payload] };
     case LocationCommentsActionTypes.DELETE_COMMENT:
       return {
-        comments: [
-          ...state.comments.filter(comment => comment._id !== action.payload)
-        ]
+        comments: action.payload.deleted
+          ? state.comments.map(comment =>
+              comment._id === action.payload._id ? action.payload : comment
+            )
+          : state.comments.filter(comment => comment._id !== action.payload._id)
       };
     case LocationCommentsActionTypes.EDIT_COMMENT:
       return {

@@ -126,9 +126,11 @@
         "deleteComment": "Видалити коментар",
         "editComment": "Редагувати коментар",
         "complainToComment": "Поскаржитись на коментар",
-        "replyToComment": "Відповісти на коментар",
+        "replyToComment": "Відповісти",
         "showAnswers": "Показати відповіді",
-        "hideAnswers": "Приховати відповіді"
+        "hideAnswers": "Приховати відповіді",
+        "noComments": "Під цією локацією ще немає коментарів",
+        "deletedOriginalComment": "Цей коментар був видалений користувачем"
       }
     }
   },

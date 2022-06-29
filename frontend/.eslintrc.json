@@ -28,12 +28,15 @@
         "unnamedComponents": "arrow-function"
       }
     ],
-    "jsx-a11y/label-has-associated-control": [ 2, {
-      "labelComponents": ["CustomInputLabel"],
-      "labelAttributes": ["label"],
-      "controlComponents": ["CustomInput"],
-      "depth": 3
-    }],
+    "jsx-a11y/label-has-associated-control": [
+      2,
+      {
+        "labelComponents": ["CustomInputLabel"],
+        "labelAttributes": ["label"],
+        "controlComponents": ["CustomInput"],
+        "depth": 3
+      }
+    ],
     "react/jsx-props-no-spreading": 0,
     "no-shadow": "off",
     "@typescript-eslint/no-shadow": ["error"],

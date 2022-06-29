@@ -30,9 +30,10 @@ export type CommentType<T> = {
   text: string;
   likes: string[];
   dislikes: string[];
-  parentComment?: string;
+  parentComment: string;
   createdAt?: Date;
   updatedAt?: Date;
+  deleted: boolean;
 };
 export type AddCommentType<T> = {
   author: T;

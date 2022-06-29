@@ -1,5 +1,4 @@
 import React from 'react';
-import { List } from '@mui/material';
 import Comment from './Comment';
 import { CommentType, AuthorInfoType } from '../../../../types';
 
@@ -7,12 +6,23 @@ interface Props {
   childComments: CommentType<AuthorInfoType>[];
   comments: CommentType<AuthorInfoType>[];
   index: number;
+  parentAuthorName: string;
+  parentAuthorUrl: string;
 }
 
-const CommentReplyList = ({ childComments, comments, index }: Props) => (
-  <List>
+const CommentReplyList = ({
+  childComments,
+  comments,
+  index,
+  parentAuthorName,
+  parentAuthorUrl
+}: Props) => (
+  <>
     {childComments.map((childComment: CommentType<AuthorInfoType>) => (
       <Comment
+        parentAuthorName={parentAuthorName}
+        parentAuthorUrl={parentAuthorUrl}
+        deleted={childComment.deleted}
         index={index + 1}
         comments={comments}
         key={childComment._id}
@@ -28,7 +38,7 @@ const CommentReplyList = ({ childComments, comments, index }: Props) => (
         parentComment={childComment.parentComment}
       />
     ))}
-  </List>
+  </>
 );
 
 export default CommentReplyList;

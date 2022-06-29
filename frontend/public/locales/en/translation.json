@@ -126,9 +126,11 @@
         "deleteComment": "Delete comment",
         "editComment": "Edit comment",
         "complainToComment": "Complain to comment",
-        "replyToComment": "Reply to comment",
+        "replyToComment": "Reply",
         "showAnswers": "Show answers",
-        "hideAnswers": "Hide answers"
+        "hideAnswers": "Hide answers",
+        "noComments": "There are no comments for this location yet",
+        "deletedOriginalComment": "This comment has been deleted by the user"
       }
     }
   },

@@ -8,6 +8,7 @@ interface IComment {
   likes: string[];
   dislikes: string[];
   parentComment: mongoose.Types.ObjectId;
+  deleted: boolean;
 }
 
 const schema = new mongoose.Schema(
@@ -37,17 +38,26 @@ const schema = new mongoose.Schema(
       type: Schema.Types.ObjectId,
       ref: 'Comments',
       default: null
+    },
+    deleted: {
+      type: Boolean,
+      default: false
     }
   },
+
   { timestamps: true }
 );
 schema.pre('deleteOne', { document: true }, async function (next) {
-  try {
-    const comment: IComment = this;
+  const comment: IComment = this;
 
-    const comments = await Comment.find({ parentComment: comment._id });
-    for (const el of comments) {
-      await el.deleteOne();
+  try {
+    const parentComment = await Comment.findById(comment.parentComment);
+    if (parentComment && parentComment.deleted) {
+      const childComments = await Comment.find({
+        parentComment: parentComment._id
+      }).exec();
+
+      if (childComments.length === 1) await parentComment.deleteOne();
     }
   } catch (e) {
   } finally {

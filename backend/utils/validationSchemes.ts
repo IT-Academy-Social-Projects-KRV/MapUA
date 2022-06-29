@@ -93,7 +93,7 @@ export const CommentSchema = [
       });
     }),
   body('comment.parentComment')
-    .optional()
+    .optional({ nullable: true })
     .isString()
     .withMessage((value, { req, location, path }) => {
       return req.t('location_comments.comment_not_have_properties', {

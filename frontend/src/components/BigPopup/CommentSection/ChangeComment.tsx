@@ -5,23 +5,18 @@ import { Box, MenuItem, ListItemIcon, ListItemText } from '@mui/material';
 import { t } from 'i18next';
 
 interface Props {
-  id: string;
   openEditOrReplyComment: Function;
   deleteComment: Function;
   disabledPressedButton: boolean;
 }
 
 const ChangeComment = ({
-  id,
   openEditOrReplyComment,
   deleteComment,
   disabledPressedButton
 }: Props) => (
   <Box>
-    <MenuItem
-      disabled={disabledPressedButton}
-      onClick={() => deleteComment(id)}
-    >
+    <MenuItem disabled={disabledPressedButton} onClick={() => deleteComment()}>
       <ListItemIcon>
         <DeleteIcon fontSize="small" />
       </ListItemIcon>

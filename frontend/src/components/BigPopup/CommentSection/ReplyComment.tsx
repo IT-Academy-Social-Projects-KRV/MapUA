@@ -1,6 +1,6 @@
 import React from 'react';
 import ReplyIcon from '@mui/icons-material/Reply';
-import { Box, MenuItem, ListItemIcon, ListItemText } from '@mui/material';
+import { Box, MenuItem, ListItemIcon, Typography } from '@mui/material';
 import { t } from 'i18next';
 
 interface Props {
@@ -20,9 +20,9 @@ const ReplyComment = ({
       <ListItemIcon>
         <ReplyIcon fontSize="small" />
       </ListItemIcon>
-      <ListItemText>
+      <Typography>
         {t('bigPopup.commentSection.commentSection.replyToComment')}
-      </ListItemText>
+      </Typography>
     </MenuItem>
   </Box>
 );

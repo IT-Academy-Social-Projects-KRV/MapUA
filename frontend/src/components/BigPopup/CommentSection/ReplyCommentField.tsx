@@ -46,7 +46,6 @@ const ReplyCommentField = ({
             margin="dense"
             onChange={e => handleReplyCommentText(e, field)}
             onBlur={field.onBlur}
-            defaultValue=""
             error={!!errors.commentText?.message}
             helperText={t(
               !errors.commentText ? '' : String(errors.commentText.message)
@@ -63,7 +62,7 @@ const ReplyCommentField = ({
       >
         {!replyCommentText ||
         replyCommentText.length < 5 ||
-        replyCommentText.length > 50 ? (
+        replyCommentText.length > 500 ? (
           <Button
             variant="outlined"
             size="small"
