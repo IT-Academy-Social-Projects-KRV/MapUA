@@ -1,33 +1,36 @@
-import React, { useState, MouseEvent } from 'react';
+import React, { useState, MouseEvent, useEffect } from 'react';
 import {
   Avatar,
   Box,
   IconButton,
-  ListItem,
-  ListItemAvatar,
   Typography,
   ListItemIcon,
-  ListItemText
+  ListItemText,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails
 } from '@mui/material';
 import { StyledCommentBadge } from 'components/design/StyledCommentBadge';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import ReportIcon from '@mui/icons-material/Report';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+
 import { Link } from 'react-router-dom';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useTranslation } from 'react-i18next';
-import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
-import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { getPath } from 'utils/createPath';
 import { useForm, SubmitHandler, useFormState } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import DeleteIcon from '@mui/icons-material/Delete';
-import ReportIcon from '@mui/icons-material/Report';
-import EditIcon from '@mui/icons-material/Edit';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { CommentSectionSchema } from 'utils/validation';
+import { CommentType, AuthorInfoType } from '../../../../types';
 import EditCommentField from './EditCommentField';
-import { StyledCommentBox } from '../../design/StyledCommentBox';
+import ReplyCommentField from './ReplyCommentField';
+import ChangeComment from './ChangeComment';
+import RatingCommentSection from './RatingCommentSection';
+import CommentReplyList from './CommentReplyList';
 
 interface Props {
   authorId: string;
@@ -40,9 +43,15 @@ interface Props {
   locationId: string;
   likes: string[];
   dislikes: string[];
+  parentComment: string | undefined;
+  comments: CommentType<AuthorInfoType>[];
+  index: number;
+  deleted: boolean;
+  parentAuthorUrl?: string;
+  parentAuthorName?: string;
 }
 
-type CommentCheck = {
+type ChangeCommentCheck = {
   commentText: string;
 };
 
@@ -56,18 +65,29 @@ const Comment = ({
   id,
   locationId,
   likes,
-  dislikes
+  dislikes,
+  parentComment,
+  comments,
+  index,
+  deleted,
+  parentAuthorUrl,
+  parentAuthorName
 }: Props) => {
   const date = new Date(createdAt);
   const { t } = useTranslation();
   const [showEditComment, setShowEditComment] = useState(false);
-  const [disabledEditButton, setDisabledEditButton] = useState(false);
+  const [showReplyComment, setShowReplyComment] = useState(false);
+  const [showAnswers, setShowAnswers] = useState(false);
+  const [disabledPressedButton, setDisabledPressedButton] = useState(false);
   const { _id: userId } = useTypedSelector(state => state.userData.data);
   const { role } = useTypedSelector(state => state.isUserAuthorized.data);
-  const { editComment } = useTypedDispatch();
-  const { deleteComment } = useTypedDispatch();
+  const { sendComment, fetchComments, editComment, deleteComment } =
+    useTypedDispatch();
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+
+  const childComments = comments.filter(c => c.parentComment === id);
 
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -77,7 +97,20 @@ const Comment = ({
     setAnchorEl(null);
   };
 
-  const { handleSubmit, control } = useForm<CommentCheck>({
+  const handleDeleteAndUpdate = async () => {
+    await deleteComment(id);
+    await fetchComments(locationId);
+  };
+
+  useEffect(() => {
+    if (!childComments.length) {
+      setShowAnswers(false);
+    }
+  }, [childComments]);
+
+  const toggleShowAnswers = () => setShowAnswers(value => !value);
+
+  const { handleSubmit, control } = useForm<ChangeCommentCheck>({
     mode: 'onBlur',
     resolver: yupResolver(CommentSectionSchema)
   });
@@ -86,138 +119,220 @@ const Comment = ({
     control
   });
 
-  const handleEditComment = () => {
-    setShowEditComment(true);
-    setDisabledEditButton(true);
+  const openEditOrReplyComment = (
+    e: MouseEvent<HTMLLIElement, globalThis.MouseEvent>,
+    type: 'edit' | 'reply'
+  ) => {
+    if (type === 'edit') {
+      setShowEditComment(true);
+    } else if (type === 'reply') {
+      setShowReplyComment(true);
+    }
+    setDisabledPressedButton(true);
     handleClose();
   };
 
-  const closeEditData = () => {
+  const closeEditComment = () => {
     setShowEditComment(false);
-    setDisabledEditButton(false);
+    setDisabledPressedButton(false);
   };
 
-  const onSubmit: SubmitHandler<CommentCheck> = data => {
+  const closeReplyComment = () => {
+    setShowReplyComment(false);
+    setDisabledPressedButton(false);
+  };
+
+  const onSubmitEditComment: SubmitHandler<ChangeCommentCheck> = data => {
     const comment = {
       text: data.commentText,
       author: authorId,
       locationId,
       likes,
-      dislikes
+      dislikes,
+      parentComment
     };
-
     editComment(comment, id);
+    closeEditComment();
+  };
 
-    closeEditData();
+  const onSubmitReplyComment: SubmitHandler<ChangeCommentCheck> = data => {
+    const comment = {
+      text: data.commentText,
+      author: userId,
+      locationId,
+      likes,
+      dislikes,
+      parentComment: id
+    };
+    sendComment(comment);
+    closeReplyComment();
   };
 
   return (
-    <ListItem alignItems="flex-start" sx={{ display: 'block', pl: 0 }}>
-      <ListItemAvatar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Box sx={{ display: 'flex' }}>
-          <Link to={getPath(userId, authorId)}>
-            <StyledCommentBadge
-              color="info"
-              badgeContent={authorRole}
-              invisible={authorRole === 'user'}
-            >
-              <Avatar
-                sx={{ mr: 2 }}
-                alt="Comment's author avatar"
-                src={authorsImage}
-              />
-            </StyledCommentBadge>
-          </Link>
-          <Link to={getPath(userId, authorId)}>
-            <Typography component="span" variant="h6" color="text.primary">
-              {authorsName}
-            </Typography>
-          </Link>
-        </Box>
-        <Box>
-          <IconButton
-            id="basic-button"
-            aria-controls={open ? 'basic-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? 'true' : undefined}
-            onClick={handleClick}
-          >
-            <MoreHorizIcon />
-          </IconButton>
-          <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={() => {
-              handleClose();
-            }}
-            MenuListProps={{
-              'aria-labelledby': 'basic-button'
-            }}
-          >
-            <MenuItem onClick={handleClose}>
-              <ListItemIcon onClick={() => null}>
-                <ReportIcon fontSize="small" />
-              </ListItemIcon>
-              <ListItemText>
-                {t('bigPopup.commentSection.commentSection.complainToComment')}
-              </ListItemText>
-            </MenuItem>
-            {((authorId && authorId === userId) ||
-              role === 'moderator' ||
-              role === 'admin') && (
-              <Box>
-                <MenuItem onClick={() => deleteComment(id)}>
-                  <ListItemIcon>
-                    <DeleteIcon fontSize="small" />
-                  </ListItemIcon>
-                  <ListItemText>
-                    {t('bigPopup.commentSection.commentSection.deleteComment')}
-                  </ListItemText>
-                </MenuItem>
-                <MenuItem
-                  disabled={disabledEditButton}
-                  onClick={handleEditComment}
+    <>
+      {!deleted ? (
+        <Box alignItems="flex-start" sx={{ display: 'block', pl: 0, py: 6 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Box sx={{ display: 'flex' }}>
+              <Link to={getPath(userId, authorId)}>
+              <StyledCommentBadge
+                color="info"
+                badgeContent={authorRole}
+                invisible={authorRole === 'user'}
                 >
-                  <ListItemIcon>
-                    <EditIcon fontSize="small" />
+                <Avatar
+                  sx={{ mr: 2 }}
+                  alt="Comment's author avatar"
+                  src={authorsImage}
+                />
+                </StyledCommentBadge>
+              </Link>
+              <Link to={getPath(userId, authorId)}>
+                <Typography component="span" variant="h6" color="text.primary">
+                  {authorsName}
+                </Typography>
+              </Link>
+            </Box>
+            <Box>
+              <IconButton
+                id="basic-button"
+                aria-controls={open ? 'basic-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? 'true' : undefined}
+                onClick={handleClick}
+              >
+                <MoreHorizIcon />
+              </IconButton>
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={() => {
+                  handleClose();
+                }}
+                MenuListProps={{
+                  'aria-labelledby': 'basic-button'
+                }}
+              >
+                <MenuItem onClick={handleClose}>
+                  <ListItemIcon onClick={() => null}>
+                    <ReportIcon fontSize="small" />
                   </ListItemIcon>
                   <ListItemText>
-                    {t('bigPopup.commentSection.commentSection.editComment')}
+                    {t(
+                      'bigPopup.commentSection.commentSection.complainToComment'
+                    )}
                   </ListItemText>
                 </MenuItem>
-              </Box>
-            )}
-          </Menu>
+                {((authorId && authorId === userId) ||
+                  role === 'moderator' ||
+                  role === 'admin') && (
+                  <ChangeComment
+                    deleteComment={handleDeleteAndUpdate}
+                    openEditOrReplyComment={openEditOrReplyComment}
+                    disabledPressedButton={disabledPressedButton}
+                  />
+                )}
+              </Menu>
+            </Box>
+          </Box>
+          {showEditComment ? (
+            <EditCommentField
+              name="newCommentText"
+              errors={errors}
+              onSubmitEditComment={onSubmitEditComment}
+              handleSubmit={handleSubmit}
+              control={control}
+              text={text}
+              closeEditComment={closeEditComment}
+            />
+          ) : (
+            <Typography mt={4} variant="subtitle1">
+              {parentAuthorUrl && parentAuthorName && (
+                <Link style={{ textDecoration: 'none' }} to={parentAuthorUrl}>
+                  <Typography component="span" color="primary">
+                    @{parentAuthorName.toLowerCase()},<br />
+                  </Typography>
+                </Link>
+              )}
+              {text}
+            </Typography>
+          )}
+          <RatingCommentSection
+            disabledPressedButton={disabledPressedButton}
+            openEditOrReplyComment={openEditOrReplyComment}
+            userId={userId}
+            role={role}
+            date={date}
+          />
         </Box>
-      </ListItemAvatar>
-      {showEditComment ? (
-        <EditCommentField
-          name="newCommentText"
-          errors={errors}
-          onSubmit={onSubmit}
-          handleSubmit={handleSubmit}
-          control={control}
-          text={text}
-          closeEditData={closeEditData}
-        />
       ) : (
-        <Typography mt={2} variant="subtitle1">
-          {text}
+        <Typography
+          sx={{ fontStyle: 'italic', m: 1 }}
+          py={8}
+          my={8}
+          align="center"
+        >
+          {t('bigPopup.commentSection.commentSection.deletedOriginalComment')}
         </Typography>
       )}
-      <StyledCommentBox>
-        <Typography mr={2} variant="subtitle2">
-          {date.toLocaleDateString()}
-        </Typography>
-        <IconButton>
-          <ThumbUpOutlinedIcon fontSize="small" />
-        </IconButton>
-        <IconButton>
-          <ThumbDownAltOutlinedIcon fontSize="small" />
-        </IconButton>
-      </StyledCommentBox>
-    </ListItem>
+
+      {showReplyComment && (
+        <ReplyCommentField
+          name="replyCommentText"
+          authorsName={authorsName}
+          errors={errors}
+          onSubmitReplyComment={onSubmitReplyComment}
+          handleSubmit={handleSubmit}
+          control={control}
+          closeReplyComment={closeReplyComment}
+        />
+      )}
+      {childComments.length > 0 && index === 0 && (
+        <Box sx={{ display: 'block', pr: 0 }}>
+          <Accordion sx={{ boxShadow: 0 }}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              onClick={toggleShowAnswers}
+            >
+              {!showAnswers ? (
+                <Typography color="primary">
+                  {t('bigPopup.commentSection.commentSection.showAnswers')}
+                </Typography>
+              ) : (
+                <Typography color="primary">
+                  {t('bigPopup.commentSection.commentSection.hideAnswers')}
+                </Typography>
+              )}
+            </AccordionSummary>
+            <AccordionDetails>
+              <CommentReplyList
+                parentAuthorName={authorsName}
+                parentAuthorUrl={getPath(userId, authorId)}
+                comments={comments}
+                index={index}
+                childComments={childComments}
+              />
+            </AccordionDetails>
+          </Accordion>
+        </Box>
+      )}
+      {childComments.length > 0 && index !== 0 && (
+        <CommentReplyList
+          parentAuthorName={authorsName}
+          parentAuthorUrl={getPath(userId, authorId)}
+          comments={comments}
+          index={index}
+          childComments={childComments}
+        />
+      )}
+    </>
   );
 };
+
+Comment.defaultProps = {
+  parentAuthorUrl: '',
+  parentAuthorName: ''
+};
+
 export default Comment;

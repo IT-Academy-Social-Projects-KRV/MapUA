@@ -21,6 +21,7 @@ import { getFiltersForUser } from '../../static/mainFIlters';
 import { useTypedSelector } from '../../redux/hooks/useTypedSelector';
 import { useTypedDispatch } from '../../redux/hooks/useTypedDispatch';
 import { StyledCreateLocationWrapper } from '../design/StyledCreateLocationWrapper';
+import CircularLoader from '../CircularLoader/CircularLoader';
 
 type Props = {
   closeBigPopup: Function;
@@ -45,7 +46,7 @@ const CreateLocation = ({
 
   const { t } = useTranslation();
 
-  const { success } = useTypedSelector(state => state.createLocation);
+  const { success, loading } = useTypedSelector(state => state.createLocation);
   const {
     bounds,
     locationName: searchName,
@@ -116,73 +117,79 @@ const CreateLocation = ({
       component="form"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <Stack spacing={3}>
-        <Typography>{t('createLocation.creatingLocation')}</Typography>
-        <Controller
-          name="locationName"
-          control={control}
-          defaultValue=""
-          render={({ field }) => (
-            <TextField
-              {...field}
-              margin="normal"
-              fullWidth
-              type="text"
-              placeholder={t('createLocation.enterLocName')}
-              error={!!errors.locationName?.message}
-              helperText={t(
-                !errors.locationName ? '' : String(errors.locationName.message)
-              )}
-            />
-          )}
-        />
+      {loading ? (
+        <CircularLoader />
+      ) : (
+        <Stack spacing={3}>
+          <Typography>{t('createLocation.creatingLocation')}</Typography>
+          <Controller
+            name="locationName"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <TextField
+                {...field}
+                margin="normal"
+                fullWidth
+                type="text"
+                placeholder={t('createLocation.enterLocName')}
+                error={!!errors.locationName?.message}
+                helperText={t(
+                  !errors.locationName
+                    ? ''
+                    : String(errors.locationName.message)
+                )}
+              />
+            )}
+          />
 
-        <Controller
-          control={control}
-          name="locationDescription"
-          defaultValue=""
-          render={({ field }) => (
-            <TextField
-              multiline
-              fullWidth
-              rows={5}
-              {...field}
-              placeholder={t('createLocation.enterDescription')}
-              error={!!errors.locationDescription?.message}
-              helperText={t(
-                !errors.locationDescription
-                  ? ''
-                  : String(errors.locationDescription.message)
-              )}
-            />
-          )}
-        />
-        <Autocomplete
-          multiple
-          id="tags-outlined"
-          options={getFiltersForUser()}
-          getOptionLabel={option => option}
-          filterSelectedOptions
-          onChange={(e, values) => onChangeAutocomplete(e, values)}
-          renderInput={params => (
-            <TextField
-              {...params}
-              value={filters}
-              label={t('common.filters')}
-              placeholder={t('createLocation.favorites')}
-            />
-          )}
-        />
-        <UploadInput
-          handleFilesChange={handleFilesChange}
-          setlocationImageName={setLocationImageName}
-          locationImageName={locationImageName}
-        />
+          <Controller
+            control={control}
+            name="locationDescription"
+            defaultValue=""
+            render={({ field }) => (
+              <TextField
+                multiline
+                fullWidth
+                rows={5}
+                {...field}
+                placeholder={t('createLocation.enterDescription')}
+                error={!!errors.locationDescription?.message}
+                helperText={t(
+                  !errors.locationDescription
+                    ? ''
+                    : String(errors.locationDescription.message)
+                )}
+              />
+            )}
+          />
+          <Autocomplete
+            multiple
+            id="tags-outlined"
+            options={getFiltersForUser()}
+            getOptionLabel={option => option}
+            filterSelectedOptions
+            onChange={(e, values) => onChangeAutocomplete(e, values)}
+            renderInput={params => (
+              <TextField
+                {...params}
+                value={filters}
+                label={t('common.filters')}
+                placeholder={t('createLocation.favorites')}
+              />
+            )}
+          />
+          <UploadInput
+            handleFilesChange={handleFilesChange}
+            setlocationImageName={setLocationImageName}
+            locationImageName={locationImageName}
+          />
 
-        <Button fullWidth variant="contained" type="submit">
-          {t('createLocation.doneAndSubmit')}
-        </Button>
-      </Stack>
+          <Button fullWidth variant="contained" type="submit">
+            {t('createLocation.doneAndSubmit')}
+          </Button>
+        </Stack>
+      )}
     </StyledCreateLocationWrapper>
   );
 };

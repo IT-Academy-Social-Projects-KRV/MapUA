@@ -26,7 +26,7 @@ interface EditCommentAction {
 
 interface DeleteCommentsAction {
   type: LocationCommentsActionTypes.DELETE_COMMENT;
-  payload: string;
+  payload: CommentType<AuthorInfoType>;
 }
 
 export type LocationCommentsActions =

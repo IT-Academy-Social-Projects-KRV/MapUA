@@ -24,14 +24,17 @@ export type AuthorInfoType = {
   role: string;
 };
 export type CommentType<T> = {
+  comments: CommentType<AuthorInfoType>[];
   _id: string;
   author: T;
   locationId: string;
   text: string;
   likes: string[];
   dislikes: string[];
+  parentComment: string;
   createdAt?: Date;
   updatedAt?: Date;
+  deleted: boolean;
 };
 export type AddCommentType<T> = {
   author: T;
@@ -53,8 +56,10 @@ export type locationType = {
   coordinates: [number, number];
   arrayPhotos: string[];
   description: string;
+  reported: boolean;
   createdAt: Date;
   updatedAt: Date;
+  verificationStatus: string;
 };
 
 export type updateLocationType = {

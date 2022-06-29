@@ -9,23 +9,23 @@ interface Props extends UseControllerProps {
   text: string;
   errors: FieldErrors;
   control: any;
-  onSubmit: Function;
+  onSubmitEditComment: Function;
   handleSubmit: Function;
-  closeEditData: MouseEventHandler<HTMLButtonElement>;
+  closeEditComment: MouseEventHandler<HTMLButtonElement>;
 }
 
 const EditCommentField = ({
   errors,
-  onSubmit,
+  onSubmitEditComment,
   handleSubmit,
   control,
   text,
-  closeEditData
+  closeEditComment
 }: Props) => {
   const [newCommentText, setNewCommentText] = useState(text);
   const { t } = useTranslation();
 
-  const handleCommentText = (
+  const handleChangeCommentText = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     field: any
   ) => {
@@ -34,7 +34,7 @@ const EditCommentField = ({
   };
 
   return (
-    <Box mt={2} component="form" onSubmit={handleSubmit(onSubmit)}>
+    <Box mt={2} component="form" onSubmit={handleSubmit(onSubmitEditComment)}>
       <Controller
         name="commentText"
         control={control}
@@ -44,7 +44,7 @@ const EditCommentField = ({
             multiline
             rows={5}
             variant="outlined"
-            onChange={e => handleCommentText(e, field)}
+            onChange={e => handleChangeCommentText(e, field)}
             onBlur={field.onBlur}
             defaultValue={text}
             error={!!errors.commentText?.message}
@@ -64,7 +64,7 @@ const EditCommentField = ({
         {newCommentText === text ||
         !newCommentText ||
         newCommentText.length < 5 ||
-        newCommentText.length > 50 ? (
+        newCommentText.length > 500 ? (
           <Button disabled variant="outlined" startIcon={<CheckIcon />}>
             {t('profile.profilePage.save')}
           </Button>
@@ -76,7 +76,7 @@ const EditCommentField = ({
 
         <Button
           variant="outlined"
-          onClick={closeEditData}
+          onClick={closeEditComment}
           startIcon={<CancelIcon />}
         >
           {t('profile.profilePage.cancel')}

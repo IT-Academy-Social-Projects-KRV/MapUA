@@ -19,6 +19,7 @@ import { CardComponent } from './СardComponent/CardComponent';
 import { IconsComponent } from './IconsComponent/IconsComponent';
 import { StyledPopupButtonsWrapper } from '../design/StyledPopupButtonsWrapper';
 import LocationImageCarousel from './LocationImageCarousel/LocationImageCarousel';
+import CircularLoader from '../CircularLoader/CircularLoader';
 
 import { LocationForm } from '../../../types';
 
@@ -133,6 +134,16 @@ const PointPopup = ({ toggleClose }: Props) => {
     setShowEditPanel(false);
   };
 
+  const locationData = useTypedSelector(state => state.popupLocation);
+  const { loading } = locationData;
+  const deleteLocationLoading = useTypedSelector(
+    state => state.deleteLocation.loading
+  );
+
+  if (loading || deleteLocationLoading) {
+    return <CircularLoader />;
+  }
+
   return (
     <Box>
       {showEditPanel && locationAuthorId?._id === userId ? (
@@ -164,6 +175,7 @@ const PointPopup = ({ toggleClose }: Props) => {
                   editData={editData}
                   locationAuthorId={locationAuthorId}
                   handleDeleteClick={handleDeleteClick}
+                  locationId={locationId}
                 />
               </StyledPopupButtonsWrapper>
             </Box>

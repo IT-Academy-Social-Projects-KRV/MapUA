@@ -188,6 +188,43 @@ export const updatePopupLocationAfterEditing =
     }
   };
 
+export const addReportToLocation =
+  (id: string | undefined, reported: boolean, notification: string) =>
+  async (dispatch: Dispatch<LocationActions | SnackbarActions>) => {
+    try {
+      dispatch({
+        type: LocationActionTypes.UPDATE_LOCATION_DATA_LOADING
+      });
+
+      const response = await axios().patch(
+        `${process.env.REACT_APP_API_URI}locations/report/${id}`,
+        { reported }
+      );
+
+      if (response.data) {
+        dispatch({
+          type: LocationActionTypes.ADD_REPORT_TO_LOCATION_SUCCESS,
+          payload: response.data.changedData
+        });
+      }
+
+      dispatch({
+        type: SnackbarActionsType.SET_SUCCESS,
+        payload: notification
+      });
+    } catch (error: any) {
+      // dispatch({
+      //   type: LocationActionTypes.ADD_REPORT_TO_LOCATION_ERROR ,
+      //   payload: error.response.data?.error || 'lost network'
+      // });
+
+      dispatch({
+        type: SnackbarActionsType.SET_ERROR,
+        payload: error.response.data?.error || 'lost network'
+      });
+    }
+  };
+
 export const clearPopupLocation =
   () => async (dispatch: Dispatch<LocationActions>) => {
     try {
