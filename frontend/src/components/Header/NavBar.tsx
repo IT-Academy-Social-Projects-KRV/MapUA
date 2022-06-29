@@ -49,7 +49,7 @@ function NavBar() {
   };
 
   return (
-    <StyledAppBar style={{ backgroundColor: 'red' }}>
+    <StyledAppBar>
       <StyledLink to="/about_us">{t('navBar.aboutUs')}</StyledLink>
       <StyledLink to="/top">{t('navBar.top')}</StyledLink>
       <StyledLink
