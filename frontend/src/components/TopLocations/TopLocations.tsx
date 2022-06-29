@@ -1,9 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable no-unused-vars */
 import {
   Avatar,
   Box,
-  Button,
   Link,
   List,
   ListItem,
@@ -14,23 +12,22 @@ import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
-import { createSearchParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { topLocationType } from '../../../types';
 
 const TopLocations = () => {
   const { t } = useTranslation();
-  const { fetchTopLocations } = useTypedDispatch();
+  const { fetchTopLocations, setLocationName } = useTypedDispatch();
   useEffect(() => {
     fetchTopLocations();
   }, []);
   const navigate = useNavigate();
   const topLocations = useTypedSelector(state => state.topLocations);
-  const redirect = (path: string) => {
+  const redirect = (locationName: string) => {
+    setLocationName(locationName);
     navigate({
-      pathname: '/',
-      search: `?locationName=${path.replaceAll(' ', '+')}`
+      pathname: '/'
     });
-    window.location.reload();
   };
   if (topLocations.loading) {
     return <h1>{t('profile.profile.loading')}</h1>;
