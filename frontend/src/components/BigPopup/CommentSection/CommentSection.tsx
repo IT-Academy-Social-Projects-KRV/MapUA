@@ -70,11 +70,12 @@ const CommentSection = () => {
                 comments={comments}
                 key={commentId}
                 authorId={author._id}
+                authorRole={author.role}
+                authorsImage={author.imageUrl}
+                authorsName={author.displayName}
                 createdAt={createdAt!}
                 text={text}
                 id={commentId}
-                authorsImage={author.imageUrl}
-                authorsName={author.displayName}
                 locationId={locationId}
                 likes={likes}
                 dislikes={dislikes}

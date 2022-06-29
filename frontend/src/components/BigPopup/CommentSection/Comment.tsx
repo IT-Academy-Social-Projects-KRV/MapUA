@@ -10,11 +10,13 @@ import {
   AccordionSummary,
   AccordionDetails
 } from '@mui/material';
+import { StyledCommentBadge } from 'components/design/StyledCommentBadge';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ReportIcon from '@mui/icons-material/Report';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+
 import { Link } from 'react-router-dom';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useTranslation } from 'react-i18next';
@@ -36,6 +38,7 @@ interface Props {
   createdAt: Date;
   authorsName: string;
   authorsImage: string;
+  authorRole: string;
   id: string;
   locationId: string;
   likes: string[];
@@ -58,6 +61,7 @@ const Comment = ({
   createdAt,
   authorsName,
   authorsImage,
+  authorRole,
   id,
   locationId,
   likes,
@@ -171,11 +175,17 @@ const Comment = ({
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Box sx={{ display: 'flex' }}>
               <Link to={getPath(userId, authorId)}>
+              <StyledCommentBadge
+                color="info"
+                badgeContent={authorRole}
+                invisible={authorRole === 'user'}
+                >
                 <Avatar
                   sx={{ mr: 2 }}
                   alt="Comment's author avatar"
                   src={authorsImage}
                 />
+                </StyledCommentBadge>
               </Link>
               <Link to={getPath(userId, authorId)}>
                 <Typography component="span" variant="h6" color="text.primary">
