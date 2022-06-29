@@ -22,32 +22,35 @@ const LocationsController = {
         'seasonal'
       ];
 
-      const verifiedFiltersNames = ['verified', 'unverified'];
+      const verifiedFiltersNames = [
+        'verified',
+        'unverified'
+      ];
 
       const costFiltersArray = filters.filter((f: string) =>
-        costFiltersNames.includes(f)
+          costFiltersNames.includes(f)
       );
       const seasonalFiltersArray = filters.filter((f: string) =>
-        seasonalFiltersNames.includes(f)
+          seasonalFiltersNames.includes(f)
       );
 
       const verifiedFiltersArray = filters.filter((f: string) =>
-        verifiedFiltersNames.includes(f)
+          verifiedFiltersNames.includes(f)
       );
 
       let subscriptionsId = filters.filter((f: string) => f.match(/^\d/));
 
       let locations = (
-        await Location.find({
-          'coordinates.0': {
-            $gt: bounds._southWest.lat,
-            $lt: bounds._northEast.lat
-          },
-          'coordinates.1': {
-            $gt: bounds._southWest.lng,
-            $lt: bounds._northEast.lng
-          }
-        })
+          await Location.find({
+            'coordinates.0': {
+              $gt: bounds._southWest.lat,
+              $lt: bounds._northEast.lat
+            },
+            'coordinates.1': {
+              $gt: bounds._southWest.lng,
+              $lt: bounds._northEast.lng
+            }
+          })
       ).map(l => ({
         _id: l._id,
         coordinates: l.coordinates,
@@ -75,16 +78,14 @@ const LocationsController = {
 
       if (verifiedFiltersArray.length > 0) {
         locations = locations.filter(l => {
-          return verifiedFiltersArray.some((el: string) => {
-            if (el === 'unverified') {
-              return (
-                el === l.verificationStatus ||
-                l.verificationStatus === 'waiting'
-              );
-            } else {
-              return el === l.verificationStatus;
+          return verifiedFiltersArray.some((el: string )=> {
+            if (el === 'unverified'){
+              return el === l.verificationStatus || l.verificationStatus === 'waiting'
             }
-          });
+            else {
+              return el === l.verificationStatus
+            }
+          })
         });
       }
 
@@ -105,20 +106,20 @@ const LocationsController = {
       if (subscriptionsId.length > 0) {
         locations = locations.filter(l => {
           return [l.author.toHexString()].some(el =>
-            subscriptionsId.includes(el)
+              subscriptionsId.includes(el)
           );
         });
       } else {
         locations = locations.slice(
-          0,
-          locations.length < 50 ? locations.length : 50
+            0,
+            locations.length < 50 ? locations.length : 50
         );
       }
 
       if (!locations) {
         return res
-          .status(404)
-          .json({ error: req.t('locations_list.locations_not_found') });
+            .status(404)
+            .json({ error: req.t('locations_list.locations_not_found') });
       }
 
       return res.json({ locations });
