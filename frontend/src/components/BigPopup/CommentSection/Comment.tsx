@@ -259,11 +259,13 @@ const Comment = ({
             </Typography>
           )}
           <RatingCommentSection
+            _id={id}
             disabledPressedButton={disabledPressedButton}
             openEditOrReplyComment={openEditOrReplyComment}
             userId={userId}
             role={role}
             date={date}
+            likes={likes}
           />
         </Box>
       ) : (
