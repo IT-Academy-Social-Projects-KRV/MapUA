@@ -121,13 +121,20 @@
     "commentSection": {
       "commentForm": {
         "addComment": "Add your comment",
-        "send": "Send"
+        "send": "Send",
+        "reply": "Reply",
+        "cancel": "Cancel"
       },
       "commentSection": {
         "commentsSection": "Comments section,",
         "deleteComment": "Delete comment",
         "editComment": "Edit comment",
         "complainToComment": "Complain to comment",
+        "replyToComment": "Reply",
+        "showAnswers": "Show answers",
+        "hideAnswers": "Hide answers",
+        "noComments": "There are no comments for this location yet",
+        "deletedOriginalComment": "This comment has been deleted by the user",
         "numberOfCommentars": "number of comments -"
       }
     }

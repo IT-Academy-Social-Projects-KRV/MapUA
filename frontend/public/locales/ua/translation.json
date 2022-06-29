@@ -121,13 +121,20 @@
     "commentSection": {
       "commentForm": {
         "addComment": "Додати коментар",
-        "send": "Надіслати"
+        "send": "Надіслати",
+        "reply": "Відповісти",
+        "cancel": "Відмінити"
       },
       "commentSection": {
         "commentsSection": "Cекція коментарів,",
         "deleteComment": "Видалити коментар",
         "editComment": "Редагувати коментар",
         "complainToComment": "Поскаржитись на коментар",
+        "replyToComment": "Відповісти",
+        "showAnswers": "Показати відповіді",
+        "hideAnswers": "Приховати відповіді",
+        "noComments": "Під цією локацією ще немає коментарів",
+        "deletedOriginalComment": "Цей коментар був видалений користувачем",
         "numberOfCommentars": "кількість коментарів - "
       }
     }

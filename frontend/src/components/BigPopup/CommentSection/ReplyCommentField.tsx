@@ -2,39 +2,39 @@ import React, { MouseEventHandler, ChangeEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, TextField, Stack, Button } from '@mui/material';
 import { Controller, UseControllerProps, FieldErrors } from 'react-hook-form';
-import CheckIcon from '@mui/icons-material/Check';
+import SendIcon from '@mui/icons-material/Send';
 import CancelIcon from '@mui/icons-material/Cancel';
 
 interface Props extends UseControllerProps {
-  text: string;
+  authorsName: string;
   errors: FieldErrors;
   control: any;
-  onSubmitEditComment: Function;
+  onSubmitReplyComment: Function;
   handleSubmit: Function;
-  closeEditComment: MouseEventHandler<HTMLButtonElement>;
+  closeReplyComment: MouseEventHandler<HTMLButtonElement>;
 }
 
-const EditCommentField = ({
+const ReplyCommentField = ({
   errors,
-  onSubmitEditComment,
+  onSubmitReplyComment,
   handleSubmit,
   control,
-  text,
-  closeEditComment
+  authorsName,
+  closeReplyComment
 }: Props) => {
-  const [newCommentText, setNewCommentText] = useState(text);
+  const [replyCommentText, setReplyCommentText] = useState(authorsName);
   const { t } = useTranslation();
 
-  const handleChangeCommentText = (
+  const handleReplyCommentText = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     field: any
   ) => {
     field.onChange(e);
-    setNewCommentText(e.target.value);
+    setReplyCommentText(e.target.value);
   };
 
   return (
-    <Box mt={2} component="form" onSubmit={handleSubmit(onSubmitEditComment)}>
+    <Box mt={2} component="form" onSubmit={handleSubmit(onSubmitReplyComment)}>
       <Controller
         name="commentText"
         control={control}
@@ -42,11 +42,10 @@ const EditCommentField = ({
           <TextField
             fullWidth
             multiline
-            rows={5}
-            variant="outlined"
-            onChange={e => handleChangeCommentText(e, field)}
+            rows={3}
+            margin="dense"
+            onChange={e => handleReplyCommentText(e, field)}
             onBlur={field.onBlur}
-            defaultValue={text}
             error={!!errors.commentText?.message}
             helperText={t(
               !errors.commentText ? '' : String(errors.commentText.message)
@@ -61,22 +60,32 @@ const EditCommentField = ({
         justifyContent="space-evenly"
         alignItems="stretch"
       >
-        {newCommentText === text ||
-        !newCommentText ||
-        newCommentText.length < 5 ||
-        newCommentText.length > 500 ? (
-          <Button disabled variant="outlined" startIcon={<CheckIcon />}>
-            {t('profile.profilePage.save')}
+        {!replyCommentText ||
+        replyCommentText.length < 5 ||
+        replyCommentText.length > 500 ? (
+          <Button
+            variant="outlined"
+            size="small"
+            disabled
+            startIcon={<SendIcon />}
+          >
+            {t('bigPopup.commentSection.commentForm.reply')}
           </Button>
         ) : (
-          <Button variant="outlined" type="submit" startIcon={<CheckIcon />}>
-            {t('profile.profilePage.save')}
+          <Button
+            size="small"
+            variant="outlined"
+            type="submit"
+            startIcon={<SendIcon />}
+          >
+            {t('bigPopup.commentSection.commentForm.reply')}
           </Button>
         )}
 
         <Button
+          size="small"
           variant="outlined"
-          onClick={closeEditComment}
+          onClick={closeReplyComment}
           startIcon={<CancelIcon />}
         >
           {t('profile.profilePage.cancel')}
@@ -86,4 +95,4 @@ const EditCommentField = ({
   );
 };
 
-export default EditCommentField;
+export default ReplyCommentField;

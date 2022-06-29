@@ -51,7 +51,7 @@ export const deleteComment =
       const { data } = await axios().delete(`comments/${id}`);
       dispatch({
         type: LocationCommentsActionTypes.DELETE_COMMENT,
-        payload: id
+        payload: data.comment
       });
       dispatch({
         type: SnackbarActionsType.SET_SUCCESS,
