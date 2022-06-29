@@ -35,6 +35,7 @@ export const fetchComments =
   async (dispatch: Dispatch<LocationCommentsActions>) => {
     try {
       const { data } = await axios().get(`comments/${locationId}`);
+
       dispatch({
         type: LocationCommentsActionTypes.FETCH_COMMENTS,
         payload: data
