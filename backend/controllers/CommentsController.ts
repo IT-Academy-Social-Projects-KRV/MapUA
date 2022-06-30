@@ -10,7 +10,7 @@ const CommentsController = {
         .sort({ createdAt: -1 })
         .populate({
           path: 'author',
-          select: 'displayName imageUrl'
+          select: 'displayName imageUrl role'
         });
       return res.json(comments);
     } catch (err: any) {
@@ -61,22 +61,34 @@ const CommentsController = {
   },
   async deleteLocationComment(req: Request, res: Response) {
     try {
-      const comment = await Comment.findById({ _id: req.params.id }).select(
-        'author'
-      );
+      const comment = await Comment.findById({ _id: req.params.id }).populate({
+        path: 'author',
+        select: 'displayName imageUrl'
+      });
 
+      if (!comment) {
+        return res
+          .status(400)
+          .json({ error: req.t('location_comments.comment_not_found') });
+      }
       const { _id: userId, role } = req.user;
-
-      const isUserHasRights = rightsChecker(userId, role, comment?.author!);
+      const isUserHasRights = rightsChecker(userId, role, comment.author._id);
 
       if (!isUserHasRights) {
         return res.status(403).json({ error: req.t('forbidden_role_action') });
       }
 
-      await Comment.deleteOne({ _id: req.params.id });
+      const comments = await Comment.find({ parentComment: comment._id });
+      if (comments.length) {
+        comment.deleted = true;
+        await comment.save();
+      } else {
+        await comment.deleteOne();
+      }
 
       return res.status(200).json({
-        message: req.t('location_comments.comment_deleted_successfully')
+        message: req.t('location_comments.comment_deleted_successfully'),
+        comment
       });
     } catch (err: any) {
       return res.status(500).json({ error: req.t('other.server_error'), err });

@@ -35,6 +35,7 @@ export const fetchComments =
   async (dispatch: Dispatch<LocationCommentsActions>) => {
     try {
       const { data } = await axios().get(`comments/${locationId}`);
+
       dispatch({
         type: LocationCommentsActionTypes.FETCH_COMMENTS,
         payload: data
@@ -51,7 +52,7 @@ export const deleteComment =
       const { data } = await axios().delete(`comments/${id}`);
       dispatch({
         type: LocationCommentsActionTypes.DELETE_COMMENT,
-        payload: id
+        payload: data.comment
       });
       dispatch({
         type: SnackbarActionsType.SET_SUCCESS,

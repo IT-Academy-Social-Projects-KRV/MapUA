@@ -10,7 +10,7 @@
   },
   "navBar": {
     "aboutUs": "About Us",
-    "news": "News",
+    "top": "Top-list",
     "map": "Map",
     "myProfile": "My profile"
   },
@@ -123,13 +123,20 @@
     "commentSection": {
       "commentForm": {
         "addComment": "Add your comment",
-        "send": "Send"
+        "send": "Send",
+        "reply": "Reply",
+        "cancel": "Cancel"
       },
       "commentSection": {
         "commentsSection": "Comments section,",
         "deleteComment": "Delete comment",
         "editComment": "Edit comment",
         "complainToComment": "Complain to comment",
+        "replyToComment": "Reply",
+        "showAnswers": "Show answers",
+        "hideAnswers": "Hide answers",
+        "noComments": "There are no comments for this location yet",
+        "deletedOriginalComment": "This comment has been deleted by the user",
         "numberOfCommentars": "number of comments -"
       }
     }
@@ -137,6 +144,7 @@
   "pointPopUp": {
     "message": "Login to your account to be able to rate!",
     "toShare": "To share",
+    "copy": "Copied",
     "addToVisited": "Add to visited",
     "locationCreatedBy": "Location created by:",
     "removeFromVisited": "Remove from visited",
@@ -175,5 +183,11 @@
   },
   "page404": {
     "Return to main page": "Return to main page"
+  },
+  "topList": {
+    "topUsers": "Top Users",
+    "topLocations": "Top Locations",
+    "likes": "Likes",
+    "locationsAdded": "Locations added"
   }
 }

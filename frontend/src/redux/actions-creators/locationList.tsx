@@ -51,33 +51,64 @@ export const fetchLocations =
   };
 
 export const fetchWaitingForVerifyLocations =
-  () => async (dispatch: Dispatch<LocationListActions>) => {
-    try {
-      dispatch({
-        type: LocationListActionsType.FETCH_LOCATION_LIST_LOADING
-      });
-
-      const url = `${REACT_APP_API_URI}locations/waiting`;
-
-      const options = {
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept-Language': localStorage.getItem('i18nextLng') || ''
-        }
-      };
-      const { data } = await axios().get(url, options);
-
-      if (data) {
+    () => async (dispatch: Dispatch<LocationListActions>) => {
+      try {
         dispatch({
-          type: LocationListActionsType.FETCH_LOCATION_LIST_SUCCESS,
-          payload: data.locations
+          type: LocationListActionsType.FETCH_LOCATION_LIST_LOADING
         });
+
+        const url = `${REACT_APP_API_URI}locations/waiting`;
+
+        const options = {
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept-Language': localStorage.getItem('i18nextLng') || ''
+          }
+        };
+        const { data } = await axios().get(url, options);
+
+        if (data) {
+          dispatch({
+            type: LocationListActionsType.FETCH_LOCATION_LIST_SUCCESS,
+            payload: data.locations
+          });
+        }
+      } catch (error: any) {
+        dispatch({
+          type: LocationListActionsType.FETCH_LOCATION_LIST_ERROR,
+          payload: 'Could not get location list'
+        });
+        throw new Error(error);
       }
-    } catch (error: any) {
-      dispatch({
-        type: LocationListActionsType.FETCH_LOCATION_LIST_ERROR,
-        payload: 'Could not get location list'
-      });
-      throw new Error(error);
-    }
-  };
+    };
+
+export const fetchTopLocations =
+    () => async (dispatch: Dispatch<LocationListActions>) => {
+      try {
+        dispatch({
+          type: LocationListActionsType.FETCH_TOP_LOCATIONS_LOADING
+        });
+
+        const url = `${REACT_APP_API_URI}topLocations`;
+
+        const options = {
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept-Language': localStorage.getItem('i18nextLng') || ''
+          }
+        };
+        const { data } = await axios().get(url, options);
+        if (data) {
+          dispatch({
+            type: LocationListActionsType.FETCH_TOP_LOCATIONS_SUCCESS,
+            payload: data
+          });
+        }
+      } catch (error: any) {
+        dispatch({
+          type: LocationListActionsType.FETCH_TOP_LOCATIONS_ERROR,
+          payload: 'Could not get location list'
+        });
+        throw new Error(error);
+      }
+    };

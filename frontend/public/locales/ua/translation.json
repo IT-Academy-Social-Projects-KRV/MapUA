@@ -10,7 +10,7 @@
   },
   "navBar": {
     "aboutUs": "Про нас",
-    "news": "Новини",
+    "top": "Топ",
     "map": "Карта",
     "myProfile": "Мій кабінет"
   },
@@ -123,13 +123,20 @@
     "commentSection": {
       "commentForm": {
         "addComment": "Додати коментар",
-        "send": "Надіслати"
+        "send": "Надіслати",
+        "reply": "Відповісти",
+        "cancel": "Відмінити"
       },
       "commentSection": {
         "commentsSection": "Cекція коментарів,",
         "deleteComment": "Видалити коментар",
         "editComment": "Редагувати коментар",
         "complainToComment": "Поскаржитись на коментар",
+        "replyToComment": "Відповісти",
+        "showAnswers": "Показати відповіді",
+        "hideAnswers": "Приховати відповіді",
+        "noComments": "Під цією локацією ще немає коментарів",
+        "deletedOriginalComment": "Цей коментар був видалений користувачем",
         "numberOfCommentars": "кількість коментарів - "
       }
     }
@@ -137,6 +144,7 @@
   "pointPopUp": {
     "message": "Увійдіть до свого кабінету, щоб мати можливість залишити відгук!",
     "toShare": "Поділитися",
+    "copy": "Скопійовано",
     "addToVisited": "Додати до відвіданих",
     "locationCreatedBy": "Локація створена:",
     "removeFromVisited": "Видалити з відвіданих",
@@ -175,5 +183,11 @@
   },
   "page404": {
     "Return to main page": "Повернутися на головну сторінку"
+  },
+  "topList": {
+    "topUsers": "Топ користувачів",
+    "topLocations": "Топ локацій",
+    "likes": "Вподобань",
+    "locationsAdded": "Локацій додано"
   }
 }

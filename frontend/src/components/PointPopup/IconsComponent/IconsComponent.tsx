@@ -44,9 +44,7 @@ export const IconsComponent: FC<Props> = ({
   locationId
 }) => {
   const { t } = useTranslation();
-
-  const { addReportToLocation } = useTypedDispatch();
-
+  const { addReportToLocation, SetSuccessSnackbar } = useTypedDispatch();
   const { rating } = useTypedSelector(state => state.popupLocation.data);
 
   const { author } = useTypedSelector(state => state.popupLocation.data);
@@ -63,6 +61,12 @@ export const IconsComponent: FC<Props> = ({
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const copyToClipBoard = async () => {
+    const params = new URLSearchParams(window.location.search);
+    const path = `http://localhost:3000/?${params.toString()}`;
+    await navigator.clipboard.writeText(path);
+    SetSuccessSnackbar(t('pointPopUp.copy'));
   };
 
   const reportLocation = () => {
@@ -105,7 +109,11 @@ export const IconsComponent: FC<Props> = ({
         {rating.dislikes.length}
       </IconButton>
 
-      <IconButton size="small" title={t('pointPopUp.toShare')}>
+      <IconButton
+        size="small"
+        onClick={copyToClipBoard}
+        title={t('pointPopUp.toShare')}
+      >
         <ShareIcon />
       </IconButton>
 

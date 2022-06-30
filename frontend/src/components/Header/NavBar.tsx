@@ -1,16 +1,23 @@
 import React, { useState } from 'react';
 import { Link, Box } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useSearchParams } from 'react-router-dom';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTranslation } from 'react-i18next';
+import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { StyledAppBar } from '../design/StyledAppBar';
 import { StyledChangeLangButton } from '../design/StyledChangeLangButton';
 
-const StyledLink: React.FC<React.PropsWithChildren<{ to: string }>> = ({
-  to,
-  children
-}) => (
-  <Link color="inherit" underline="none" component={RouterLink} to={to}>
+const StyledLink: React.FC<
+  // eslint-disable-next-line react/require-default-props
+  React.PropsWithChildren<{ to: string; onClick?: any }>
+> = ({ to, children, onClick }) => (
+  <Link
+    color="inherit"
+    onClick={onClick}
+    underline="none"
+    component={RouterLink}
+    to={to}
+  >
     {children}
   </Link>
 );
@@ -33,6 +40,8 @@ function NavBar() {
   const { t, i18n } = useTranslation();
   const lng = localStorage.getItem('i18nextLng');
   const [currentLanguage, setCurrentLanguage] = useState<any>(lng);
+  const [, setSearchParams] = useSearchParams();
+  const { setLocationName } = useTypedDispatch();
 
   const changeLanguage = (language: string) => () => {
     i18n.changeLanguage(language);
@@ -42,8 +51,16 @@ function NavBar() {
   return (
     <StyledAppBar>
       <StyledLink to="/about_us">{t('navBar.aboutUs')}</StyledLink>
-      <StyledLink to="/news">{t('navBar.news')}</StyledLink>
-      <StyledLink to="/">{t('navBar.map')}</StyledLink>
+      <StyledLink to="/top">{t('navBar.top')}</StyledLink>
+      <StyledLink
+        onClick={() => {
+          setSearchParams({});
+          setLocationName('');
+        }}
+        to="/"
+      >
+        {t('navBar.map')}
+      </StyledLink>
       {isAuthorized ? (
         <StyledLink to="/profile">{t('navBar.myProfile')}</StyledLink>
       ) : (

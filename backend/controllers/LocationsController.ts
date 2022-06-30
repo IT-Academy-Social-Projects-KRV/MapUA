@@ -381,6 +381,30 @@ const LocationsController = {
     } catch (err: any) {
       return res.status(500).json({ error: req.t('other.server_error'), err });
     }
+  },
+  async getTopLocations(req: Request, res: Response) {
+    try {
+      let locations = await Location.aggregate([
+        {
+          $project: {
+            likes: { $size: '$rating.likes' },
+            locationName: 1,
+            arrayPhotos: 1
+          }
+        },
+        {
+          $sort: { likes: -1 }
+        }
+      ]);
+      locations = locations.slice(
+        0,
+        locations.length < 20 ? locations.length : 20
+      );
+
+      return res.json(locations);
+    } catch (err: any) {
+      return res.status(500).json({ error: req.t('other.server_error'), err });
+    }
   }
 };
 

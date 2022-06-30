@@ -4,12 +4,14 @@ import {
   MapInfoActionsType
 } from '../action-types/mapInfoActionTypes';
 
+const params = new URLSearchParams(window.location.search);
+
 const initialState: mapInfoStateType = {
   bounds: {
     _northEast: { lat: 54.82600799909498, lng: 38.64990234375001 },
     _southWest: { lat: 45.62940492064501, lng: 22.456054687500004 }
   },
-  locationName: '',
+  locationName: params.get('locationName') || '',
   selectedFilters: [],
   authorizedFilters: []
 };
