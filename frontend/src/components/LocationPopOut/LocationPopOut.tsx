@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import * as React from 'react';
 import L from 'leaflet';
 import { CardMedia, Typography } from '@mui/material';
@@ -14,6 +15,9 @@ import verifiedIcon from '../../static/verified-icon.svg';
 import unverifiedIcon from '../../static/unverified-icon.svg';
 import waitingIcon from '../../static/waiting-icon.svg';
 import img from '../../static/image-not-found.jpg';
+
+// import marker from '../../static/marker.png';
+
 import { verificationStatusTypes } from '../../static/verificationStatusTypes';
 
 interface Props {
@@ -56,7 +60,7 @@ export function LocationPopOut({
   return (
     <Marker
       icon={L.icon({
-        iconUrl: locationIcon,
+        iconUrl: marker,
         iconSize: [40, 40],
         iconAnchor: [20, 46]
       })}
