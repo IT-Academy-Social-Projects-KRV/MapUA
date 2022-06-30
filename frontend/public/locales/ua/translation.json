@@ -170,8 +170,8 @@
     },
     "verified": "Перевірені локації",
     "verifiedValues": {
-      "verified": "перевірені",
-      "unverified": "неперевірені"
+      "verified": "перевірено",
+      "unverified": "неперевірено"
     },
     "personal": "Персональні",
     "personalValues": {
