@@ -4,17 +4,20 @@ import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { Link, useNavigate } from 'react-router-dom';
 import { StyledTabComponentBox } from 'components/design/StyledTabComponentBox';
-import { useTranslation } from 'react-i18next';
 import CircularLoader from '../CircularLoader/CircularLoader';
 import imageNotFound from '../../static/image-not-found.jpg';
 
-export const WaitingForVerifyTab = () => {
-  const { t } = useTranslation();
+interface Props {
+  t: string;
+  fetchLocationsForModeration: () => void;
+}
+
+export const ModerationTab = ({ t, fetchLocationsForModeration }: Props) => {
   const { data: locations, loading } = useTypedSelector(
     state => state.locationList
   );
-  const { setLocationName, fetchWaitingForVerifyLocations } =
-    useTypedDispatch();
+
+  const { setLocationName } = useTypedDispatch();
 
   const navigate = useNavigate();
 
@@ -24,7 +27,7 @@ export const WaitingForVerifyTab = () => {
   };
 
   useEffect(() => {
-    fetchWaitingForVerifyLocations();
+    fetchLocationsForModeration();
   }, []);
 
   if (loading) {
@@ -32,7 +35,7 @@ export const WaitingForVerifyTab = () => {
   }
 
   if (!locations.length) {
-    return <>`${t('profile.basicTabs.noWaitingForVerify')}`</>;
+    return <>`${t}`</>;
   }
 
   return (

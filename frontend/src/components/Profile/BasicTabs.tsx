@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
+import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { Tabs, Tab, Typography, Box, TextField } from '@mui/material';
 import { Controller, Control, FieldError } from 'react-hook-form';
 import ProfileTabsData from 'components/ProfileTabsData';
 import { UserForm } from '../../../types';
-import { WaitingForVerifyTab } from './WaitingForVerifyTab';
+import { ModerationTab } from './ModerationTab';
 
 interface TabPanelProps {
   index: number;
@@ -61,6 +62,8 @@ export default function BasicTabs({
     setValue(newValue);
   };
   const { role } = useTypedSelector(state => state.isUserAuthorized.data);
+
+  const { fetchWaitingForVerifyLocations } = useTypedDispatch();
 
   const userDescription = useTypedSelector(state => state.userData);
 
@@ -130,7 +133,10 @@ export default function BasicTabs({
         )}
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <WaitingForVerifyTab />
+        <ModerationTab
+          t={t('profile.basicTabs.noWaitingForVerify')}
+          fetchLocationsForModeration={fetchWaitingForVerifyLocations}
+        />
       </TabPanel>
     </Box>
   );
