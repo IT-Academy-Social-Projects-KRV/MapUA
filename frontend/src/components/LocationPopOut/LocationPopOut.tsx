@@ -76,6 +76,7 @@ export function LocationPopOut({
       }}
       position={coordinates}
     >
+      <img src={verifiedIcon} width="55px" height="55px" alt="dsad" />
       <StyledTooltip>
         <StyledBox>
           <StyledMediaBox>
