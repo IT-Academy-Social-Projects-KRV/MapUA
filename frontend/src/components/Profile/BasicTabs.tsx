@@ -64,7 +64,8 @@ export default function BasicTabs({
   };
   const { role } = useTypedSelector(state => state.isUserAuthorized.data);
 
-  const { fetchWaitingForVerifyLocations } = useTypedDispatch();
+  const { fetchWaitingForVerifyLocations, fetchReportedLocations } =
+    useTypedDispatch();
 
   const userDescription = useTypedSelector(state => state.userData);
 
@@ -83,6 +84,12 @@ export default function BasicTabs({
             <Tab
               label={t('profile.basicTabs.waitingForVerify')}
               {...a11yProps(3)}
+            />
+          )}
+          {(role === 'moderator' || role === 'admin') && (
+            <Tab
+              label={t('profile.basicTabs.reportedLocations')}
+              {...a11yProps(4)}
             />
           )}
         </Tabs>
@@ -137,6 +144,12 @@ export default function BasicTabs({
         <ModerationTab
           t={t('profile.basicTabs.noWaitingForVerify')}
           fetchLocationsForModeration={fetchWaitingForVerifyLocations}
+        />
+      </TabPanel>
+      <TabPanel value={value} index={4}>
+        <ModerationTab
+          t={t('profile.basicTabs.noReportedLocations')}
+          fetchLocationsForModeration={fetchReportedLocations}
         />
       </TabPanel>
     </Box>

@@ -41,7 +41,10 @@
       "noDescription": "There is no description",
       "noSubscribers": "user has no subscribers",
       "noSubscriptions": "user has no subscriptions",
-      "noWaitingForVerify": "There is no locations"
+      "noWaitingForVerify": "There is no locations",
+      "reportedLocations":"reported locations",
+      "noReportedLocations":"There is no locations"
+
     },
     "profilePage": {
       "lostNetwork": "Lost Network",

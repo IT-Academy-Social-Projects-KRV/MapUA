@@ -73,20 +73,20 @@ const LocationsController = {
         });
       }
 
-      if (verifiedFiltersArray.length > 0) {
-        locations = locations.filter(l => {
-          return verifiedFiltersArray.some((el: string) => {
-            if (el === 'unverified') {
-              return (
-                el === l.verificationStatus ||
-                l.verificationStatus === 'waiting'
-              );
-            } else {
-              return el === l.verificationStatus;
-            }
-          });
-        });
-      }
+      // if (verifiedFiltersArray.length > 0) {
+      //   locations = locations.filter(l => {
+      //     return verifiedFiltersArray.some((el: string) => {
+      //       if (el === 'unverified') {
+      //         return (
+      //           el === l.verificationStatus ||
+      //           l.verificationStatus === 'waiting'
+      //         );
+      //       } else {
+      //         return el === l.verificationStatus;
+      //       }
+      //     });
+      //   });
+      // }
 
       if (seasonalFiltersArray.length > 0) {
         locations = locations.filter(l => {
@@ -129,6 +129,15 @@ const LocationsController = {
   async getWaitingForVerifyLocations(req: Request, res: Response) {
     try {
       const locations = await Location.find({ verificationStatus: 'waiting' });
+      return res.json({ locations });
+    } catch (err: any) {
+      return res.status(500).json({ error: req.t('other.server_error'), err });
+    }
+  },
+  async getReportedLocations(req: Request, res: Response) {
+    try {
+      const locations = await Location.find({ reported: true });
+      console.log(locations);
       return res.json({ locations });
     } catch (err: any) {
       return res.status(500).json({ error: req.t('other.server_error'), err });
