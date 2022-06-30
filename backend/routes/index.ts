@@ -169,5 +169,7 @@ router.put(
   UserController.toggleVisited
 );
 router.get('/profile/:id', UserController.getOtherUserProfile);
+router.get('/topLocations', LocationsController.getTopLocations);
+router.get('/topUsers', UserController.getTopUsers);
 
 export default router;

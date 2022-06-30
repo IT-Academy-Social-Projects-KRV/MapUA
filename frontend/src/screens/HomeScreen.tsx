@@ -5,6 +5,8 @@ import Map from 'components/Map/index';
 import BigPopup from 'components/BigPopup/index';
 import BigPopupLocation from 'components/design/BigPopupLocation';
 import CreateLocation from 'components/CreateLocation/CreateLocation';
+import { useSearchParams } from 'react-router-dom';
+import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { locationType } from '../../types';
 
 function HomeScreen() {
@@ -13,6 +15,8 @@ function HomeScreen() {
   const [isOpenLocationForm, setIsOpenLocationForm] = useState(false);
   const [location, setLocation] = useState<locationType | null>(null);
   const [coordinate, setCoordinate] = useState<any>([]);
+  const [, setSearchParams] = useSearchParams();
+  const { setLocationName } = useTypedDispatch();
 
   const onOpenBigPopup = (locationData: locationType) => {
     setLocation(locationData);
@@ -37,6 +41,8 @@ function HomeScreen() {
         isOpen={isOpenLocationPopup}
         toggleClose={() => {
           setIsOpenLocationPopup(false);
+          setSearchParams({});
+          setLocationName('');
         }}
         location={location}
       />

@@ -10,7 +10,7 @@
   },
   "navBar": {
     "aboutUs": "About Us",
-    "news": "News",
+    "top": "Top-list",
     "map": "Map",
     "myProfile": "My profile"
   },
@@ -142,6 +142,7 @@
   "pointPopUp": {
     "message": "Login to your account to be able to rate!",
     "toShare": "To share",
+    "copy": "Copied",
     "addToVisited": "Add to visited",
     "locationCreatedBy": "Location created by:",
     "removeFromVisited": "Remove from visited",
@@ -180,5 +181,11 @@
   },
   "page404": {
     "Return to main page": "Return to main page"
+  },
+  "topList": {
+    "topUsers": "Top Users",
+    "topLocations": "Top Locations",
+    "likes": "Likes",
+    "locationsAdded": "Locations added"
   }
 }
