@@ -16,7 +16,7 @@ import unverifiedIcon from '../../static/unverified-icon.svg';
 import waitingIcon from '../../static/waiting-icon.svg';
 import img from '../../static/image-not-found.jpg';
 
-// import marker from '../../static/marker.png';
+import marker from '../../static/marker.png';
 
 import { verificationStatusTypes } from '../../static/verificationStatusTypes';
 
