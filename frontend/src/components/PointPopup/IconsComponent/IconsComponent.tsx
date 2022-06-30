@@ -17,7 +17,6 @@ import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTranslation } from 'react-i18next';
 import ReportIcon from '@mui/icons-material/Report';
 import EditIcon from '@mui/icons-material/Edit';
-import ReportIconModerator from '@mui/icons-material/ReportGmailerrorred';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 
 type Props = {
@@ -160,12 +159,6 @@ export const IconsComponent: FC<Props> = ({
           'aria-labelledby': 'basic-button'
         }}
       >
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon onClick={() => null}>
-            <ReportIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText>{t('createLocation.complainToLocation')}</ListItemText>
-        </MenuItem>
         {((author && author._id === userId) ||
           role === 'moderator' ||
           role === 'admin') && (
@@ -186,10 +179,10 @@ export const IconsComponent: FC<Props> = ({
           </MenuItem>
         )}
 
-        {(role === 'moderator' || role === 'admin') && (
+        {(role === 'user' || role === 'moderator' || role === 'admin') && (
           <MenuItem onClick={() => reportLocation()}>
             <ListItemIcon>
-              <ReportIconModerator fontSize="small" />
+              <ReportIcon fontSize="small" />
             </ListItemIcon>
             <ListItemText>{t('createLocation.reportLocation')}</ListItemText>
           </MenuItem>
