@@ -20,7 +20,7 @@ export const WaitingForVerifyTab = () => {
 
   const redirectToLocation = (locationId: string, locationName: string) => {
     setLocationName(locationName);
-    navigate(`/${locationId}`);
+    navigate(`/moderation/${locationId}`);
   };
 
   useEffect(() => {
