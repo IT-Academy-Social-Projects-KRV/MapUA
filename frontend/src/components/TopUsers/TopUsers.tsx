@@ -7,6 +7,7 @@ import {
   ListItemAvatar,
   ListItemText
 } from '@mui/material';
+import { StyledCardTopRated } from 'components/design/StyledCardTopRated';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
@@ -23,6 +24,7 @@ const TopUsers = () => {
   }, []);
   const topUsers = useTypedSelector(state => state.topUsers);
   const { _id } = useTypedSelector(state => state.userData.data);
+
   if (topUsers.loading) {
     return <h1>{t('profile.profile.loading')}</h1>;
   }
@@ -30,21 +32,24 @@ const TopUsers = () => {
     <Box sx={{ mb: '50px' }}>
       <h2 style={{ textAlign: 'center' }}>{t('topList.topUsers')}</h2>
       <List>
+        {/* {topUsers.data.splice(0, 10).map((user: TopUserType) => ( */}
         {topUsers.data.map((user: TopUserType) => (
-          <ListItem key={user._id}>
-            <ListItemAvatar>
-              <Link component={RouterLink} to={getPath(_id, user._id)}>
-                <Avatar src={user.imageUrl} />
-              </Link>
-            </ListItemAvatar>
+          <StyledCardTopRated key={user._id}>
+            <ListItem>
+              <ListItemAvatar>
+                <Link component={RouterLink} to={getPath(_id, user._id)}>
+                  <Avatar src={user.imageUrl} />
+                </Link>
+              </ListItemAvatar>
 
-            <Link component={RouterLink} to={getPath(_id, user._id)}>
-              <ListItemText primary={user.displayName} sx={{ pr: '10px' }} />
-            </Link>
-            <div>
-              {t('topList.locationsAdded')} {user.count}
-            </div>
-          </ListItem>
+              <Link component={RouterLink} to={getPath(_id, user._id)}>
+                <ListItemText primary={user.displayName} sx={{ pr: '10px' }} />
+              </Link>
+              <div>
+                {t('topList.locationsAdded')} {user.count}
+              </div>
+            </ListItem>
+          </StyledCardTopRated>
         ))}
       </List>
     </Box>
