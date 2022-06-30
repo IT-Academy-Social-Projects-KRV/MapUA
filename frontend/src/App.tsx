@@ -68,6 +68,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomeScreen />} />
+          <Route path="/moderation/:locationId" element={<HomeScreen />} />
           <Route
             path="/registration"
             element={
