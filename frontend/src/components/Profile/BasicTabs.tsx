@@ -1,10 +1,12 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
+import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { Tabs, Tab, Typography, Box, TextField } from '@mui/material';
 import { Controller, Control, FieldError } from 'react-hook-form';
 import ProfileTabsData from 'components/ProfileTabsData';
 import { UserForm } from '../../../types';
+import { ModerationTab } from './ModerationTab';
 
 interface TabPanelProps {
   index: number;
@@ -23,6 +25,7 @@ function TabPanel(props: React.PropsWithChildren<TabPanelProps>) {
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
+      sx={{ height: '300px', overflow: 'auto' }}
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
@@ -59,6 +62,9 @@ export default function BasicTabs({
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+  const { role } = useTypedSelector(state => state.isUserAuthorized.data);
+
+  const { fetchWaitingForVerifyLocations } = useTypedDispatch();
 
   const userDescription = useTypedSelector(state => state.userData);
 
@@ -73,6 +79,12 @@ export default function BasicTabs({
           <Tab label={t('profile.basicTabs.description')} {...a11yProps(0)} />
           <Tab label={t('profile.basicTabs.subscribers')} {...a11yProps(1)} />
           <Tab label={t('profile.basicTabs.subscriptions')} {...a11yProps(2)} />
+          {(role === 'moderator' || role === 'admin') && (
+            <Tab
+              label={t('profile.basicTabs.waitingForVerify')}
+              {...a11yProps(3)}
+            />
+          )}
         </Tabs>
       </Box>
       {showEditPanel ? (
@@ -120,6 +132,12 @@ export default function BasicTabs({
         ) : (
           `${t('profile.basicTabs.noSubscriptions')}`
         )}
+      </TabPanel>
+      <TabPanel value={value} index={3}>
+        <ModerationTab
+          t={t('profile.basicTabs.noWaitingForVerify')}
+          fetchLocationsForModeration={fetchWaitingForVerifyLocations}
+        />
       </TabPanel>
     </Box>
   );

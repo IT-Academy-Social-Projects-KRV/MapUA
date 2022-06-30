@@ -1,4 +1,5 @@
 import { useMapEvents } from 'react-leaflet';
+import { useParams } from 'react-router-dom';
 import { boundsType } from '../../../../types';
 
 interface Props {
@@ -18,15 +19,17 @@ export default function MyZoomComponent({
   onOpenLocationForm,
   setCoordinate
 }: Props) {
+  const { locationId } = useParams();
   const prev = bounds;
+
   const map = useMapEvents({
     zoom: () => {
-      if (!isAddLocationActive) {
+      if (!isAddLocationActive && !locationId) {
         setBounds({ ...prev, ...map.getBounds() });
       }
     },
     dragend: () => {
-      if (!isAddLocationActive) {
+      if (!isAddLocationActive && !locationId) {
         setBounds({ ...prev, ...map.getBounds() });
       }
     },

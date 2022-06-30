@@ -36,10 +36,12 @@
       "description": "Description",
       "subscribers": "Subscribers",
       "subscriptions": "Subscriptions",
+      "waitingForVerify": "Waiting for verify",
       "enterDescription": "Please enter description",
       "noDescription": "There is no description",
       "noSubscribers": "user has no subscribers",
-      "noSubscriptions": "user has no subscriptions"
+      "noSubscriptions": "user has no subscriptions",
+      "noWaitingForVerify": "There is no locations"
     },
     "profilePage": {
       "lostNetwork": "Lost Network",

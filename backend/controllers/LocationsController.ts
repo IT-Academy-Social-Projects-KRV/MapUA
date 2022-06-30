@@ -11,7 +11,7 @@ const LocationsController = {
       const searchName = req.query.name as string;
       const filters = JSON.parse(req.query.filters as any);
       const authFilters = JSON.parse(req.query.authFilters as any);
-      
+
       const costFiltersNames = ['free', 'low cost', 'high cost'];
       const seasonalFiltersNames = [
         'winter',
@@ -21,11 +21,8 @@ const LocationsController = {
         'full year',
         'seasonal'
       ];
-      
-      const verifiedFiltersNames = [
-        'verified',
-        'unverified'
-      ];
+
+      const verifiedFiltersNames = ['verified', 'unverified'];
 
       const costFiltersArray = filters.filter((f: string) =>
         costFiltersNames.includes(f)
@@ -33,7 +30,7 @@ const LocationsController = {
       const seasonalFiltersArray = filters.filter((f: string) =>
         seasonalFiltersNames.includes(f)
       );
-      
+
       const verifiedFiltersArray = filters.filter((f: string) =>
         verifiedFiltersNames.includes(f)
       );
@@ -75,17 +72,19 @@ const LocationsController = {
           ].some(el => filters.includes(el));
         });
       }
-      
+
       if (verifiedFiltersArray.length > 0) {
         locations = locations.filter(l => {
-          return verifiedFiltersArray.some((el: string )=> {
-            if (el === 'unverified'){
-              return el === l.verificationStatus || l.verificationStatus === 'waiting'
-            } 
-            else {
-             return el === l.verificationStatus
+          return verifiedFiltersArray.some((el: string) => {
+            if (el === 'unverified') {
+              return (
+                el === l.verificationStatus ||
+                l.verificationStatus === 'waiting'
+              );
+            } else {
+              return el === l.verificationStatus;
             }
-          })
+          });
         });
       }
 
@@ -122,6 +121,14 @@ const LocationsController = {
           .json({ error: req.t('locations_list.locations_not_found') });
       }
 
+      return res.json({ locations });
+    } catch (err: any) {
+      return res.status(500).json({ error: req.t('other.server_error'), err });
+    }
+  },
+  async getWaitingForVerifyLocations(req: Request, res: Response) {
+    try {
+      const locations = await Location.find({ verificationStatus: 'waiting' });
       return res.json({ locations });
     } catch (err: any) {
       return res.status(500).json({ error: req.t('other.server_error'), err });
