@@ -1,5 +1,5 @@
 import React, { FC, MouseEventHandler } from 'react';
-import { IconButton, ListItemIcon, ListItemText } from '@mui/material';
+import { IconButton, ListItemIcon, ListItemText, Tooltip } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
@@ -13,6 +13,7 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import TourOutlinedIcon from '@mui/icons-material/TourOutlined';
 import TourIcon from '@mui/icons-material/Tour';
 import DeleteIcon from '@mui/icons-material/Delete';
+import VerifiedIcon from '@mui/icons-material/Verified';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTranslation } from 'react-i18next';
 import ReportIcon from '@mui/icons-material/Report';
@@ -46,6 +47,9 @@ export const IconsComponent: FC<Props> = ({
   const { t } = useTranslation();
   const { addReportToLocation, SetSuccessSnackbar } = useTypedDispatch();
   const { rating } = useTypedSelector(state => state.popupLocation.data);
+  const { verificationStatus } = useTypedSelector(
+    state => state.popupLocation.data
+  );
 
   const { author } = useTypedSelector(state => state.popupLocation.data);
   const { _id: userId } = useTypedSelector(state => state.userData.data);
@@ -79,6 +83,13 @@ export const IconsComponent: FC<Props> = ({
 
   return (
     <>
+      {verificationStatus === 'verified' ? (
+        <Tooltip title={t('mainFilters.verifiedValues.verified')}>
+          <IconButton>
+            <VerifiedIcon color="primary" />
+          </IconButton>
+        </Tooltip>
+      ) : null}
       <IconButton
         onClick={e => {
           if (isAuthorized) {
