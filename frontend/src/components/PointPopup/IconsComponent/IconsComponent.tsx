@@ -14,12 +14,14 @@ import TourOutlinedIcon from '@mui/icons-material/TourOutlined';
 import TourIcon from '@mui/icons-material/Tour';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VerifiedIcon from '@mui/icons-material/Verified';
+import AutorenewIcon from '@mui/icons-material/Autorenew';
+import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTranslation } from 'react-i18next';
 import ReportIcon from '@mui/icons-material/Report';
 import EditIcon from '@mui/icons-material/Edit';
 import ReportIconModerator from '@mui/icons-material/ReportGmailerrorred';
-import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
+import ConfirmOrDecline from './ConfirmOrDecline';
 
 type Props = {
   handleRating: Function;
@@ -45,7 +47,8 @@ export const IconsComponent: FC<Props> = ({
   locationId
 }) => {
   const { t } = useTranslation();
-  const { addReportToLocation, SetSuccessSnackbar } = useTypedDispatch();
+  const { addReportToLocation, SetSuccessSnackbar, updatePopupLocation } =
+    useTypedDispatch();
   const { rating } = useTypedSelector(state => state.popupLocation.data);
   const { verificationStatus } = useTypedSelector(
     state => state.popupLocation.data
@@ -63,9 +66,11 @@ export const IconsComponent: FC<Props> = ({
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   const copyToClipBoard = async () => {
     const params = new URLSearchParams(window.location.search);
     const path = `http://localhost:3000/?${params.toString()}`;
@@ -81,12 +86,26 @@ export const IconsComponent: FC<Props> = ({
     );
   };
 
+  const handleConfirmOrDeclineVerification = (status: string) => {
+    updatePopupLocation(locationId, {
+      rating,
+      verificationStatus: status
+    });
+  };
+
   return (
     <>
       {verificationStatus === 'verified' ? (
         <Tooltip title={t('mainFilters.verifiedValues.verified')}>
           <IconButton>
             <VerifiedIcon color="primary" />
+          </IconButton>
+        </Tooltip>
+      ) : null}
+      {verificationStatus === 'waiting' ? (
+        <Tooltip title={t('mainFilters.verifiedValues.waiting')}>
+          <IconButton>
+            <AutorenewIcon color="primary" />
           </IconButton>
         </Tooltip>
       ) : null}
@@ -186,6 +205,14 @@ export const IconsComponent: FC<Props> = ({
             </ListItemIcon>
             <ListItemText>{t('createLocation.deleteLocation')}</ListItemText>
           </MenuItem>
+        )}
+        {((role === 'moderator' && verificationStatus === 'waiting') ||
+          (role === 'admin' && verificationStatus === 'waiting')) && (
+          <ConfirmOrDecline
+            handleConfirmOrDeclineVerification={
+              handleConfirmOrDeclineVerification
+            }
+          />
         )}
 
         {locationAuthorId?._id === userId && (

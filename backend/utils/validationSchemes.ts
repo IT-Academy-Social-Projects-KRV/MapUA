@@ -105,7 +105,26 @@ export const CommentSchema = [
 ];
 export const updateLocationLikesSchema = [
   check('id').exists({ checkFalsy: true }).withMessage('Invalid id'),
-  body('rating').isObject().withMessage('Invalid data format')
+  body('rating').isObject().withMessage('Invalid data format'),
+  body('rating.likes')
+    .isArray()
+    .withMessage((value, { req, location, path }) => {
+      return req.t('location_comments.comment_not_have_properties', {
+        value,
+        location,
+        path
+      });
+    }),
+  body('rating.dislikes')
+    .isArray()
+    .withMessage((value, { req, location, path }) => {
+      return req.t('location_comments.comment_not_have_properties', {
+        value,
+        location,
+        path
+      });
+    }),
+  body('verificationStatus').isString().withMessage('Invalid data format')
 ];
 export const postPersonalLocationSchema = [
   body('locationName')

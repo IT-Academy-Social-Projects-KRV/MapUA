@@ -150,7 +150,9 @@
     "removeFromVisited": "Видалити з відвіданих",
     "removeFromFavorite": "Видалити з обраних",
     "addToFavorite": "Додати до обраних",
-    "locationDelete": "Локація упсішно видалена"
+    "locationDelete": "Локація упсішно видалена",
+    "confirmVerification": "Підтвердити верифікацію",
+    "declineVerification": "Відхилити верифікацію"
   },
   "mainFilters": {
     "cost": "Вартість",
@@ -171,7 +173,8 @@
     "verified": "Перевірені локації",
     "verifiedValues": {
       "verified": "перевірено",
-      "unverified": "неперевірено"
+      "unverified": "неперевірено",
+      "waiting": "очікується верифікація"
     },
     "personal": "Персональні",
     "personalValues": {
