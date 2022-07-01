@@ -17,6 +17,7 @@ const CommentsController = {
       return res.status(500).json({ error: req.t('other.server_error'), err });
     }
   },
+
   async createLocationComment(req: Request, res: Response) {
     try {
       const { comment: commentBody } = req.body;
@@ -34,6 +35,7 @@ const CommentsController = {
       return res.status(500).json({ error: req.t('other.server_error'), err });
     }
   },
+
   async editLocationComment(req: Request, res: Response) {
     try {
       const { id } = req.params;
@@ -59,6 +61,7 @@ const CommentsController = {
       return res.status(500).json({ error: req.t('other.server_error'), err });
     }
   },
+
   async deleteLocationComment(req: Request, res: Response) {
     try {
       const comment = await Comment.findById({ _id: req.params.id }).populate({
@@ -88,6 +91,29 @@ const CommentsController = {
 
       return res.status(200).json({
         message: req.t('location_comments.comment_deleted_successfully'),
+        comment
+      });
+    } catch (err: any) {
+      return res.status(500).json({ error: req.t('other.server_error'), err });
+    }
+  },
+
+  async updateLocationCommentRatingById(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      console.log('id', id);
+      console.log('req', req.body);
+      const { comment: commentBody } = req.body;
+
+      const comment = await Comment.findOneAndUpdate({ _id: id }, commentBody, {
+        new: true
+      }).populate({
+        path: 'author',
+        select: 'displayName imageUrl'
+      });
+
+      res.status(200).json({
+        message: req.t('location_comments.edit_comment_success'),
         comment
       });
     } catch (err: any) {

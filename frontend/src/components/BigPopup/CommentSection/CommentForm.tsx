@@ -40,9 +40,9 @@ const CommentForm = () => {
     const commentBody: AddCommentType<string> = {
       author: userId,
       locationId: locationId!,
-      text: commentText,
-      likes: [],
-      dislikes: []
+      text: commentText
+      // likes: [],
+      // dislikes: []
     };
 
     if (commentText) {

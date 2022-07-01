@@ -43,6 +43,7 @@ export const forgotPasswordSchema = [
       return req.t('auth.invalid_email', { value, location, path });
     })
 ];
+
 export const CommentSchema = [
   body('comment').isObject().withMessage('Invalid format data'),
   body('comment.author')
@@ -103,10 +104,12 @@ export const CommentSchema = [
       });
     })
 ];
+
 export const updateLocationLikesSchema = [
   check('id').exists({ checkFalsy: true }).withMessage('Invalid id'),
   body('rating').isObject().withMessage('Invalid data format')
 ];
+
 export const postPersonalLocationSchema = [
   body('locationName')
     .isString()
@@ -139,6 +142,7 @@ export const postPersonalLocationSchema = [
       });
     })
 ];
+
 export const userDataSchema = [
   body('id').exists({ checkFalsy: true }).withMessage('Invalid id'),
   body('displayName')

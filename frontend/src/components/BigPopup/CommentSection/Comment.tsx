@@ -160,8 +160,8 @@ const Comment = ({
       text: data.commentText,
       author: userId,
       locationId,
-      likes,
-      dislikes,
+      // likes,
+      // dislikes,
       parentComment: id
     };
     sendComment(comment);
@@ -259,13 +259,14 @@ const Comment = ({
             </Typography>
           )}
           <RatingCommentSection
-            _id={id}
+            id={id}
             disabledPressedButton={disabledPressedButton}
             openEditOrReplyComment={openEditOrReplyComment}
             userId={userId}
             role={role}
             date={date}
             likes={likes}
+            dislikes={dislikes}
           />
         </Box>
       ) : (

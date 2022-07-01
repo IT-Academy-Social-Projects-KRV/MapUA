@@ -1,49 +1,68 @@
 import React, { MouseEvent } from 'react';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
-import { IconButton, Typography, Stack } from '@mui/material';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import { IconButton, Typography, Stack, Box } from '@mui/material';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
+import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import ReplyComment from './ReplyComment';
 
 interface Props {
-  _id: string;
+  id: string;
   date: Date;
   userId: string;
   role: string | null;
   disabledPressedButton: boolean;
   openEditOrReplyComment: Function;
   likes: string[];
+  dislikes: string[];
 }
 
 const RatingCommentSection = ({
-  _id,
+  id,
   date,
   disabledPressedButton,
   openEditOrReplyComment,
   userId,
   role,
-  likes
+  likes,
+  dislikes
 }: Props) => {
   const { isAuthorized } = useTypedSelector(
     state => state.isUserAuthorized.data
   );
-  const { comments } = useTypedSelector(state => state.locationComments);
-  console.log('comments', comments);
-
-  const test = () => {
-    console.log('aaaa', _id);
-  };
+  const { editCommentRating } = useTypedDispatch();
 
   const handleCommentRating = (
     e: MouseEvent<HTMLButtonElement>,
     type: 'likes' | 'dislikes'
   ) => {
     e.preventDefault();
-    if (type === 'likes') {
-      likes.push(userId);
+    const comment = {
+      likes,
+      dislikes
+    };
+
+    const updatedCommentRating = { ...comment };
+
+    if (updatedCommentRating[type].includes(userId)) {
+      updatedCommentRating[type] = updatedCommentRating[type].filter(
+        value => value !== userId
+      );
+    } else {
+      updatedCommentRating[type].push(userId);
     }
-    console.log('likes', likes);
-    console.log('commentsAAA', comments);
+
+    const inverseType = type === 'likes' ? 'dislikes' : 'likes';
+
+    if (updatedCommentRating[inverseType].includes(userId)) {
+      updatedCommentRating[inverseType] = updatedCommentRating[
+        inverseType
+      ].filter(value => value !== userId);
+    }
+
+    return editCommentRating(updatedCommentRating, id);
   };
 
   return (
@@ -77,11 +96,31 @@ const RatingCommentSection = ({
             }
           }}
         >
-          <ThumbUpOutlinedIcon fontSize="small" />
+          {likes.includes(userId) ? (
+            <ThumbUpIcon fontSize="small" sx={{ mr: '5px' }} />
+          ) : (
+            <ThumbUpOutlinedIcon fontSize="small" sx={{ mr: '5px' }} />
+          )}
+          <Box component="div" fontSize="large" sx={{ display: 'inline' }}>
+            {likes.length}
+          </Box>
         </IconButton>
 
-        <IconButton onClick={test}>
-          <ThumbDownAltOutlinedIcon fontSize="small" />
+        <IconButton
+          onClick={e => {
+            if (isAuthorized) {
+              handleCommentRating(e, 'dislikes');
+            }
+          }}
+        >
+          {dislikes.includes(userId) ? (
+            <ThumbDownIcon fontSize="small" sx={{ mr: '5px' }} />
+          ) : (
+            <ThumbDownAltOutlinedIcon fontSize="small" sx={{ mr: '5px' }} />
+          )}
+          <Box component="div" fontSize="large" sx={{ display: 'inline' }}>
+            {dislikes.length}
+          </Box>
         </IconButton>
       </Stack>
     </Stack>

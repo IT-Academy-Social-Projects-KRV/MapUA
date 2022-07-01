@@ -82,3 +82,20 @@ export const editComment =
       throw new Error(error);
     }
   };
+
+export const editCommentRating =
+  (comment: {}, id: string) =>
+  async (dispatch: Dispatch<LocationCommentsActions>) => {
+    try {
+      const response = await axios().patch(`comments-rating/${id}`, {
+        comment
+      });
+
+      dispatch({
+        type: LocationCommentsActionTypes.EDIT_COMMENT_RATING,
+        payload: response.data.comment
+      });
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  };

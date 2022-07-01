@@ -99,8 +99,8 @@ router.delete(
 
 router.post(
   '/comments/create',
-  CommentSchema,
-  validateRequest,
+  // CommentSchema,
+  // validateRequest,
   CommentsController.createLocationComment
 );
 router.get('/comments/:locationId', CommentsController.getLocationComments);
@@ -116,6 +116,13 @@ router.delete(
   '/comments/:id',
   passport.authenticate('jwt', { session: false }),
   CommentsController.deleteLocationComment
+);
+
+router.patch(
+  '/comments-rating/:id',
+  // CommentSchema,
+  // validateRequest,
+  CommentsController.updateLocationCommentRatingById
 );
 
 router.get(
