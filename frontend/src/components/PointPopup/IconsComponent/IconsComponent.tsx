@@ -181,12 +181,6 @@ export const IconsComponent: FC<Props> = ({
           'aria-labelledby': 'basic-button'
         }}
       >
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon onClick={() => null}>
-            <ReportIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText>{t('createLocation.complainToLocation')}</ListItemText>
-        </MenuItem>
         {((author && author._id === userId) ||
           role === 'moderator' ||
           role === 'admin') && (
@@ -207,7 +201,7 @@ export const IconsComponent: FC<Props> = ({
           </MenuItem>
         )}
 
-        {(role === 'moderator' || role === 'admin') && (
+        {(role === 'user' || role === 'moderator' || role === 'admin') && (
           <MenuItem onClick={() => reportLocation()}>
             <ListItemIcon>
               <ReportIcon fontSize="small" />
