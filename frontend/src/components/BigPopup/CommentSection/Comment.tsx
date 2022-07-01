@@ -160,8 +160,6 @@ const Comment = ({
       text: data.commentText,
       author: userId,
       locationId,
-      // likes,
-      // dislikes,
       parentComment: id
     };
     sendComment(comment);

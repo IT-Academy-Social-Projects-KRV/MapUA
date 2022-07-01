@@ -41,8 +41,6 @@ const CommentForm = () => {
       author: userId,
       locationId: locationId!,
       text: commentText
-      // likes: [],
-      // dislikes: []
     };
 
     if (commentText) {

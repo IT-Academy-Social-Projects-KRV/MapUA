@@ -40,8 +40,6 @@ export type AddCommentType<T> = {
   author: T;
   locationId: string;
   text: string;
-  // likes: string[];
-  // dislikes: string[];
   createdAt?: Date;
   updatedAt?: Date;
 };
