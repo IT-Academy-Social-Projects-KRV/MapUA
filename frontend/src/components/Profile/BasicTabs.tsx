@@ -89,7 +89,6 @@ export default function BasicTabs({
           )}
           {(role === 'moderator' || role === 'admin') && (
             <Tab
-              // sx={{ width: '150px' }}
               label={t('profile.basicTabs.reportedLocations')}
               {...a11yProps(4)}
             />
