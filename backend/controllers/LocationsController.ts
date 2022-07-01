@@ -73,20 +73,20 @@ const LocationsController = {
         });
       }
 
-      // if (verifiedFiltersArray.length > 0) {
-      //   locations = locations.filter(l => {
-      //     return verifiedFiltersArray.some((el: string) => {
-      //       if (el === 'unverified') {
-      //         return (
-      //           el === l.verificationStatus ||
-      //           l.verificationStatus === 'waiting'
-      //         );
-      //       } else {
-      //         return el === l.verificationStatus;
-      //       }
-      //     });
-      //   });
-      // }
+      if (verifiedFiltersArray.length > 0) {
+        locations = locations.filter(l => {
+          return verifiedFiltersArray.some((el: string) => {
+            if (el === 'unverified') {
+              return (
+                el === l.verificationStatus ||
+                l.verificationStatus === 'waiting'
+              );
+            } else {
+              return el === l.verificationStatus;
+            }
+          });
+        });
+      }
 
       if (seasonalFiltersArray.length > 0) {
         locations = locations.filter(l => {

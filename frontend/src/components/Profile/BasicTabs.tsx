@@ -25,7 +25,7 @@ function TabPanel(props: React.PropsWithChildren<TabPanelProps>) {
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
-      sx={{ height: '300px', overflow: 'hidden' }}
+      sx={{ height: '300px', overflow: 'auto' }}
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
@@ -75,6 +75,7 @@ export default function BasicTabs({
         <Tabs
           value={value}
           onChange={handleChange}
+          variant="scrollable"
           aria-label="basic tabs example"
         >
           <Tab label={t('profile.basicTabs.description')} {...a11yProps(0)} />
@@ -88,7 +89,7 @@ export default function BasicTabs({
           )}
           {(role === 'moderator' || role === 'admin') && (
             <Tab
-              sx={{ width: '150px' }}
+              // sx={{ width: '150px' }}
               label={t('profile.basicTabs.reportedLocations')}
               {...a11yProps(4)}
             />
