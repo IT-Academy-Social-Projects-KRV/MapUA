@@ -383,6 +383,8 @@ const LocationsController = {
     }
   },
   async getTopLocations(req: Request, res: Response) {
+    const quantityInArray = 10;
+
     try {
       let locations = await Location.aggregate([
         {
@@ -398,7 +400,7 @@ const LocationsController = {
       ]);
       locations = locations.slice(
         0,
-        locations.length < 20 ? locations.length : 20
+        locations.length < quantityInArray ? locations.length : quantityInArray
       );
 
       return res.json(locations);
