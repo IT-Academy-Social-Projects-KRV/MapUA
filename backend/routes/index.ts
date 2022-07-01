@@ -9,6 +9,8 @@ import multer from 'multer';
 import { upload } from '../utils/upload';
 import {
   CommentSchema,
+  SendCommentSchema,
+  UpdateCommentRatingSchema,
   forgotPasswordSchema,
   postPersonalLocationSchema,
   updateLocationLikesSchema,
@@ -99,8 +101,8 @@ router.delete(
 
 router.post(
   '/comments/create',
-  // CommentSchema,
-  // validateRequest,
+  SendCommentSchema,
+  validateRequest,
   CommentsController.createLocationComment
 );
 router.get('/comments/:locationId', CommentsController.getLocationComments);
@@ -120,8 +122,8 @@ router.delete(
 
 router.patch(
   '/comments-rating/:id',
-  // CommentSchema,
-  // validateRequest,
+  UpdateCommentRatingSchema,
+  validateRequest,
   CommentsController.updateLocationCommentRatingById
 );
 

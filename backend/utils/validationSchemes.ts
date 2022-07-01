@@ -105,6 +105,61 @@ export const CommentSchema = [
     })
 ];
 
+export const UpdateCommentRatingSchema = [
+  body('comment').isObject().withMessage('Invalid format data'),
+  body('comment.likes')
+    .isArray()
+    .withMessage((value, { req, location, path }) => {
+      return req.t('location_comments.comment_not_have_properties', {
+        value,
+        location,
+        path
+      });
+    }),
+  body('comment.dislikes')
+    .isArray()
+    .withMessage((value, { req, location, path }) => {
+      return req.t('location_comments.comment_not_have_properties', {
+        value,
+        location,
+        path
+      });
+    })
+];
+
+export const SendCommentSchema = [
+  body('comment').isObject().withMessage('Invalid format data'),
+  body('comment.author')
+    .isString()
+    .withMessage((value, { req, location, path }) => {
+      return req.t('location_comments.comment_not_have_properties', {
+        value,
+        location,
+        path
+      });
+    }),
+  body('comment.locationId')
+    .isString()
+    .withMessage((value, { req, location, path }) => {
+      return req.t('location_comments.comment_not_have_properties', {
+        value,
+        location,
+        path
+      });
+    }),
+  body('comment.text')
+    .exists({ checkFalsy: true })
+    .isString()
+    .isLength({ min: 5, max: 500 })
+    .withMessage((value, { req, location, path }) => {
+      return req.t('location_comments.comment_length_error', {
+        value,
+        location,
+        path
+      });
+    })
+];
+
 export const updateLocationLikesSchema = [
   check('id').exists({ checkFalsy: true }).withMessage('Invalid id'),
   body('rating').isObject().withMessage('Invalid data format')
