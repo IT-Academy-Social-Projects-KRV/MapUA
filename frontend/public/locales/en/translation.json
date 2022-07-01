@@ -19,6 +19,7 @@
     "updateLocation": "Update location",
     "editLocation": "Edit location",
     "reportLocation": "Report location",
+    "declineReportLocation": "Decline report location",
     "deleteLocation": "Delete location",
     "complainToLocation": "Complain to location",
     "enterLocName": "Enter location name",
@@ -29,6 +30,7 @@
     "locationSuccessfullyCreated": "Location successfully created!",
     "locationSuccessfullyEdited": "Location successfully edited!",
     "locationSuccessfullyReported": "Location successfully reported!",
+    "locationSuccessfullyDeclineReport": "Location successfully get decline report!",
     "openComments": "Comments"
   },
   "profile": {
