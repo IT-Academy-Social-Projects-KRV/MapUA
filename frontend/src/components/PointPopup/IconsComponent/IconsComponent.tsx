@@ -18,7 +18,8 @@ import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTranslation } from 'react-i18next';
 import ReportIcon from '@mui/icons-material/Report';
 import EditIcon from '@mui/icons-material/Edit';
-import ReportIconModerator from '@mui/icons-material/ReportGmailerrorred';
+import ReportOffIcon from '@mui/icons-material/ReportOff';
+
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 
 type Props = {
@@ -45,7 +46,8 @@ export const IconsComponent: FC<Props> = ({
   locationId
 }) => {
   const { t } = useTranslation();
-  const { addReportToLocation, SetSuccessSnackbar } = useTypedDispatch();
+  const { addReportToLocation, deleteReportToLocation, SetSuccessSnackbar } =
+    useTypedDispatch();
   const { rating } = useTypedSelector(state => state.popupLocation.data);
   const { verificationStatus } = useTypedSelector(
     state => state.popupLocation.data
@@ -78,6 +80,14 @@ export const IconsComponent: FC<Props> = ({
       locationId,
       true,
       t('createLocation.locationSuccessfullyReported')
+    );
+  };
+
+  const deleteReport = () => {
+    deleteReportToLocation(
+      locationId,
+      false,
+      t('createLocation.locationSuccessfullyDeclineReport')
     );
   };
 
@@ -200,9 +210,20 @@ export const IconsComponent: FC<Props> = ({
         {(role === 'moderator' || role === 'admin') && (
           <MenuItem onClick={() => reportLocation()}>
             <ListItemIcon>
-              <ReportIconModerator fontSize="small" />
+              <ReportIcon fontSize="small" />
             </ListItemIcon>
             <ListItemText>{t('createLocation.reportLocation')}</ListItemText>
+          </MenuItem>
+        )}
+
+        {(role === 'moderator' || role === 'admin') && (
+          <MenuItem onClick={() => deleteReport()}>
+            <ListItemIcon>
+              <ReportOffIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>
+              {t('createLocation.declineReportLocation')}
+            </ListItemText>
           </MenuItem>
         )}
       </Menu>
