@@ -165,7 +165,7 @@ const PointPopup = ({ toggleClose }: Props) => {
             openDialog={openDialog}
             transmittHandlerFunction={handleDeleteClick}
             handleCloseDialog={handleCloseDialog}
-            deletingObject="location"
+            deletingObject={t('pointPopUp.alertdialogmessagedata')}
           />
           <Card>
             <LocationImageCarousel

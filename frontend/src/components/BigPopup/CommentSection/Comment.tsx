@@ -183,7 +183,9 @@ const Comment = ({
             openDialog={openDialog}
             transmittHandlerFunction={handleDeleteAndUpdate}
             handleCloseDialog={handleCloseDialog}
-            deletingObject="comment"
+            deletingObject={t(
+              'bigPopup.commentSection.commentSection.alertdialogmessagedata'
+            )}
           />
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Box sx={{ display: 'flex' }}>

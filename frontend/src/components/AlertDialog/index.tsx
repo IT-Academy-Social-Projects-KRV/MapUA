@@ -5,6 +5,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   openDialog: boolean;
@@ -18,30 +19,37 @@ const AlertDialog = ({
   transmittHandlerFunction,
   handleCloseDialog,
   deletingObject
-}: Props) => (
-  <div>
-    <Dialog
-      open={openDialog}
-      onClose={handleCloseDialog}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-    >
-      <DialogTitle id="alert-dialog-title">
-        You want to delete {deletingObject}?
-      </DialogTitle>
-      <DialogContent>
-        <DialogContentText id="alert-dialog-description">
-          This action will irreversibly and permanently delete {deletingObject}!
-          Are you sure you want to permanently delete this {deletingObject}?
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleCloseDialog}>Disagree</Button>
-        <Button onClick={transmittHandlerFunction} autoFocus>
-          Agree
-        </Button>
-      </DialogActions>
-    </Dialog>
-  </div>
-);
+}: Props) => {
+  const { t } = useTranslation();
+
+  return (
+    <div>
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {t('alertdialog.tiltequestion')} {deletingObject}?
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {t('alertdialog.message')}
+            {deletingObject}! {t('alertdialog.question')}
+            {deletingObject}?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog}>
+            {t('alertdialog.buttondisagree')}
+          </Button>
+          <Button onClick={transmittHandlerFunction} autoFocus>
+            {t('alertdialog.buttonagree')}
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
+};
 export default AlertDialog;

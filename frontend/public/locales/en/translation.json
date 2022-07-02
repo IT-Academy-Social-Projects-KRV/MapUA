@@ -137,7 +137,8 @@
         "hideAnswers": "Hide answers",
         "noComments": "There are no comments for this location yet",
         "deletedOriginalComment": "This comment has been deleted by the user",
-        "numberOfCommentars": "number of comments -"
+        "numberOfCommentars": "number of comments -",
+        "alertdialogmessagedata": "comment"
       }
     }
   },
@@ -150,7 +151,8 @@
     "removeFromVisited": "Remove from visited",
     "removeFromFavorite": "Remove from favorite",
     "addToFavorite": "Add to favorite",
-    "locationDelete": "Location successfully deleted"
+    "locationDelete": "Location successfully deleted",
+    "alertdialogmessagedata": "location"
   },
   "mainFilters": {
     "cost": "Cost",
@@ -189,5 +191,12 @@
     "topLocations": "Top Locations",
     "likes": "Likes",
     "locationsAdded": "Locations added"
+  },
+  "alertdialog": {
+    "tiltequestion": "You want to delete ",
+    "message": "This action will irreversibly and permanently delete ",
+    "question": "Are you sure you want to permanently delete this ",
+    "buttondisagree": "Disagree",
+    "buttonagree": "Agree"
   }
 }
