@@ -139,7 +139,8 @@
         "hideAnswers": "Приховати відповіді",
         "noComments": "Під цією локацією ще немає коментарів",
         "deletedOriginalComment": "Цей коментар був видалений користувачем",
-        "numberOfCommentars": "кількість коментарів - "
+        "numberOfCommentars": "кількість коментарів - ",
+        "alertdialogmessagedata": "коментар"
       }
     }
   },
@@ -152,7 +153,8 @@
     "removeFromVisited": "Видалити з відвіданих",
     "removeFromFavorite": "Видалити з обраних",
     "addToFavorite": "Додати до обраних",
-    "locationDelete": "Локація упсішно видалена"
+    "locationDelete": "Локація упсішно видалена",
+    "alertdialogmessagedata": "локацію"
   },
   "mainFilters": {
     "cost": "Вартість",
@@ -191,5 +193,12 @@
     "topLocations": "Топ локацій",
     "likes": "Вподобань",
     "locationsAdded": "Локацій додано"
+  },
+  "alertdialog": {
+    "tiltequestion": "Ви хочете видалити ",
+    "message": "Ця дія не може бути відмінена і остаточно видалить ",
+    "question": "Ви впевнені що ви хочете остаточно видалити ",
+    "buttondisagree": "Hi",
+    "buttonagree": "Так"
   }
 }
