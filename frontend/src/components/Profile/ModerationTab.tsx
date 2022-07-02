@@ -51,7 +51,9 @@ export const ModerationTab = ({ t, fetchLocationsForModeration }: Props) => {
               <Link to={`/${locationId}`}>
                 <Avatar src={locationPhoto || imageNotFound} />
               </Link>
-              <Link to={`/${locationId}`}>{locationName}</Link>
+              <Link to={`/${locationId}`} style={{ textDecoration: 'none' }}>
+                {locationName}
+              </Link>
             </StyledCardProfileTabs>
           </StyledTabComponentBox>
         )
