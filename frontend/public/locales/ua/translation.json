@@ -41,7 +41,9 @@
       "noDescription": "Опис відсутній",
       "noSubscribers": "Користувач не має підписників",
       "noSubscriptions": "Користувач не підписаний ні на кого",
-      "noWaitingForVerify": "Локації відсутні"
+      "noWaitingForVerify": "Локації відсутні",
+      "reportedLocations":"Локації на які поскаржилися",
+      "noReportedLocations":"Локації відсутні"
     },
     "profilePage": {
       "lostNetwork": "Проблеми зі зв'язком",

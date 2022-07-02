@@ -134,6 +134,15 @@ const LocationsController = {
       return res.status(500).json({ error: req.t('other.server_error'), err });
     }
   },
+  async getReportedLocations(req: Request, res: Response) {
+    try {
+      const locations = await Location.find({ reported: true });
+      console.log(locations);
+      return res.json({ locations });
+    } catch (err: any) {
+      return res.status(500).json({ error: req.t('other.server_error'), err });
+    }
+  },
   async getLocationById(req: Request, res: Response) {
     try {
       const id = req.params.id;
