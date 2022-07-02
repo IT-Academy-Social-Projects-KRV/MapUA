@@ -101,8 +101,7 @@ const CommentsController = {
   async updateLocationCommentRatingById(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      console.log('id', id);
-      console.log('req', req.body);
+
       const { comment: commentBody } = req.body;
 
       const comment = await Comment.findOneAndUpdate({ _id: id }, commentBody, {
