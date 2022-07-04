@@ -8,6 +8,7 @@ import {
   Collapse,
   Typography
 } from '@mui/material';
+import AlertDialog from 'components/AlertDialog';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useForm, useFormState } from 'react-hook-form';
@@ -30,6 +31,10 @@ const PointPopup = ({ toggleClose }: Props) => {
   const { t } = useTranslation();
   const [showEditPanel, setShowEditPanel] = useState(false);
   const [expanded, setExpanded] = useState(false);
+  const [openDialog, setOpen] = React.useState(false);
+
+  const handleCloseDialog = () => setOpen(false);
+  const handleOpenDialog = () => setOpen(true);
 
   const {
     updatePopupLocation,
@@ -89,6 +94,7 @@ const PointPopup = ({ toggleClose }: Props) => {
   const handleDeleteClick = () => {
     if (isAuthorized)
       deleteLocation(locationId, t('pointPopUp.locationDelete'));
+    handleCloseDialog();
   };
 
   const {
@@ -176,6 +182,12 @@ const PointPopup = ({ toggleClose }: Props) => {
         />
       ) : (
         <Box>
+          <AlertDialog
+            openDialog={openDialog}
+            transmittHandlerFunction={handleDeleteClick}
+            handleCloseDialog={handleCloseDialog}
+            deletingObject={t('pointPopUp.alertdialogmessagedata')}
+          />
           <Card>
             <LocationImageCarousel
               arrayPhotos={arrayPhotos}
@@ -195,7 +207,7 @@ const PointPopup = ({ toggleClose }: Props) => {
                   handleVisitedClick={handleVisitedClick}
                   editData={editData}
                   locationAuthorId={locationAuthorId}
-                  handleDeleteClick={handleDeleteClick}
+                  handleDeleteClick={handleOpenDialog}
                   locationId={locationId}
                 />
               </StyledPopupButtonsWrapper>

@@ -67,6 +67,12 @@ router.get(
   RoleChecker.restrictTo('moderator', 'admin'),
   LocationsController.getWaitingForVerifyLocations
 );
+router.get(
+  '/locations/reported',
+  passport.authenticate('jwt', { session: false }),
+  RoleChecker.restrictTo('moderator', 'admin'),
+  LocationsController.getReportedLocations
+);
 
 router.patch(
   '/update_location/:id',

@@ -81,6 +81,37 @@ export const fetchWaitingForVerifyLocations =
       throw new Error(error);
     }
   };
+export const fetchReportedLocations =
+  () => async (dispatch: Dispatch<LocationListActions>) => {
+    try {
+      dispatch({
+        type: LocationListActionsType.FETCH_LOCATION_LIST_LOADING
+      });
+
+      const url = `${REACT_APP_API_URI}locations/reported`;
+
+      const options = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept-Language': localStorage.getItem('i18nextLng') || ''
+        }
+      };
+      const { data } = await axios().get(url, options);
+
+      if (data) {
+        dispatch({
+          type: LocationListActionsType.FETCH_LOCATION_LIST_SUCCESS,
+          payload: data.locations
+        });
+      }
+    } catch (error: any) {
+      dispatch({
+        type: LocationListActionsType.FETCH_LOCATION_LIST_ERROR,
+        payload: 'Could not get location list'
+      });
+      throw new Error(error);
+    }
+  };
 
 export const fetchTopLocations =
   () => async (dispatch: Dispatch<LocationListActions>) => {

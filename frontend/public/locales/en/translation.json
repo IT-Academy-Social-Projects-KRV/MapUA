@@ -41,7 +41,9 @@
       "noDescription": "There is no description",
       "noSubscribers": "user has no subscribers",
       "noSubscriptions": "user has no subscriptions",
-      "noWaitingForVerify": "There is no locations"
+      "noWaitingForVerify": "There is no locations",
+      "reportedLocations": "reported locations",
+      "noReportedLocations": "There is no locations"
     },
     "profilePage": {
       "lostNetwork": "Lost Network",
@@ -137,7 +139,8 @@
         "hideAnswers": "Hide answers",
         "noComments": "There are no comments for this location yet",
         "deletedOriginalComment": "This comment has been deleted by the user",
-        "numberOfCommentars": "number of comments -"
+        "numberOfCommentars": "number of comments -",
+        "alertdialogmessagedata": "comment"
       }
     }
   },
@@ -152,7 +155,8 @@
     "addToFavorite": "Add to favorite",
     "locationDelete": "Location successfully deleted",
     "confirmVerification": "Confirm verification",
-    "declineVerification": "Decline verification"
+    "declineVerification": "Decline verification",
+    "alertdialogmessagedata": "location"
   },
   "mainFilters": {
     "cost": "Cost",
@@ -192,5 +196,12 @@
     "topLocations": "Top Locations",
     "likes": "Likes",
     "locationsAdded": "Locations added"
+  },
+  "alertdialog": {
+    "tiltequestion": "You want to delete ",
+    "message": "This action will irreversibly and permanently delete ",
+    "question": "Are you sure you want to permanently delete this ",
+    "buttondisagree": "Disagree",
+    "buttonagree": "Agree"
   }
 }
