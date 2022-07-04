@@ -112,7 +112,13 @@ const LocationsController = {
       } else {
         if (verifiedFiltersArray.some((el: string) => el === 'verified') &&
             verifiedFiltersArray.every((el: string) => el !== 'unverified')){
-          locations = locations.sort((l1, l2): number => l2.rating.likes.length - l1.rating.likes.length);
+          locations = locations.sort((l1, l2): number => {
+            const l1Likes = l1.rating.likes.length,
+                  l1Dislikes = l1.rating.dislikes.length,
+                  l2Likes = l2.rating.likes.length,
+                  l2Dislikes = l2.rating.dislikes.length;
+            return l2Likes/(l2Likes + l2Dislikes) - l1Likes/(l1Likes + l1Dislikes);
+          });
           locations = locations.slice(
               0,
               locations.length < 50 ? locations.length : 50
