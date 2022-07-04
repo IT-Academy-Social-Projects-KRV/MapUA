@@ -25,7 +25,7 @@ const CommentsController = {
       const { _id: newCommentId } = await newComment.save();
       const comment = await Comment.findById(newCommentId).populate({
         path: 'author',
-        select: 'displayName imageUrl'
+        select: 'displayName imageUrl role'
       });
       return res.status(200).json({
         message: req.t('location_comments.comment_add_success'),
@@ -50,7 +50,7 @@ const CommentsController = {
         }
       ).populate({
         path: 'author',
-        select: 'displayName imageUrl'
+        select: 'displayName imageUrl role'
       });
 
       res.status(200).json({
@@ -66,7 +66,7 @@ const CommentsController = {
     try {
       const comment = await Comment.findById({ _id: req.params.id }).populate({
         path: 'author',
-        select: 'displayName imageUrl'
+        select: 'displayName imageUrl role'
       });
 
       if (!comment) {
@@ -108,7 +108,7 @@ const CommentsController = {
         new: true
       }).populate({
         path: 'author',
-        select: 'displayName imageUrl'
+        select: 'displayName imageUrl role'
       });
 
       res.status(200).json({
