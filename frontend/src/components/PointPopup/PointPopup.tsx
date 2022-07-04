@@ -8,6 +8,7 @@ import {
   Collapse,
   Typography
 } from '@mui/material';
+import AlertDialog from 'components/AlertDialog';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useForm, useFormState } from 'react-hook-form';
@@ -30,6 +31,10 @@ const PointPopup = ({ toggleClose }: Props) => {
   const { t } = useTranslation();
   const [showEditPanel, setShowEditPanel] = useState(false);
   const [expanded, setExpanded] = useState(false);
+  const [openDialog, setOpen] = React.useState(false);
+
+  const handleCloseDialog = () => setOpen(false);
+  const handleOpenDialog = () => setOpen(true);
 
   const {
     updatePopupLocation,
@@ -42,6 +47,10 @@ const PointPopup = ({ toggleClose }: Props) => {
 
   const { isAuthorized } = useTypedSelector(
     state => state.isUserAuthorized.data
+  );
+
+  const { verificationStatus } = useTypedSelector(
+    state => state.popupLocation.data
   );
 
   const {
@@ -85,6 +94,7 @@ const PointPopup = ({ toggleClose }: Props) => {
   const handleDeleteClick = () => {
     if (isAuthorized)
       deleteLocation(locationId, t('pointPopUp.locationDelete'));
+    handleCloseDialog();
   };
 
   const {
@@ -107,7 +117,7 @@ const PointPopup = ({ toggleClose }: Props) => {
     type: 'likes' | 'dislikes'
   ) => {
     e.preventDefault();
-    const updatedRating = { ...rating };
+    const updatedRating = { ...rating, verificationStatus };
     if (rating[type].includes(userId)) {
       updatedRating[type] = updatedRating[type].filter(
         value => value !== userId
@@ -123,7 +133,24 @@ const PointPopup = ({ toggleClose }: Props) => {
         value => value !== userId
       );
     }
-    return updatePopupLocation(locationId, { rating: updatedRating });
+
+    let status = verificationStatus;
+
+    if (
+      updatedRating.likes.length >= 5 &&
+      verificationStatus === 'unverified'
+    ) {
+      status = 'waiting';
+    } else if (
+      updatedRating.likes.length < 5 &&
+      verificationStatus === 'waiting'
+    ) {
+      status = 'unverified';
+    }
+    return updatePopupLocation(locationId, {
+      rating: updatedRating,
+      verificationStatus: status
+    });
   };
 
   const editData = () => {
@@ -155,6 +182,12 @@ const PointPopup = ({ toggleClose }: Props) => {
         />
       ) : (
         <Box>
+          <AlertDialog
+            openDialog={openDialog}
+            transmittHandlerFunction={handleDeleteClick}
+            handleCloseDialog={handleCloseDialog}
+            deletingObject={t('pointPopUp.alertdialogmessagedata')}
+          />
           <Card>
             <LocationImageCarousel
               arrayPhotos={arrayPhotos}
@@ -174,7 +207,7 @@ const PointPopup = ({ toggleClose }: Props) => {
                   handleVisitedClick={handleVisitedClick}
                   editData={editData}
                   locationAuthorId={locationAuthorId}
-                  handleDeleteClick={handleDeleteClick}
+                  handleDeleteClick={handleOpenDialog}
                   locationId={locationId}
                 />
               </StyledPopupButtonsWrapper>

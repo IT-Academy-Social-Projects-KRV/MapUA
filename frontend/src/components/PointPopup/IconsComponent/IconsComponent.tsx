@@ -14,19 +14,21 @@ import TourOutlinedIcon from '@mui/icons-material/TourOutlined';
 import TourIcon from '@mui/icons-material/Tour';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VerifiedIcon from '@mui/icons-material/Verified';
+import AutorenewIcon from '@mui/icons-material/Autorenew';
+import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTranslation } from 'react-i18next';
 import ReportIcon from '@mui/icons-material/Report';
 import EditIcon from '@mui/icons-material/Edit';
 import ReportOffIcon from '@mui/icons-material/ReportOff';
-
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
+import ConfirmOrDecline from './ConfirmOrDecline';
 
 type Props = {
   handleRating: Function;
   handleFavoriteClick: MouseEventHandler<HTMLButtonElement>;
   handleVisitedClick: MouseEventHandler<HTMLButtonElement>;
-  handleDeleteClick: any;
+  handleDeleteClick: MouseEventHandler<HTMLLIElement>;
   locationIsFavorite: boolean | '' | undefined;
   locationIsVisited: boolean | '' | undefined;
   editData: any;
@@ -46,7 +48,7 @@ export const IconsComponent: FC<Props> = ({
   locationId
 }) => {
   const { t } = useTranslation();
-  const { addReportToLocation, deleteReportToLocation, SetSuccessSnackbar } =
+  const { addReportToLocation, deleteReportToLocation, SetSuccessSnackbar, updatePopupLocation} =
     useTypedDispatch();
   const { rating } = useTypedSelector(state => state.popupLocation.data);
   const { verificationStatus } = useTypedSelector(
@@ -67,9 +69,11 @@ export const IconsComponent: FC<Props> = ({
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   const copyToClipBoard = async () => {
     const params = new URLSearchParams(window.location.search);
     const path = `http://localhost:3000/?${params.toString()}`;
@@ -91,6 +95,12 @@ export const IconsComponent: FC<Props> = ({
       false,
       t('createLocation.locationSuccessfullyDeclineReport')
     );
+
+  const handleConfirmOrDeclineVerification = (status: string) => {
+    updatePopupLocation(locationId, {
+      rating,
+      verificationStatus: status
+    });
   };
 
   return (
@@ -99,6 +109,13 @@ export const IconsComponent: FC<Props> = ({
         <Tooltip title={t('mainFilters.verifiedValues.verified')}>
           <IconButton>
             <VerifiedIcon color="primary" />
+          </IconButton>
+        </Tooltip>
+      ) : null}
+      {verificationStatus === 'waiting' ? (
+        <Tooltip title={t('mainFilters.verifiedValues.waiting')}>
+          <IconButton>
+            <AutorenewIcon color="primary" />
           </IconButton>
         </Tooltip>
       ) : null}
@@ -192,6 +209,14 @@ export const IconsComponent: FC<Props> = ({
             </ListItemIcon>
             <ListItemText>{t('createLocation.deleteLocation')}</ListItemText>
           </MenuItem>
+        )}
+        {((role === 'moderator' && verificationStatus === 'waiting') ||
+          (role === 'admin' && verificationStatus === 'waiting')) && (
+          <ConfirmOrDecline
+            handleConfirmOrDeclineVerification={
+              handleConfirmOrDeclineVerification
+            }
+          />
         )}
 
         {locationAuthorId?._id === userId && (
