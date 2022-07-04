@@ -20,11 +20,7 @@ import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTranslation } from 'react-i18next';
 import ReportIcon from '@mui/icons-material/Report';
 import EditIcon from '@mui/icons-material/Edit';
-<<<<<<< HEAD
-// import ReportIconModerator from '@mui/icons-material/ReportGmailerrorred';
-=======
 import ReportOffIcon from '@mui/icons-material/ReportOff';
->>>>>>> f07c784d6fba0da146f86317b8463478c244ec69
 import ConfirmOrDecline from './ConfirmOrDecline';
 
 type Props = {
@@ -51,17 +47,12 @@ export const IconsComponent = ({
   locationId
 }: Props) => {
   const { t } = useTranslation();
-<<<<<<< HEAD
-  const { addReportToLocation, SetSuccessSnackbar, updatePopupLocation } =
-    useTypedDispatch();
-=======
   const {
     addReportToLocation,
     deleteReportToLocation,
     SetSuccessSnackbar,
     updatePopupLocation
   } = useTypedDispatch();
->>>>>>> f07c784d6fba0da146f86317b8463478c244ec69
   const { rating } = useTypedSelector(state => state.popupLocation.data);
   const { verificationStatus } = useTypedSelector(
     state => state.popupLocation.data
@@ -101,8 +92,6 @@ export const IconsComponent = ({
     );
   };
 
-<<<<<<< HEAD
-=======
   const deleteReport = () => {
     deleteReportToLocation(
       locationId,
@@ -111,7 +100,6 @@ export const IconsComponent = ({
     );
   };
 
->>>>>>> f07c784d6fba0da146f86317b8463478c244ec69
   const handleConfirmOrDeclineVerification = (status: string) => {
     updatePopupLocation(locationId, {
       rating,
