@@ -1,5 +1,6 @@
 import { Avatar, Box } from '@mui/material';
 import { StyledTabComponentBox } from 'components/design/StyledTabComponentBox';
+import { StyledCardProfileTabs } from 'components/design/StyledCardProfileTabs';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { getPath } from 'utils/createPath';
@@ -19,15 +20,17 @@ const ProfileTabsData = ({ array }: Props) => {
     <Box>
       {array.map((s: any) => (
         <StyledTabComponentBox key={v4()}>
-          <Link to={getPath(_id, s?._id)}>
-            <Avatar
-              aria-label="User"
-              src={(s && s.imageUrl) || userImageNotFound}
-            />
-          </Link>
-          <Link to={getPath(_id, s?._id)}>
-            {(s && s.displayName) || 'undefined'}
-          </Link>
+          <StyledCardProfileTabs>
+            <Link to={getPath(_id, s?._id)}>
+              <Avatar
+                aria-label="User"
+                src={(s && s.imageUrl) || userImageNotFound}
+              />
+            </Link>
+            <Link to={getPath(_id, s?._id)} style={{ textDecoration: 'none' }}>
+              {(s && s.displayName) || 'undefined'}
+            </Link>
+          </StyledCardProfileTabs>
         </StyledTabComponentBox>
       ))}
     </Box>
