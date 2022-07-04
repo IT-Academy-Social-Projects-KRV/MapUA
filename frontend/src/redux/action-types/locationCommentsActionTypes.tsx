@@ -6,7 +6,8 @@ export enum LocationCommentsActionTypes {
   ADD_COMMENT = 'ADD_COMMENT',
   FETCH_COMMENTS = 'FETCH_COMMENTS',
   DELETE_COMMENT = 'DELETE_COMMENT',
-  EDIT_COMMENT = 'EDIT_COMMENT'
+  EDIT_COMMENT = 'EDIT_COMMENT',
+  EDIT_COMMENT_RATING = 'EDIT_COMMENT_RATING'
 }
 
 interface AddCommentAction {
@@ -29,8 +30,14 @@ interface DeleteCommentsAction {
   payload: CommentType<AuthorInfoType>;
 }
 
+interface EditCommentRatingAction {
+  type: LocationCommentsActionTypes.EDIT_COMMENT_RATING;
+  payload: CommentType<AuthorInfoType>;
+}
+
 export type LocationCommentsActions =
   | AddCommentAction
   | FetchCommentsAction
   | EditCommentAction
-  | DeleteCommentsAction;
+  | DeleteCommentsAction
+  | EditCommentRatingAction;

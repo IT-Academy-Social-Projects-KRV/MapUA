@@ -451,6 +451,21 @@ paths:
                 items:
                 $ref: '#/components/schemas/Comment'
 
+  /comments-rating/:id:
+    patch:
+      tags:
+        - 'Comments'
+      summary: 'Updates comments rating (likes and dislikes) by comment id'
+      responses:
+        '200':
+          description: 'Comments list with updated comment rating (likes and dislikes)'
+          content:
+            aplication/json:
+              schema:
+                type: 'object'
+                items:
+                $ref: '#/components/schemas/Comment'
+
   /google/callback:
     get:
       tags:
