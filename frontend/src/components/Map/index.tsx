@@ -74,12 +74,6 @@ function Map({
     locationId
   ]);
 
-  useEffect(() => {
-    if (!locationId) {
-      setLocationName('');
-    }
-  }, [locationId]);
-
   return (
     <StyledMapWrapper ref={formRef}>
       <StyledMapContainer
