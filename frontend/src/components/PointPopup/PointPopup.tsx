@@ -49,6 +49,10 @@ const PointPopup = ({ toggleClose }: Props) => {
     state => state.isUserAuthorized.data
   );
 
+  const { verificationStatus } = useTypedSelector(
+    state => state.popupLocation.data
+  );
+
   const {
     _id: userId,
     favorite,
@@ -113,7 +117,7 @@ const PointPopup = ({ toggleClose }: Props) => {
     type: 'likes' | 'dislikes'
   ) => {
     e.preventDefault();
-    const updatedRating = { ...rating };
+    const updatedRating = { ...rating, verificationStatus };
     if (rating[type].includes(userId)) {
       updatedRating[type] = updatedRating[type].filter(
         value => value !== userId
@@ -129,7 +133,24 @@ const PointPopup = ({ toggleClose }: Props) => {
         value => value !== userId
       );
     }
-    return updatePopupLocation(locationId, { rating: updatedRating });
+
+    let status = verificationStatus;
+
+    if (
+      updatedRating.likes.length >= 5 &&
+      verificationStatus === 'unverified'
+    ) {
+      status = 'waiting';
+    } else if (
+      updatedRating.likes.length < 5 &&
+      verificationStatus === 'waiting'
+    ) {
+      status = 'unverified';
+    }
+    return updatePopupLocation(locationId, {
+      rating: updatedRating,
+      verificationStatus: status
+    });
   };
 
   const editData = () => {

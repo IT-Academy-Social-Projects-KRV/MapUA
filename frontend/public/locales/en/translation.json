@@ -155,6 +155,8 @@
     "removeFromFavorite": "Remove from favorite",
     "addToFavorite": "Add to favorite",
     "locationDelete": "Location successfully deleted",
+    "confirmVerification": "Confirm verification",
+    "declineVerification": "Decline verification",
     "alertdialogmessagedata": "location"
   },
   "mainFilters": {
@@ -176,7 +178,8 @@
     "verified": "Verified locations",
     "verifiedValues": {
       "verified": "verified",
-      "unverified": "unverified"
+      "unverified": "unverified",
+      "waiting": "waiting to verify"
     },
     "personal": "Personal",
     "personalValues": {
