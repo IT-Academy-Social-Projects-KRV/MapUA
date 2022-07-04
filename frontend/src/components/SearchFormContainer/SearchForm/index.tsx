@@ -12,6 +12,7 @@ function SearchForm() {
   const searchQuery = searchParams.get('locationName');
   const { setLocationName } = useTypedDispatch();
   const { locationName } = useTypedSelector(state => state.mapInfo);
+  console.log(locationName);
   const handleChange = (e: any): void => {
     setLocationName(e.target.value);
     const query = e.target.value;
