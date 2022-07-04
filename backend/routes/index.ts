@@ -10,6 +10,8 @@ import RoleChecker from '../middlewares/RoleChecker';
 import { upload } from '../utils/upload';
 import {
   CommentSchema,
+  SendCommentSchema,
+  UpdateCommentRatingSchema,
   forgotPasswordSchema,
   postPersonalLocationSchema,
   updateLocationLikesSchema,
@@ -113,7 +115,7 @@ router.delete(
 
 router.post(
   '/comments/create',
-  CommentSchema,
+  SendCommentSchema,
   validateRequest,
   CommentsController.createLocationComment
 );
@@ -130,6 +132,13 @@ router.delete(
   '/comments/:id',
   passport.authenticate('jwt', { session: false }),
   CommentsController.deleteLocationComment
+);
+
+router.patch(
+  '/comments-rating/:id',
+  UpdateCommentRatingSchema,
+  validateRequest,
+  CommentsController.updateLocationCommentRatingById
 );
 
 router.get(

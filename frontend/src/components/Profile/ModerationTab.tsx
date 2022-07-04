@@ -2,6 +2,7 @@ import { Avatar } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
+import { StyledCardProfileTabs } from 'components/design/StyledCardProfileTabs';
 import { Link, useNavigate } from 'react-router-dom';
 import { StyledTabComponentBox } from 'components/design/StyledTabComponentBox';
 import CircularLoader from '../CircularLoader/CircularLoader';
@@ -46,10 +47,14 @@ export const ModerationTab = ({ t, fetchLocationsForModeration }: Props) => {
             onClick={() => redirectToLocation(locationId, locationName)}
             key={locationId}
           >
-            <Link to={`/${locationId}`}>
-              <Avatar src={locationPhoto || imageNotFound} />
-            </Link>
-            <Link to={`/${locationId}`}>{locationName}</Link>
+            <StyledCardProfileTabs>
+              <Link to={`/${locationId}`}>
+                <Avatar src={locationPhoto || imageNotFound} />
+              </Link>
+              <Link to={`/${locationId}`} style={{ textDecoration: 'none' }}>
+                {locationName}
+              </Link>
+            </StyledCardProfileTabs>
           </StyledTabComponentBox>
         )
       )}

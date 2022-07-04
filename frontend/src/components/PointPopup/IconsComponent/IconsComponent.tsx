@@ -1,4 +1,4 @@
-import React, { FC, MouseEventHandler } from 'react';
+import React, { MouseEventHandler } from 'react';
 import { IconButton, ListItemIcon, ListItemText, Tooltip } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -20,7 +20,11 @@ import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTranslation } from 'react-i18next';
 import ReportIcon from '@mui/icons-material/Report';
 import EditIcon from '@mui/icons-material/Edit';
+<<<<<<< HEAD
 // import ReportIconModerator from '@mui/icons-material/ReportGmailerrorred';
+=======
+import ReportOffIcon from '@mui/icons-material/ReportOff';
+>>>>>>> f07c784d6fba0da146f86317b8463478c244ec69
 import ConfirmOrDecline from './ConfirmOrDecline';
 
 type Props = {
@@ -35,7 +39,7 @@ type Props = {
   locationId: any;
 };
 
-export const IconsComponent: FC<Props> = ({
+export const IconsComponent = ({
   handleRating,
   handleFavoriteClick,
   locationIsFavorite,
@@ -45,16 +49,27 @@ export const IconsComponent: FC<Props> = ({
   locationAuthorId,
   handleDeleteClick,
   locationId
-}) => {
+}: Props) => {
   const { t } = useTranslation();
+<<<<<<< HEAD
   const { addReportToLocation, SetSuccessSnackbar, updatePopupLocation } =
     useTypedDispatch();
+=======
+  const {
+    addReportToLocation,
+    deleteReportToLocation,
+    SetSuccessSnackbar,
+    updatePopupLocation
+  } = useTypedDispatch();
+>>>>>>> f07c784d6fba0da146f86317b8463478c244ec69
   const { rating } = useTypedSelector(state => state.popupLocation.data);
   const { verificationStatus } = useTypedSelector(
     state => state.popupLocation.data
   );
 
-  const { author } = useTypedSelector(state => state.popupLocation.data);
+  const { author, reported } = useTypedSelector(
+    state => state.popupLocation.data
+  );
   const { _id: userId } = useTypedSelector(state => state.userData.data);
   const { isAuthorized } = useTypedSelector(
     state => state.isUserAuthorized.data
@@ -86,6 +101,17 @@ export const IconsComponent: FC<Props> = ({
     );
   };
 
+<<<<<<< HEAD
+=======
+  const deleteReport = () => {
+    deleteReportToLocation(
+      locationId,
+      false,
+      t('createLocation.locationSuccessfullyDeclineReport')
+    );
+  };
+
+>>>>>>> f07c784d6fba0da146f86317b8463478c244ec69
   const handleConfirmOrDeclineVerification = (status: string) => {
     updatePopupLocation(locationId, {
       rating,
@@ -218,12 +244,23 @@ export const IconsComponent: FC<Props> = ({
           </MenuItem>
         )}
 
-        {(role === 'user' || role === 'moderator' || role === 'admin') && (
+        {isAuthorized && (
           <MenuItem onClick={() => reportLocation()}>
             <ListItemIcon>
               <ReportIcon fontSize="small" />
             </ListItemIcon>
             <ListItemText>{t('createLocation.reportLocation')}</ListItemText>
+          </MenuItem>
+        )}
+
+        {reported && (role === 'moderator' || role === 'admin') && (
+          <MenuItem onClick={() => deleteReport()}>
+            <ListItemIcon>
+              <ReportOffIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>
+              {t('createLocation.declineReportLocation')}
+            </ListItemText>
           </MenuItem>
         )}
       </Menu>

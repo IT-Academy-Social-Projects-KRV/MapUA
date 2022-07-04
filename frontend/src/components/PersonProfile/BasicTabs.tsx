@@ -22,7 +22,11 @@ function TabPanel(props: React.PropsWithChildren<TabPanelProps>) {
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
-      sx={{ height: '300px', overflow: 'auto' }}
+      sx={{
+        height: '60vh',
+        overflow: 'auto',
+        borderBottom: '1px solid rgba(0, 0, 0, 0.17)'
+      }}
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
