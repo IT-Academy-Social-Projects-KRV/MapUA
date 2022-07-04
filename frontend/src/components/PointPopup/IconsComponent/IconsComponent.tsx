@@ -20,7 +20,8 @@ import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTranslation } from 'react-i18next';
 import ReportIcon from '@mui/icons-material/Report';
 import EditIcon from '@mui/icons-material/Edit';
-// import ReportIconModerator from '@mui/icons-material/ReportGmailerrorred';
+import ReportOffIcon from '@mui/icons-material/ReportOff';
+import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import ConfirmOrDecline from './ConfirmOrDecline';
 
 type Props = {
@@ -47,14 +48,16 @@ export const IconsComponent: FC<Props> = ({
   locationId
 }) => {
   const { t } = useTranslation();
-  const { addReportToLocation, SetSuccessSnackbar, updatePopupLocation } =
+  const { addReportToLocation, deleteReportToLocation, SetSuccessSnackbar, updatePopupLocation} =
     useTypedDispatch();
   const { rating } = useTypedSelector(state => state.popupLocation.data);
   const { verificationStatus } = useTypedSelector(
     state => state.popupLocation.data
   );
 
-  const { author } = useTypedSelector(state => state.popupLocation.data);
+  const { author, reported } = useTypedSelector(
+    state => state.popupLocation.data
+  );
   const { _id: userId } = useTypedSelector(state => state.userData.data);
   const { isAuthorized } = useTypedSelector(
     state => state.isUserAuthorized.data
@@ -85,6 +88,13 @@ export const IconsComponent: FC<Props> = ({
       t('createLocation.locationSuccessfullyReported')
     );
   };
+
+  const deleteReport = () => {
+    deleteReportToLocation(
+      locationId,
+      false,
+      t('createLocation.locationSuccessfullyDeclineReport')
+    );
 
   const handleConfirmOrDeclineVerification = (status: string) => {
     updatePopupLocation(locationId, {
@@ -218,12 +228,23 @@ export const IconsComponent: FC<Props> = ({
           </MenuItem>
         )}
 
-        {(role === 'user' || role === 'moderator' || role === 'admin') && (
+        {isAuthorized && (
           <MenuItem onClick={() => reportLocation()}>
             <ListItemIcon>
               <ReportIcon fontSize="small" />
             </ListItemIcon>
             <ListItemText>{t('createLocation.reportLocation')}</ListItemText>
+          </MenuItem>
+        )}
+
+        {reported && (role === 'moderator' || role === 'admin') && (
+          <MenuItem onClick={() => deleteReport()}>
+            <ListItemIcon>
+              <ReportOffIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>
+              {t('createLocation.declineReportLocation')}
+            </ListItemText>
           </MenuItem>
         )}
       </Menu>
