@@ -1,4 +1,4 @@
-import React, { FC, MouseEventHandler } from 'react';
+import React, { MouseEventHandler } from 'react';
 import { IconButton, ListItemIcon, ListItemText, Tooltip } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -21,7 +21,6 @@ import { useTranslation } from 'react-i18next';
 import ReportIcon from '@mui/icons-material/Report';
 import EditIcon from '@mui/icons-material/Edit';
 import ReportOffIcon from '@mui/icons-material/ReportOff';
-import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import ConfirmOrDecline from './ConfirmOrDecline';
 
 type Props = {
@@ -36,7 +35,7 @@ type Props = {
   locationId: any;
 };
 
-export const IconsComponent: FC<Props> = ({
+export const IconsComponent = ({
   handleRating,
   handleFavoriteClick,
   locationIsFavorite,
@@ -46,10 +45,14 @@ export const IconsComponent: FC<Props> = ({
   locationAuthorId,
   handleDeleteClick,
   locationId
-}) => {
+}: Props) => {
   const { t } = useTranslation();
-  const { addReportToLocation, deleteReportToLocation, SetSuccessSnackbar, updatePopupLocation} =
-    useTypedDispatch();
+  const {
+    addReportToLocation,
+    deleteReportToLocation,
+    SetSuccessSnackbar,
+    updatePopupLocation
+  } = useTypedDispatch();
   const { rating } = useTypedSelector(state => state.popupLocation.data);
   const { verificationStatus } = useTypedSelector(
     state => state.popupLocation.data
@@ -95,6 +98,7 @@ export const IconsComponent: FC<Props> = ({
       false,
       t('createLocation.locationSuccessfullyDeclineReport')
     );
+  };
 
   const handleConfirmOrDeclineVerification = (status: string) => {
     updatePopupLocation(locationId, {

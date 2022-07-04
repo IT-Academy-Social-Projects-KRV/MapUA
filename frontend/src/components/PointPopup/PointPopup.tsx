@@ -1,13 +1,6 @@
 import CommentSection from 'components/BigPopup/CommentSection/CommentSection';
 import React, { useState, MouseEvent, useEffect } from 'react';
-import {
-  Box,
-  Card,
-  CardContent,
-  // CardMedia,
-  Collapse,
-  Typography
-} from '@mui/material';
+import { Box, Card, CardContent, Collapse, Typography } from '@mui/material';
 import AlertDialog from 'components/AlertDialog';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
