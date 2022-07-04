@@ -56,7 +56,8 @@ const LocationsController = {
         arrayPhotos: l.arrayPhotos,
         filters: l.filters,
         author: l.author,
-        verificationStatus: l.verificationStatus
+        verificationStatus: l.verificationStatus,
+        rating: l.rating
       }));
 
       if (searchName) {
@@ -109,10 +110,14 @@ const LocationsController = {
           );
         });
       } else {
-        locations = locations.slice(
-          0,
-          locations.length < 50 ? locations.length : 50
-        );
+        if (verifiedFiltersArray.some((el: string) => el === 'verified') &&
+            verifiedFiltersArray.every((el: string) => el !== 'unverified')){
+          locations = locations.sort((l1, l2): number => l2.rating.likes.length - l1.rating.likes.length);
+          locations = locations.slice(
+              0,
+              locations.length < 50 ? locations.length : 50
+          );
+        }
       }
 
       if (!locations) {
