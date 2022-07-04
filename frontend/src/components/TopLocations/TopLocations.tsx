@@ -8,6 +8,7 @@ import {
   ListItemAvatar,
   ListItemText
 } from '@mui/material';
+import { StyledCardTopRated } from 'components/design/StyledCardTopRated';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
@@ -37,28 +38,30 @@ const TopLocations = () => {
       <h2 style={{ textAlign: 'center' }}>{t('topList.topLocations')}</h2>
       <List>
         {topLocations.data.map((location: topLocationType) => (
-          <ListItem key={location._id}>
-            <Link
-              sx={{ cursor: 'pointer' }}
-              onClick={() => redirect(location.locationName)}
-            >
-              <ListItemAvatar>
-                <Avatar src={location.arrayPhotos[0]} />
-              </ListItemAvatar>
-            </Link>
-            <Link
-              sx={{ cursor: 'pointer' }}
-              onClick={() => redirect(location.locationName)}
-            >
-              <ListItemText
-                primary={location.locationName}
-                sx={{ pr: '10px' }}
-              />
-            </Link>
-            <div>
-              {t('topList.likes')} {location.likes}
-            </div>
-          </ListItem>
+          <StyledCardTopRated key={location._id}>
+            <ListItem>
+              <Link
+                sx={{ cursor: 'pointer' }}
+                onClick={() => redirect(location.locationName)}
+              >
+                <ListItemAvatar>
+                  <Avatar src={location.arrayPhotos[0]} />
+                </ListItemAvatar>
+              </Link>
+              <Link
+                sx={{ cursor: 'pointer' }}
+                onClick={() => redirect(location.locationName)}
+              >
+                <ListItemText
+                  primary={location.locationName}
+                  sx={{ pr: '10px' }}
+                />
+              </Link>
+              <div>
+                {t('topList.likes')} {location.likes}
+              </div>
+            </ListItem>
+          </StyledCardTopRated>
         ))}
       </List>
     </Box>

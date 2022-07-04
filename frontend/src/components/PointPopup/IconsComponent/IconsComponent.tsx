@@ -20,14 +20,14 @@ import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTranslation } from 'react-i18next';
 import ReportIcon from '@mui/icons-material/Report';
 import EditIcon from '@mui/icons-material/Edit';
-import ReportIconModerator from '@mui/icons-material/ReportGmailerrorred';
+// import ReportIconModerator from '@mui/icons-material/ReportGmailerrorred';
 import ConfirmOrDecline from './ConfirmOrDecline';
 
 type Props = {
   handleRating: Function;
   handleFavoriteClick: MouseEventHandler<HTMLButtonElement>;
   handleVisitedClick: MouseEventHandler<HTMLButtonElement>;
-  handleDeleteClick: any;
+  handleDeleteClick: MouseEventHandler<HTMLLIElement>;
   locationIsFavorite: boolean | '' | undefined;
   locationIsVisited: boolean | '' | undefined;
   editData: any;
@@ -190,12 +190,6 @@ export const IconsComponent: FC<Props> = ({
           'aria-labelledby': 'basic-button'
         }}
       >
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon onClick={() => null}>
-            <ReportIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText>{t('createLocation.complainToLocation')}</ListItemText>
-        </MenuItem>
         {((author && author._id === userId) ||
           role === 'moderator' ||
           role === 'admin') && (
@@ -224,10 +218,10 @@ export const IconsComponent: FC<Props> = ({
           </MenuItem>
         )}
 
-        {(role === 'moderator' || role === 'admin') && (
+        {(role === 'user' || role === 'moderator' || role === 'admin') && (
           <MenuItem onClick={() => reportLocation()}>
             <ListItemIcon>
-              <ReportIconModerator fontSize="small" />
+              <ReportIcon fontSize="small" />
             </ListItemIcon>
             <ListItemText>{t('createLocation.reportLocation')}</ListItemText>
           </MenuItem>
