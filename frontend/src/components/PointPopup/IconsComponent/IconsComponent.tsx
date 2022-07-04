@@ -53,7 +53,9 @@ export const IconsComponent: FC<Props> = ({
     state => state.popupLocation.data
   );
 
-  const { author } = useTypedSelector(state => state.popupLocation.data);
+  const { author, reported } = useTypedSelector(
+    state => state.popupLocation.data
+  );
   const { _id: userId } = useTypedSelector(state => state.userData.data);
   const { isAuthorized } = useTypedSelector(
     state => state.isUserAuthorized.data
@@ -201,7 +203,7 @@ export const IconsComponent: FC<Props> = ({
           </MenuItem>
         )}
 
-        {(role === 'user' || role === 'moderator' || role === 'admin') && (
+        {isAuthorized && (
           <MenuItem onClick={() => reportLocation()}>
             <ListItemIcon>
               <ReportIcon fontSize="small" />
@@ -210,7 +212,7 @@ export const IconsComponent: FC<Props> = ({
           </MenuItem>
         )}
 
-        {(role === 'moderator' || role === 'admin') && (
+        {reported && (role === 'moderator' || role === 'admin') && (
           <MenuItem onClick={() => deleteReport()}>
             <ListItemIcon>
               <ReportOffIcon fontSize="small" />
