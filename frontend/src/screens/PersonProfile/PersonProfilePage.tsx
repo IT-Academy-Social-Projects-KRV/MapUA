@@ -12,9 +12,9 @@ import {
   ProfileFormWrapper,
   ProfileUserWrapper,
   SubsrcibeButton
-} from '../design/StyledProfile';
+} from '../../components/design/StyledProfile';
 import BasicTabs from './BasicTabs';
-import CircularLoader from '../CircularLoader/CircularLoader';
+import CircularLoader from '../../components/CircularLoader/CircularLoader';
 
 export default function PersonProfilePage() {
   const { t } = useTranslation();

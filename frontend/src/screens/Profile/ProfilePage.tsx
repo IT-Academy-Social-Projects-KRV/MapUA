@@ -25,7 +25,7 @@ import {
   UploadBox,
   EditButton,
   TypographyDate
-} from '../design/StyledProfile';
+} from '../../components/design/StyledProfile';
 import BasicTabs from './BasicTabs';
 import { UserForm } from '../../../types';
 

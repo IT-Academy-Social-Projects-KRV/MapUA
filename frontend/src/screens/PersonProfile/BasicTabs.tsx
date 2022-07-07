@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { Tabs, Tab, Typography, Box } from '@mui/material';
-import ProfileTabsData from '../ProfileTabsData/index';
+import ProfileTabsData from '../../components/ProfileTabsData/index';
 
 interface TabPanelProps {
   index: number;
