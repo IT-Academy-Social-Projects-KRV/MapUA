@@ -1,5 +1,5 @@
-import React, { FC, MouseEventHandler } from 'react';
-import { IconButton, ListItemIcon, ListItemText } from '@mui/material';
+import React, { MouseEventHandler } from 'react';
+import { IconButton, ListItemIcon, ListItemText, Tooltip } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
@@ -13,18 +13,21 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import TourOutlinedIcon from '@mui/icons-material/TourOutlined';
 import TourIcon from '@mui/icons-material/Tour';
 import DeleteIcon from '@mui/icons-material/Delete';
+import VerifiedIcon from '@mui/icons-material/Verified';
+import AutorenewIcon from '@mui/icons-material/Autorenew';
+import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTranslation } from 'react-i18next';
 import ReportIcon from '@mui/icons-material/Report';
 import EditIcon from '@mui/icons-material/Edit';
-import ReportIconModerator from '@mui/icons-material/ReportGmailerrorred';
-import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
+import ReportOffIcon from '@mui/icons-material/ReportOff';
+import ConfirmOrDecline from './ConfirmOrDecline';
 
 type Props = {
   handleRating: Function;
   handleFavoriteClick: MouseEventHandler<HTMLButtonElement>;
   handleVisitedClick: MouseEventHandler<HTMLButtonElement>;
-  handleDeleteClick: any;
+  handleDeleteClick: MouseEventHandler<HTMLLIElement>;
   locationIsFavorite: boolean | '' | undefined;
   locationIsVisited: boolean | '' | undefined;
   editData: any;
@@ -32,7 +35,7 @@ type Props = {
   locationId: any;
 };
 
-export const IconsComponent: FC<Props> = ({
+export const IconsComponent = ({
   handleRating,
   handleFavoriteClick,
   locationIsFavorite,
@@ -42,12 +45,22 @@ export const IconsComponent: FC<Props> = ({
   locationAuthorId,
   handleDeleteClick,
   locationId
-}) => {
+}: Props) => {
   const { t } = useTranslation();
-  const { addReportToLocation, SetSuccessSnackbar } = useTypedDispatch();
+  const {
+    addReportToLocation,
+    deleteReportToLocation,
+    SetSuccessSnackbar,
+    updatePopupLocation
+  } = useTypedDispatch();
   const { rating } = useTypedSelector(state => state.popupLocation.data);
+  const { verificationStatus } = useTypedSelector(
+    state => state.popupLocation.data
+  );
 
-  const { author } = useTypedSelector(state => state.popupLocation.data);
+  const { author, reported } = useTypedSelector(
+    state => state.popupLocation.data
+  );
   const { _id: userId } = useTypedSelector(state => state.userData.data);
   const { isAuthorized } = useTypedSelector(
     state => state.isUserAuthorized.data
@@ -59,9 +72,11 @@ export const IconsComponent: FC<Props> = ({
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   const copyToClipBoard = async () => {
     const params = new URLSearchParams(window.location.search);
     const path = `http://localhost:3000/?${params.toString()}`;
@@ -77,8 +92,37 @@ export const IconsComponent: FC<Props> = ({
     );
   };
 
+  const deleteReport = () => {
+    deleteReportToLocation(
+      locationId,
+      false,
+      t('createLocation.locationSuccessfullyDeclineReport')
+    );
+  };
+
+  const handleConfirmOrDeclineVerification = (status: string) => {
+    updatePopupLocation(locationId, {
+      rating,
+      verificationStatus: status
+    });
+  };
+
   return (
     <>
+      {verificationStatus === 'verified' ? (
+        <Tooltip title={t('mainFilters.verifiedValues.verified')}>
+          <IconButton>
+            <VerifiedIcon color="primary" />
+          </IconButton>
+        </Tooltip>
+      ) : null}
+      {verificationStatus === 'waiting' ? (
+        <Tooltip title={t('mainFilters.verifiedValues.waiting')}>
+          <IconButton>
+            <AutorenewIcon color="primary" />
+          </IconButton>
+        </Tooltip>
+      ) : null}
       <IconButton
         onClick={e => {
           if (isAuthorized) {
@@ -160,12 +204,6 @@ export const IconsComponent: FC<Props> = ({
           'aria-labelledby': 'basic-button'
         }}
       >
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon onClick={() => null}>
-            <ReportIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText>{t('createLocation.complainToLocation')}</ListItemText>
-        </MenuItem>
         {((author && author._id === userId) ||
           role === 'moderator' ||
           role === 'admin') && (
@@ -175,6 +213,14 @@ export const IconsComponent: FC<Props> = ({
             </ListItemIcon>
             <ListItemText>{t('createLocation.deleteLocation')}</ListItemText>
           </MenuItem>
+        )}
+        {((role === 'moderator' && verificationStatus === 'waiting') ||
+          (role === 'admin' && verificationStatus === 'waiting')) && (
+          <ConfirmOrDecline
+            handleConfirmOrDeclineVerification={
+              handleConfirmOrDeclineVerification
+            }
+          />
         )}
 
         {locationAuthorId?._id === userId && (
@@ -186,12 +232,23 @@ export const IconsComponent: FC<Props> = ({
           </MenuItem>
         )}
 
-        {(role === 'moderator' || role === 'admin') && (
+        {isAuthorized && (
           <MenuItem onClick={() => reportLocation()}>
             <ListItemIcon>
-              <ReportIconModerator fontSize="small" />
+              <ReportIcon fontSize="small" />
             </ListItemIcon>
             <ListItemText>{t('createLocation.reportLocation')}</ListItemText>
+          </MenuItem>
+        )}
+
+        {reported && (role === 'moderator' || role === 'admin') && (
+          <MenuItem onClick={() => deleteReport()}>
+            <ListItemIcon>
+              <ReportOffIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>
+              {t('createLocation.declineReportLocation')}
+            </ListItemText>
           </MenuItem>
         )}
       </Menu>

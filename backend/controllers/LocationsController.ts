@@ -56,7 +56,8 @@ const LocationsController = {
         arrayPhotos: l.arrayPhotos,
         filters: l.filters,
         author: l.author,
-        verificationStatus: l.verificationStatus
+        verificationStatus: l.verificationStatus,
+        rating: l.rating
       }));
 
       if (searchName) {
@@ -109,10 +110,20 @@ const LocationsController = {
           );
         });
       } else {
-        locations = locations.slice(
-          0,
-          locations.length < 50 ? locations.length : 50
-        );
+        if (verifiedFiltersArray.some((el: string) => el === 'verified') &&
+            verifiedFiltersArray.every((el: string) => el !== 'unverified')){
+          locations = locations.sort((l1, l2): number => {
+            const l1Likes = l1.rating.likes.length,
+                  l1Dislikes = l1.rating.dislikes.length,
+                  l2Likes = l2.rating.likes.length,
+                  l2Dislikes = l2.rating.dislikes.length;
+            return l2Likes/(l2Likes + l2Dislikes) - l1Likes/(l1Likes + l1Dislikes);
+          });
+          locations = locations.slice(
+              0,
+              locations.length < 50 ? locations.length : 50
+          );
+        }
       }
 
       if (!locations) {
@@ -129,6 +140,14 @@ const LocationsController = {
   async getWaitingForVerifyLocations(req: Request, res: Response) {
     try {
       const locations = await Location.find({ verificationStatus: 'waiting' });
+      return res.json({ locations });
+    } catch (err: any) {
+      return res.status(500).json({ error: req.t('other.server_error'), err });
+    }
+  },
+  async getReportedLocations(req: Request, res: Response) {
+    try {
+      const locations = await Location.find({ reported: true });
       return res.json({ locations });
     } catch (err: any) {
       return res.status(500).json({ error: req.t('other.server_error'), err });
@@ -383,6 +402,8 @@ const LocationsController = {
     }
   },
   async getTopLocations(req: Request, res: Response) {
+    const quantityInArray = 10;
+
     try {
       let locations = await Location.aggregate([
         {
@@ -398,7 +419,7 @@ const LocationsController = {
       ]);
       locations = locations.slice(
         0,
-        locations.length < 20 ? locations.length : 20
+        locations.length < quantityInArray ? locations.length : quantityInArray
       );
 
       return res.json(locations);

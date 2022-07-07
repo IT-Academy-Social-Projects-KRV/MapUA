@@ -19,6 +19,7 @@
     "updateLocation": "Update location",
     "editLocation": "Edit location",
     "reportLocation": "Report location",
+    "declineReportLocation": "Decline report location",
     "deleteLocation": "Delete location",
     "complainToLocation": "Complain to location",
     "enterLocName": "Enter location name",
@@ -29,6 +30,7 @@
     "locationSuccessfullyCreated": "Location successfully created!",
     "locationSuccessfullyEdited": "Location successfully edited!",
     "locationSuccessfullyReported": "Location successfully reported!",
+    "locationSuccessfullyDeclineReport": "Location successfully get decline report!",
     "openComments": "Comments"
   },
   "profile": {
@@ -41,7 +43,10 @@
       "noDescription": "There is no description",
       "noSubscribers": "user has no subscribers",
       "noSubscriptions": "user has no subscriptions",
-      "noWaitingForVerify": "There is no locations"
+      "noWaitingForVerify": "There is no locations",
+      "reportedLocations":"reported locations",
+      "noReportedLocations":"There is no locations"
+
     },
     "profilePage": {
       "lostNetwork": "Lost Network",
@@ -137,7 +142,8 @@
         "hideAnswers": "Hide answers",
         "noComments": "There are no comments for this location yet",
         "deletedOriginalComment": "This comment has been deleted by the user",
-        "numberOfCommentars": "number of comments -"
+        "numberOfCommentars": "number of comments -",
+        "alertdialogmessagedata": "comment"
       }
     }
   },
@@ -150,7 +156,10 @@
     "removeFromVisited": "Remove from visited",
     "removeFromFavorite": "Remove from favorite",
     "addToFavorite": "Add to favorite",
-    "locationDelete": "Location successfully deleted"
+    "locationDelete": "Location successfully deleted",
+    "confirmVerification": "Confirm verification",
+    "declineVerification": "Decline verification",
+    "alertdialogmessagedata": "location"
   },
   "mainFilters": {
     "cost": "Cost",
@@ -171,7 +180,8 @@
     "verified": "Verified locations",
     "verifiedValues": {
       "verified": "verified",
-      "unverified": "unverified"
+      "unverified": "unverified",
+      "waiting": "waiting to verify"
     },
     "personal": "Personal",
     "personalValues": {
@@ -189,5 +199,12 @@
     "topLocations": "Top Locations",
     "likes": "Likes",
     "locationsAdded": "Locations added"
+  },
+  "alertdialog": {
+    "tiltequestion": "You want to delete ",
+    "message": "This action will irreversibly and permanently delete ",
+    "question": "Are you sure you want to permanently delete this ",
+    "buttondisagree": "Disagree",
+    "buttonagree": "Agree"
   }
 }

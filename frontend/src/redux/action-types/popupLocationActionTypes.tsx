@@ -30,6 +30,10 @@ export enum LocationActionTypes {
   ADD_REPORT_TO_LOCATION_SUCCESS = 'ADD_REPORT_TO_LOCATION_SUCCESS',
   ADD_REPORT_TO_LOCATION_ERROR = 'ADD_REPORT_TO_LOCATION_ERROR',
 
+  DELETE_REPORT_TO_LOCATION_LOADING = 'DELETE_REPORT_TO_LOCATION_LOADING',
+  DELETE_REPORT_TO_LOCATION_SUCCESS = 'DELETE_REPORT_TO_LOCATION_SUCCESS',
+  DELETE_REPORT_TO_LOCATION_ERROR = 'DELETE_REPORT_TO_LOCATION_ERROR',
+
   LOCATION_DATA_CLEAR = 'LOCATION_DATA_CLEAR'
 }
 
@@ -104,6 +108,18 @@ interface AddReportToLocationDataErrorAction {
   payload: string;
 }
 
+interface DeclineReportToLocationDataLoadingAction {
+  type: LocationActionTypes.DELETE_REPORT_TO_LOCATION_LOADING;
+}
+interface DeclineReportToLocationDataSuccsessAction {
+  type: LocationActionTypes.DELETE_REPORT_TO_LOCATION_SUCCESS;
+  payload: locationType;
+}
+interface DeclineReportToLocationDataErrorAction {
+  type: LocationActionTypes.DELETE_REPORT_TO_LOCATION_ERROR;
+  payload: string;
+}
+
 interface LocationDataClearAction {
   type: LocationActionTypes.LOCATION_DATA_CLEAR;
 }
@@ -127,4 +143,7 @@ export type LocationActions =
   | AddReportToLocationDataLoadingAction
   | AddReportToLocationDataSuccessAction
   | AddReportToLocationDataErrorAction
+  | DeclineReportToLocationDataLoadingAction
+  | DeclineReportToLocationDataSuccsessAction
+  | DeclineReportToLocationDataErrorAction
   | LocationDataClearAction;

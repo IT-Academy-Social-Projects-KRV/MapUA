@@ -10,9 +10,9 @@ import {
   StyledMediaBox,
   StyledTooltip
 } from '../design/StyledLocationPopOut';
-import verifiedIcon from '../../static/verified-icon.svg';
-import unverifiedIcon from '../../static/unverified-icon.svg';
-import waitingIcon from '../../static/waiting-icon.svg';
+import verifiedIcon from '../../static/verified-icon.png';
+import unverifiedIcon from '../../static/unverified-icon.png';
+import waitingIcon from '../../static/waiting-icon.png';
 import img from '../../static/image-not-found.jpg';
 import { verificationStatusTypes } from '../../static/verificationStatusTypes';
 
@@ -57,8 +57,8 @@ export function LocationPopOut({
     <Marker
       icon={L.icon({
         iconUrl: locationIcon,
-        iconSize: [40, 40],
-        iconAnchor: [20, 46]
+        iconSize: [25, 40],
+        iconAnchor: [20, 35]
       })}
       eventHandlers={{
         click: e => {

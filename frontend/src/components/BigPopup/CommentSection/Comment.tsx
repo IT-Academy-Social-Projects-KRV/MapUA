@@ -10,13 +10,13 @@ import {
   AccordionSummary,
   AccordionDetails
 } from '@mui/material';
+import AlertDialog from 'components/AlertDialog';
 import { StyledCommentBadge } from 'components/design/StyledCommentBadge';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ReportIcon from '@mui/icons-material/Report';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-
 import { Link } from 'react-router-dom';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useTranslation } from 'react-i18next';
@@ -84,6 +84,11 @@ const Comment = ({
   const { sendComment, fetchComments, editComment, deleteComment } =
     useTypedDispatch();
 
+  const [openDialog, setOpen] = useState(false);
+
+  const handleCloseDialog = () => setOpen(false);
+  const handleOpenDialog = () => setOpen(true);
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -100,6 +105,7 @@ const Comment = ({
   const handleDeleteAndUpdate = async () => {
     await deleteComment(id);
     await fetchComments(locationId);
+    handleCloseDialog();
   };
 
   useEffect(() => {
@@ -160,8 +166,6 @@ const Comment = ({
       text: data.commentText,
       author: userId,
       locationId,
-      likes,
-      dislikes,
       parentComment: id
     };
     sendComment(comment);
@@ -172,6 +176,14 @@ const Comment = ({
     <>
       {!deleted ? (
         <Box alignItems="flex-start" sx={{ display: 'block', pl: 0, py: 6 }}>
+          <AlertDialog
+            openDialog={openDialog}
+            transmittHandlerFunction={handleDeleteAndUpdate}
+            handleCloseDialog={handleCloseDialog}
+            deletingObject={t(
+              'bigPopup.commentSection.commentSection.alertdialogmessagedata'
+            )}
+          />
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Box sx={{ display: 'flex' }}>
               <Link to={getPath(userId, authorId)}>
@@ -228,7 +240,7 @@ const Comment = ({
                   role === 'moderator' ||
                   role === 'admin') && (
                   <ChangeComment
-                    deleteComment={handleDeleteAndUpdate}
+                    deleteComment={handleOpenDialog}
                     openEditOrReplyComment={openEditOrReplyComment}
                     disabledPressedButton={disabledPressedButton}
                   />
@@ -259,11 +271,14 @@ const Comment = ({
             </Typography>
           )}
           <RatingCommentSection
+            id={id}
             disabledPressedButton={disabledPressedButton}
             openEditOrReplyComment={openEditOrReplyComment}
             userId={userId}
             role={role}
             date={date}
+            likes={likes}
+            dislikes={dislikes}
           />
         </Box>
       ) : (

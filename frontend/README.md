@@ -1,5 +1,7 @@
 ## Frontend
 
+[Server on which frontend located](https://mapua-frontend-appappappapp.herokuapp.com/)
+
 ### Run locally
 
 1. cd frontend/

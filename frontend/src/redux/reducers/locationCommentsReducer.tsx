@@ -30,6 +30,12 @@ export const locationCommentsReducer = (
           comment._id === action.payload._id ? action.payload : comment
         )
       };
+    case LocationCommentsActionTypes.EDIT_COMMENT_RATING:
+      return {
+        comments: state.comments.map(comment =>
+          comment._id === action.payload._id ? action.payload : comment
+        )
+      };
     default:
       return state;
   }

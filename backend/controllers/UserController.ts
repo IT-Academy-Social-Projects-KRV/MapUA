@@ -204,6 +204,8 @@ const UserController = {
     }
   },
   async getTopUsers(req: Request, res: Response) {
+    const quantityInArray = 10;
+    
     try {
       let users = await User.aggregate([
         {
@@ -217,7 +219,7 @@ const UserController = {
           $sort: { count: -1 }
         }
       ]);
-      users = users.slice(0, users.length < 20 ? users.length : 20);
+      users = users.slice(0, users.length < quantityInArray ? users.length : quantityInArray);
       return res.json(users);
     } catch (err: any) {
       return res.status(500).json({ error: req.t('other.server_error'), err });
