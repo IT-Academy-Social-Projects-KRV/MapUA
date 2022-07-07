@@ -5,7 +5,6 @@ import { Marker } from 'react-leaflet';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useSearchParams } from 'react-router-dom';
-// import { verify } from 'crypto';
 import {
   StyledBox,
   StyledMediaBox,
