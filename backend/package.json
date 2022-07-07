@@ -6,8 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "dev": "ts-node-dev index.ts --clear --notify",
-    "build": "tsc -p ."
+    "dev": "ts-node-dev index.ts --clear --notify"
   },
   "keywords": [],
   "author": "",
@@ -65,6 +64,6 @@
     "prettier": "2.6.2"
   },
   "engines": {
-    "node": ">=16.x <=18.x"
+    "node": "16"
   }
 }
