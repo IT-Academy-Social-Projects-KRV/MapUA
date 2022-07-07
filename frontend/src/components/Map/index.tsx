@@ -11,6 +11,7 @@ import { StyledMapWrapper } from 'components/design/StyledMapWrapper';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import L from 'leaflet';
+import { Button } from '@mui/material';
 import Locations from './Locations/Locations';
 import MyZoomComponent from './ZoomComponent';
 
@@ -27,6 +28,7 @@ interface Props {
   toggleIsAddLocation: Function;
   isAddLocationActive: boolean;
   coordinate: latlngType;
+  toggleClose: any;
 }
 
 function Map({
@@ -36,7 +38,8 @@ function Map({
   toggleIsAddLocation,
   isAddLocationActive,
   onOpenBigPopup,
-  coordinate
+  coordinate,
+  toggleClose
 }: Props) {
   const { t } = useTranslation();
   const { isAuthorized } = useTypedSelector(
@@ -54,15 +57,16 @@ function Map({
     authorizedFilters
   } = useTypedSelector(state => state.mapInfo);
 
-  const formRef = useRef<any>(null);
+  const closeButtonRef = React.useRef<any>(null);
+
   const [, SetCoordinateByClick] = useState<any>({});
   const debouncedValue = useDebounce(searchName, 1000);
   const { setBounds, fetchLocations } = useTypedDispatch();
 
   useEffect(() => {
-    L.DomEvent.disableClickPropagation(formRef.current);
-    L.DomEvent.disableScrollPropagation(formRef.current);
-  }, []);
+    if (closeButtonRef.current)
+      L.DomEvent.disableClickPropagation(closeButtonRef.current);
+  }, [isAddLocationActive]);
 
   useEffect(() => {
     fetchLocations(bounds, debouncedValue, selectedFilters, authorizedFilters);
@@ -74,8 +78,13 @@ function Map({
     locationId
   ]);
 
+  const closeAddLocationModal = (e: any) => {
+    toggleClose();
+    SetCoordinateByClick('');
+  };
+
   return (
-    <StyledMapWrapper ref={formRef}>
+    <StyledMapWrapper>
       <StyledMapContainer
         center={[48.978189, 31.982826]}
         zoom={6}
@@ -110,6 +119,29 @@ function Map({
               ? `${t('map.chooseCoordinates')}`
               : `${t('map.addLocation')}`}
           </StyledAddLocationButton>
+        )}
+
+        {isAddLocationActive && (
+          <Button
+            ref={closeButtonRef}
+            style={{
+              zIndex: 15000,
+              position: 'absolute',
+              top: '15px',
+              left: '230px',
+              padding: '8px',
+              backgroundColor: 'yellow',
+              height: '35px',
+              minWidth: '35px',
+              color: 'black'
+            }}
+            onClick={closeAddLocationModal}
+            // onClick={() => {
+            //   console.log('clicked');
+            // }}
+          >
+            x
+          </Button>
         )}
         {isOpen && <DrawMarkerCreateLocation coordinate={coordinate} />}
       </StyledMapContainer>
