@@ -10,7 +10,7 @@ const AboutThisResource = () => {
       <Typography px={50} variant="h6" align="center">
         {t('common.aboutThisResource')}
       </Typography>
-      <Typography px={10} variant="subtitle1" align="left">
+      <Typography px={10} variant="subtitle1" align="justify">
         {t('common.descriptionThisResource')}
       </Typography>
     </Stack>
