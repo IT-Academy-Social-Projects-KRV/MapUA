@@ -10,6 +10,7 @@ import Profile from 'components/Profile/Profile';
 import Page404 from 'components/Page_404/Page404';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import PersonProfile from 'components/PersonProfile/PersonProfile';
+import AboutUs from 'screens/AboutUs/AboutUs';
 import TopList from 'screens/TopList/TopList';
 import Layout from 'components/Layout/Layout';
 import { useTypedDispatch } from './redux/hooks/useTypedDispatch';
@@ -91,6 +92,7 @@ function App() {
           />
           <Route path="/profile" element={<Profile />} />
           <Route path="/profile/:id" element={<PersonProfile />} />
+          <Route path="/about-us" element={<AboutUs />} />
           <Route path="/top" element={<TopList />} />
           <Route path="/*" element={<Page404 />} />
         </Route>
