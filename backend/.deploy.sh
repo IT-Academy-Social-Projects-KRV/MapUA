@@ -2,8 +2,7 @@
 
 APP_NAME="mapua-backend-app"
 
-# Uncomment if you don't neet to build the app (as it is a time consuming process)
-# source ./.build.sh;
+source ./.build.sh;
 
 cd dist/
 echo "$(tput setaf 3)Deploy script start";

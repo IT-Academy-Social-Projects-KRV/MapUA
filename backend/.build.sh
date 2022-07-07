@@ -9,6 +9,8 @@ node_modules/.bin/tsc -p .
 cp ./package.json ./dist
 cp .gitignore ./dist
 cp .env ./dist
+cp yarn.lock ./dist
+cp -r locales/ dist/
 cp swagger-config.yml ./dist
 
 cd dist/
