@@ -17,6 +17,12 @@ import BasicTabs from './BasicTabs';
 import CircularLoader from '../../components/CircularLoader/CircularLoader';
 
 export default function PersonProfilePage() {
+  const { role } = useTypedSelector(state => state.otherUserData.data);
+
+  const { role: myRole } = useTypedSelector(
+    state => state.isUserAuthorized.data
+  );
+
   const { t } = useTranslation();
   const {
     loading: userLoading,
@@ -30,7 +36,8 @@ export default function PersonProfilePage() {
     state => state.isUserAuthorized
   );
 
-  const { fetchOtherUserData, toggleUserSubscription } = useTypedDispatch();
+  const { fetchOtherUserData, toggleUserSubscription, toggleUserBan } =
+    useTypedDispatch();
 
   const isSubscribed = subscriptions.some((s: any) => s._id === otherUserId);
 
@@ -51,6 +58,27 @@ export default function PersonProfilePage() {
       );
     }
   };
+
+  const handleBan = () => {
+    if (isAuthorized) {
+      toggleUserBan(
+        otherUserId,
+        'bannedUser',
+        t('personalProfile.personalProfilePage.banningUpdated')
+      );
+    }
+  };
+
+  const handleUnban = () => {
+    if (isAuthorized) {
+      toggleUserBan(
+        otherUserId,
+        'user',
+        t('personalProfile.personalProfilePage.banningUpdated')
+      );
+    }
+  };
+
   return (
     <ProfileFormWrapper>
       <ProfileContentWrapper sx={{ height: 'auto' }}>
@@ -64,15 +92,38 @@ export default function PersonProfilePage() {
             : displayName}
         </Typography>
         {isAuthorized.isAuthorized && (
-          <SubsrcibeButton
-            size="large"
-            variant="contained"
-            onClick={handleSubscription}
-          >
-            {isSubscribed
-              ? t('profile.profilePage.unsubscribe')
-              : t('profile.profilePage.subscribe')}
-          </SubsrcibeButton>
+          <>
+            <SubsrcibeButton
+              size="large"
+              variant="contained"
+              onClick={handleSubscription}
+            >
+              {isSubscribed
+                ? t('profile.profilePage.unsubscribe')
+                : t('profile.profilePage.subscribe')}
+            </SubsrcibeButton>
+
+            {(myRole === 'moderator' || myRole === 'admin') && role === 'user' && (
+              <SubsrcibeButton
+                size="large"
+                variant="contained"
+                onClick={handleBan}
+              >
+                {t('profile.profilePage.ban')}
+              </SubsrcibeButton>
+            )}
+
+            {(myRole === 'moderator' || myRole === 'admin') &&
+              role === 'bannedUser' && (
+                <SubsrcibeButton
+                  size="large"
+                  variant="contained"
+                  onClick={handleUnban}
+                >
+                  {t('profile.profilePage.unban')}
+                </SubsrcibeButton>
+              )}
+          </>
         )}
       </ProfileContentWrapper>
       <ProfileUserWrapper>
