@@ -16,7 +16,10 @@ import Locations from './Locations/Locations';
 import MyZoomComponent from './ZoomComponent';
 
 import { StyledMapContainer } from '../design/StyledMapContainer';
-import { StyledAddLocationButton } from '../design/StyledAddLocationButton';
+import {
+  StyledAddLocationButton,
+  StyledCloseAddingModeLocationButton
+} from '../design/StyledAddLocationButton';
 import { latlngType } from '../../../types';
 import DrawMarkerCreateLocation from './DrawMarkerWhenLocationCreate';
 
@@ -123,23 +126,12 @@ function Map({
         )}
 
         {isAddLocationActive && !isOpenLocationForm && (
-          <Button
+          <StyledCloseAddingModeLocationButton
             ref={closeButtonRef}
-            style={{
-              zIndex: 15000,
-              position: 'absolute',
-              top: '15px',
-              left: '230px',
-              padding: '8px',
-              backgroundColor: 'yellow',
-              height: '35px',
-              minWidth: '35px',
-              color: 'black'
-            }}
             onClick={closeAddLocationModal}
           >
             x
-          </Button>
+          </StyledCloseAddingModeLocationButton>
         )}
         {isOpen && <DrawMarkerCreateLocation coordinate={coordinate} />}
       </StyledMapContainer>
