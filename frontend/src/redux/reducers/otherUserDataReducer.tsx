@@ -18,7 +18,8 @@ const initialState: otherUserDataStateType = {
     subscriptions: [],
     favorite: [],
     visited: [],
-    personalLocations: []
+    personalLocations: [],
+    role: ''
   }
 };
 
@@ -66,6 +67,20 @@ export const otherUserDataReducer = (
         loading: false,
         error: action.payload,
         success: false
+      };
+    case OtherUserDataActionTypes.UPDATE_USER_DATA_AND_BAN_LOADING:
+      return {
+        loading: false,
+        error: null,
+        data: initialState.data,
+        success: false
+      };
+    case OtherUserDataActionTypes.UPDATE_USER_DATA_AND_BAN_SUCCESS:
+      return {
+        loading: false,
+        error: null,
+        data: action.payload,
+        success: true
       };
     default:
       return state;

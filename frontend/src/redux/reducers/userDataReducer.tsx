@@ -18,7 +18,8 @@ const initialState: userDataStateType = {
     subscriptions: [],
     favorite: [],
     visited: [],
-    personalLocations: []
+    personalLocations: [],
+    role: ''
   }
 };
 const topUserInitialState: topUserStateType = {
