@@ -223,7 +223,9 @@ export const IconsComponent = ({
           />
         )}
 
-        {locationAuthorId?._id === userId && (
+        {(locationAuthorId?._id === userId ||
+          role === 'moderator' ||
+          role === 'admin') && (
           <MenuItem onClick={editData}>
             <ListItemIcon>
               <EditIcon fontSize="small" />
