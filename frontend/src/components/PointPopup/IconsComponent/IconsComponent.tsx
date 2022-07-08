@@ -27,7 +27,7 @@ type Props = {
   handleRating: Function;
   handleFavoriteClick: MouseEventHandler<HTMLButtonElement>;
   handleVisitedClick: MouseEventHandler<HTMLButtonElement>;
-  handleDeleteClick: MouseEventHandler<HTMLLIElement>;
+  handleDeleteClick: any;
   locationIsFavorite: boolean | '' | undefined;
   locationIsVisited: boolean | '' | undefined;
   editData: any;

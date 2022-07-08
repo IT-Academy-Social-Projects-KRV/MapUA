@@ -9,6 +9,7 @@ import ComposeComponents from 'redux/components/ComposeComponents';
 import Profile from 'screens/Profile/Profile';
 import Page404 from 'components/Page_404/Page404';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
+import AboutUs from 'screens/AboutUs/AboutUs';
 import PersonProfile from 'screens/PersonProfile/PersonProfile';
 import TopList from 'screens/TopList/TopList';
 import Layout from 'components/Layout/Layout';
@@ -91,6 +92,7 @@ function App() {
           />
           <Route path="/profile" element={<Profile />} />
           <Route path="/profile/:id" element={<PersonProfile />} />
+          <Route path="/about-us" element={<AboutUs />} />
           <Route path="/top" element={<TopList />} />
           <Route path="/*" element={<Page404 />} />
         </Route>
