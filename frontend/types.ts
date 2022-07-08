@@ -97,7 +97,9 @@ export type UserDataType = {
   favorite: string[];
   visited: string[];
   personalLocations: string[];
+  role: string;
 };
+
 export type TopUserType = {
   _id?: string;
   displayName: string;
