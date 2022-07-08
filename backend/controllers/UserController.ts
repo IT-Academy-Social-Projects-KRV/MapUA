@@ -188,7 +188,8 @@ const UserController = {
         subscriptions: true,
         favorite: true,
         visited: true,
-        personalLocations: true
+        personalLocations: true,
+        role: true
       }).populate({
         path: 'subscribers subscriptions',
         select: 'displayName imageUrl'
@@ -205,7 +206,7 @@ const UserController = {
   },
   async getTopUsers(req: Request, res: Response) {
     const quantityInArray = 10;
-    
+
     try {
       let users = await User.aggregate([
         {
@@ -219,10 +220,39 @@ const UserController = {
           $sort: { count: -1 }
         }
       ]);
-      users = users.slice(0, users.length < quantityInArray ? users.length : quantityInArray);
+      users = users.slice(
+        0,
+        users.length < quantityInArray ? users.length : quantityInArray
+      );
       return res.json(users);
     } catch (err: any) {
       return res.status(500).json({ error: req.t('other.server_error'), err });
+    }
+  },
+
+  async updateUserByBan(req: Request, res: Response) {
+    try {
+      const id = req.params.id;
+
+      const user = await User.findByIdAndUpdate(
+        id,
+        {
+          $set: { role: req.body.role }
+        },
+        { new: true }
+      ).populate({
+        path: 'subscribers subscriptions',
+        select: 'displayName imageUrl'
+      });
+
+      if (!user) {
+        return res
+          .status(400)
+          .json({ error: req.t('locations_list.location_not_found') });
+      }
+      return res.status(200).json(user);
+    } catch (err: any) {
+      return res.status(500).json({ error: err.message });
     }
   }
 };
