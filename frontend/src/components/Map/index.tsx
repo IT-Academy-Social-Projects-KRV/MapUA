@@ -43,6 +43,8 @@ function Map({
     state => state.isUserAuthorized.data
   );
 
+  const { role } = useTypedSelector(state => state.otherUserData.data);
+
   const { locationId } = useParams();
 
   const { setLocationName } = useTypedDispatch();
@@ -98,19 +100,20 @@ function Map({
 
         <SearchFormContainer />
 
-        {isAuthorized && !isOpen && (
-          <StyledAddLocationButton
-            onClick={() => toggleIsAddLocation()}
-            style={{
-              background: isAddLocationActive ? 'yellow' : 'white',
-              color: isAddLocationActive ? 'black' : '#1976d2'
-            }}
-          >
-            {isAddLocationActive
-              ? `${t('map.chooseCoordinates')}`
-              : `${t('map.addLocation')}`}
-          </StyledAddLocationButton>
-        )}
+        {(isAuthorized && !isOpen) ||
+          (role !== 'bannedUser' && (
+            <StyledAddLocationButton
+              onClick={() => toggleIsAddLocation()}
+              style={{
+                background: isAddLocationActive ? 'yellow' : 'white',
+                color: isAddLocationActive ? 'black' : '#1976d2'
+              }}
+            >
+              {isAddLocationActive
+                ? `${t('map.chooseCoordinates')}`
+                : `${t('map.addLocation')}`}
+            </StyledAddLocationButton>
+          ))}
         {isOpen && <DrawMarkerCreateLocation coordinate={coordinate} />}
       </StyledMapContainer>
     </StyledMapWrapper>
