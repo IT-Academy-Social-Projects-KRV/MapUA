@@ -37,7 +37,6 @@ const AboutUs = () => {
                 photo={el.photo}
                 fullName={el.fullName}
                 linkedIn={el.linkedIn}
-                gitHub={el.gitHub}
               />
             </SwiperSlide>
           ))}
