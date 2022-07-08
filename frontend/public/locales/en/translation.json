@@ -46,7 +46,6 @@
       "noWaitingForVerify": "There is no locations",
       "reportedLocations":"reported locations",
       "noReportedLocations":"There is no locations"
-
     },
     "profilePage": {
       "lostNetwork": "Lost Network",
@@ -63,12 +62,15 @@
       "yourName": "Your name:",
       "profilePageUpdatedSuccessfully": "Profile page updated successfully!",
       "subscribe": "Subscribe",
-      "unsubscribe": "Unsubscribe"
+      "unsubscribe": "Unsubscribe",
+      "ban": "ban",
+      "unban": "unban"
     }
   },
   "personalProfile": {
     "personalProfilePage": {
-      "subscriptionUpdated": "Subscription updated successfully!"
+      "subscriptionUpdated": "Subscription updated successfully!",
+      "banningUpdated": "banning updated successfully!"
     }
   },
   "forgotPassword": {
