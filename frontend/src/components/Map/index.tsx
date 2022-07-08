@@ -28,7 +28,8 @@ interface Props {
   toggleIsAddLocation: Function;
   isAddLocationActive: boolean;
   coordinate: latlngType;
-  toggleClose: any;
+  toggleClose: Function;
+  isOpenLocationForm: boolean;
 }
 
 function Map({
@@ -39,7 +40,8 @@ function Map({
   isAddLocationActive,
   onOpenBigPopup,
   coordinate,
-  toggleClose
+  toggleClose,
+  isOpenLocationForm
 }: Props) {
   const { t } = useTranslation();
   const { isAuthorized } = useTypedSelector(
@@ -80,7 +82,6 @@ function Map({
 
   const closeAddLocationModal = (e: any) => {
     toggleClose();
-    SetCoordinateByClick('');
   };
 
   return (
@@ -121,7 +122,7 @@ function Map({
           </StyledAddLocationButton>
         )}
 
-        {isAddLocationActive && (
+        {isAddLocationActive && !isOpenLocationForm && (
           <Button
             ref={closeButtonRef}
             style={{
@@ -136,9 +137,6 @@ function Map({
               color: 'black'
             }}
             onClick={closeAddLocationModal}
-            // onClick={() => {
-            //   console.log('clicked');
-            // }}
           >
             x
           </Button>

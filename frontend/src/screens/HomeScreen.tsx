@@ -74,9 +74,8 @@ function HomeScreen() {
             setIsOpenLocationPopup(false);
             setIsAddLocationActive(false);
             setIsAddLocation(false);
-            setSearchParams({});
-            setLocationName('');
           }}
+          isOpenLocationForm={isOpenLocationForm}
         />
       </Box>
     </Box>
