@@ -18,7 +18,7 @@ export const upload = multer({
     }
   }),
   fileFilter: (_, file, cb) => {
-    const fileTypes = /jpeg|jpg|png|gif|svg/;
+    const fileTypes = /jpeg|jpg|png|gif|svg|/;
     const mimetype = fileTypes.test(file.mimetype);
     const extname = fileTypes.test(path.extname(file.originalname));
     if (mimetype && extname) {
