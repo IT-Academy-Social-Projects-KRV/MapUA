@@ -238,6 +238,7 @@ const LocationsController = {
       let { id: locationId } = req.params;
       let { locationName, description, filters } = req.body;
       const { _id: userId } = req.user;
+      console.log(filters);
 
       const locationAuthorId = await Location.findById(locationId).select(
         'author'
@@ -261,13 +262,13 @@ const LocationsController = {
         newData = {
           locationName: locationName,
           description: description,
-          filters: filters
+          filters: filters.split(',')
         };
       } else {
         newData = {
           locationName: locationName,
           description: description,
-          filters: filters,
+          filters: filters.split(','),
           arrayPhotos: imageUrls
         };
       }

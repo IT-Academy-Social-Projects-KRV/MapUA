@@ -43,7 +43,7 @@ const EditLocation = ({
   const [files, setFiles] = useState<Blob[]>([]);
   const [locationImageName, setLocationImageName] = useState<string>('');
   const [filters, setFilters] = useState([...selectedLocationFilters]);
-  console.log(filters);
+
   const { t } = useTranslation();
   const { updatePopupLocationAfterEditing } = useTypedDispatch();
   const { handleSubmit, control } = useForm<EditingLocation>({
@@ -71,9 +71,6 @@ const EditLocation = ({
     );
 
     closeEditData();
-  };
-  const onChangeAutocomplete = (e: any, value: any) => {
-    setFilters(value);
   };
 
   const handleFilesChange = async (e: any) => {
@@ -133,9 +130,10 @@ const EditLocation = ({
           id="tags-outlined"
           options={getFiltersForUser()}
           getOptionLabel={option => option}
-          defaultValue={[...filters]}
           filterSelectedOptions
-          onChange={(e, values) => onChangeAutocomplete(e, values)}
+          value={filters}
+          onChange={(e, value) => setFilters(value)}
+          defaultValue={[...filters]}
           renderInput={params => (
             <TextField
               {...params}
