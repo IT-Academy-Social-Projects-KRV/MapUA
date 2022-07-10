@@ -1,6 +1,6 @@
 ## Frontend
 
-[Server on which frontend located](https://mapua-frontend-appappappapp.herokuapp.com/)
+[Server on which frontend located](https://map-ua.herokuapp.com/)
 
 ### Run locally
 

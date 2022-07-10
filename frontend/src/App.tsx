@@ -2,14 +2,15 @@ import React, { SyntheticEvent, useEffect } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import HomeScreen from 'screens/HomeScreen';
-import Login from 'components/Login/Login';
-import ForgotPassword from 'components/ForgotPassword/ForgotPassword';
-import Registration from 'components/Registration/Registration';
+import Login from 'screens/Login/Login';
+import ForgotPassword from 'screens/ForgotPassword/ForgotPassword';
+import Registration from 'screens/Registration/Registration';
 import ComposeComponents from 'redux/components/ComposeComponents';
-import Profile from 'components/Profile/Profile';
+import Profile from 'screens/Profile/Profile';
 import Page404 from 'components/Page_404/Page404';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
-import PersonProfile from 'components/PersonProfile/PersonProfile';
+import AboutUs from 'screens/AboutUs/AboutUs';
+import PersonProfile from 'screens/PersonProfile/PersonProfile';
 import TopList from 'screens/TopList/TopList';
 import Layout from 'components/Layout/Layout';
 import { useTypedDispatch } from './redux/hooks/useTypedDispatch';
@@ -91,6 +92,7 @@ function App() {
           />
           <Route path="/profile" element={<Profile />} />
           <Route path="/profile/:id" element={<PersonProfile />} />
+          <Route path="/about-us" element={<AboutUs />} />
           <Route path="/top" element={<TopList />} />
           <Route path="/*" element={<Page404 />} />
         </Route>
