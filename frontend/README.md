@@ -25,9 +25,8 @@ _TODO: Add i18n for translations_
 
 1. Create **.env.production** file if one doesn't exist and put all necessary variables on it (use **.envExample** as an example)
 2. Go to folder **ROOT_FOLDER/frontend/server/**
-3. Run **bash .deploy.sh** command, to start auto deploy bash script. You would see in the console _Deploy script start_ message
-4. During the deployment process, you would be required to pass an email and password of heroku account. You can get the credentials from
-   a responsible person
+3. Run **bash .deploy.sh** command, to start auto-deploy bash script. You would see in the console _Deploy script start_ message
+4. During the deployment process, you will be required to provide an email and password of heroku account. You can get the credentials from a responsible person
 5. After passing credentials, the deployment would continue and by the end of the day, you would see _Deploy script end_ message which means a successful deployment
 
 You will be automatically redirected to the corresponding heroku page, on which website were deployed. It is important to deploy backend part as well,
