@@ -11,11 +11,15 @@ import { StyledMapWrapper } from 'components/design/StyledMapWrapper';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import L from 'leaflet';
+import { Button } from '@mui/material';
 import Locations from './Locations/Locations';
 import MyZoomComponent from './ZoomComponent';
 
 import { StyledMapContainer } from '../design/StyledMapContainer';
-import { StyledAddLocationButton } from '../design/StyledAddLocationButton';
+import {
+  StyledAddLocationButton,
+  StyledCloseAddingModeLocationButton
+} from '../design/StyledAddLocationButton';
 import { latlngType } from '../../../types';
 import DrawMarkerCreateLocation from './DrawMarkerWhenLocationCreate';
 
@@ -27,6 +31,8 @@ interface Props {
   toggleIsAddLocation: Function;
   isAddLocationActive: boolean;
   coordinate: latlngType;
+  toggleClose: Function;
+  isOpenLocationForm: boolean;
 }
 
 function Map({
@@ -36,7 +42,9 @@ function Map({
   toggleIsAddLocation,
   isAddLocationActive,
   onOpenBigPopup,
-  coordinate
+  coordinate,
+  toggleClose,
+  isOpenLocationForm
 }: Props) {
   const { t } = useTranslation();
   const { isAuthorized } = useTypedSelector(
@@ -56,15 +64,16 @@ function Map({
     authorizedFilters
   } = useTypedSelector(state => state.mapInfo);
 
-  const formRef = useRef<any>(null);
+  const closeButtonRef = React.useRef<any>(null);
+
   const [, SetCoordinateByClick] = useState<any>({});
   const debouncedValue = useDebounce(searchName, 1000);
   const { setBounds, fetchLocations } = useTypedDispatch();
 
   useEffect(() => {
-    L.DomEvent.disableClickPropagation(formRef.current);
-    L.DomEvent.disableScrollPropagation(formRef.current);
-  }, []);
+    if (closeButtonRef.current)
+      L.DomEvent.disableClickPropagation(closeButtonRef.current);
+  }, [isAddLocationActive]);
 
   useEffect(() => {
     fetchLocations(bounds, debouncedValue, selectedFilters, authorizedFilters);
@@ -76,8 +85,12 @@ function Map({
     locationId
   ]);
 
+  const closeAddLocationModal = (e: any) => {
+    toggleClose();
+  };
+
   return (
-    <StyledMapWrapper ref={formRef}>
+    <StyledMapWrapper>
       <StyledMapContainer
         center={[48.978189, 31.982826]}
         zoom={6}
@@ -114,6 +127,15 @@ function Map({
                 : `${t('map.addLocation')}`}
             </StyledAddLocationButton>
           ))}
+
+        {isAddLocationActive && !isOpenLocationForm && (
+          <StyledCloseAddingModeLocationButton
+            ref={closeButtonRef}
+            onClick={closeAddLocationModal}
+          >
+            x
+          </StyledCloseAddingModeLocationButton>
+        )}
         {isOpen && <DrawMarkerCreateLocation coordinate={coordinate} />}
       </StyledMapContainer>
     </StyledMapWrapper>

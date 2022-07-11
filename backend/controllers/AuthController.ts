@@ -140,9 +140,10 @@ const AuthController = {
       }
 
       return res.json({
-        role: decodedToken && typeof decodedToken !== 'string' && decodedToken.role
-          ? decodedToken.role
-          : 'user'
+        role:
+          decodedToken && typeof decodedToken !== 'string' && decodedToken.role
+            ? decodedToken.role
+            : 'user'
       });
     });
   }
