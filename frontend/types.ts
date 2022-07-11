@@ -59,6 +59,15 @@ export type locationType = {
   updatedAt: Date;
   verificationStatus: string;
 };
+
+export type locationRatingType = {
+  rating: {
+    likes: string[];
+    dislikes: string[];
+  };
+  verificationStatus: string;
+};
+
 export type topLocationType = {
   _id: string;
   arrayPhotos: string[];

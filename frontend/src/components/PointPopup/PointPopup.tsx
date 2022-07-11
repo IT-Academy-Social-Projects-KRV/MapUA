@@ -30,7 +30,8 @@ const PointPopup = ({ toggleClose }: Props) => {
   const handleOpenDialog = () => setOpen(true);
 
   const {
-    updatePopupLocation,
+    // updatePopupLocation,
+    updatePopupLocationRating,
     toggleVisitedField,
     toggleFavoriteField,
     deleteLocation,
@@ -42,9 +43,9 @@ const PointPopup = ({ toggleClose }: Props) => {
     state => state.isUserAuthorized.data
   );
 
-  const { verificationStatus } = useTypedSelector(
-    state => state.popupLocation.data
-  );
+  // const { verificationStatus } = useTypedSelector(
+  //   state => state.popupLocation.data
+  // );
 
   const {
     _id: userId,
@@ -58,11 +59,14 @@ const PointPopup = ({ toggleClose }: Props) => {
   const isDeleted = useTypedSelector(state => state.deleteLocation.data);
   const {
     _id: locationId,
-    rating,
     locationName,
     description,
     arrayPhotos
   } = useTypedSelector(state => state.popupLocation.data);
+
+  const { rating, verificationStatus } = useTypedSelector(
+    state => state.popupLocationRating.data
+  );
 
   const { control } = useForm<LocationForm>({
     mode: 'onBlur',
@@ -110,7 +114,7 @@ const PointPopup = ({ toggleClose }: Props) => {
     type: 'likes' | 'dislikes'
   ) => {
     e.preventDefault();
-    const updatedRating = { ...rating, verificationStatus };
+    const updatedRating = { ...rating };
     if (rating[type].includes(userId)) {
       updatedRating[type] = updatedRating[type].filter(
         value => value !== userId
@@ -140,10 +144,18 @@ const PointPopup = ({ toggleClose }: Props) => {
     ) {
       status = 'unverified';
     }
-    return updatePopupLocation(locationId, {
+    // return updatePopupLocation(locationId, {
+    //   rating: updatedRating,
+    //   verificationStatus: status
+    // });
+    return updatePopupLocationRating(locationId, {
       rating: updatedRating,
       verificationStatus: status
     });
+    // updatePopupLocation(locationId, {
+    //   rating: updatedRating,
+    //   verificationStatus: status
+    // })
   };
 
   const editData = () => {

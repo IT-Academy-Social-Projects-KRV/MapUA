@@ -66,7 +66,10 @@ export const popupLocationReducer = (
         loading: false,
         error: null,
         data: {
-          ...action.payload,
+          // ...action.payload,
+          ...state.data,
+          rating: action.payload.rating,
+          // verificationStatus: action.payload.verificationStatus,
           createdAt: new Date(action.payload.createdAt),
           updatedAt: new Date(action.payload.updatedAt)
         },
@@ -93,7 +96,17 @@ export const popupLocationReducer = (
         loading: false,
         error: null,
         data: {
+          // ...state.data,
           ...action.payload,
+          // _id: state.data._id,
+          // locationName: state.data.locationName,
+          // author: state.data.author,
+          // rating: action.payload.rating,
+          // coordinates: state.data.coordinates,
+          // arrayPhotos: state.data.arrayPhotos,
+          // description: state.data.description,
+          // reported: state.data.reported,
+          // verificationStatus: state.data.verificationStatus,
           createdAt: new Date(action.payload.createdAt),
           updatedAt: new Date(action.payload.updatedAt)
         },

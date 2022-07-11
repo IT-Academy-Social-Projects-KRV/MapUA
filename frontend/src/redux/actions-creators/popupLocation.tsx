@@ -9,6 +9,10 @@ import {
   SnackbarActionsType
 } from 'redux/action-types/snackbarActionTypes';
 import {
+  LocationRatingActions,
+  LocationRatingActionTypes
+} from 'redux/action-types/popupLocationRatingActionTypes';
+import {
   UserDataAction,
   UserDataActionTypes
 } from '../action-types/userDataActionTypes';
@@ -21,10 +25,17 @@ const { REACT_APP_API_URI } = process.env;
 
 export const fetchPopupLocation =
   (id: string) =>
-  async (dispatch: Dispatch<LocationActions | DeleteLocationActions>) => {
+  async (
+    dispatch: Dispatch<
+      LocationActions | LocationRatingActions | DeleteLocationActions
+    >
+  ) => {
     try {
       dispatch({
         type: LocationActionTypes.FETCH_LOCATION_LOADING
+      });
+      dispatch({
+        type: LocationRatingActionTypes.FETCH_LOCATION_RATING_LOADING
       });
 
       const { data } = await axios().get(`locations/${id}`);
@@ -32,6 +43,10 @@ export const fetchPopupLocation =
       if (data) {
         dispatch({
           type: LocationActionTypes.FETCH_LOCATION_SUCCESS,
+          payload: data
+        });
+        dispatch({
+          type: LocationRatingActionTypes.FETCH_LOCATION_RATING_SUCCESS,
           payload: data
         });
         dispatch({
@@ -45,6 +60,13 @@ export const fetchPopupLocation =
         // error.response && error.response.data.info.message
         //   ? error.response.data.info.message
         //   : error.message
+      });
+      dispatch({
+        type: LocationRatingActionTypes.FETCH_LOCATION_RATING_ERROR,
+        payload:
+          error.response && error.response.data.info.message
+            ? error.response.data.info.message
+            : error.message
       });
     }
   };
