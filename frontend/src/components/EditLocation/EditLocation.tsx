@@ -15,6 +15,7 @@ import {
   SaveBox,
   SaveButton
 } from 'components/design/StyledProfile';
+import { resizeImageFn } from 'utils/imgResizer';
 import { useTypedDispatch } from '../../redux/hooks/useTypedDispatch';
 import { StyledCreateLocationWrapper } from '../design/StyledCreateLocationWrapper';
 
@@ -36,7 +37,7 @@ const EditLocation = ({
   descriptiondescription,
   locationId
 }: Props) => {
-  const [files, setFiles] = useState<File[]>([]);
+  const [files, setFiles] = useState<Blob[]>([]);
   const [locationImageName, setLocationImageName] = useState<string>('');
   const { t } = useTranslation();
   const { updatePopupLocationAfterEditing } = useTypedDispatch();
@@ -56,11 +57,7 @@ const EditLocation = ({
     const formData = new FormData();
     formData.append('locationName', locationName);
     formData.append('description', locationDescription);
-
-    for (let i = 0; i < files.length; i += 1) {
-      formData.append('image', files[i]);
-    }
-
+    files.map(file => formData.append('image', file));
     updatePopupLocationAfterEditing(
       locationId,
       formData,
@@ -70,17 +67,10 @@ const EditLocation = ({
     closeEditData();
   };
 
-  const handleFilesChange = (e: any) => {
-    const { files: filesLst } = e.currentTarget;
-    const filesListArr = [];
-
-    if (filesLst) {
-      for (let i = 0; i < filesLst.length; i += 1) {
-        filesListArr.push(filesLst[i]);
-      }
-
-      setFiles(filesListArr);
-    }
+  const handleFilesChange = async (e: any) => {
+    const imgFiles = [...e.target.files];
+    const images = await resizeImageFn(imgFiles, 800, 500);
+    setFiles(images);
   };
 
   return (

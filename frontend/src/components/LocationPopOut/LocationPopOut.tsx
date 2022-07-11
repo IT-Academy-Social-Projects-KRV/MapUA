@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import L from 'leaflet';
 import { CardMedia, Typography } from '@mui/material';
 import { Marker } from 'react-leaflet';
@@ -14,7 +14,6 @@ import verifiedIcon from '../../static/verified-icon.png';
 import unverifiedIcon from '../../static/unverified-icon.png';
 import waitingIcon from '../../static/waiting-icon.png';
 import img from '../../static/image-not-found.jpg';
-import { verificationStatusTypes } from '../../static/verificationStatusTypes';
 
 interface Props {
   id: string;
@@ -38,20 +37,21 @@ export function LocationPopOut({
   const { loading } = locationData;
   const { fetchPopupLocation } = useTypedDispatch();
 
-  let locationIcon: string = unverifiedIcon;
-  switch (verificationStatus) {
-    case verificationStatusTypes.VERIFIED:
-      locationIcon = verifiedIcon;
-      break;
-    case verificationStatusTypes.UNVERIFIED:
-      locationIcon = unverifiedIcon;
-      break;
-    case verificationStatusTypes.WAITING:
-      locationIcon = waitingIcon;
-      break;
-    default:
-      break;
-  }
+  const [locationIcon, setLocationIcon] = useState<string>(verifiedIcon);
+
+  useEffect(() => {
+    if (verificationStatus === 'verified') {
+      setLocationIcon(verifiedIcon);
+    }
+
+    if (verificationStatus === 'unverified') {
+      setLocationIcon(unverifiedIcon);
+    }
+
+    if (verificationStatus === 'waiting') {
+      setLocationIcon(waitingIcon);
+    }
+  }, [verificationStatus]);
 
   return (
     <Marker

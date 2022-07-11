@@ -1,4 +1,8 @@
 import React from 'react';
+<<<<<<< HEAD
+=======
+import GitHubIcon from '@mui/icons-material/GitHub';
+>>>>>>> 28589ad1348e1180c728620e0fc1388d00a5f60a
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import {
   Button,
