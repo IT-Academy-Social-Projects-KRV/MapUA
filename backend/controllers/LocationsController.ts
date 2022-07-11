@@ -238,7 +238,7 @@ const LocationsController = {
       let { id: locationId } = req.params;
       let { locationName, description, filters } = req.body;
       const { _id: userId } = req.user;
-      console.log(filters);
+   
 
       const locationAuthorId = await Location.findById(locationId).select(
         'author'
