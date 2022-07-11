@@ -1,4 +1,4 @@
 # MapUA
 
-[Link to the Webpage](https://mapua.herokuapp.com/)  
-[Link to the API](https://mapua.herokuapp.com/api-docs/)
+[Link to the Webpage](https://map-ua.herokuapp.com/)  
+[Link to the API](https://map-ua.herokuapp.com/api-docs/)

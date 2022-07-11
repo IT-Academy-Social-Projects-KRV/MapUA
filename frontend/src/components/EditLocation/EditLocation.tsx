@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import UploadInput from 'components/design/UploadInputCreateLocation';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTranslation } from 'react-i18next';
-import { Typography, TextField, Stack } from '@mui/material';
+import { Typography, TextField, Stack, Autocomplete } from '@mui/material';
 import {
   Controller,
   useForm,
@@ -15,6 +15,8 @@ import {
   SaveBox,
   SaveButton
 } from 'components/design/StyledProfile';
+import { resizeImageFn } from 'utils/imgResizer';
+import { getFiltersForUser } from '../../static/mainFIlters';
 import { useTypedDispatch } from '../../redux/hooks/useTypedDispatch';
 import { StyledCreateLocationWrapper } from '../design/StyledCreateLocationWrapper';
 
@@ -23,6 +25,7 @@ type Props = {
   closeEditData: any;
   descriptiondescription: string;
   locationId: string;
+  selectedLocationFilters: string[];
 };
 type EditingLocation = {
   locationName: string;
@@ -34,10 +37,13 @@ const EditLocation = ({
   locationNamelocationName,
   closeEditData,
   descriptiondescription,
-  locationId
+  locationId,
+  selectedLocationFilters
 }: Props) => {
-  const [files, setFiles] = useState<File[]>([]);
+  const [files, setFiles] = useState<Blob[]>([]);
   const [locationImageName, setLocationImageName] = useState<string>('');
+  const [filters, setFilters] = useState([...selectedLocationFilters]);
+
   const { t } = useTranslation();
   const { updatePopupLocationAfterEditing } = useTypedDispatch();
   const { handleSubmit, control } = useForm<EditingLocation>({
@@ -56,11 +62,8 @@ const EditLocation = ({
     const formData = new FormData();
     formData.append('locationName', locationName);
     formData.append('description', locationDescription);
-
-    for (let i = 0; i < files.length; i += 1) {
-      formData.append('image', files[i]);
-    }
-
+    formData.append('filters', String(filters));
+    files.map(file => formData.append('image', file));
     updatePopupLocationAfterEditing(
       locationId,
       formData,
@@ -70,17 +73,10 @@ const EditLocation = ({
     closeEditData();
   };
 
-  const handleFilesChange = (e: any) => {
-    const { files: filesLst } = e.currentTarget;
-    const filesListArr = [];
-
-    if (filesLst) {
-      for (let i = 0; i < filesLst.length; i += 1) {
-        filesListArr.push(filesLst[i]);
-      }
-
-      setFiles(filesListArr);
-    }
+  const handleFilesChange = async (e: any) => {
+    const imgFiles = [...e.target.files];
+    const images = await resizeImageFn(imgFiles, 800, 500);
+    setFiles(images);
   };
 
   return (
@@ -126,6 +122,24 @@ const EditLocation = ({
                   ? ''
                   : String(errors.locationDescription.message)
               )}
+            />
+          )}
+        />
+        <Autocomplete
+          multiple
+          id="tags-outlined"
+          options={getFiltersForUser()}
+          getOptionLabel={option => option}
+          filterSelectedOptions
+          value={filters}
+          onChange={(e, value) => setFilters(value)}
+          defaultValue={[...filters]}
+          renderInput={params => (
+            <TextField
+              {...params}
+              value={filters}
+              label={t('common.filters')}
+              placeholder={t('createLocation.favorites')}
             />
           )}
         />

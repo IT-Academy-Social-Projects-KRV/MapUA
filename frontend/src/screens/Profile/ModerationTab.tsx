@@ -1,11 +1,11 @@
-import { Avatar } from '@mui/material';
+import { Avatar, Box } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { StyledCardProfileTabs } from 'components/design/StyledCardProfileTabs';
 import { Link, useNavigate } from 'react-router-dom';
 import { StyledTabComponentBox } from 'components/design/StyledTabComponentBox';
-import CircularLoader from '../CircularLoader/CircularLoader';
+import CircularLoader from '../../components/CircularLoader/CircularLoader';
 import imageNotFound from '../../static/image-not-found.jpg';
 
 interface Props {
@@ -36,7 +36,7 @@ export const ModerationTab = ({ t, fetchLocationsForModeration }: Props) => {
   }
 
   if (!locations.length) {
-    return <>`${t}`</>;
+    return <Box>{t}</Box>;
   }
 
   return (
