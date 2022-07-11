@@ -1,24 +1,22 @@
-/* eslint-disable no-unused-vars */
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { TileLayer, useMapEvents } from 'react-leaflet';
+import { TileLayer } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useTranslation } from 'react-i18next';
 import SearchFormContainer from 'components/SearchFormContainer';
 import useDebounce from 'utils/useDebounce';
-import { v4 } from 'uuid';
 import { StyledMapWrapper } from 'components/design/StyledMapWrapper';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import L from 'leaflet';
-import { Button } from '@mui/material';
+import { Box } from '@mui/material';
 import Locations from './Locations/Locations';
 import MyZoomComponent from './ZoomComponent';
 
 import { StyledMapContainer } from '../design/StyledMapContainer';
 import {
-  StyledAddLocationButton,
-  StyledCloseAddingModeLocationButton
+  StyledCloseAddingModeLocationButton,
+  StyledAddLocationButton
 } from '../design/StyledAddLocationButton';
 import { latlngType } from '../../../types';
 import DrawMarkerCreateLocation from './DrawMarkerWhenLocationCreate';
@@ -53,8 +51,6 @@ function Map({
 
   const { locationId } = useParams();
 
-  const { setLocationName } = useTypedDispatch();
-
   const {
     bounds,
     locationName: searchName,
@@ -83,7 +79,7 @@ function Map({
     locationId
   ]);
 
-  const closeAddLocationModal = (e: any) => {
+  const closeAddLocationModal = () => {
     toggleClose();
   };
 
@@ -110,29 +106,29 @@ function Map({
         <Locations onOpenBigPopup={onOpenBigPopup} />
 
         <SearchFormContainer />
+        <Box ref={closeButtonRef}>
+          {isAuthorized && !isOpen && (
+            <StyledAddLocationButton
+              onClick={() => toggleIsAddLocation()}
+              style={{
+                background: isAddLocationActive ? 'yellow' : 'white',
+                color: isAddLocationActive ? 'black' : '#1976d2'
+              }}
+            >
+              {isAddLocationActive
+                ? `${t('map.chooseCoordinates')}`
+                : `${t('map.addLocation')}`}
+            </StyledAddLocationButton>
+          )}
 
-        {isAuthorized && !isOpen && (
-          <StyledAddLocationButton
-            onClick={() => toggleIsAddLocation()}
-            style={{
-              background: isAddLocationActive ? 'yellow' : 'white',
-              color: isAddLocationActive ? 'black' : '#1976d2'
-            }}
-          >
-            {isAddLocationActive
-              ? `${t('map.chooseCoordinates')}`
-              : `${t('map.addLocation')}`}
-          </StyledAddLocationButton>
-        )}
-
-        {isAddLocationActive && !isOpenLocationForm && (
-          <StyledCloseAddingModeLocationButton
-            ref={closeButtonRef}
-            onClick={closeAddLocationModal}
-          >
-            x
-          </StyledCloseAddingModeLocationButton>
-        )}
+          {isAddLocationActive && !isOpenLocationForm && (
+            <StyledCloseAddingModeLocationButton
+              onClick={closeAddLocationModal}
+            >
+              x
+            </StyledCloseAddingModeLocationButton>
+          )}
+        </Box>
         {isOpen && <DrawMarkerCreateLocation coordinate={coordinate} />}
       </StyledMapContainer>
     </StyledMapWrapper>
