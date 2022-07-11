@@ -13,18 +13,12 @@ export const initialState: popupLocationStateType = {
     _id: '',
     locationName: '',
     author: {} as AuthorInfoType,
-    rating: {
-      likes: [],
-      dislikes: []
-    },
     coordinates: [0, 0],
     arrayPhotos: [],
     description: '',
     reported: false,
     createdAt: new Date(),
-    updatedAt: new Date(),
-
-    verificationStatus: ''
+    updatedAt: new Date()
   }
 };
 
@@ -66,10 +60,7 @@ export const popupLocationReducer = (
         loading: false,
         error: null,
         data: {
-          // ...action.payload,
-          ...state.data,
-          rating: action.payload.rating,
-          // verificationStatus: action.payload.verificationStatus,
+          ...action.payload,
           createdAt: new Date(action.payload.createdAt),
           updatedAt: new Date(action.payload.updatedAt)
         },
@@ -96,17 +87,7 @@ export const popupLocationReducer = (
         loading: false,
         error: null,
         data: {
-          // ...state.data,
           ...action.payload,
-          // _id: state.data._id,
-          // locationName: state.data.locationName,
-          // author: state.data.author,
-          // rating: action.payload.rating,
-          // coordinates: state.data.coordinates,
-          // arrayPhotos: state.data.arrayPhotos,
-          // description: state.data.description,
-          // reported: state.data.reported,
-          // verificationStatus: state.data.verificationStatus,
           createdAt: new Date(action.payload.createdAt),
           updatedAt: new Date(action.payload.updatedAt)
         },

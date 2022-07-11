@@ -13,7 +13,6 @@ export const updatePopupLocationRating =
         type: LocationRatingActionTypes.UPDATE_LOCATION_RATING_LOADING
       });
       const { data } = await axios().patch(`locations/${id}`, rating);
-      console.log('data', data);
 
       if (data) {
         dispatch({
@@ -25,7 +24,6 @@ export const updatePopupLocationRating =
       dispatch({
         type: LocationRatingActionTypes.UPDATE_LOCATION_RATING_ERROR,
         payload:
-          // 'Could not update location'
           error.response && error.response.data.info.message
             ? error.response.data.info.message
             : error.message

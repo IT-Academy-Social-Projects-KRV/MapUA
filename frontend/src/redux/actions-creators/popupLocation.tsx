@@ -39,15 +39,38 @@ export const fetchPopupLocation =
       });
 
       const { data } = await axios().get(`locations/${id}`);
+      const {
+        _id,
+        author,
+        locationName,
+        coordinates,
+        arrayPhotos,
+        description,
+        reported,
+        createdAt,
+        updatedAt,
+        rating,
+        verificationStatus
+      } = data;
 
       if (data) {
         dispatch({
           type: LocationActionTypes.FETCH_LOCATION_SUCCESS,
-          payload: data
+          payload: {
+            _id,
+            author,
+            locationName,
+            coordinates,
+            arrayPhotos,
+            description,
+            reported,
+            createdAt,
+            updatedAt
+          }
         });
         dispatch({
           type: LocationRatingActionTypes.FETCH_LOCATION_RATING_SUCCESS,
-          payload: data
+          payload: { rating, verificationStatus }
         });
         dispatch({
           type: DeleteLocationActionTypes.DELETE_LOCATION_RESET

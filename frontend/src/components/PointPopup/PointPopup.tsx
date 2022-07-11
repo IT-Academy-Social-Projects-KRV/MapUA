@@ -30,7 +30,6 @@ const PointPopup = ({ toggleClose }: Props) => {
   const handleOpenDialog = () => setOpen(true);
 
   const {
-    // updatePopupLocation,
     updatePopupLocationRating,
     toggleVisitedField,
     toggleFavoriteField,
@@ -42,10 +41,6 @@ const PointPopup = ({ toggleClose }: Props) => {
   const { isAuthorized } = useTypedSelector(
     state => state.isUserAuthorized.data
   );
-
-  // const { verificationStatus } = useTypedSelector(
-  //   state => state.popupLocation.data
-  // );
 
   const {
     _id: userId,
@@ -144,18 +139,11 @@ const PointPopup = ({ toggleClose }: Props) => {
     ) {
       status = 'unverified';
     }
-    // return updatePopupLocation(locationId, {
-    //   rating: updatedRating,
-    //   verificationStatus: status
-    // });
+
     return updatePopupLocationRating(locationId, {
       rating: updatedRating,
       verificationStatus: status
     });
-    // updatePopupLocation(locationId, {
-    //   rating: updatedRating,
-    //   verificationStatus: status
-    // })
   };
 
   const editData = () => {

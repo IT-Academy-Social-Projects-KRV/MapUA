@@ -53,12 +53,9 @@ export const IconsComponent = ({
     SetSuccessSnackbar,
     updatePopupLocationRating
   } = useTypedDispatch();
-  const { rating } = useTypedSelector(state => state.popupLocationRating.data);
-  console.log('rating', rating);
 
-  // const { verificationStatus } = useTypedSelector(
-  //   state => state.popupLocation.data
-  // );
+  const { rating } = useTypedSelector(state => state.popupLocationRating.data);
+
   const { verificationStatus } = useTypedSelector(
     state => state.popupLocationRating.data
   );

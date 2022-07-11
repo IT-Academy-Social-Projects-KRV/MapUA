@@ -35,8 +35,7 @@ export const popupLocationRatingReducer = (
         loading: false,
         error: null,
         data: {
-          rating: action.payload.rating,
-          verificationStatus: action.payload.verificationStatus
+          ...action.payload
         },
         success: true
       };
@@ -57,8 +56,7 @@ export const popupLocationRatingReducer = (
         loading: false,
         error: null,
         data: {
-          rating: action.payload.rating,
-          verificationStatus: action.payload.verificationStatus
+          ...action.payload
         },
         success: true
       };
