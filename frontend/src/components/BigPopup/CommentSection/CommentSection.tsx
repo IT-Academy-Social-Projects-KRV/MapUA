@@ -15,7 +15,7 @@ import CommentForm from './CommentForm';
 import Comment from './Comment';
 
 const CommentSection = () => {
-  const { role: OtherUserId } = useTypedSelector(
+  const { role: otherUserRole } = useTypedSelector(
     state => state.otherUserData.data
   );
   const { _id: locationId } = useTypedSelector(
@@ -44,7 +44,7 @@ const CommentSection = () => {
             comments.length
           }`}
       </Divider>
-      {isAuthorized || (OtherUserId !== 'bannedUser' && <CommentForm />)}
+      {isAuthorized || (otherUserRole !== 'bannedUser' && <CommentForm />)}
       {!comments.length ? (
         <Stack spacing={1} mt={2}>
           <Skeleton />

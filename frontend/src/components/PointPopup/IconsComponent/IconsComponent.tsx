@@ -66,7 +66,7 @@ export const IconsComponent = ({
     state => state.isUserAuthorized.data
   );
   const { role } = useTypedSelector(state => state.isUserAuthorized.data);
-  const { role: OtherUserId } = useTypedSelector(
+  const { role: otherUserRole } = useTypedSelector(
     state => state.otherUserData.data
   );
 
@@ -227,7 +227,7 @@ export const IconsComponent = ({
         )}
 
         {locationAuthorId?._id === userId ||
-          (OtherUserId !== 'bannedUser' && (
+          (otherUserRole !== 'bannedUser' && (
             <MenuItem onClick={editData}>
               <ListItemIcon>
                 <EditIcon fontSize="small" />
@@ -237,7 +237,7 @@ export const IconsComponent = ({
           ))}
 
         {isAuthorized ||
-          (OtherUserId !== 'bannedUser' && (
+          (otherUserRole !== 'bannedUser' && (
             <MenuItem onClick={() => reportLocation()}>
               <ListItemIcon>
                 <ReportIcon fontSize="small" />
@@ -247,7 +247,7 @@ export const IconsComponent = ({
           ))}
 
         {(reported && (role === 'moderator' || role === 'admin')) ||
-          (OtherUserId !== 'bannedUser' && (
+          (otherUserRole !== 'bannedUser' && (
             <MenuItem onClick={() => deleteReport()}>
               <ListItemIcon>
                 <ReportOffIcon fontSize="small" />
