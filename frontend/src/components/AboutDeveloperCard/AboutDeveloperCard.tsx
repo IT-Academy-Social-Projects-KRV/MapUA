@@ -21,7 +21,7 @@ const AboutDeveloperCard = ({ photo, fullName, linkedIn }: Props) => (
   <StyledDeveloperCard>
     <CardActionArea>
       <CardMedia component="img" image={photo} alt="personal photo" />
-      <CardContent>
+      <CardContent sx={{ minHeight: 96 }}>
         <Typography align="center" variant="h6">
           {fullName}
         </Typography>
@@ -31,6 +31,7 @@ const AboutDeveloperCard = ({ photo, fullName, linkedIn }: Props) => (
       <Button
         component={Link}
         href={linkedIn}
+        target="_blank"
         size="small"
         endIcon={<LinkedInIcon />}
       >

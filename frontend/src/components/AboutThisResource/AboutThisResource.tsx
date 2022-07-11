@@ -1,5 +1,5 @@
 import React from 'react';
-import { Stack, Typography } from '@mui/material';
+import { Divider, Stack, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 const AboutThisResource = () => {
@@ -13,6 +13,7 @@ const AboutThisResource = () => {
       <Typography px={10} variant="subtitle1" align="justify">
         {t('common.descriptionThisResource')}
       </Typography>
+      <Divider>{t('common.developmentTeam')}</Divider>
     </Stack>
   );
 };
