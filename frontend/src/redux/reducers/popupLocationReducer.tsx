@@ -20,6 +20,7 @@ export const initialState: popupLocationStateType = {
     coordinates: [0, 0],
     arrayPhotos: [],
     description: '',
+    filters: [],
     reported: false,
     createdAt: new Date(),
     updatedAt: new Date(),

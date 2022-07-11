@@ -46,6 +46,7 @@ const PointPopup = ({ toggleClose }: Props) => {
     state => state.popupLocation.data
   );
 
+  const { role } = useTypedSelector(state => state.isUserAuthorized.data);
   const {
     _id: userId,
     favorite,
@@ -55,6 +56,10 @@ const PointPopup = ({ toggleClose }: Props) => {
   const { author: locationAuthorId } = useTypedSelector(
     state => state.popupLocation.data
   );
+  const selectedLocationFilters = useTypedSelector(
+    state => state.popupLocation.data.filters
+  );
+
   const isDeleted = useTypedSelector(state => state.deleteLocation.data);
   const {
     _id: locationId,
@@ -166,12 +171,15 @@ const PointPopup = ({ toggleClose }: Props) => {
 
   return (
     <Box>
-      {showEditPanel && locationAuthorId?._id === userId ? (
+      {(showEditPanel && locationAuthorId?._id === userId) ||
+      (showEditPanel && role === 'moderator') ||
+      (showEditPanel && role === 'admin') ? (
         <EditLocation
           locationNamelocationName={locationName}
           closeEditData={closeEditData}
           descriptiondescription={description}
           locationId={locationId}
+          selectedLocationFilters={selectedLocationFilters}
         />
       ) : (
         <Box>
