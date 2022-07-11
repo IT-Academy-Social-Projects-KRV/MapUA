@@ -59,21 +59,18 @@ export default function PersonProfilePage() {
     }
   };
 
+  const toogleBanStatus = (): string => {
+    if (role === 'user') {
+      return 'bannedUser';
+    }
+    return 'user';
+  };
+
   const handleBan = () => {
     if (isAuthorized) {
       toggleUserBan(
         otherUserId,
-        'bannedUser',
-        t('personalProfile.personalProfilePage.banningUpdated')
-      );
-    }
-  };
-
-  const handleUnban = () => {
-    if (isAuthorized) {
-      toggleUserBan(
-        otherUserId,
-        'user',
+        toogleBanStatus(),
         t('personalProfile.personalProfilePage.banningUpdated')
       );
     }
@@ -118,7 +115,7 @@ export default function PersonProfilePage() {
                 <SubsrcibeButton
                   size="large"
                   variant="contained"
-                  onClick={handleUnban}
+                  onClick={handleBan}
                 >
                   {t('profile.profilePage.unban')}
                 </SubsrcibeButton>
