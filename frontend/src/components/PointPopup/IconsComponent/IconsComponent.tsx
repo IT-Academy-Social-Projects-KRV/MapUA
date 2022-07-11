@@ -225,7 +225,6 @@ export const IconsComponent = ({
 
         {(locationAuthorId?._id === userId ||
           role === 'moderator' ||
-<<<<<<< HEAD
           role === 'admin') &&
           verificationStatus !== 'verified' && (
             <MenuItem onClick={editData}>
@@ -235,16 +234,6 @@ export const IconsComponent = ({
               <ListItemText>{t('createLocation.editLocation')}</ListItemText>
             </MenuItem>
           )}
-=======
-          role === 'admin') && (
-          <MenuItem onClick={editData}>
-            <ListItemIcon>
-              <EditIcon fontSize="small" />
-            </ListItemIcon>
-            <ListItemText>{t('createLocation.editLocation')}</ListItemText>
-          </MenuItem>
-        )}
->>>>>>> 28589ad1348e1180c728620e0fc1388d00a5f60a
 
         {isAuthorized && (
           <MenuItem onClick={() => reportLocation()}>
