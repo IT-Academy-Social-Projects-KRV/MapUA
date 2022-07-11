@@ -54,6 +54,7 @@ export type locationType = {
   coordinates: [number, number];
   arrayPhotos: string[];
   description: string;
+  filters: string[];
   reported: boolean;
   createdAt: Date;
   updatedAt: Date;

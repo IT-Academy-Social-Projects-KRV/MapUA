@@ -42,6 +42,7 @@ const CreateLocation = ({
 }: Props) => {
   const [files, setFiles] = useState<File[]>([]);
   const [filters, setFilters] = useState('');
+
   const [locationImageName, setLocationImageName] = useState<string>('');
   const ref = useRef<null | HTMLInputElement>();
 

@@ -79,9 +79,6 @@ export const toggleVisitedField =
       dispatch({
         type: LocationActionTypes.TOGGLE_VISITED_FIELD_ERROR,
         payload: 'Could not toggle visited field'
-        // error.response && error.response.data.info.message
-        //   ? error.response.data.info.message
-        //   : error.message
       });
     }
   };
@@ -116,9 +113,6 @@ export const toggleFavoriteField =
       dispatch({
         type: LocationActionTypes.TOGGLE_FAVORITE_FIELD_ERROR,
         payload: 'Could not toggle favorite field'
-        // error.response && error.response.data.info.message
-        //   ? error.response.data.info.message
-        //   : error.message
       });
       throw new Error(error);
     }
@@ -143,9 +137,6 @@ export const updatePopupLocation =
       dispatch({
         type: LocationActionTypes.UPDATE_LOCATION_ERROR,
         payload: 'Could not update location'
-        // error.response && error.response.data.info.message
-        //   ? error.response.data.info.message
-        //   : error.message
       });
       throw new Error(error);
     }
