@@ -50,7 +50,7 @@ function NavBar() {
 
   return (
     <StyledAppBar>
-      <StyledLink to="/about_us">{t('navBar.aboutUs')}</StyledLink>
+      <StyledLink to="/about-us">{t('navBar.aboutUs')}</StyledLink>
       <StyledLink to="/top">{t('navBar.top')}</StyledLink>
       <StyledLink
         onClick={() => {

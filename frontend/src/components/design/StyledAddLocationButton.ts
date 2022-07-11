@@ -6,5 +6,15 @@ export const StyledAddLocationButton = styled(Button)`
   position: absolute;
   top: 15px;
   left: 50px;
-  padding: 8p;
+`;
+
+export const StyledCloseAddingModeLocationButton = styled(Button)`
+  z-index: 1000;
+  position: absolute;
+  top: 15px;
+  left: 230px;
+  background-color: yellow;
+  height: 35px;
+  min-width: 35px;
+  color: black;
 `;

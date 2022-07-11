@@ -70,6 +70,12 @@ function HomeScreen() {
           toggleIsAddLocation={toggleIsAddLocation}
           isAddLocationActive={isAddLocationActive}
           coordinate={coordinate}
+          toggleClose={() => {
+            setIsOpenLocationPopup(false);
+            setIsAddLocationActive(false);
+            setIsAddLocation(false);
+          }}
+          isOpenLocationForm={isOpenLocationForm}
         />
       </Box>
     </Box>

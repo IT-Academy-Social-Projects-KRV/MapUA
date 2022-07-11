@@ -27,7 +27,7 @@ type Props = {
   handleRating: Function;
   handleFavoriteClick: MouseEventHandler<HTMLButtonElement>;
   handleVisitedClick: MouseEventHandler<HTMLButtonElement>;
-  handleDeleteClick: MouseEventHandler<HTMLLIElement>;
+  handleDeleteClick: any;
   locationIsFavorite: boolean | '' | undefined;
   locationIsVisited: boolean | '' | undefined;
   editData: any;
@@ -225,7 +225,9 @@ export const IconsComponent = ({
           />
         )}
 
-        {locationAuthorId?._id === userId && (
+        {(locationAuthorId?._id === userId ||
+          role === 'moderator' ||
+          role === 'admin') && (
           <MenuItem onClick={editData}>
             <ListItemIcon>
               <EditIcon fontSize="small" />

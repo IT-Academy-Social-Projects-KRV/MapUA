@@ -196,7 +196,6 @@ const LocationsController = {
           .status(400)
           .json({ error: req.t('locations_list.location_not_found') });
       }
-      // console.log('location', location);
 
       return res.status(200).json(location);
     } catch (err: any) {
