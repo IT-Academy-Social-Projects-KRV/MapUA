@@ -169,33 +169,6 @@ export const toggleFavoriteField =
     }
   };
 
-export const updatePopupLocation =
-  (id: string | undefined, location: {}) =>
-  async (dispatch: Dispatch<LocationActions>) => {
-    try {
-      dispatch({
-        type: LocationActionTypes.UPDATE_LOCATION_LOADING
-      });
-      const { data } = await axios().patch(`locations/${id}`, location);
-
-      if (data) {
-        dispatch({
-          type: LocationActionTypes.UPDATE_LOCATION_SUCCESS,
-          payload: data
-        });
-      }
-    } catch (error: any) {
-      dispatch({
-        type: LocationActionTypes.UPDATE_LOCATION_ERROR,
-        payload: 'Could not update location'
-        // error.response && error.response.data.info.message
-        //   ? error.response.data.info.message
-        //   : error.message
-      });
-      throw new Error(error);
-    }
-  };
-
 export const updatePopupLocationAfterEditing =
   (id: string | undefined, formData: FormData, notification: string) =>
   async (dispatch: Dispatch<LocationActions | SnackbarActions>) => {
