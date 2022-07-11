@@ -1,13 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   CardContent,
   List,
   Skeleton,
   Typography,
   Stack,
-  Divider
+  Divider,
+  CircularProgress
 } from '@mui/material';
+import { StyledCommentsLoaderBox } from 'components/design/StyledCommentsLoaderBox';
 import { t } from 'i18next';
+import { useInView } from 'react-intersection-observer';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { CommentType, AuthorInfoType } from '../../../../types';
@@ -15,6 +18,9 @@ import CommentForm from './CommentForm';
 import Comment from './Comment';
 
 const CommentSection = () => {
+  const { ref, inView } = useInView({ threshold: 0 });
+  const commentStepCount = 5;
+
   const { _id: locationId } = useTypedSelector(
     state => state.popupLocation.data
   );
@@ -26,11 +32,33 @@ const CommentSection = () => {
 
   const topComments = comments.filter(c => !c.parentComment);
 
+  const [topCommentsOnPageIndex, setTopCommentsOnPageIndex] =
+    useState(commentStepCount);
+
+  const [topCommentsOnPage, setTopCommentsOnPage] = useState(
+    topComments.slice(0, commentStepCount)
+  );
+
   useEffect(() => {
     if (locationId) {
       fetchComments(locationId);
     }
   }, [locationId]);
+
+  useEffect(() => {
+    const addMoreComment = () =>
+      setTopCommentsOnPageIndex(prevState => prevState + commentStepCount);
+
+    const timerId = setTimeout(() => addMoreComment(), 2000);
+
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [inView]);
+
+  useEffect(() => {
+    setTopCommentsOnPage(topComments.slice(0, topCommentsOnPageIndex));
+  }, [comments, topCommentsOnPageIndex]);
 
   return (
     <CardContent>
@@ -53,38 +81,46 @@ const CommentSection = () => {
           </Typography>
         </Stack>
       ) : (
-        <List>
-          {topComments.map(
-            ({
-              _id: commentId,
-              text,
-              author,
-              createdAt,
-              likes,
-              dislikes,
-              parentComment,
-              deleted
-            }: CommentType<AuthorInfoType>) => (
-              <Comment
-                index={0}
-                comments={comments}
-                key={commentId}
-                authorId={author._id}
-                authorRole={author.role}
-                authorsImage={author.imageUrl}
-                authorsName={author.displayName}
-                createdAt={createdAt!}
-                text={text}
-                id={commentId}
-                locationId={locationId}
-                likes={likes}
-                dislikes={dislikes}
-                parentComment={parentComment}
-                deleted={deleted}
-              />
-            )
+        <>
+          <List>
+            {topCommentsOnPage.map(
+              ({
+                _id: commentId,
+                text,
+                author,
+                createdAt,
+                likes,
+                dislikes,
+                parentComment,
+                deleted
+              }: CommentType<AuthorInfoType>) => (
+                <Comment
+                  index={0}
+                  comments={comments}
+                  key={commentId}
+                  authorId={author._id}
+                  authorRole={author.role}
+                  authorsImage={author.imageUrl}
+                  authorsName={author.displayName}
+                  createdAt={createdAt!}
+                  text={text}
+                  id={commentId}
+                  locationId={locationId}
+                  likes={likes}
+                  dislikes={dislikes}
+                  parentComment={parentComment}
+                  deleted={deleted}
+                />
+              )
+            )}
+          </List>
+          {topComments.length > topCommentsOnPageIndex && (
+            <StyledCommentsLoaderBox ref={ref}>
+              {t('bigPopup.commentSection.commentSection.commentsLoading')}
+              <CircularProgress />
+            </StyledCommentsLoaderBox>
           )}
-        </List>
+        </>
       )}
     </CardContent>
   );
