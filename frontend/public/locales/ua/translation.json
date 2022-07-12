@@ -65,12 +65,15 @@
       "yourName": "Ваше ім'я:",
       "profilePageUpdatedSuccessfully": "Дані профілю успішно оновлені!",
       "subscribe": "Підписатись",
-      "unsubscribe": "Відписатись"
+      "unsubscribe": "Відписатись",
+      "createModerator": "Надати права модератора",
+      "removeModerator": "Забрати права модератора"
     }
   },
   "personalProfile": {
     "personalProfilePage": {
-      "subscriptionUpdated": "Підписку успішно оновлено!"
+      "subscriptionUpdated": "Підписку успішно оновлено!",
+      "rightsUpdated": "Права оновлено"
     }
   },
   "forgotPassword": {
