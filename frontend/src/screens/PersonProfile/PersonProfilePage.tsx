@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useEffect, useState, useRef } from 'react';
-import { Typography, Button } from '@mui/material';
+import React, { useEffect } from 'react';
+import { Button, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useParams } from 'react-router-dom';
@@ -43,7 +43,7 @@ export default function PersonProfilePage() {
   const params = useParams();
   useEffect(() => {
     fetchOtherUserData(params?.id || '');
-  }, [params.id, role]);
+  }, [params.id]);
 
   if (userLoading) {
     return <CircularLoader />;
