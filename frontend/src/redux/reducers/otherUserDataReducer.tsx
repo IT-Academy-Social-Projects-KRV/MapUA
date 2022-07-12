@@ -82,6 +82,13 @@ export const otherUserDataReducer = (
         data: action.payload,
         success: true
       };
+    case OtherUserDataActionTypes.UPDATE_USER_DATA_AND_BAN_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+        success: false
+      };
     default:
       return state;
   }
