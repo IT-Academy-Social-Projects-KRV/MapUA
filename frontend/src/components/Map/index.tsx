@@ -45,11 +45,9 @@ function Map({
   isOpenLocationForm
 }: Props) {
   const { t } = useTranslation();
-  const { isAuthorized } = useTypedSelector(
+  const { isAuthorized, role } = useTypedSelector(
     state => state.isUserAuthorized.data
   );
-
-  const { role } = useTypedSelector(state => state.otherUserData.data);
 
   const { locationId } = useParams();
 
@@ -109,30 +107,29 @@ function Map({
 
         <SearchFormContainer />
 
-        {(isAuthorized && !isOpen) ||
-          (role !== 'bannedUser' && (
-            <Box ref={closeButtonRef}>
-              <StyledAddLocationButton
-                onClick={() => toggleIsAddLocation()}
-                style={{
-                  background: isAddLocationActive ? 'yellow' : 'white',
-                  color: isAddLocationActive ? 'black' : '#1976d2'
-                }}
-              >
-                {isAddLocationActive
-                  ? `${t('map.chooseCoordinates')}`
-                  : `${t('map.addLocation')}`}
-              </StyledAddLocationButton>
+        {isAuthorized && !isOpen && role !== 'bannedUser' && (
+          <Box ref={closeButtonRef}>
+            <StyledAddLocationButton
+              onClick={() => toggleIsAddLocation()}
+              style={{
+                background: isAddLocationActive ? 'yellow' : 'white',
+                color: isAddLocationActive ? 'black' : '#1976d2'
+              }}
+            >
+              {isAddLocationActive
+                ? `${t('map.chooseCoordinates')}`
+                : `${t('map.addLocation')}`}
+            </StyledAddLocationButton>
 
-              {isAddLocationActive && !isOpenLocationForm && (
-                <StyledCloseAddingModeLocationButton
-                  onClick={closeAddLocationModal}
-                >
-                  x
-                </StyledCloseAddingModeLocationButton>
-              )}
-            </Box>
-          ))}
+            {isAddLocationActive && !isOpenLocationForm && (
+              <StyledCloseAddingModeLocationButton
+                onClick={closeAddLocationModal}
+              >
+                x
+              </StyledCloseAddingModeLocationButton>
+            )}
+          </Box>
+        )}
         {isOpen && <DrawMarkerCreateLocation coordinate={coordinate} />}
       </StyledMapContainer>
     </StyledMapWrapper>
