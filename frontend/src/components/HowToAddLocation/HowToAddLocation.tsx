@@ -5,7 +5,6 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   Divider,
   Box
@@ -49,7 +48,7 @@ export default function HowToStart() {
           <Divider />
         </DialogTitle>
         <DialogContent>
-          <DialogContentText
+          <Box
             id="alert-dialog-description"
             sx={{ fontSize: '20px', maxHeight: '63vh' }}
           >
@@ -102,7 +101,7 @@ export default function HowToStart() {
             <Text>{t('infoPopUp.howLocationCreateStep3')}</Text>
             <Text>{t('infoPopUp.howLocationCreateStep4')}</Text>
             <Text>{t('infoPopUp.howLocationCreateStep5')}</Text>
-          </DialogContentText>
+          </Box>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} sx={{ fontSize: '20px' }}>
