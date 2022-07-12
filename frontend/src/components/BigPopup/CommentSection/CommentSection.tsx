@@ -18,7 +18,7 @@ import CommentForm from './CommentForm';
 import Comment from './Comment';
 
 const CommentSection = () => {
-  const { ref, inView } = useInView({ threshold: 0 });
+  const { ref, inView } = useInView({ threshold: 1 });
   const commentStepCount = 5;
 
   const { _id: locationId } = useTypedSelector(
