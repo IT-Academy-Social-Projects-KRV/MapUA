@@ -18,7 +18,7 @@ import CommentForm from './CommentForm';
 import Comment from './Comment';
 
 const CommentSection = () => {
-  const { ref, inView } = useInView({ threshold: 1 });
+  const { ref, inView } = useInView({ threshold: 1, triggerOnce: true });
   const commentStepCount = 5;
 
   const { _id: locationId } = useTypedSelector(
@@ -35,13 +35,9 @@ const CommentSection = () => {
   const [topCommentsOnPageIndex, setTopCommentsOnPageIndex] =
     useState(commentStepCount);
 
-  const [topCommentsOnPage, setTopCommentsOnPage] = useState(
-    topComments.slice(0, commentStepCount)
-  );
-
   useEffect(() => {
     if (locationId) {
-      fetchComments(locationId);
+      fetchComments(locationId, undefined, topCommentsOnPageIndex);
     }
   }, [locationId]);
 
@@ -57,8 +53,8 @@ const CommentSection = () => {
   }, [inView]);
 
   useEffect(() => {
-    setTopCommentsOnPage(topComments.slice(0, topCommentsOnPageIndex));
-  }, [comments, topCommentsOnPageIndex]);
+    fetchComments(locationId, undefined, topCommentsOnPageIndex);
+  }, [topCommentsOnPageIndex]);
 
   return (
     <CardContent>
@@ -83,7 +79,7 @@ const CommentSection = () => {
       ) : (
         <>
           <List>
-            {topCommentsOnPage.map(
+            {topComments.map(
               ({
                 _id: commentId,
                 text,
@@ -92,10 +88,13 @@ const CommentSection = () => {
                 likes,
                 dislikes,
                 parentComment,
-                deleted
+                deleted,
+                hasReplies
               }: CommentType<AuthorInfoType>) => (
                 <Comment
                   index={0}
+                  hasReplies={hasReplies}
+                  topCommentsOnPageIndex={topCommentsOnPageIndex}
                   comments={comments}
                   key={commentId}
                   authorId={author._id}
@@ -114,7 +113,7 @@ const CommentSection = () => {
               )
             )}
           </List>
-          {topComments.length > topCommentsOnPageIndex && (
+          {topComments.length >= topCommentsOnPageIndex && (
             <StyledCommentsLoaderBox ref={ref}>
               {t('bigPopup.commentSection.commentSection.commentsLoading')}
               <CircularProgress />

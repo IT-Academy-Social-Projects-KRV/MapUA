@@ -6,12 +6,31 @@ const CommentsController = {
   async getLocationComments(req: Request, res: Response) {
     try {
       const locationId = req.params.locationId;
-      const comments = await Comment.find({ locationId: locationId })
+      const  {commentId, commentCount } = req.query;
+
+      let comments = [];
+
+      const topComments = await Comment.find({ locationId: locationId, parentComment: null })
         .sort({ createdAt: -1 })
+        .limit(Number(commentCount))
         .populate({
           path: 'author',
           select: 'displayName imageUrl role'
         });
+    
+
+        if(commentId){
+          const replyComments = await Comment.find({ locationId: locationId, parentComment: commentId })
+          .sort({ createdAt: -1 })
+          .populate({
+            path: 'author',
+            select: 'displayName imageUrl role'
+          });
+          comments = [...replyComments, ...topComments];
+        } else {
+          comments = [...topComments];
+        }
+
       return res.json(comments);
     } catch (err: any) {
       return res.status(500).json({ error: req.t('other.server_error'), err });
@@ -22,14 +41,38 @@ const CommentsController = {
     try {
       const { comment: commentBody } = req.body;
       const newComment = new Comment(commentBody);
-      const { _id: newCommentId } = await newComment.save();
+      const { _id: newCommentId, parentComment: parentCommentId  } = await newComment.save();
+
+      if (parentCommentId){
+        await Comment.findOneAndUpdate(
+          { _id: parentCommentId },
+          {
+            $set: {
+                "hasReplies": true
+            }
+        }
+        ).populate({
+          path: 'author',
+          select: 'displayName imageUrl role'
+        });
+      }
+
       const comment = await Comment.findById(newCommentId).populate({
         path: 'author',
         select: 'displayName imageUrl role'
       });
+
+      const parentComment = await Comment.findById(parentCommentId).populate({
+        path: 'author',
+        select: 'displayName imageUrl role'
+      });
+      
+      const comments = {addedComent: comment, parentComment: parentComment};
+
       return res.status(200).json({
         message: req.t('location_comments.comment_add_success'),
-        comment
+        // comment
+        comments
       });
     } catch (err: any) {
       return res.status(500).json({ error: req.t('other.server_error'), err });
@@ -82,11 +125,27 @@ const CommentsController = {
       }
 
       const comments = await Comment.find({ parentComment: comment._id });
+
       if (comments.length) {
         comment.deleted = true;
         await comment.save();
       } else {
-        await comment.deleteOne();
+          await comment.deleteOne();
+          const parentComments = await Comment.find({ parentComment: comment.parentComment });
+
+          if (!parentComments.length){
+              await Comment.findOneAndUpdate(
+            { _id: comment.parentComment },
+            {
+              $set: {
+                  "hasReplies": false
+              }
+          }
+          ).populate({
+            path: 'author',
+            select: 'displayName imageUrl role'
+          })
+        }
       }
 
       return res.status(200).json({

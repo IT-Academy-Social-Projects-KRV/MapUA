@@ -26,6 +26,8 @@ export type AuthorInfoType = {
 export type CommentType<T> = {
   comments: CommentType<AuthorInfoType>[];
   _id: string;
+  hasReplies: boolean;
+  topCommentsOnPageIndex: number;
   author: T;
   locationId: string;
   text: string;
@@ -35,6 +37,10 @@ export type CommentType<T> = {
   createdAt?: Date;
   updatedAt?: Date;
   deleted: boolean;
+};
+export type AddCommentActionCreatorType = {
+  addedComent: CommentType<AuthorInfoType>;
+  parentComment: CommentType<AuthorInfoType>;
 };
 export type AddCommentType<T> = {
   author: T;

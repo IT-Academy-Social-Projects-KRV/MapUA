@@ -49,6 +49,8 @@ interface Props {
   deleted: boolean;
   parentAuthorUrl?: string;
   parentAuthorName?: string;
+  hasReplies: boolean;
+  topCommentsOnPageIndex: number;
 }
 
 type ChangeCommentCheck = {
@@ -69,6 +71,8 @@ const Comment = ({
   parentComment,
   comments,
   index,
+  hasReplies,
+  topCommentsOnPageIndex,
   deleted,
   parentAuthorUrl,
   parentAuthorName
@@ -104,17 +108,19 @@ const Comment = ({
 
   const handleDeleteAndUpdate = async () => {
     await deleteComment(id);
-    await fetchComments(locationId);
+    await fetchComments(locationId, id, topCommentsOnPageIndex);
     handleCloseDialog();
   };
 
   useEffect(() => {
-    if (!childComments.length) {
-      setShowAnswers(false);
+    if (showAnswers) {
+      fetchComments(locationId, id, topCommentsOnPageIndex);
     }
-  }, [childComments]);
+  }, [showAnswers]);
 
-  const toggleShowAnswers = () => setShowAnswers(value => !value);
+  const toggleShowAnswers = () => {
+    setShowAnswers(value => !value);
+  };
 
   const { handleSubmit, control } = useForm<ChangeCommentCheck>({
     mode: 'onBlur',
@@ -303,7 +309,7 @@ const Comment = ({
           closeReplyComment={closeReplyComment}
         />
       )}
-      {childComments.length > 0 && index === 0 && (
+      {hasReplies && index === 0 && (
         <Box sx={{ display: 'block', pr: 0 }}>
           <Accordion sx={{ boxShadow: 0 }}>
             <AccordionSummary
@@ -322,6 +328,8 @@ const Comment = ({
             </AccordionSummary>
             <AccordionDetails>
               <CommentReplyList
+                topCommentsOnPageIndex={topCommentsOnPageIndex}
+                hasReplies={hasReplies}
                 parentAuthorName={authorsName}
                 parentAuthorUrl={getPath(userId, authorId)}
                 comments={comments}
@@ -334,6 +342,8 @@ const Comment = ({
       )}
       {childComments.length > 0 && index !== 0 && (
         <CommentReplyList
+          topCommentsOnPageIndex={topCommentsOnPageIndex}
+          hasReplies={hasReplies}
           parentAuthorName={authorsName}
           parentAuthorUrl={getPath(userId, authorId)}
           comments={comments}
