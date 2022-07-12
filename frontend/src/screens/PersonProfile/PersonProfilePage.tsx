@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
@@ -100,24 +100,17 @@ export default function PersonProfilePage() {
                 : t('profile.profilePage.subscribe')}
             </SubsrcibeButton>
 
-            {(myRole === 'moderator' || myRole === 'admin') && role === 'user' && (
-              <SubsrcibeButton
-                size="large"
-                variant="contained"
-                onClick={handleBan}
-              >
-                {t('profile.profilePage.ban')}
-              </SubsrcibeButton>
-            )}
-
-            {(myRole === 'moderator' || myRole === 'admin') &&
-              role === 'bannedUser' && (
+            {role !== 'admin' &&
+              role !== 'moderator' &&
+              (myRole === 'moderator' || myRole === 'admin') && (
                 <SubsrcibeButton
                   size="large"
                   variant="contained"
                   onClick={handleBan}
                 >
-                  {t('profile.profilePage.unban')}
+                  {role === 'bannedUser'
+                    ? t('profile.profilePage.unban')
+                    : t('profile.profilePage.ban')}
                 </SubsrcibeButton>
               )}
           </>
