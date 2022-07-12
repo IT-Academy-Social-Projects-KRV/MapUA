@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import UploadInput from 'components/design/UploadInputCreateLocation';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTranslation } from 'react-i18next';
@@ -17,6 +17,9 @@ import {
 } from 'components/design/StyledProfile';
 import { useTypedDispatch } from '../../redux/hooks/useTypedDispatch';
 import { StyledCreateLocationWrapper } from '../design/StyledCreateLocationWrapper';
+import UploadedImagesList from '../design/UploadedImagesList/UploadedImagesList';
+import { useTypedSelector } from '../../redux/hooks/useTypedSelector';
+import { convertListOfUrlsToFiles } from '../../utils/getFileFromUrl';
 
 type Props = {
   locationNamelocationName: string;
@@ -44,6 +47,14 @@ const EditLocation = ({
     mode: 'onBlur',
     resolver: yupResolver(CreatingLocationSchema)
   });
+
+  const {
+    data: { arrayPhotos }
+  } = useTypedSelector(state => state.popupLocation);
+
+  useEffect(() => {
+    convertListOfUrlsToFiles(arrayPhotos, setFiles);
+  }, []);
 
   const { errors } = useFormState({
     control
@@ -79,7 +90,7 @@ const EditLocation = ({
         filesListArr.push(filesLst[i]);
       }
 
-      setFiles(filesListArr);
+      setFiles([...files, ...filesListArr]);
     }
   };
 
@@ -135,6 +146,8 @@ const EditLocation = ({
           setlocationImageName={setLocationImageName}
           locationImageName={locationImageName}
         />
+
+        <UploadedImagesList files={files} setFiles={setFiles} />
 
         <SaveBox>
           <Stack direction="row" spacing={2}>
