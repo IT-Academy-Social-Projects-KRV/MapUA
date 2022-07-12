@@ -56,7 +56,8 @@ export const popupLocationRatingReducer = (
         loading: false,
         error: null,
         data: {
-          ...action.payload
+          rating: action.payload.rating,
+          verificationStatus: action.payload.verificationStatus
         },
         success: true
       };

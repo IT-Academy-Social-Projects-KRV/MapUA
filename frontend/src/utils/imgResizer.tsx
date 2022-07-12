@@ -13,7 +13,7 @@ export async function resizeImageFn(
     maxHeight, // the max height of the output image, defaults to 1920px
     resize: true // defaults to true, set false if you do not want to resize the image width and height
   });
-  const imgs = resizeImages.map(img => {
+  const imgs = resizeImages.map((img: { data: any; ext: any }) => {
     const base64str = img.data;
     const imgExt = img.ext;
     const resizedFile = Compress.convertBase64ToFile(base64str, imgExt);
