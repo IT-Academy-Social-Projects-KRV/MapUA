@@ -6,7 +6,10 @@
     "enterPassword": "Please enter your password",
     "forgotPassword": "Forgot password?",
     "password": "Password",
-    "filters": "Filters"
+    "filters": "Filters",
+    "aboutThisResource": "MapUA is an interactive map for tourism and and adding extraordinary places in Ukraine. You can share an interesting place anywhere in our country on this web application",
+    "descriptionThisResource": "Here you can add your interesting location or look at the locations of other users. Rate the location with like or dislike, add the location to favorites or get the status verified for your location, leave a comment under any location. Choose one of the many filters by which you want to find a location. You can be sure of the places that are on our map, because they are checked by the moderator and admin. Did you see something unacceptable? Complain about a location or a user and a moderator will definitely check it. Follow other users and follow various locations. Be sure to go to your profile and add your photo. MapUA is the future, MapUA is Ukraine.",
+    "developmentTeam": "Development team:"
   },
   "navBar": {
     "aboutUs": "About Us",
@@ -44,9 +47,8 @@
       "noSubscribers": "user has no subscribers",
       "noSubscriptions": "user has no subscriptions",
       "noWaitingForVerify": "There is no locations",
-      "reportedLocations":"reported locations",
-      "noReportedLocations":"There is no locations"
-
+      "reportedLocations": "reported locations",
+      "noReportedLocations": "There is no locations"
     },
     "profilePage": {
       "lostNetwork": "Lost Network",

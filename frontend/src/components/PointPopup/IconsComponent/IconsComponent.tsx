@@ -27,7 +27,7 @@ type Props = {
   handleRating: Function;
   handleFavoriteClick: MouseEventHandler<HTMLButtonElement>;
   handleVisitedClick: MouseEventHandler<HTMLButtonElement>;
-  handleDeleteClick: MouseEventHandler<HTMLLIElement>;
+  handleDeleteClick: any;
   locationIsFavorite: boolean | '' | undefined;
   locationIsVisited: boolean | '' | undefined;
   editData: any;
@@ -51,11 +51,13 @@ export const IconsComponent = ({
     addReportToLocation,
     deleteReportToLocation,
     SetSuccessSnackbar,
-    updatePopupLocation
+    updatePopupLocationRating
   } = useTypedDispatch();
-  const { rating } = useTypedSelector(state => state.popupLocation.data);
+
+  const { rating } = useTypedSelector(state => state.popupLocationRating.data);
+
   const { verificationStatus } = useTypedSelector(
-    state => state.popupLocation.data
+    state => state.popupLocationRating.data
   );
 
   const { author, reported } = useTypedSelector(
@@ -101,7 +103,7 @@ export const IconsComponent = ({
   };
 
   const handleConfirmOrDeclineVerification = (status: string) => {
-    updatePopupLocation(locationId, {
+    updatePopupLocationRating(locationId, {
       rating,
       verificationStatus: status
     });
@@ -223,7 +225,9 @@ export const IconsComponent = ({
           />
         )}
 
-        {locationAuthorId?._id === userId && (
+        {(locationAuthorId?._id === userId ||
+          role === 'moderator' ||
+          role === 'admin') && (
           <MenuItem onClick={editData}>
             <ListItemIcon>
               <EditIcon fontSize="small" />

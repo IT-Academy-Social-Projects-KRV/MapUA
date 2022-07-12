@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import ProfilePage from './ProfilePage';
 import { useTypedSelector } from '../../redux/hooks/useTypedSelector';
 import { useTypedDispatch } from '../../redux/hooks/useTypedDispatch';
-import CircularLoader from '../CircularLoader/CircularLoader';
+import CircularLoader from '../../components/CircularLoader/CircularLoader';
 
 function Profile() {
   const accessToken = localStorage.getItem('accessToken');

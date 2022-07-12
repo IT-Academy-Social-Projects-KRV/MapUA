@@ -1,21 +1,23 @@
-/* eslint-disable no-unused-vars */
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { TileLayer, useMapEvents } from 'react-leaflet';
+import { TileLayer } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useTranslation } from 'react-i18next';
 import SearchFormContainer from 'components/SearchFormContainer';
 import useDebounce from 'utils/useDebounce';
-import { v4 } from 'uuid';
 import { StyledMapWrapper } from 'components/design/StyledMapWrapper';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import L from 'leaflet';
+import { Box } from '@mui/material';
 import Locations from './Locations/Locations';
 import MyZoomComponent from './ZoomComponent';
 
 import { StyledMapContainer } from '../design/StyledMapContainer';
-import { StyledAddLocationButton } from '../design/StyledAddLocationButton';
+import {
+  StyledCloseAddingModeLocationButton,
+  StyledAddLocationButton
+} from '../design/StyledAddLocationButton';
 import { latlngType } from '../../../types';
 import DrawMarkerCreateLocation from './DrawMarkerWhenLocationCreate';
 
@@ -27,6 +29,8 @@ interface Props {
   toggleIsAddLocation: Function;
   isAddLocationActive: boolean;
   coordinate: latlngType;
+  toggleClose: Function;
+  isOpenLocationForm: boolean;
 }
 
 function Map({
@@ -36,7 +40,9 @@ function Map({
   toggleIsAddLocation,
   isAddLocationActive,
   onOpenBigPopup,
-  coordinate
+  coordinate,
+  toggleClose,
+  isOpenLocationForm
 }: Props) {
   const { t } = useTranslation();
   const { isAuthorized } = useTypedSelector(
@@ -45,8 +51,6 @@ function Map({
 
   const { locationId } = useParams();
 
-  const { setLocationName } = useTypedDispatch();
-
   const {
     bounds,
     locationName: searchName,
@@ -54,15 +58,16 @@ function Map({
     authorizedFilters
   } = useTypedSelector(state => state.mapInfo);
 
-  const formRef = useRef<any>(null);
+  const closeButtonRef = React.useRef<any>(null);
+
   const [, SetCoordinateByClick] = useState<any>({});
   const debouncedValue = useDebounce(searchName, 1000);
   const { setBounds, fetchLocations } = useTypedDispatch();
 
   useEffect(() => {
-    L.DomEvent.disableClickPropagation(formRef.current);
-    L.DomEvent.disableScrollPropagation(formRef.current);
-  }, []);
+    if (closeButtonRef.current)
+      L.DomEvent.disableClickPropagation(closeButtonRef.current);
+  }, [isAddLocationActive]);
 
   useEffect(() => {
     fetchLocations(bounds, debouncedValue, selectedFilters, authorizedFilters);
@@ -74,8 +79,12 @@ function Map({
     locationId
   ]);
 
+  const closeAddLocationModal = () => {
+    toggleClose();
+  };
+
   return (
-    <StyledMapWrapper ref={formRef}>
+    <StyledMapWrapper>
       <StyledMapContainer
         center={[48.978189, 31.982826]}
         zoom={6}
@@ -97,20 +106,29 @@ function Map({
         <Locations onOpenBigPopup={onOpenBigPopup} />
 
         <SearchFormContainer />
+        <Box ref={closeButtonRef}>
+          {isAuthorized && !isOpen && (
+            <StyledAddLocationButton
+              onClick={() => toggleIsAddLocation()}
+              style={{
+                background: isAddLocationActive ? 'yellow' : 'white',
+                color: isAddLocationActive ? 'black' : '#1976d2'
+              }}
+            >
+              {isAddLocationActive
+                ? `${t('map.chooseCoordinates')}`
+                : `${t('map.addLocation')}`}
+            </StyledAddLocationButton>
+          )}
 
-        {isAuthorized && !isOpen && (
-          <StyledAddLocationButton
-            onClick={() => toggleIsAddLocation()}
-            style={{
-              background: isAddLocationActive ? 'yellow' : 'white',
-              color: isAddLocationActive ? 'black' : '#1976d2'
-            }}
-          >
-            {isAddLocationActive
-              ? `${t('map.chooseCoordinates')}`
-              : `${t('map.addLocation')}`}
-          </StyledAddLocationButton>
-        )}
+          {isAddLocationActive && !isOpenLocationForm && (
+            <StyledCloseAddingModeLocationButton
+              onClick={closeAddLocationModal}
+            >
+              x
+            </StyledCloseAddingModeLocationButton>
+          )}
+        </Box>
         {isOpen && <DrawMarkerCreateLocation coordinate={coordinate} />}
       </StyledMapContainer>
     </StyledMapWrapper>
