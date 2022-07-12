@@ -102,13 +102,12 @@ const Comment = ({
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const handleClose = () => setAnchorEl(null);
 
   const handleDeleteAndUpdate = async () => {
+    setShowAnswers(false);
     await deleteComment(id);
-    await fetchComments(locationId, id, topCommentsOnPageIndex);
+    await fetchComments(locationId, parentComment, topCommentsOnPageIndex);
     handleCloseDialog();
   };
 

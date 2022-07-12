@@ -17,7 +17,6 @@ const CommentsController = {
           path: 'author',
           select: 'displayName imageUrl role'
         });
-    
 
         if(commentId){
           const replyComments = await Comment.find({ locationId: locationId, parentComment: commentId })
