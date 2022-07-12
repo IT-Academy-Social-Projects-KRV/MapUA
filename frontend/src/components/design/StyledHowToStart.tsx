@@ -11,4 +11,5 @@ export const Text = styled(Box)`
 export const ButtonTitle = styled(Button)`
   text-transform: none;
   font-size: 16px;
+  font-weight: 400;
 `;
