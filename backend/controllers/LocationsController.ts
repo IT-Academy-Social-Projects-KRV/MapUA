@@ -238,8 +238,9 @@ const LocationsController = {
   async changeLocationData(req: Request, res: Response) {
     try {
       let { id: locationId } = req.params;
-      let { locationName, description } = req.body;
+      let { locationName, description, filters } = req.body;
       const { _id: userId } = req.user;
+   
 
       const locationAuthorId = await Location.findById(locationId).select(
         'author'
@@ -262,12 +263,14 @@ const LocationsController = {
       if (imageUrls.length === 0) {
         newData = {
           locationName: locationName,
-          description: description
+          description: description,
+          filters: filters.split(',')
         };
       } else {
         newData = {
           locationName: locationName,
           description: description,
+          filters: filters.split(','),
           arrayPhotos: imageUrls
         };
       }

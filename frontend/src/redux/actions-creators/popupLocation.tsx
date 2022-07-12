@@ -50,6 +50,7 @@ export const fetchPopupLocation =
         createdAt,
         updatedAt,
         rating,
+        filters,
         verificationStatus
       } = data;
 
@@ -65,7 +66,8 @@ export const fetchPopupLocation =
             description,
             reported,
             createdAt,
-            updatedAt
+            updatedAt,
+            filters
           }
         });
         dispatch({
@@ -124,9 +126,6 @@ export const toggleVisitedField =
       dispatch({
         type: LocationActionTypes.TOGGLE_VISITED_FIELD_ERROR,
         payload: 'Could not toggle visited field'
-        // error.response && error.response.data.info.message
-        //   ? error.response.data.info.message
-        //   : error.message
       });
     }
   };
@@ -161,9 +160,6 @@ export const toggleFavoriteField =
       dispatch({
         type: LocationActionTypes.TOGGLE_FAVORITE_FIELD_ERROR,
         payload: 'Could not toggle favorite field'
-        // error.response && error.response.data.info.message
-        //   ? error.response.data.info.message
-        //   : error.message
       });
       throw new Error(error);
     }
