@@ -60,6 +60,28 @@ export type locationType = {
   updatedAt: Date;
   verificationStatus: string;
 };
+
+export type locationPopupType = {
+  _id: string;
+  author?: AuthorInfoType;
+  locationName: string;
+  coordinates: [number, number];
+  arrayPhotos: string[];
+  description: string;
+  filters: string[];
+  reported: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+export type locationRatingType = {
+  rating: {
+    likes: string[];
+    dislikes: string[];
+  };
+  verificationStatus: string;
+};
+
 export type topLocationType = {
   _id: string;
   arrayPhotos: string[];

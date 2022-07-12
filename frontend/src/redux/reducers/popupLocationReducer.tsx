@@ -13,19 +13,13 @@ export const initialState: popupLocationStateType = {
     _id: '',
     locationName: '',
     author: {} as AuthorInfoType,
-    rating: {
-      likes: [],
-      dislikes: []
-    },
     coordinates: [0, 0],
     arrayPhotos: [],
     description: '',
     filters: [],
     reported: false,
     createdAt: new Date(),
-    updatedAt: new Date(),
-
-    verificationStatus: ''
+    updatedAt: new Date()
   }
 };
 

@@ -177,6 +177,7 @@ const LocationsController = {
       return res.status(500).json({ error: req.t('other.server_error'), err });
     }
   },
+
   async updateLocationLikesById(req: Request, res: Response) {
     try {
       const id = req.params.id;
@@ -195,6 +196,7 @@ const LocationsController = {
           .status(400)
           .json({ error: req.t('locations_list.location_not_found') });
       }
+
       return res.status(200).json(location);
     } catch (err: any) {
       return res.status(500).json({ error: err.message });

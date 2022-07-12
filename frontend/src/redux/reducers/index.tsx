@@ -14,12 +14,14 @@ import { locationCommentsReducer } from './locationCommentsReducer';
 import { snackbarReducer } from './snackbarReducer';
 import { otherUserDataReducer } from './otherUserDataReducer';
 import { deleteLocationReducer } from './deleteLocationReducer';
+import { popupLocationRatingReducer } from './popupLocationRatingReducer';
 
 export const rootReducer = combineReducers({
   isUserAuthorized: isUserAuthorizedReducer,
   userData: userDataReducer,
   privateUserData: privateUserDataReducer,
   popupLocation: popupLocationReducer,
+  popupLocationRating: popupLocationRatingReducer,
   locationList: locationsListReducer,
   mapInfo: mapInfoReducer,
   filtersList: listOfFiltersOptionsReducer,
