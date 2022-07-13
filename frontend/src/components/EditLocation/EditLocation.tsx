@@ -43,7 +43,7 @@ const EditLocation = ({
   locationId,
   selectedLocationFilters
 }: Props) => {
-  const [files, setFiles] = useState<Blob[]>([]);
+  const [files, setFiles] = useState<File[]>([]);
   const [locationImageName, setLocationImageName] = useState<string>('');
   const [filters, setFilters] = useState([...selectedLocationFilters]);
 
