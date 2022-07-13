@@ -40,7 +40,13 @@ export const CardComponent: FC<Props> = ({
 
   const isSubscribed = subscriptions.some((s: any) => s._id === author?._id);
   const { t } = useTranslation();
-
+  const URL_REGEX =
+    // eslint-disable-next-line no-useless-escape
+    /(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])/gim;
+  function getListOfWords() {
+    const newDescription = description.split(' ');
+    return newDescription;
+  }
   return (
     <Box>
       <StyledCardComponentBox>
@@ -83,7 +89,20 @@ export const CardComponent: FC<Props> = ({
       ) : (
         <Stack spacing={4} marginY={3}>
           <Divider />
-          <Typography paddingX={3}>{description} </Typography>
+          <Typography paddingX={3}>
+            {getListOfWords().map(el => {
+              if (el.match(URL_REGEX)) {
+                return (
+                  <>
+                    <a target="_blank" rel="noreferrer" href={el}>
+                      {el}
+                    </a>{' '}
+                  </>
+                );
+              }
+              return `${el} `;
+            })}{' '}
+          </Typography>
           <Button
             size="small"
             color="info"
