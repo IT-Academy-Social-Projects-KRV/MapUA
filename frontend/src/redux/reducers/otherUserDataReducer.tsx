@@ -70,7 +70,7 @@ export const otherUserDataReducer = (
       };
     case OtherUserDataActionTypes.UPDATE_USER_DATA_AND_BAN_LOADING:
       return {
-        loading: false,
+        loading: true,
         error: null,
         data: initialState.data,
         success: false
