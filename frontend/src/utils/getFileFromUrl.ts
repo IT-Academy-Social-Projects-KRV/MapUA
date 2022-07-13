@@ -3,7 +3,7 @@ async function getFileFromUrl(
   name: string,
   defaultType = 'image/jpeg'
 ) {
-  const response = await fetch(url);
+  const response = await fetch(`${url}?cacheblock=true`);
   const data = await response.blob();
 
   return new File([data], name, {
