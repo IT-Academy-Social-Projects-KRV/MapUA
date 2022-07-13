@@ -227,14 +227,15 @@ export const IconsComponent = ({
 
         {(locationAuthorId?._id === userId ||
           role === 'moderator' ||
-          role === 'admin') && (
-          <MenuItem onClick={editData}>
-            <ListItemIcon>
-              <EditIcon fontSize="small" />
-            </ListItemIcon>
-            <ListItemText>{t('createLocation.editLocation')}</ListItemText>
-          </MenuItem>
-        )}
+          role === 'admin') &&
+          verificationStatus !== 'verified' && (
+            <MenuItem onClick={editData}>
+              <ListItemIcon>
+                <EditIcon fontSize="small" />
+              </ListItemIcon>
+              <ListItemText>{t('createLocation.editLocation')}</ListItemText>
+            </MenuItem>
+          )}
 
         {isAuthorized && (
           <MenuItem onClick={() => reportLocation()}>

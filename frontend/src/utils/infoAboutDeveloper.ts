@@ -2,85 +2,67 @@ export const infoAboutDeveloper = [
   {
     photo:
       'https://media2.nekropole.info/2013/05/375px-Vasco_da_Gama_-_1838.png',
-    fullName: 'Person 1',
-    linkedIn: 'https://www.linkedin.com',
-    gitHub: 'https://github.com'
+    fullName: 'Oleksandr Bozhko',
+    linkedIn: 'https://www.linkedin.com'
   },
   {
     photo:
       'https://media2.nekropole.info/2013/05/375px-Vasco_da_Gama_-_1838.png',
-    fullName: 'Person 2',
-    linkedIn: 'https://www.linkedin.com',
-    gitHub: 'https://github.com'
+    fullName: 'Nikita Zaika',
+    linkedIn: 'https://www.linkedin.com'
   },
   {
     photo:
       'https://media2.nekropole.info/2013/05/375px-Vasco_da_Gama_-_1838.png',
-    fullName: 'Person 3',
-    linkedIn: 'https://www.linkedin.com',
-    gitHub: 'https://github.com'
+    fullName: 'Oleksandr Mazur',
+    linkedIn: 'https://www.linkedin.com'
   },
   {
     photo:
       'https://media2.nekropole.info/2013/05/375px-Vasco_da_Gama_-_1838.png',
-    fullName: 'Person 4',
-    linkedIn: 'https://www.linkedin.com',
-    gitHub: 'https://github.com'
+    fullName: 'Oleksandr Poberezhnyi',
+    linkedIn: 'https://www.linkedin.com'
   },
   {
     photo:
       'https://media2.nekropole.info/2013/05/375px-Vasco_da_Gama_-_1838.png',
-    fullName: 'Person 5',
-    linkedIn: 'https://www.linkedin.com',
-    gitHub: 'https://github.com'
+    fullName: 'Andrii Yozh',
+    linkedIn: 'https://www.linkedin.com'
   },
   {
     photo:
       'https://media2.nekropole.info/2013/05/375px-Vasco_da_Gama_-_1838.png',
-    fullName: 'Person 6',
-    linkedIn: 'https://www.linkedin.com',
-    gitHub: 'https://github.com'
+    fullName: 'Roman Kalishuk',
+    linkedIn: 'https://www.linkedin.com'
   },
   {
     photo:
       'https://media2.nekropole.info/2013/05/375px-Vasco_da_Gama_-_1838.png',
-    fullName: 'Person 7',
-    linkedIn: 'https://www.linkedin.com',
-    gitHub: 'https://github.com'
+    fullName: 'Vlad Ananchenko',
+    linkedIn: 'https://www.linkedin.com'
   },
   {
     photo:
       'https://media2.nekropole.info/2013/05/375px-Vasco_da_Gama_-_1838.png',
-    fullName: 'Person 8',
-    linkedIn: 'https://www.linkedin.com',
-    gitHub: 'https://github.com'
+    fullName: 'Vasyl Neshchadimov',
+    linkedIn: 'https://www.linkedin.com'
   },
   {
     photo:
       'https://media2.nekropole.info/2013/05/375px-Vasco_da_Gama_-_1838.png',
-    fullName: 'Person 9',
-    linkedIn: 'https://www.linkedin.com',
-    gitHub: 'https://github.com'
+    fullName: 'Yurii Stupnytskyi',
+    linkedIn: 'https://www.linkedin.com'
   },
   {
     photo:
       'https://media2.nekropole.info/2013/05/375px-Vasco_da_Gama_-_1838.png',
-    fullName: 'Person 10',
-    linkedIn: 'https://www.linkedin.com',
-    gitHub: 'https://github.com'
+    fullName: 'Yuriy Soproniuk',
+    linkedIn: 'https://www.linkedin.com'
   },
   {
     photo:
       'https://media2.nekropole.info/2013/05/375px-Vasco_da_Gama_-_1838.png',
-    fullName: 'Person 11',
-    linkedIn: 'https://www.linkedin.com',
-    gitHub: 'https://github.com'
-  },
-  {
-    photo:
-      'https://media2.nekropole.info/2013/05/375px-Vasco_da_Gama_-_1838.png',
-    fullName: 'Person 12',
-    linkedIn: 'https://www.linkedin.com',
-    gitHub: 'https://github.com'
+    fullName: 'Oleksandr Kulesh ',
+    linkedIn: 'https://www.linkedin.com'
   }
 ];
