@@ -69,10 +69,6 @@ export const IconsComponent = ({
   );
   const { role } = useTypedSelector(state => state.isUserAuthorized.data);
 
-  const { role: otherUserRole } = useTypedSelector(
-    state => state.otherUserData.data
-  );
-
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -220,6 +216,7 @@ export const IconsComponent = ({
             <ListItemText>{t('createLocation.deleteLocation')}</ListItemText>
           </MenuItem>
         )}
+
         {((role === 'moderator' && verificationStatus === 'waiting') ||
           (role === 'admin' && verificationStatus === 'waiting')) && (
           <ConfirmOrDecline
@@ -229,32 +226,32 @@ export const IconsComponent = ({
           />
         )}
 
-        {locationAuthorId?._id === userId ||
+        {(locationAuthorId?._id === userId ||
           role === 'moderator' ||
-          role === 'admin' ||
-          (otherUserRole !== 'bannedUser' &&
-            role === 'admin' &&
-            verificationStatus !== 'verified' && (
-              <MenuItem onClick={editData}>
-                <ListItemIcon>
-                  <EditIcon fontSize="small" />
-                </ListItemIcon>
-                <ListItemText>{t('createLocation.editLocation')}</ListItemText>
-              </MenuItem>
-            ))}
-
-        {isAuthorized ||
-          (otherUserRole !== 'bannedUser' && (
-            <MenuItem onClick={() => reportLocation()}>
+          role === 'admin') &&
+          verificationStatus !== 'verified' &&
+          role !== 'bannedUser' && (
+            <MenuItem onClick={editData}>
               <ListItemIcon>
-                <ReportIcon fontSize="small" />
+                <EditIcon fontSize="small" />
               </ListItemIcon>
-              <ListItemText>{t('createLocation.reportLocation')}</ListItemText>
+              <ListItemText>{t('createLocation.editLocation')}</ListItemText>
             </MenuItem>
-          ))}
+          )}
 
-        {(reported && (role === 'moderator' || role === 'admin')) ||
-          (otherUserRole !== 'bannedUser' && (
+        {isAuthorized && role !== 'bannedUser' && (
+          <MenuItem onClick={() => reportLocation()}>
+            <ListItemIcon>
+              <ReportIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>{t('createLocation.reportLocation')}</ListItemText>
+          </MenuItem>
+        )}
+
+        {(isAuthorized &&
+          reported &&
+          (role === 'moderator' || role === 'admin')) ||
+          (role !== 'bannedUser' && (
             <MenuItem onClick={() => deleteReport()}>
               <ListItemIcon>
                 <ReportOffIcon fontSize="small" />
