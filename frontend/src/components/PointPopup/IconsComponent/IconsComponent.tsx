@@ -68,6 +68,7 @@ export const IconsComponent = ({
     state => state.isUserAuthorized.data
   );
   const { role } = useTypedSelector(state => state.isUserAuthorized.data);
+
   const { role: otherUserRole } = useTypedSelector(
     state => state.otherUserData.data
   );
@@ -231,14 +232,16 @@ export const IconsComponent = ({
         {locationAuthorId?._id === userId ||
           role === 'moderator' ||
           role === 'admin' ||
-          (otherUserRole !== 'bannedUser' && (
-            <MenuItem onClick={editData}>
-              <ListItemIcon>
-                <EditIcon fontSize="small" />
-              </ListItemIcon>
-              <ListItemText>{t('createLocation.editLocation')}</ListItemText>
-            </MenuItem>
-          ))}
+          (otherUserRole !== 'bannedUser' &&
+            role === 'admin' &&
+            verificationStatus !== 'verified' && (
+              <MenuItem onClick={editData}>
+                <ListItemIcon>
+                  <EditIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>{t('createLocation.editLocation')}</ListItemText>
+              </MenuItem>
+            ))}
 
         {isAuthorized ||
           (otherUserRole !== 'bannedUser' && (
