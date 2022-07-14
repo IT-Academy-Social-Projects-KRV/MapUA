@@ -19,8 +19,7 @@ const initialState: otherUserDataStateType = {
     subscriptions: [],
     favorite: [],
     visited: [],
-    personalLocations: [],
-    role: ''
+    personalLocations: []
   }
 };
 
