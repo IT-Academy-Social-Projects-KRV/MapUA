@@ -110,18 +110,23 @@ const LocationsController = {
           );
         });
       } else {
-        if (verifiedFiltersArray.some((el: string) => el === 'verified') &&
-            verifiedFiltersArray.every((el: string) => el !== 'unverified')){
+        if (
+          verifiedFiltersArray.some((el: string) => el === 'verified') &&
+          verifiedFiltersArray.every((el: string) => el !== 'unverified')
+        ) {
           locations = locations.sort((l1, l2): number => {
             const l1Likes = l1.rating.likes.length,
-                  l1Dislikes = l1.rating.dislikes.length,
-                  l2Likes = l2.rating.likes.length,
-                  l2Dislikes = l2.rating.dislikes.length;
-            return l2Likes/(l2Likes + l2Dislikes) - l1Likes/(l1Likes + l1Dislikes);
+              l1Dislikes = l1.rating.dislikes.length,
+              l2Likes = l2.rating.likes.length,
+              l2Dislikes = l2.rating.dislikes.length;
+            return (
+              l2Likes / (l2Likes + l2Dislikes) -
+              l1Likes / (l1Likes + l1Dislikes)
+            );
           });
           locations = locations.slice(
-              0,
-              locations.length < 50 ? locations.length : 50
+            0,
+            locations.length < 50 ? locations.length : 50
           );
         }
       }
@@ -172,6 +177,7 @@ const LocationsController = {
       return res.status(500).json({ error: req.t('other.server_error'), err });
     }
   },
+
   async updateLocationLikesById(req: Request, res: Response) {
     try {
       const id = req.params.id;
@@ -190,6 +196,7 @@ const LocationsController = {
           .status(400)
           .json({ error: req.t('locations_list.location_not_found') });
       }
+
       return res.status(200).json(location);
     } catch (err: any) {
       return res.status(500).json({ error: err.message });
@@ -231,8 +238,9 @@ const LocationsController = {
   async changeLocationData(req: Request, res: Response) {
     try {
       let { id: locationId } = req.params;
-      let { locationName, description } = req.body;
+      let { locationName, description, filters } = req.body;
       const { _id: userId } = req.user;
+   
 
       const locationAuthorId = await Location.findById(locationId).select(
         'author'
@@ -255,12 +263,14 @@ const LocationsController = {
       if (imageUrls.length === 0) {
         newData = {
           locationName: locationName,
-          description: description
+          description: description,
+          filters: filters.split(',')
         };
       } else {
         newData = {
           locationName: locationName,
           description: description,
+          filters: filters.split(','),
           arrayPhotos: imageUrls
         };
       }

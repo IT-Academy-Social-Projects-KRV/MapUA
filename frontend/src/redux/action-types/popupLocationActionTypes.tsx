@@ -1,4 +1,4 @@
-import { locationType } from '../../../types';
+import { locationPopupType } from '../../../types';
 
 /* eslint-disable no-unused-vars */
 export enum LocationActionTypes {
@@ -42,7 +42,7 @@ interface FetchLocationLoadingAction {
 }
 interface FetchLocationSuccessAction {
   type: LocationActionTypes.FETCH_LOCATION_SUCCESS;
-  payload: locationType;
+  payload: locationPopupType;
 }
 interface FetchLocationErrorAction {
   type: LocationActionTypes.FETCH_LOCATION_ERROR;
@@ -54,7 +54,7 @@ interface ToggleVisitedFieldLoadingAction {
 }
 interface ToggleVisitedFieldSuccessAction {
   type: LocationActionTypes.TOGGLE_VISITED_FIELD_SUCCESS;
-  payload: locationType;
+  payload: locationPopupType;
 }
 interface ToggleVisitedFieldErrorAction {
   type: LocationActionTypes.TOGGLE_VISITED_FIELD_ERROR;
@@ -66,7 +66,7 @@ interface ToggleFavoriteFieldLoadingAction {
 }
 interface ToggleFavoriteFieldSuccessAction {
   type: LocationActionTypes.TOGGLE_FAVORITE_FIELD_SUCCESS;
-  payload: locationType;
+  payload: locationPopupType;
 }
 interface ToggleFavoriteFieldErrorAction {
   type: LocationActionTypes.TOGGLE_FAVORITE_FIELD_ERROR;
@@ -78,7 +78,7 @@ interface UpdateLocationLoadingAction {
 }
 interface UpdateLocationSuccessAction {
   type: LocationActionTypes.UPDATE_LOCATION_SUCCESS;
-  payload: locationType;
+  payload: locationPopupType;
 }
 interface UpdateLocationErrorAction {
   type: LocationActionTypes.UPDATE_LOCATION_ERROR;
@@ -89,7 +89,7 @@ interface UpdateLocationDataLoadingAction {
 }
 interface UpdateLocationDataSuccessAction {
   type: LocationActionTypes.UPDATE_LOCATION_DATA_SUCCESS;
-  payload: locationType;
+  payload: locationPopupType;
 }
 interface UpdateLocationDataErrorAction {
   type: LocationActionTypes.UPDATE_LOCATION_DATA_ERROR;
@@ -101,7 +101,7 @@ interface AddReportToLocationDataLoadingAction {
 }
 interface AddReportToLocationDataSuccessAction {
   type: LocationActionTypes.ADD_REPORT_TO_LOCATION_SUCCESS;
-  payload: locationType;
+  payload: locationPopupType;
 }
 interface AddReportToLocationDataErrorAction {
   type: LocationActionTypes.ADD_REPORT_TO_LOCATION_ERROR;
@@ -113,7 +113,7 @@ interface DeclineReportToLocationDataLoadingAction {
 }
 interface DeclineReportToLocationDataSuccsessAction {
   type: LocationActionTypes.DELETE_REPORT_TO_LOCATION_SUCCESS;
-  payload: locationType;
+  payload: locationPopupType;
 }
 interface DeclineReportToLocationDataErrorAction {
   type: LocationActionTypes.DELETE_REPORT_TO_LOCATION_ERROR;

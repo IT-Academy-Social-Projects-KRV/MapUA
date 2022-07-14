@@ -15,7 +15,21 @@
     "aboutUs": "About Us",
     "top": "Top-list",
     "map": "Map",
-    "myProfile": "My profile"
+    "myProfile": "My profile",
+    "howToUse": "How to add mark on map"
+  },
+  "infoPopUp": {
+    "header": "Instuction how to add location",
+    "verifiedMarker": " - marker for verified locations wich rewiewed by moderator.",
+    "waitingMarker": "- marker for locations wich waiting to verify by moderator.",
+    "unVerifiedMarker": "- marker for unveryfied locations wich understudied.",
+    "createMarker": " - marker for creating locations.",
+    "howLocationCreateStep1": "To add a location, you need to click the add location button on the map and select a place to create a location",
+    "howLocationCreateStep2": "After that, a window with a form will open",
+    "howLocationCreateStep3": "It is necessary to fill in all mandatory fields of the form",
+    "howLocationCreateStep4": "If the click was made by mistake or you are not sure of the place - just close the window and click again",
+    "howLocationCreateStep5": "In the end, as all the fields are filled in correctly, you can send the form and your location is saved and appears on the map",
+    "close": "Close"
   },
   "createLocation": {
     "creatingLocation": "Creating location",
@@ -65,12 +79,15 @@
       "yourName": "Your name:",
       "profilePageUpdatedSuccessfully": "Profile page updated successfully!",
       "subscribe": "Subscribe",
-      "unsubscribe": "Unsubscribe"
+      "unsubscribe": "Unsubscribe",
+      "createModerator": "Grant moderator rights",
+      "removeModerator": "Remove moderator rights"
     }
   },
   "personalProfile": {
     "personalProfilePage": {
-      "subscriptionUpdated": "Subscription updated successfully!"
+      "subscriptionUpdated": "Subscription updated successfully!",
+      "rightsUpdated": "Rights updated"
     }
   },
   "forgotPassword": {
@@ -150,6 +167,7 @@
     }
   },
   "pointPopUp": {
+    "mustBeAtLeastOneImage": "Must be at least one image",
     "message": "Login to your account to be able to rate!",
     "toShare": "To share",
     "copy": "Copied",

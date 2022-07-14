@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useNavigate } from 'react-router-dom';
+import CircularLoader from 'components/CircularLoader/CircularLoader';
 import { topLocationType } from '../../../types';
 
 const TopLocations = () => {
@@ -31,7 +32,7 @@ const TopLocations = () => {
     });
   };
   if (topLocations.loading) {
-    return <h1>{t('profile.profile.loading')}</h1>;
+    return <CircularLoader />;
   }
   return (
     <Box sx={{ mb: '50px' }}>

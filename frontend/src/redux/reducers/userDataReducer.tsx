@@ -16,6 +16,7 @@ const initialState: userDataStateType = {
     imageUrl: image,
     subscribers: [],
     subscriptions: [],
+    role: '',
     favorite: [],
     visited: [],
     personalLocations: []

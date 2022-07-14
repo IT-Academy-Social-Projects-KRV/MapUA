@@ -188,7 +188,8 @@ const UserController = {
         subscriptions: true,
         favorite: true,
         visited: true,
-        personalLocations: true
+        personalLocations: true,
+        role: true
       }).populate({
         path: 'subscribers subscriptions',
         select: 'displayName imageUrl'
@@ -203,9 +204,35 @@ const UserController = {
       return res.status(500).json({ error: req.t('other.server_error'), err });
     }
   },
+  async toggleModeratorRights(req: Request, res: Response) {
+    try {
+      const { otherUserId } = req.body;
+      const currentRole = await User.findById(otherUserId, {
+        role: true
+      });
+
+      const newRole = currentRole?.role === 'moderator' ? 'user' : 'moderator';
+
+      const changedRole = await User.findByIdAndUpdate(
+        otherUserId,
+        {
+          $set: {
+            role: newRole
+          }
+        },
+        {
+          new: true,
+          select: "role"
+        },
+      );
+      return res.status(200).json(changedRole);
+    } catch (err: any) {
+      return res.status(500).json({ error: req.t('other.server_error'), err });
+    }
+  },
   async getTopUsers(req: Request, res: Response) {
     const quantityInArray = 10;
-    
+
     try {
       let users = await User.aggregate([
         {
@@ -219,7 +246,10 @@ const UserController = {
           $sort: { count: -1 }
         }
       ]);
-      users = users.slice(0, users.length < quantityInArray ? users.length : quantityInArray);
+      users = users.slice(
+        0,
+        users.length < quantityInArray ? users.length : quantityInArray
+      );
       return res.json(users);
     } catch (err: any) {
       return res.status(500).json({ error: req.t('other.server_error'), err });

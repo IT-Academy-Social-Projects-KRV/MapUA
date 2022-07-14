@@ -54,11 +54,34 @@ export type locationType = {
   coordinates: [number, number];
   arrayPhotos: string[];
   description: string;
+  filters: string[];
   reported: boolean;
   createdAt: Date;
   updatedAt: Date;
   verificationStatus: string;
 };
+
+export type locationPopupType = {
+  _id: string;
+  author?: AuthorInfoType;
+  locationName: string;
+  coordinates: [number, number];
+  arrayPhotos: string[];
+  description: string;
+  filters: string[];
+  reported: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+export type locationRatingType = {
+  rating: {
+    likes: string[];
+    dislikes: string[];
+  };
+  verificationStatus: string;
+};
+
 export type topLocationType = {
   _id: string;
   arrayPhotos: string[];
@@ -96,6 +119,7 @@ export type UserDataType = {
   subscriptions: AuthorInfoType[];
   favorite: string[];
   visited: string[];
+  role: string;
   personalLocations: string[];
 };
 export type TopUserType = {

@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import UploadInput from 'components/design/UploadInputCreateLocation';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTranslation } from 'react-i18next';
-import { Typography, TextField, Stack } from '@mui/material';
+import { Typography, TextField, Stack, Autocomplete } from '@mui/material';
 import {
   Controller,
   useForm,
@@ -16,14 +16,19 @@ import {
   SaveButton
 } from 'components/design/StyledProfile';
 import { resizeImageFn } from 'utils/imgResizer';
+import { getFiltersForUser } from '../../static/mainFIlters';
 import { useTypedDispatch } from '../../redux/hooks/useTypedDispatch';
 import { StyledCreateLocationWrapper } from '../design/StyledCreateLocationWrapper';
+import UploadedImagesList from '../design/UploadedImagesList/UploadedImagesList';
+import { useTypedSelector } from '../../redux/hooks/useTypedSelector';
+import { convertListOfUrlsToFiles } from '../../utils/getFileFromUrl';
 
 type Props = {
   locationNamelocationName: string;
   closeEditData: any;
   descriptiondescription: string;
   locationId: string;
+  selectedLocationFilters: string[];
 };
 type EditingLocation = {
   locationName: string;
@@ -35,16 +40,27 @@ const EditLocation = ({
   locationNamelocationName,
   closeEditData,
   descriptiondescription,
-  locationId
+  locationId,
+  selectedLocationFilters
 }: Props) => {
-  const [files, setFiles] = useState<Blob[]>([]);
+  const [files, setFiles] = useState<File[]>([]);
   const [locationImageName, setLocationImageName] = useState<string>('');
+  const [filters, setFilters] = useState([...selectedLocationFilters]);
+
   const { t } = useTranslation();
   const { updatePopupLocationAfterEditing } = useTypedDispatch();
   const { handleSubmit, control } = useForm<EditingLocation>({
     mode: 'onBlur',
     resolver: yupResolver(CreatingLocationSchema)
   });
+
+  const {
+    data: { arrayPhotos }
+  } = useTypedSelector(state => state.popupLocation);
+
+  useEffect(() => {
+    convertListOfUrlsToFiles(arrayPhotos, setFiles);
+  }, []);
 
   const { errors } = useFormState({
     control
@@ -57,6 +73,7 @@ const EditLocation = ({
     const formData = new FormData();
     formData.append('locationName', locationName);
     formData.append('description', locationDescription);
+    formData.append('filters', String(filters));
     files.map(file => formData.append('image', file));
     updatePopupLocationAfterEditing(
       locationId,
@@ -70,7 +87,7 @@ const EditLocation = ({
   const handleFilesChange = async (e: any) => {
     const imgFiles = [...e.target.files];
     const images = await resizeImageFn(imgFiles, 800, 500);
-    setFiles(images);
+    setFiles(prev => [...prev, ...images]);
   };
 
   return (
@@ -119,12 +136,32 @@ const EditLocation = ({
             />
           )}
         />
+        <Autocomplete
+          multiple
+          id="tags-outlined"
+          options={getFiltersForUser()}
+          getOptionLabel={option => option}
+          filterSelectedOptions
+          value={filters}
+          onChange={(e, value) => setFilters(value)}
+          defaultValue={[...filters]}
+          renderInput={params => (
+            <TextField
+              {...params}
+              value={filters}
+              label={t('common.filters')}
+              placeholder={t('createLocation.favorites')}
+            />
+          )}
+        />
 
         <UploadInput
           handleFilesChange={handleFilesChange}
           setlocationImageName={setLocationImageName}
           locationImageName={locationImageName}
         />
+
+        <UploadedImagesList files={files} setFiles={setFiles} />
 
         <SaveBox>
           <Stack direction="row" spacing={2}>

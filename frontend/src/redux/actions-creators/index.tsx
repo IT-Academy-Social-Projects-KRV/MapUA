@@ -1,6 +1,7 @@
 import * as UserActionCreators from './userData';
 import * as PrivateUserActionCreators from './privateUserData';
 import * as PopupLocationActionCreators from './popupLocation';
+import * as PopupLocationRatingActionCreators from './popupLocationRating';
 import * as LocationListActionCreators from './locationList';
 import * as FiltersActionCreators from './listOfFiltersOptions';
 import * as UserAuthActionCreators from './isUserAuthorized';
@@ -15,6 +16,7 @@ export default {
   ...UserActionCreators,
   ...PrivateUserActionCreators,
   ...PopupLocationActionCreators,
+  ...PopupLocationRatingActionCreators,
   ...LocationListActionCreators,
   ...UserAuthActionCreators,
   ...FiltersActionCreators,
