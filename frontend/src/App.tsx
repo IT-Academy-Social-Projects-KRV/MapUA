@@ -7,7 +7,7 @@ import ForgotPassword from 'screens/ForgotPassword/ForgotPassword';
 import Registration from 'screens/Registration/Registration';
 import ComposeComponents from 'redux/components/ComposeComponents';
 import Profile from 'screens/Profile/Profile';
-import Page404 from 'components/Page_404/Page404';
+import Page404 from 'screens/Page_404/Page404';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import AboutUs from 'screens/AboutUs/AboutUs';
 import PersonProfile from 'screens/PersonProfile/PersonProfile';
