@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import UploadInput from 'components/design/UploadInputCreateLocation';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTranslation } from 'react-i18next';
@@ -19,6 +19,9 @@ import { resizeImageFn } from 'utils/imgResizer';
 import { getFiltersForUser } from '../../static/mainFIlters';
 import { useTypedDispatch } from '../../redux/hooks/useTypedDispatch';
 import { StyledCreateLocationWrapper } from '../design/StyledCreateLocationWrapper';
+import UploadedImagesList from '../design/UploadedImagesList/UploadedImagesList';
+import { useTypedSelector } from '../../redux/hooks/useTypedSelector';
+import { convertListOfUrlsToFiles } from '../../utils/getFileFromUrl';
 
 type Props = {
   locationNamelocationName: string;
@@ -40,7 +43,7 @@ const EditLocation = ({
   locationId,
   selectedLocationFilters
 }: Props) => {
-  const [files, setFiles] = useState<Blob[]>([]);
+  const [files, setFiles] = useState<File[]>([]);
   const [locationImageName, setLocationImageName] = useState<string>('');
   const [filters, setFilters] = useState([...selectedLocationFilters]);
 
@@ -50,6 +53,14 @@ const EditLocation = ({
     mode: 'onBlur',
     resolver: yupResolver(CreatingLocationSchema)
   });
+
+  const {
+    data: { arrayPhotos }
+  } = useTypedSelector(state => state.popupLocation);
+
+  useEffect(() => {
+    convertListOfUrlsToFiles(arrayPhotos, setFiles);
+  }, []);
 
   const { errors } = useFormState({
     control
@@ -76,7 +87,7 @@ const EditLocation = ({
   const handleFilesChange = async (e: any) => {
     const imgFiles = [...e.target.files];
     const images = await resizeImageFn(imgFiles, 800, 500);
-    setFiles(images);
+    setFiles(prev => [...prev, ...images]);
   };
 
   return (
@@ -149,6 +160,8 @@ const EditLocation = ({
           setlocationImageName={setLocationImageName}
           locationImageName={locationImageName}
         />
+
+        <UploadedImagesList files={files} setFiles={setFiles} />
 
         <SaveBox>
           <Stack direction="row" spacing={2}>

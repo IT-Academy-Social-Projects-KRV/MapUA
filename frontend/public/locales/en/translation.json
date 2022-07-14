@@ -167,6 +167,7 @@
     }
   },
   "pointPopUp": {
+    "mustBeAtLeastOneImage": "Must be at least one image",
     "message": "Login to your account to be able to rate!",
     "toShare": "To share",
     "copy": "Copied",
