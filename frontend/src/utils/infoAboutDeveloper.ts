@@ -24,10 +24,9 @@ export const infoAboutDeveloper = [
     linkedIn: 'https://www.linkedin.com'
   },
   {
-    photo:
-      'https://media2.nekropole.info/2013/05/375px-Vasco_da_Gama_-_1838.png',
+    photo: '/photo/Yozh.jpg',
     fullName: 'Andrii Yozh',
-    linkedIn: 'https://www.linkedin.com'
+    linkedIn: 'https://www.linkedin.com/in/andrii-yozh-39995a1b9/'
   },
   {
     photo:
