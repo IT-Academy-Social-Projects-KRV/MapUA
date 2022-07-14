@@ -14,6 +14,7 @@ const initialState: otherUserDataStateType = {
     displayName: '',
     description: '',
     imageUrl: image,
+    role: '',
     subscribers: [],
     subscriptions: [],
     favorite: [],

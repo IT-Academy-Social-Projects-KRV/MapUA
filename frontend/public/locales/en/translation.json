@@ -81,13 +81,16 @@
       "subscribe": "Subscribe",
       "unsubscribe": "Unsubscribe",
       "ban": "ban",
-      "unban": "unban"
+      "unban": "unban",
+      "createModerator": "Grant moderator rights",
+      "removeModerator": "Remove moderator rights"
     }
   },
   "personalProfile": {
     "personalProfilePage": {
       "subscriptionUpdated": "Subscription updated successfully!",
-      "banningUpdated": "banning updated successfully!"
+      "banningUpdated": "banning updated successfully!",
+      "rightsUpdated": "Rights updated"
     }
   },
   "forgotPassword": {

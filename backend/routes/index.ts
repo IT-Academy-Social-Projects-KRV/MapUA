@@ -203,4 +203,11 @@ router.patch(
 router.get('/topLocations', LocationsController.getTopLocations);
 router.get('/topUsers', UserController.getTopUsers);
 
+router.patch(
+  '/toggleModerator',
+  passport.authenticate('jwt', { session: false }),
+  RoleChecker.restrictTo('admin'),
+  UserController.toggleModeratorRights
+);
+
 export default router;

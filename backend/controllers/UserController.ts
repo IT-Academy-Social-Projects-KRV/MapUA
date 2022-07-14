@@ -204,6 +204,32 @@ const UserController = {
       return res.status(500).json({ error: req.t('other.server_error'), err });
     }
   },
+  async toggleModeratorRights(req: Request, res: Response) {
+    try {
+      const { otherUserId } = req.body;
+      const currentRole = await User.findById(otherUserId, {
+        role: true
+      });
+
+      const newRole = currentRole?.role === 'moderator' ? 'user' : 'moderator';
+
+      const changedRole = await User.findByIdAndUpdate(
+        otherUserId,
+        {
+          $set: {
+            role: newRole
+          }
+        },
+        {
+          new: true,
+          select: "role"
+        },
+      );
+      return res.status(200).json(changedRole);
+    } catch (err: any) {
+      return res.status(500).json({ error: req.t('other.server_error'), err });
+    }
+  },
   async getTopUsers(req: Request, res: Response) {
     const quantityInArray = 10;
 

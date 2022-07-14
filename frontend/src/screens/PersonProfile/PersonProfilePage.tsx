@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect } from 'react';
-import { Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useParams } from 'react-router-dom';
@@ -17,27 +17,36 @@ import BasicTabs from './BasicTabs';
 import CircularLoader from '../../components/CircularLoader/CircularLoader';
 
 export default function PersonProfilePage() {
-  const { role } = useTypedSelector(state => state.otherUserData.data);
+  // const { role } = useTypedSelector(state => state.otherUserData.data);
 
-  const { role: myRole } = useTypedSelector(
-    state => state.isUserAuthorized.data
-  );
+  // const { role: myRole } = useTypedSelector(
+  //   state => state.isUserAuthorized.data
+  // );
 
   const { t } = useTranslation();
   const {
     loading: userLoading,
-    data: { _id: otherUserId, displayName, imageUrl: userAvatar }
+    data: {
+      _id: otherUserId,
+      displayName,
+      imageUrl: userAvatar,
+      role: otherUserRole
+    }
   } = useTypedSelector(state => state.otherUserData);
   const {
     data: { subscriptions }
   } = useTypedSelector(state => state.userData);
 
-  const { data: isAuthorized } = useTypedSelector(
-    state => state.isUserAuthorized
-  );
+  const {
+    data: { isAuthorized, role: myRole }
+  } = useTypedSelector(state => state.isUserAuthorized);
 
-  const { fetchOtherUserData, toggleUserSubscription, toggleUserBan } =
-    useTypedDispatch();
+  const {
+    fetchOtherUserData,
+    toggleUserSubscription,
+    toggleUserBan,
+    toggleModeratorRights
+  } = useTypedDispatch();
 
   const isSubscribed = subscriptions.some((s: any) => s._id === otherUserId);
 
@@ -50,6 +59,15 @@ export default function PersonProfilePage() {
     return <CircularLoader />;
   }
 
+  const handleModeratorRights = () => {
+    if (myRole === 'admin') {
+      toggleModeratorRights(
+        otherUserId,
+        t('personalProfile.personalProfilePage.rightsUpdated')
+      );
+    }
+  };
+
   const handleSubscription = () => {
     if (isAuthorized) {
       toggleUserSubscription(
@@ -60,7 +78,7 @@ export default function PersonProfilePage() {
   };
 
   const toogleBanStatus = (): string => {
-    if (role === 'user') {
+    if (otherUserRole === 'user') {
       return 'bannedUser';
     }
     return 'user';
@@ -88,7 +106,8 @@ export default function PersonProfilePage() {
             ? `${t('profile.profilePage.yourName')}`
             : displayName}
         </Typography>
-        {isAuthorized.isAuthorized && (
+
+        {isAuthorized && (
           <>
             <SubsrcibeButton
               size="large"
@@ -100,19 +119,27 @@ export default function PersonProfilePage() {
                 : t('profile.profilePage.subscribe')}
             </SubsrcibeButton>
 
-            {role !== 'admin' &&
-              role !== 'moderator' &&
+            {otherUserRole !== 'admin' &&
+              otherUserRole !== 'moderator' &&
               (myRole === 'moderator' || myRole === 'admin') && (
                 <SubsrcibeButton
                   size="large"
                   variant="contained"
                   onClick={handleBan}
                 >
-                  {role === 'bannedUser'
+                  {otherUserRole === 'bannedUser'
                     ? t('profile.profilePage.unban')
                     : t('profile.profilePage.ban')}
                 </SubsrcibeButton>
               )}
+
+            {myRole === 'admin' && otherUserRole !== 'admin' && (
+              <Button variant="outlined" onClick={handleModeratorRights}>
+                {otherUserRole === 'moderator'
+                  ? t('profile.profilePage.removeModerator')
+                  : t('profile.profilePage.createModerator')}
+              </Button>
+            )}
           </>
         )}
       </ProfileContentWrapper>
