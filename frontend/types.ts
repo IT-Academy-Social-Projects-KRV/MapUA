@@ -119,6 +119,7 @@ export type UserDataType = {
   subscriptions: AuthorInfoType[];
   favorite: string[];
   visited: string[];
+  role: string;
   personalLocations: string[];
 };
 export type TopUserType = {

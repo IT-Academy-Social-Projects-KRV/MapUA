@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useEffect, useState } from 'react';
-import { Typography } from '@mui/material';
+import React, { useEffect } from 'react';
+import { Button, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useParams } from 'react-router-dom';
@@ -20,17 +20,23 @@ export default function PersonProfilePage() {
   const { t } = useTranslation();
   const {
     loading: userLoading,
-    data: { _id: otherUserId, displayName, imageUrl: userAvatar }
+    data: {
+      _id: otherUserId,
+      displayName,
+      imageUrl: userAvatar,
+      role: otherUserRole
+    }
   } = useTypedSelector(state => state.otherUserData);
   const {
     data: { subscriptions }
   } = useTypedSelector(state => state.userData);
 
-  const { data: isAuthorized } = useTypedSelector(
-    state => state.isUserAuthorized
-  );
+  const {
+    data: { isAuthorized, role }
+  } = useTypedSelector(state => state.isUserAuthorized);
 
-  const { fetchOtherUserData, toggleUserSubscription } = useTypedDispatch();
+  const { fetchOtherUserData, toggleUserSubscription, toggleModeratorRights } =
+    useTypedDispatch();
 
   const isSubscribed = subscriptions.some((s: any) => s._id === otherUserId);
 
@@ -42,6 +48,15 @@ export default function PersonProfilePage() {
   if (userLoading) {
     return <CircularLoader />;
   }
+
+  const handleModeratorRights = () => {
+    if (role === 'admin') {
+      toggleModeratorRights(
+        otherUserId,
+        t('personalProfile.personalProfilePage.rightsUpdated')
+      );
+    }
+  };
 
   const handleSubscription = () => {
     if (isAuthorized) {
@@ -63,7 +78,7 @@ export default function PersonProfilePage() {
             ? `${t('profile.profilePage.yourName')}`
             : displayName}
         </Typography>
-        {isAuthorized.isAuthorized && (
+        {isAuthorized && (
           <SubsrcibeButton
             size="large"
             variant="contained"
@@ -73,6 +88,13 @@ export default function PersonProfilePage() {
               ? t('profile.profilePage.unsubscribe')
               : t('profile.profilePage.subscribe')}
           </SubsrcibeButton>
+        )}
+        {role === 'admin' && otherUserRole !== 'admin' && (
+          <Button variant="outlined" onClick={handleModeratorRights}>
+            {otherUserRole === 'moderator'
+              ? t('profile.profilePage.removeModerator')
+              : t('profile.profilePage.createModerator')}
+          </Button>
         )}
       </ProfileContentWrapper>
       <ProfileUserWrapper>
