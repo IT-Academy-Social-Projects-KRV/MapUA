@@ -61,8 +61,8 @@
       "noSubscribers": "user has no subscribers",
       "noSubscriptions": "user has no subscriptions",
       "noWaitingForVerify": "There is no locations",
-      "reportedLocations": "reported locations",
-      "noReportedLocations": "There is no locations"
+      "reportedLocations":"reported locations",
+      "noReportedLocations":"There are no locations"
     },
     "profilePage": {
       "lostNetwork": "Lost Network",
@@ -80,6 +80,8 @@
       "profilePageUpdatedSuccessfully": "Profile page updated successfully!",
       "subscribe": "Subscribe",
       "unsubscribe": "Unsubscribe",
+      "ban": "ban",
+      "unban": "unban",
       "createModerator": "Grant moderator rights",
       "removeModerator": "Remove moderator rights"
     }
@@ -87,6 +89,7 @@
   "personalProfile": {
     "personalProfilePage": {
       "subscriptionUpdated": "Subscription updated successfully!",
+      "banningUpdated": "banning updated successfully!",
       "rightsUpdated": "Rights updated"
     }
   },

@@ -121,7 +121,9 @@ export type UserDataType = {
   visited: string[];
   role: string;
   personalLocations: string[];
+  role: string;
 };
+
 export type TopUserType = {
   _id?: string;
   displayName: string;

@@ -80,6 +80,8 @@
       "profilePageUpdatedSuccessfully": "Дані профілю успішно оновлені!",
       "subscribe": "Підписатись",
       "unsubscribe": "Відписатись",
+      "ban": "забанити",
+      "unban": "розбанити",
       "createModerator": "Надати права модератора",
       "removeModerator": "Забрати права модератора"
     }
@@ -87,6 +89,7 @@
   "personalProfile": {
     "personalProfilePage": {
       "subscriptionUpdated": "Підписку успішно оновлено!",
+      "banningUpdated": "Бан успішно оновлено!",
       "rightsUpdated": "Права оновлено"
     }
   },

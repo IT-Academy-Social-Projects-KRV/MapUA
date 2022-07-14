@@ -68,6 +68,27 @@ export const otherUserDataReducer = (
         error: action.payload,
         success: false
       };
+    case OtherUserDataActionTypes.UPDATE_USER_DATA_AND_BAN_LOADING:
+      return {
+        loading: true,
+        error: null,
+        data: initialState.data,
+        success: false
+      };
+    case OtherUserDataActionTypes.UPDATE_USER_DATA_AND_BAN_SUCCESS:
+      return {
+        loading: false,
+        error: null,
+        data: action.payload,
+        success: true
+      };
+    case OtherUserDataActionTypes.UPDATE_USER_DATA_AND_BAN_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+        success: false
+      };
     default:
       return state;
   }

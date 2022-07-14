@@ -216,6 +216,7 @@ export const IconsComponent = ({
             <ListItemText>{t('createLocation.deleteLocation')}</ListItemText>
           </MenuItem>
         )}
+
         {((role === 'moderator' && verificationStatus === 'waiting') ||
           (role === 'admin' && verificationStatus === 'waiting')) && (
           <ConfirmOrDecline
@@ -228,7 +229,8 @@ export const IconsComponent = ({
         {(locationAuthorId?._id === userId ||
           role === 'moderator' ||
           role === 'admin') &&
-          verificationStatus !== 'verified' && (
+          verificationStatus !== 'verified' &&
+          role !== 'bannedUser' && (
             <MenuItem onClick={editData}>
               <ListItemIcon>
                 <EditIcon fontSize="small" />
@@ -237,7 +239,7 @@ export const IconsComponent = ({
             </MenuItem>
           )}
 
-        {isAuthorized && (
+        {isAuthorized && role !== 'bannedUser' && (
           <MenuItem onClick={() => reportLocation()}>
             <ListItemIcon>
               <ReportIcon fontSize="small" />
@@ -246,16 +248,19 @@ export const IconsComponent = ({
           </MenuItem>
         )}
 
-        {reported && (role === 'moderator' || role === 'admin') && (
-          <MenuItem onClick={() => deleteReport()}>
-            <ListItemIcon>
-              <ReportOffIcon fontSize="small" />
-            </ListItemIcon>
-            <ListItemText>
-              {t('createLocation.declineReportLocation')}
-            </ListItemText>
-          </MenuItem>
-        )}
+        {(isAuthorized &&
+          reported &&
+          (role === 'moderator' || role === 'admin')) ||
+          (role !== 'bannedUser' && (
+            <MenuItem onClick={() => deleteReport()}>
+              <ListItemIcon>
+                <ReportOffIcon fontSize="small" />
+              </ListItemIcon>
+              <ListItemText>
+                {t('createLocation.declineReportLocation')}
+              </ListItemText>
+            </MenuItem>
+          ))}
       </Menu>
     </>
   );

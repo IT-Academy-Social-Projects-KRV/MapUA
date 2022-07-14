@@ -45,7 +45,7 @@ function Map({
   isOpenLocationForm
 }: Props) {
   const { t } = useTranslation();
-  const { isAuthorized } = useTypedSelector(
+  const { isAuthorized, role } = useTypedSelector(
     state => state.isUserAuthorized.data
   );
 
@@ -106,8 +106,9 @@ function Map({
         <Locations onOpenBigPopup={onOpenBigPopup} />
 
         <SearchFormContainer />
-        <Box ref={closeButtonRef}>
-          {isAuthorized && !isOpen && (
+
+        {isAuthorized && !isOpen && role !== 'bannedUser' && (
+          <Box ref={closeButtonRef}>
             <StyledAddLocationButton
               onClick={() => toggleIsAddLocation()}
               style={{
@@ -119,16 +120,16 @@ function Map({
                 ? `${t('map.chooseCoordinates')}`
                 : `${t('map.addLocation')}`}
             </StyledAddLocationButton>
-          )}
 
-          {isAddLocationActive && !isOpenLocationForm && (
-            <StyledCloseAddingModeLocationButton
-              onClick={closeAddLocationModal}
-            >
-              x
-            </StyledCloseAddingModeLocationButton>
-          )}
-        </Box>
+            {isAddLocationActive && !isOpenLocationForm && (
+              <StyledCloseAddingModeLocationButton
+                onClick={closeAddLocationModal}
+              >
+                x
+              </StyledCloseAddingModeLocationButton>
+            )}
+          </Box>
+        )}
         {isOpen && <DrawMarkerCreateLocation coordinate={coordinate} />}
       </StyledMapContainer>
     </StyledMapWrapper>

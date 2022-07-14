@@ -17,6 +17,12 @@ import BasicTabs from './BasicTabs';
 import CircularLoader from '../../components/CircularLoader/CircularLoader';
 
 export default function PersonProfilePage() {
+  // const { role } = useTypedSelector(state => state.otherUserData.data);
+
+  // const { role: myRole } = useTypedSelector(
+  //   state => state.isUserAuthorized.data
+  // );
+
   const { t } = useTranslation();
   const {
     loading: userLoading,
@@ -32,11 +38,15 @@ export default function PersonProfilePage() {
   } = useTypedSelector(state => state.userData);
 
   const {
-    data: { isAuthorized, role }
+    data: { isAuthorized, role: myRole }
   } = useTypedSelector(state => state.isUserAuthorized);
 
-  const { fetchOtherUserData, toggleUserSubscription, toggleModeratorRights } =
-    useTypedDispatch();
+  const {
+    fetchOtherUserData,
+    toggleUserSubscription,
+    toggleUserBan,
+    toggleModeratorRights
+  } = useTypedDispatch();
 
   const isSubscribed = subscriptions.some((s: any) => s._id === otherUserId);
 
@@ -50,7 +60,7 @@ export default function PersonProfilePage() {
   }
 
   const handleModeratorRights = () => {
-    if (role === 'admin') {
+    if (myRole === 'admin') {
       toggleModeratorRights(
         otherUserId,
         t('personalProfile.personalProfilePage.rightsUpdated')
@@ -66,6 +76,24 @@ export default function PersonProfilePage() {
       );
     }
   };
+
+  const toogleBanStatus = (): string => {
+    if (otherUserRole === 'user') {
+      return 'bannedUser';
+    }
+    return 'user';
+  };
+
+  const handleBan = () => {
+    if (isAuthorized) {
+      toggleUserBan(
+        otherUserId,
+        toogleBanStatus(),
+        t('personalProfile.personalProfilePage.banningUpdated')
+      );
+    }
+  };
+
   return (
     <ProfileFormWrapper>
       <ProfileContentWrapper sx={{ height: 'auto' }}>
@@ -78,23 +106,41 @@ export default function PersonProfilePage() {
             ? `${t('profile.profilePage.yourName')}`
             : displayName}
         </Typography>
+
         {isAuthorized && (
-          <SubsrcibeButton
-            size="large"
-            variant="contained"
-            onClick={handleSubscription}
-          >
-            {isSubscribed
-              ? t('profile.profilePage.unsubscribe')
-              : t('profile.profilePage.subscribe')}
-          </SubsrcibeButton>
-        )}
-        {role === 'admin' && otherUserRole !== 'admin' && (
-          <Button variant="outlined" onClick={handleModeratorRights}>
-            {otherUserRole === 'moderator'
-              ? t('profile.profilePage.removeModerator')
-              : t('profile.profilePage.createModerator')}
-          </Button>
+          <>
+            <SubsrcibeButton
+              size="large"
+              variant="contained"
+              onClick={handleSubscription}
+            >
+              {isSubscribed
+                ? t('profile.profilePage.unsubscribe')
+                : t('profile.profilePage.subscribe')}
+            </SubsrcibeButton>
+
+            {otherUserRole !== 'admin' &&
+              otherUserRole !== 'moderator' &&
+              (myRole === 'moderator' || myRole === 'admin') && (
+                <SubsrcibeButton
+                  size="large"
+                  variant="contained"
+                  onClick={handleBan}
+                >
+                  {otherUserRole === 'bannedUser'
+                    ? t('profile.profilePage.unban')
+                    : t('profile.profilePage.ban')}
+                </SubsrcibeButton>
+              )}
+
+            {myRole === 'admin' && otherUserRole !== 'admin' && (
+              <Button variant="outlined" onClick={handleModeratorRights}>
+                {otherUserRole === 'moderator'
+                  ? t('profile.profilePage.removeModerator')
+                  : t('profile.profilePage.createModerator')}
+              </Button>
+            )}
+          </>
         )}
       </ProfileContentWrapper>
       <ProfileUserWrapper>
