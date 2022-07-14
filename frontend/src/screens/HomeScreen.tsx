@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Box } from '@mui/material';
 import Map from 'components/Map/index';
 import BigPopup from 'components/BigPopup/index';
@@ -35,15 +35,17 @@ function HomeScreen() {
     setIsAddLocationActive(value);
   };
 
+  const toggleClose = useCallback(() => {
+    setIsOpenLocationPopup(false);
+    setSearchParams({});
+    setLocationName('');
+  }, []);
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <BigPopup
         isOpen={isOpenLocationPopup}
-        toggleClose={() => {
-          setIsOpenLocationPopup(false);
-          setSearchParams({});
-          setLocationName('');
-        }}
+        toggleClose={toggleClose}
         location={location}
       />
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import {
   CardContent,
   List,
@@ -36,10 +36,12 @@ const CommentSection = () => {
     useState(commentStepCount);
 
   useEffect(() => {
+    console.log('useEffect 39');
     if (locationId) {
+      console.log('useEffect 40 row CommentSection');
       fetchComments(locationId, undefined, topCommentsOnPageIndex);
     }
-  }, [locationId]);
+  }, []);
 
   useEffect(() => {
     const addMoreComment = () =>
@@ -53,6 +55,7 @@ const CommentSection = () => {
   }, [inView]);
 
   useEffect(() => {
+    console.log('useEffect 57 row CommentSection');
     fetchComments(locationId, undefined, topCommentsOnPageIndex);
   }, [topCommentsOnPageIndex]);
 
@@ -125,4 +128,4 @@ const CommentSection = () => {
   );
 };
 
-export default CommentSection;
+export default memo(CommentSection);

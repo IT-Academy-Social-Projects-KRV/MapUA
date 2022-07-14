@@ -9,7 +9,7 @@ import {
   Divider
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import React, { FC, MouseEventHandler } from 'react';
+import React, { FC, memo, MouseEventHandler } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { Controller } from 'react-hook-form';
@@ -26,7 +26,7 @@ type Props = {
   errors: any;
 };
 
-export const CardComponent: FC<Props> = ({
+const CardComponent: FC<Props> = ({
   handleExpandClick,
   expanded,
   showEditPanel,
@@ -105,3 +105,5 @@ export const CardComponent: FC<Props> = ({
     </Box>
   );
 };
+
+export default memo(CardComponent);

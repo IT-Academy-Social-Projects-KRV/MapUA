@@ -107,12 +107,14 @@ const Comment = ({
   const handleDeleteAndUpdate = async () => {
     setShowAnswers(false);
     await deleteComment(id);
+    console.log('handleDeleteAndUpdate 110 row comment');
     await fetchComments(locationId, parentComment, topCommentsOnPageIndex);
     handleCloseDialog();
   };
 
   useEffect(() => {
     if (showAnswers) {
+      console.log('useEffect 116 row Comment');
       fetchComments(locationId, id, topCommentsOnPageIndex);
     }
   }, [showAnswers]);

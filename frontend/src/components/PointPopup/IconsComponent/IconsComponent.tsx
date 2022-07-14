@@ -1,7 +1,12 @@
-import React, { MouseEventHandler } from 'react';
-import { IconButton, ListItemIcon, ListItemText, Tooltip } from '@mui/material';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import React, { memo, MouseEventHandler, useCallback } from 'react';
+import {
+  IconButton,
+  ListItemIcon,
+  ListItemText,
+  Tooltip,
+  Menu,
+  MenuItem
+} from '@mui/material';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
@@ -15,12 +20,13 @@ import TourIcon from '@mui/icons-material/Tour';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
-import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
-import { useTypedSelector } from 'redux/hooks/useTypedSelector';
-import { useTranslation } from 'react-i18next';
 import ReportIcon from '@mui/icons-material/Report';
 import EditIcon from '@mui/icons-material/Edit';
 import ReportOffIcon from '@mui/icons-material/ReportOff';
+import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
+import { useTypedSelector } from 'redux/hooks/useTypedSelector';
+import { useTranslation } from 'react-i18next';
+
 import ConfirmOrDecline from './ConfirmOrDecline';
 
 type Props = {
@@ -35,7 +41,7 @@ type Props = {
   locationId: any;
 };
 
-export const IconsComponent = ({
+const IconsComponent = ({
   handleRating,
   handleFavoriteClick,
   locationIsFavorite,
@@ -100,12 +106,15 @@ export const IconsComponent = ({
     );
   };
 
-  const handleConfirmOrDeclineVerification = (status: string) => {
-    updatePopupLocation(locationId, {
-      rating,
-      verificationStatus: status
-    });
-  };
+  const handleConfirmOrDeclineVerification = useCallback(
+    (status: string) => {
+      updatePopupLocation(locationId, {
+        rating,
+        verificationStatus: status
+      });
+    },
+    [locationId, rating]
+  );
 
   return (
     <>
@@ -255,3 +264,5 @@ export const IconsComponent = ({
     </>
   );
 };
+
+export default memo(IconsComponent);
