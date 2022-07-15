@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import L from 'leaflet';
 import { CardMedia, Typography } from '@mui/material';
 import { Marker } from 'react-leaflet';
+import { selectLocationData } from 'redux/memoizedSelectors/popupLocationSelectors';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useSearchParams } from 'react-router-dom';
@@ -33,7 +34,7 @@ export function LocationPopOut({
   verificationStatus
 }: Props) {
   const [, setSearchParams] = useSearchParams();
-  const locationData = useTypedSelector(state => state.popupLocation);
+  const locationData = useTypedSelector(selectLocationData);
   const { loading } = locationData;
   const { fetchPopupLocation } = useTypedDispatch();
 

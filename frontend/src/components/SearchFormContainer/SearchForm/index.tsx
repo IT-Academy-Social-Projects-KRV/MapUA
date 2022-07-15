@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { selectMapInfolocationName } from 'redux/memoizedSelectors/memoizedSelectors';
+import { selectMapInfolocationName } from 'redux/memoizedSelectors/mapInfoSelectors';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTranslation } from 'react-i18next';

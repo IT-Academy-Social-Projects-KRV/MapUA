@@ -4,8 +4,8 @@ import { StyledCardProfileTabs } from 'components/design/StyledCardProfileTabs';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { getPath } from 'utils/createPath';
+import { selectUserId } from 'redux/memoizedSelectors/userDataSelectors';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
-// import { v4 } from 'uuid';
 import { v4 } from 'uuid';
 import userImageNotFound from '../../static/image-not-found.jpg';
 
@@ -14,20 +14,23 @@ type Props = {
 };
 
 const ProfileTabsData = ({ array }: Props) => {
-  const { _id } = useTypedSelector(state => state.userData.data);
+  const userId = useTypedSelector(selectUserId);
 
   return (
     <Box>
       {array.map((s: any) => (
         <StyledTabComponentBox key={v4()}>
           <StyledCardProfileTabs>
-            <Link to={getPath(_id, s?._id)}>
+            <Link to={getPath(userId, s?._id)}>
               <Avatar
                 aria-label="User"
                 src={(s && s.imageUrl) || userImageNotFound}
               />
             </Link>
-            <Link to={getPath(_id, s?._id)} style={{ textDecoration: 'none' }}>
+            <Link
+              to={getPath(userId, s?._id)}
+              style={{ textDecoration: 'none' }}
+            >
               {(s && s.displayName) || 'undefined'}
             </Link>
           </StyledCardProfileTabs>

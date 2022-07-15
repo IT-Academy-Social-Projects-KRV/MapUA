@@ -24,6 +24,17 @@ import ReportIcon from '@mui/icons-material/Report';
 import EditIcon from '@mui/icons-material/Edit';
 import ReportOffIcon from '@mui/icons-material/ReportOff';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
+import {
+  selectAuthor,
+  selectRaiting,
+  selectReported,
+  selectVerificationStatus
+} from 'redux/memoizedSelectors/popupLocationSelectors';
+import { selectUserId } from 'redux/memoizedSelectors/userDataSelectors';
+import {
+  selectIsUserAuthorized,
+  selectUserRole
+} from 'redux/memoizedSelectors/isUserAuthorizedSelectors';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTranslation } from 'react-i18next';
 
@@ -59,19 +70,14 @@ const IconsComponent = ({
     SetSuccessSnackbar,
     updatePopupLocation
   } = useTypedDispatch();
-  const { rating } = useTypedSelector(state => state.popupLocation.data);
-  const { verificationStatus } = useTypedSelector(
-    state => state.popupLocation.data
-  );
 
-  const { author, reported } = useTypedSelector(
-    state => state.popupLocation.data
-  );
-  const { _id: userId } = useTypedSelector(state => state.userData.data);
-  const { isAuthorized } = useTypedSelector(
-    state => state.isUserAuthorized.data
-  );
-  const { role } = useTypedSelector(state => state.isUserAuthorized.data);
+  const rating = useTypedSelector(selectRaiting);
+  const verificationStatus = useTypedSelector(selectVerificationStatus);
+  const author = useTypedSelector(selectAuthor);
+  const reported = useTypedSelector(selectReported);
+  const userId = useTypedSelector(selectUserId);
+  const isAuthorized = useTypedSelector(selectIsUserAuthorized);
+  const role = useTypedSelector(selectUserRole);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);

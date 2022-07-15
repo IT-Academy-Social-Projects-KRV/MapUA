@@ -7,6 +7,12 @@ import ForgotPassword from 'screens/ForgotPassword/ForgotPassword';
 import Registration from 'screens/Registration/Registration';
 import Profile from 'screens/Profile/Profile';
 import Page404 from 'components/Page_404/Page404';
+import { selectIsUserAuthorized } from 'redux/memoizedSelectors/isUserAuthorizedSelectors';
+import {
+  selectSnackbarNotification,
+  selectSnackbarType,
+  selectSnackbarVisible
+} from 'redux/memoizedSelectors/snackbarSelectors';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import AboutUs from 'screens/AboutUs/AboutUs';
 import PersonProfile from 'screens/PersonProfile/PersonProfile';
@@ -17,9 +23,11 @@ import ExtendSnackbar from './components/ExtendSnackbar/ExtendSnackbar';
 
 function App() {
   let accessToken = localStorage.getItem('accessToken');
-  const { type, visible, notification } = useTypedSelector(
-    state => state.snackbar
-  );
+
+  const type = useTypedSelector(selectSnackbarType);
+  const visible = useTypedSelector(selectSnackbarVisible);
+  const notification = useTypedSelector(selectSnackbarNotification);
+
   const { ResetSnackbar } = useTypedDispatch();
   const handleCloseNotification = (
     e?: SyntheticEvent | Event,
@@ -31,9 +39,8 @@ function App() {
     ResetSnackbar();
   };
 
-  const { isAuthorized } = useTypedSelector(
-    state => state.isUserAuthorized.data
-  );
+  const isAuthorized = useTypedSelector(selectIsUserAuthorized);
+
   const { checkIsUserAuthorized, fetchUserData } = useTypedDispatch();
 
   useEffect(() => {

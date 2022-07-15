@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, Box } from '@mui/material';
 import { Link as RouterLink, useSearchParams } from 'react-router-dom';
+import { selectIsUserAuthorized } from 'redux/memoizedSelectors/isUserAuthorizedSelectors';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTranslation } from 'react-i18next';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
@@ -34,9 +35,7 @@ const StyledLangButton: React.FC<
 );
 
 function NavBar() {
-  const { isAuthorized } = useTypedSelector(
-    state => state.isUserAuthorized.data
-  );
+  const isAuthorized = useTypedSelector(selectIsUserAuthorized);
   const { t, i18n } = useTranslation();
   const lng = localStorage.getItem('i18nextLng');
   const [currentLanguage, setCurrentLanguage] = useState<any>(lng);

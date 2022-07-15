@@ -5,16 +5,19 @@ import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { Box, Checkbox, ListItemText } from '@mui/material';
+import { selectFiltersListfilters } from 'redux/memoizedSelectors/filtersListSelectors';
+import { selectIsUserAuthorized } from 'redux/memoizedSelectors/isUserAuthorizedSelectors';
 import {
-  selectFiltersListfilters,
-  selectIsUserAuthorized,
   selectMapInfoBounds,
-  selectMapInfoFilters,
+  selectMapInfoFilters
+} from 'redux/memoizedSelectors/mapInfoSelectors';
+
+import {
   selectUserDataFavorite,
   selectUserDataPersonalLocations,
   selectUserDataSubscriptions,
   selectUserDataVisited
-} from 'redux/memoizedSelectors/memoizedSelectors';
+} from 'redux/memoizedSelectors/userDataSelectors';
 import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';

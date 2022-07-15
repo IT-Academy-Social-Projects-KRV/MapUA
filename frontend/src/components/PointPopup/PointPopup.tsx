@@ -9,6 +9,22 @@ import React, {
 } from 'react';
 import { Box, Card, CardContent, Collapse, Typography } from '@mui/material';
 import AlertDialog from 'components/AlertDialog';
+import { selectIsUserAuthorized } from 'redux/memoizedSelectors/isUserAuthorizedSelectors';
+import {
+  selectArrayPhotos,
+  selectAuthor,
+  selectDescription,
+  selectLocationId,
+  selectPopUpLocationName,
+  selectRaiting,
+  selectVerificationStatus
+} from 'redux/memoizedSelectors/popupLocationSelectors';
+import {
+  selectUserDataFavorite,
+  selectUserDataVisited,
+  selectUserId
+} from 'redux/memoizedSelectors/userDataSelectors';
+import { selectLocationIsDeleted } from 'redux/memoizedSelectors/deleteLocationSelectors';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useForm, useFormState } from 'react-hook-form';
@@ -21,7 +37,6 @@ import IconsComponent from './IconsComponent/IconsComponent';
 import { StyledPopupButtonsWrapper } from '../design/StyledPopupButtonsWrapper';
 import LocationImageCarousel from './LocationImageCarousel/LocationImageCarousel';
 import CircularLoader from '../CircularLoader/CircularLoader';
-
 import { LocationForm } from '../../../types';
 
 type Props = {
@@ -45,31 +60,22 @@ const PointPopup = ({ toggleClose }: Props) => {
     clearPopupLocation
   } = useTypedDispatch();
 
-  const { isAuthorized } = useTypedSelector(
-    state => state.isUserAuthorized.data
-  );
+  const isAuthorized = useTypedSelector(selectIsUserAuthorized);
+  const verificationStatus = useTypedSelector(selectVerificationStatus);
 
-  const { verificationStatus } = useTypedSelector(
-    state => state.popupLocation.data
-  );
+  const userId = useTypedSelector(selectUserId);
+  const favorite = useTypedSelector(selectUserDataFavorite);
+  const visited = useTypedSelector(selectUserDataVisited);
 
-  const {
-    _id: userId,
-    favorite,
-    visited
-  } = useTypedSelector(state => state.userData.data);
+  const locationAuthorId = useTypedSelector(selectAuthor);
 
-  const { author: locationAuthorId } = useTypedSelector(
-    state => state.popupLocation.data
-  );
-  const isDeleted = useTypedSelector(state => state.deleteLocation.data);
-  const {
-    _id: locationId,
-    rating,
-    locationName,
-    description,
-    arrayPhotos
-  } = useTypedSelector(state => state.popupLocation.data);
+  const locationId = useTypedSelector(selectLocationId);
+  const rating = useTypedSelector(selectRaiting);
+  const locationName = useTypedSelector(selectPopUpLocationName);
+  const description = useTypedSelector(selectDescription);
+  const arrayPhotos = useTypedSelector(selectArrayPhotos);
+
+  const isDeleted = useTypedSelector(selectLocationIsDeleted);
 
   const { control } = useForm<LocationForm>({
     mode: 'onBlur',

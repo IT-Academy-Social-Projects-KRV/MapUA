@@ -16,6 +16,16 @@ import {
   useFormState
 } from 'react-hook-form';
 import { CreatingLocationSchema } from 'utils/validation';
+import {
+  selectIsLoading,
+  selectIsSuccess
+} from 'redux/memoizedSelectors/createLocationSelectors';
+import {
+  selectAuthorizedFilters,
+  selectMapInfoBounds,
+  selectMapInfoFilters,
+  selectMapInfolocationName
+} from 'redux/memoizedSelectors/mapInfoSelectors';
 import { latlngType } from '../../../types';
 import { getFiltersForUser } from '../../static/mainFIlters';
 import { useTypedSelector } from '../../redux/hooks/useTypedSelector';
@@ -45,14 +55,14 @@ const CreateLocation = ({
   const ref = useRef<null | HTMLInputElement>();
 
   const { t } = useTranslation();
+  const success = useTypedSelector(selectIsSuccess);
+  const loading = useTypedSelector(selectIsLoading);
 
-  const { success, loading } = useTypedSelector(state => state.createLocation);
-  const {
-    bounds,
-    locationName: searchName,
-    selectedFilters,
-    authorizedFilters
-  } = useTypedSelector(state => state.mapInfo);
+  const bounds = useTypedSelector(selectMapInfoBounds);
+  const searchName = useTypedSelector(selectMapInfolocationName);
+  const selectedFilters = useTypedSelector(selectMapInfoFilters);
+  const authorizedFilters = useTypedSelector(selectAuthorizedFilters);
+
   const { createLocation, fetchLocations } = useTypedDispatch();
 
   const { handleSubmit, control, reset } = useForm<CreatingLocation>({

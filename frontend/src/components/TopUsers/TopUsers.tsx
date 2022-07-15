@@ -11,6 +11,8 @@ import { StyledCardTopRated } from 'components/design/StyledCardTopRated';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
+import { selectTopUsers } from 'redux/memoizedSelectors/topUsersSelectors';
+import { selectUserId } from 'redux/memoizedSelectors/userDataSelectors';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { getPath } from 'utils/createPath';
 import { Link as RouterLink } from 'react-router-dom';
@@ -22,8 +24,8 @@ const TopUsers = () => {
   useEffect(() => {
     fetchTopUsers();
   }, []);
-  const topUsers = useTypedSelector(state => state.topUsers);
-  const { _id } = useTypedSelector(state => state.userData.data);
+  const topUsers = useTypedSelector(selectTopUsers);
+  const userId = useTypedSelector(selectUserId);
 
   if (topUsers.loading) {
     return <h1>{t('profile.profile.loading')}</h1>;
@@ -37,12 +39,12 @@ const TopUsers = () => {
           <StyledCardTopRated key={user._id}>
             <ListItem>
               <ListItemAvatar>
-                <Link component={RouterLink} to={getPath(_id, user._id)}>
+                <Link component={RouterLink} to={getPath(userId, user._id)}>
                   <Avatar src={user.imageUrl} />
                 </Link>
               </ListItemAvatar>
 
-              <Link component={RouterLink} to={getPath(_id, user._id)}>
+              <Link component={RouterLink} to={getPath(userId, user._id)}>
                 <ListItemText primary={user.displayName} sx={{ pr: '10px' }} />
               </Link>
               <div>

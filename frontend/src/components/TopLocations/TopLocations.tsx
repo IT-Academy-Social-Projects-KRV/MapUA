@@ -12,6 +12,7 @@ import { StyledCardTopRated } from 'components/design/StyledCardTopRated';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
+import { selectTopLocations } from 'redux/memoizedSelectors/topLocationsSelectors';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useNavigate } from 'react-router-dom';
 import { topLocationType } from '../../../types';
@@ -23,7 +24,7 @@ const TopLocations = () => {
     fetchTopLocations();
   }, []);
   const navigate = useNavigate();
-  const topLocations = useTypedSelector(state => state.topLocations);
+  const topLocations = useTypedSelector(selectTopLocations);
   const redirect = (locationName: string) => {
     setLocationName(locationName);
     navigate({

@@ -11,7 +11,10 @@ import {
 import { StyledCommentsLoaderBox } from 'components/design/StyledCommentsLoaderBox';
 import { t } from 'i18next';
 import { useInView } from 'react-intersection-observer';
+import { selectComments } from 'redux/memoizedSelectors/locationCommentsSelectors';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
+import { selectLocationId } from 'redux/memoizedSelectors/popupLocationSelectors';
+import { selectIsUserAuthorized } from 'redux/memoizedSelectors/isUserAuthorizedSelectors';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { CommentType, AuthorInfoType } from '../../../../types';
 import CommentForm from './CommentForm';
@@ -21,17 +24,15 @@ const CommentSection = () => {
   const { ref, inView } = useInView({ threshold: 1, triggerOnce: true });
   const commentStepCount = 5;
 
-  const { _id: locationId } = useTypedSelector(
-    state => state.popupLocation.data
-  );
-  const { comments } = useTypedSelector(state => state.locationComments);
-  const { isAuthorized } = useTypedSelector(
-    state => state.isUserAuthorized.data
-  );
+  const locationId = useTypedSelector(selectLocationId);
+  const comments = useTypedSelector(selectComments);
+  const isAuthorized = useTypedSelector(selectIsUserAuthorized);
 
   const { fetchComments } = useTypedDispatch();
 
-  const topComments = comments.filter(c => !c.parentComment);
+  const topComments = comments.filter(
+    (c: CommentType<AuthorInfoType>) => !c.parentComment
+  );
 
   const [topCommentsOnPageIndex, setTopCommentsOnPageIndex] =
     useState(commentStepCount);

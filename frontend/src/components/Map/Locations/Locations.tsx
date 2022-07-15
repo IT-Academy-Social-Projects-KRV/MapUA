@@ -1,5 +1,6 @@
 import React from 'react';
 import { LocationPopOut } from 'components/LocationPopOut/LocationPopOut';
+import { selectLocationList } from 'redux/memoizedSelectors/locationListSelectors';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import MarkerClusterGroup from '../../MarkerClusterGroup/MarkerClusterGroup';
 import 'leaflet/dist/leaflet.css';
@@ -10,7 +11,8 @@ interface Props {
 }
 
 function Locations({ onOpenBigPopup }: Props) {
-  const { data: locations } = useTypedSelector(state => state.locationList);
+  const locations = useTypedSelector(selectLocationList);
+
   return (
     <MarkerClusterGroup>
       {locations.map(

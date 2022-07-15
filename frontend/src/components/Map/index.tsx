@@ -6,12 +6,17 @@ import 'leaflet/dist/leaflet.css';
 import { useTranslation } from 'react-i18next';
 import SearchFormContainer from 'components/SearchFormContainer';
 import useDebounce from 'utils/useDebounce';
-import { v4 } from 'uuid';
 import { StyledMapWrapper } from 'components/design/StyledMapWrapper';
+import { selectIsUserAuthorized } from 'redux/memoizedSelectors/isUserAuthorizedSelectors';
+import {
+  selectAuthorizedFilters,
+  selectMapInfoBounds,
+  selectMapInfoFilters,
+  selectMapInfolocationName
+} from 'redux/memoizedSelectors/mapInfoSelectors';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import L from 'leaflet';
-import { Button } from '@mui/material';
 import Locations from './Locations/Locations';
 import MyZoomComponent from './ZoomComponent';
 
@@ -47,20 +52,16 @@ function Map({
   isOpenLocationForm
 }: Props) {
   const { t } = useTranslation();
-  const { isAuthorized } = useTypedSelector(
-    state => state.isUserAuthorized.data
-  );
+  const isAuthorized = useTypedSelector(selectIsUserAuthorized);
+
+  const bounds = useTypedSelector(selectMapInfoBounds);
+  const searchName = useTypedSelector(selectMapInfolocationName);
+  const selectedFilters = useTypedSelector(selectMapInfoFilters);
+  const authorizedFilters = useTypedSelector(selectAuthorizedFilters);
 
   const { locationId } = useParams();
 
   const { setLocationName } = useTypedDispatch();
-
-  const {
-    bounds,
-    locationName: searchName,
-    selectedFilters,
-    authorizedFilters
-  } = useTypedSelector(state => state.mapInfo);
 
   const closeButtonRef = React.useRef<any>(null);
 
