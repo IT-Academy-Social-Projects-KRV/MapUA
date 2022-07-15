@@ -102,9 +102,7 @@ export default function PersonProfilePage() {
           src={userAvatar || userImageNotFound}
         />
         <Typography mt={2} variant="h5" component="h4" align="center">
-          {displayName === undefined
-            ? `${t('profile.profilePage.yourName')}`
-            : displayName}
+          {displayName ? `${t('profile.profilePage.yourName')}` : displayName}
         </Typography>
 
         {isAuthorized && (
@@ -123,6 +121,7 @@ export default function PersonProfilePage() {
               otherUserRole !== 'moderator' &&
               (myRole === 'moderator' || myRole === 'admin') && (
                 <SubsrcibeButton
+                  sx={{ mb: '40px' }}
                   size="large"
                   variant="contained"
                   onClick={handleBan}
