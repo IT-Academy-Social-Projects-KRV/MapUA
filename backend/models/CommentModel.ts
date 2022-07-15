@@ -9,6 +9,7 @@ interface IComment {
   dislikes: string[];
   parentComment: mongoose.Types.ObjectId;
   deleted: boolean;
+  hasReplies: boolean;
 }
 
 const schema = new mongoose.Schema(
@@ -42,7 +43,11 @@ const schema = new mongoose.Schema(
     deleted: {
       type: Boolean,
       default: false
-    }
+    },
+    hasReplies: {
+      type: Boolean,
+      default: false
+    },
   },
 
   { timestamps: true }

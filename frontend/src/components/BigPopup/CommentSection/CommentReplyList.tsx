@@ -8,6 +8,8 @@ interface Props {
   index: number;
   parentAuthorName: string;
   parentAuthorUrl: string;
+  hasReplies: boolean;
+  topCommentsOnPageIndex: number;
 }
 
 const CommentReplyList = ({
@@ -15,11 +17,15 @@ const CommentReplyList = ({
   comments,
   index,
   parentAuthorName,
-  parentAuthorUrl
+  parentAuthorUrl,
+  hasReplies,
+  topCommentsOnPageIndex
 }: Props) => (
   <>
     {childComments.map((childComment: CommentType<AuthorInfoType>) => (
       <Comment
+        hasReplies={hasReplies}
+        topCommentsOnPageIndex={topCommentsOnPageIndex}
         parentAuthorName={parentAuthorName}
         parentAuthorUrl={parentAuthorUrl}
         deleted={childComment.deleted}

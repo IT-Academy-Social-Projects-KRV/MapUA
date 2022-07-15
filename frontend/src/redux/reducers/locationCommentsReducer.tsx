@@ -13,7 +13,18 @@ export const locationCommentsReducer = (
 ): locationCommentsStateType => {
   switch (action.type) {
     case LocationCommentsActionTypes.ADD_COMMENT:
-      return { comments: [action.payload, ...state.comments] };
+      return {
+        comments: !action.payload.parentComment
+          ? [action.payload.addedComent, ...state.comments]
+          : [
+              action.payload.addedComent,
+              ...state.comments.map(comment =>
+                action.payload.parentComment._id === comment._id
+                  ? action.payload.parentComment
+                  : comment
+              )
+            ]
+      };
     case LocationCommentsActionTypes.FETCH_COMMENTS:
       return { comments: [...action.payload] };
     case LocationCommentsActionTypes.DELETE_COMMENT:
