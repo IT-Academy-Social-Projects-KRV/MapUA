@@ -15,7 +15,7 @@ export const locationCommentsReducer = (
     case LocationCommentsActionTypes.ADD_COMMENT:
       return {
         comments: !action.payload.parentComment
-          ? [...state.comments, action.payload.addedComent]
+          ? [action.payload.addedComent, ...state.comments]
           : [
               action.payload.addedComent,
               ...state.comments.map(comment =>

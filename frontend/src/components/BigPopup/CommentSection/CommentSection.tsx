@@ -45,7 +45,7 @@ const CommentSection = () => {
     const addMoreComment = () =>
       setTopCommentsOnPageIndex(prevState => prevState + commentStepCount);
 
-    const timerId = setTimeout(() => addMoreComment(), 2000);
+    const timerId = setTimeout(() => addMoreComment(), 500);
 
     return () => {
       clearTimeout(timerId);
