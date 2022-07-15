@@ -62,7 +62,7 @@ function NavBar() {
       >
         {t('navBar.map')}
       </StyledLink>
-      <HowToAddLocation />
+      {isAuthorized ? <HowToAddLocation /> : null}
       {isAuthorized ? (
         <StyledLink to="/profile">{t('navBar.myProfile')}</StyledLink>
       ) : (
