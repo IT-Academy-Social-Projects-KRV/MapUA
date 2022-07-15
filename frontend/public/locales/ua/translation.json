@@ -165,7 +165,8 @@
         "noComments": "Під цією локацією ще немає коментарів",
         "deletedOriginalComment": "Цей коментар був видалений користувачем",
         "numberOfCommentars": "кількість коментарів - ",
-        "alertdialogmessagedata": "коментар"
+        "alertdialogmessagedata": "коментар",
+        "commentsLoading": "Завантаження коментарів ..."
       }
     }
   },

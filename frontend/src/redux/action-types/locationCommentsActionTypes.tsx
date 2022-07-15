@@ -1,4 +1,8 @@
-import { AuthorInfoType, CommentType } from '../../../types';
+import {
+  AddCommentActionCreatorType,
+  AuthorInfoType,
+  CommentType
+} from '../../../types';
 
 /* eslint-disable no-unused-vars */
 
@@ -12,7 +16,7 @@ export enum LocationCommentsActionTypes {
 
 interface AddCommentAction {
   type: LocationCommentsActionTypes.ADD_COMMENT;
-  payload: CommentType<AuthorInfoType>;
+  payload: AddCommentActionCreatorType;
 }
 
 interface FetchCommentsAction {

@@ -20,7 +20,12 @@ interface Props {
 const AboutDeveloperCard = ({ photo, fullName, linkedIn }: Props) => (
   <StyledDeveloperCard>
     <CardActionArea>
-      <CardMedia component="img" image={photo} alt="personal photo" />
+      <CardMedia
+        height={250}
+        component="img"
+        image={photo}
+        alt="personal photo"
+      />
       <CardContent sx={{ minHeight: 96 }}>
         <Typography align="center" variant="h6">
           {fullName}
