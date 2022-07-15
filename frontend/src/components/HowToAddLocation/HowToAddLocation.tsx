@@ -16,7 +16,7 @@ import unVerifiedMarker from '../../static/unverified-icon.svg';
 import createMarker from '../../static/creation-icon.svg';
 import { Text, ButtonTitle } from '../design/StyledHowToStart';
 
-export default function HowToStart() {
+export default function HowToAddLocation() {
   const [open, setOpen] = React.useState(false);
   const { t } = useTranslation();
   const handleClickOpen = () => {
@@ -30,6 +30,7 @@ export default function HowToStart() {
   return (
     <Box>
       <ButtonTitle
+        data-testid="button-open"
         variant="outlined"
         onClick={handleClickOpen}
         sx={{ color: 'white' }}
@@ -43,7 +44,7 @@ export default function HowToStart() {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
+        <DialogTitle data-testid="dialog-title" id="alert-dialog-title">
           {t('infoPopUp.header')}
           <Divider />
         </DialogTitle>
@@ -104,7 +105,11 @@ export default function HowToStart() {
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} sx={{ fontSize: '20px' }}>
+          <Button
+            data-testid="button-close"
+            onClick={handleClose}
+            sx={{ fontSize: '20px' }}
+          >
             {t('infoPopUp.close')}
           </Button>
         </DialogActions>
