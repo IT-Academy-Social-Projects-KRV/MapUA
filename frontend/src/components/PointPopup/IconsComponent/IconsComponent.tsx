@@ -239,8 +239,8 @@ export const IconsComponent = ({
             </MenuItem>
           )}
 
-        {isAuthorized && role !== 'bannedUser' && (
-          <MenuItem onClick={() => reportLocation()}>
+        {isAuthorized && !reported && role !== 'bannedUser' && (
+          <MenuItem onClick={reportLocation}>
             <ListItemIcon>
               <ReportIcon fontSize="small" />
             </ListItemIcon>
@@ -248,19 +248,16 @@ export const IconsComponent = ({
           </MenuItem>
         )}
 
-        {(isAuthorized &&
-          reported &&
-          (role === 'moderator' || role === 'admin')) ||
-          (role !== 'bannedUser' && (
-            <MenuItem onClick={() => deleteReport()}>
-              <ListItemIcon>
-                <ReportOffIcon fontSize="small" />
-              </ListItemIcon>
-              <ListItemText>
-                {t('createLocation.declineReportLocation')}
-              </ListItemText>
-            </MenuItem>
-          ))}
+        {(role === 'moderator' || role === 'admin') && reported && (
+          <MenuItem onClick={deleteReport}>
+            <ListItemIcon>
+              <ReportOffIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>
+              {t('createLocation.declineReportLocation')}
+            </ListItemText>
+          </MenuItem>
+        )}
       </Menu>
     </>
   );
