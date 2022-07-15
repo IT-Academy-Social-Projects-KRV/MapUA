@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { memo } from 'react';
+import { selectMapInfolocationName } from 'redux/memoizedSelectors/memoizedSelectors';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTranslation } from 'react-i18next';
@@ -13,7 +14,7 @@ function SearchForm() {
   const [searchParams, setSearchParams] = useSearchParams();
   const searchQuery = searchParams.get('locationName');
   const { setLocationName } = useTypedDispatch();
-  const { locationName } = useTypedSelector(state => state.mapInfo);
+  const locationName = useTypedSelector(selectMapInfolocationName);
 
   const handleChange = (e: any): void => {
     setLocationName(e.target.value);
@@ -55,4 +56,4 @@ function SearchForm() {
   );
 }
 
-export default SearchForm;
+export default memo(SearchForm);

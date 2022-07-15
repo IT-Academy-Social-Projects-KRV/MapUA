@@ -1,6 +1,6 @@
 import NestedList from 'components/SearchFormContainer/FiltersList/NestedList';
 import SearchForm from 'components/SearchFormContainer/SearchForm';
-import React, { useEffect } from 'react';
+import React, { memo, useEffect } from 'react';
 import L from 'leaflet';
 import { StyledSearchFormContainer } from '../design/StyledSearchFormContainer';
 
@@ -19,4 +19,4 @@ function SearchFormContainer() {
   );
 }
 
-export default SearchFormContainer;
+export default memo(SearchFormContainer);

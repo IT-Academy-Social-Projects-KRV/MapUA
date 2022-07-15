@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import ReplyIcon from '@mui/icons-material/Reply';
 import { Box, MenuItem, ListItemIcon, Typography } from '@mui/material';
 import { t } from 'i18next';
@@ -27,4 +27,4 @@ const ReplyComment = ({
   </Box>
 );
 
-export default ReplyComment;
+export default memo(ReplyComment);

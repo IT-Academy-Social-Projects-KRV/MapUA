@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { memo, useCallback, useState } from 'react';
 import UploadInput from 'components/design/UploadInputCreateLocation';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTranslation } from 'react-i18next';
@@ -70,7 +70,7 @@ const EditLocation = ({
     closeEditData();
   };
 
-  const handleFilesChange = (e: any) => {
+  const handleFilesChange = useCallback((e: any) => {
     const { files: filesLst } = e.currentTarget;
     const filesListArr = [];
 
@@ -81,7 +81,7 @@ const EditLocation = ({
 
       setFiles(filesListArr);
     }
-  };
+  }, []);
 
   return (
     <StyledCreateLocationWrapper
@@ -155,4 +155,4 @@ const EditLocation = ({
   );
 };
 
-export default EditLocation;
+export default memo(EditLocation);

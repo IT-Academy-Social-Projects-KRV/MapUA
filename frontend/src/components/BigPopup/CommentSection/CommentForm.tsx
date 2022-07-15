@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Box, TextField } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
@@ -80,4 +80,4 @@ const CommentForm = () => {
   );
 };
 
-export default CommentForm;
+export default memo(CommentForm);

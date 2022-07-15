@@ -1,5 +1,5 @@
 import { Box, Button } from '@mui/material';
-import React, { useRef } from 'react';
+import React, { memo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyledHiddenInput } from '../StyledHiddenInput';
 
@@ -41,4 +41,4 @@ const UploadInputCreateLocation = (props: UploadInputCreateLocationProps) => {
   );
 };
 
-export default UploadInputCreateLocation;
+export default memo(UploadInputCreateLocation);

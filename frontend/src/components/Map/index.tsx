@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, memo } from 'react';
 import { useParams } from 'react-router-dom';
 import { TileLayer, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -139,4 +139,4 @@ function Map({
   );
 }
 
-export default Map;
+export default memo(Map);

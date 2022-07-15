@@ -18,22 +18,22 @@ function HomeScreen() {
   const [, setSearchParams] = useSearchParams();
   const { setLocationName } = useTypedDispatch();
 
-  const onOpenBigPopup = (locationData: locationType) => {
+  const onOpenBigPopup = useCallback((locationData: locationType) => {
     setLocation(locationData);
     setIsOpenLocationPopup(true);
-  };
+  }, []);
 
-  const onOpenLocationForm = () => {
+  const onOpenLocationForm = useCallback(() => {
     setIsOpenLocationForm(true);
-  };
+  }, []);
 
-  const toggleIsAddLocation = () => {
+  const toggleIsAddLocation = useCallback(() => {
     setIsAddLocationActive(prevState => !prevState);
-  };
+  }, []);
 
-  const setIsAddLocation = (value: boolean) => {
+  const setIsAddLocation = useCallback((value: boolean) => {
     setIsAddLocationActive(value);
-  };
+  }, []);
 
   const toggleClose = useCallback(() => {
     setIsOpenLocationPopup(false);

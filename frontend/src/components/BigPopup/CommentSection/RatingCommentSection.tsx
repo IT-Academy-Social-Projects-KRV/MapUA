@@ -1,4 +1,4 @@
-import React, { MouseEvent } from 'react';
+import React, { memo, MouseEvent } from 'react';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
@@ -127,4 +127,4 @@ const RatingCommentSection = ({
   );
 };
 
-export default RatingCommentSection;
+export default memo(RatingCommentSection);

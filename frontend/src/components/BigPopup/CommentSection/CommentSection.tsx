@@ -25,10 +25,11 @@ const CommentSection = () => {
     state => state.popupLocation.data
   );
   const { comments } = useTypedSelector(state => state.locationComments);
-  const { fetchComments } = useTypedDispatch();
   const { isAuthorized } = useTypedSelector(
     state => state.isUserAuthorized.data
   );
+
+  const { fetchComments } = useTypedDispatch();
 
   const topComments = comments.filter(c => !c.parentComment);
 
@@ -36,7 +37,6 @@ const CommentSection = () => {
     useState(commentStepCount);
 
   useEffect(() => {
-    console.log('useEffect 39');
     if (locationId) {
       console.log('useEffect 40 row CommentSection');
       fetchComments(locationId, undefined, topCommentsOnPageIndex);
@@ -47,7 +47,7 @@ const CommentSection = () => {
     const addMoreComment = () =>
       setTopCommentsOnPageIndex(prevState => prevState + commentStepCount);
 
-    const timerId = setTimeout(() => addMoreComment(), 2000);
+    const timerId = setTimeout(() => addMoreComment(), 500);
 
     return () => {
       clearTimeout(timerId);

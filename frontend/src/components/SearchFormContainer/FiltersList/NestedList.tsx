@@ -1,10 +1,20 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react';
+import React, { memo, useCallback, useEffect, useState } from 'react';
 import ListItemButton from '@mui/material/ListItemButton';
 import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { Box, Checkbox, ListItemText } from '@mui/material';
+import {
+  selectFiltersListfilters,
+  selectIsUserAuthorized,
+  selectMapInfoBounds,
+  selectMapInfoFilters,
+  selectUserDataFavorite,
+  selectUserDataPersonalLocations,
+  selectUserDataSubscriptions,
+  selectUserDataVisited
+} from 'redux/memoizedSelectors/memoizedSelectors';
 import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
@@ -15,24 +25,22 @@ type NestType = {
   [key: number]: boolean;
 };
 
-export default function NestedList() {
+function NestedList() {
   const { t } = useTranslation();
   const currentLanguage = localStorage.getItem('i18nextLng');
-
   const [open, setOpen] = useState(false);
   const [openNested, setOpenNested] = useState<NestType>({});
   const [selectedFiltersUa, setSelectedFiltersUa] = useState<string[]>([]);
 
-  const { bounds, selectedFilters } = useTypedSelector(state => state.mapInfo);
+  const bounds = useTypedSelector(selectMapInfoBounds);
+  const selectedFilters = useTypedSelector(selectMapInfoFilters);
 
-  const { subscriptions } = useTypedSelector(state => state.userData.data);
-  const { isAuthorized } = useTypedSelector(
-    state => state.isUserAuthorized.data
-  );
+  const subscriptions = useTypedSelector(selectUserDataSubscriptions);
+  const personalLocations = useTypedSelector(selectUserDataPersonalLocations);
+  const visited = useTypedSelector(selectUserDataVisited);
+  const favorite = useTypedSelector(selectUserDataFavorite);
 
-  const { favorite, visited, personalLocations } = useTypedSelector(
-    state => state.userData.data
-  );
+  const isAuthorized = useTypedSelector(selectIsUserAuthorized);
 
   const {
     setFilters,
@@ -67,7 +75,8 @@ export default function NestedList() {
     }
   }, [selectedFilters, bounds]);
 
-  const filters = useTypedSelector(state => state.filtersList.filters);
+  const filters = useTypedSelector(selectFiltersListfilters);
+
   const AddSelectedFiltersUaLogic = (selectedValue: string) => {
     if (selectedFiltersUa.some(f => f === selectedValue)) {
       setSelectedFiltersUa(selectedFiltersUa.filter(f => f !== selectedValue));
@@ -112,9 +121,9 @@ export default function NestedList() {
     }
   };
 
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     setOpen(!open);
-  };
+  }, [open]);
   const handleClickNested = (id: number) => {
     setOpenNested((prevState: any) => ({ ...prevState, [id]: !prevState[id] }));
   };
@@ -176,3 +185,5 @@ export default function NestedList() {
     </StyledList>
   );
 }
+
+export default memo(NestedList);
