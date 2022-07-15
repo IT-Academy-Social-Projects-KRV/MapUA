@@ -147,3 +147,36 @@ export const fetchTopUsers =
       throw new Error(error);
     }
   };
+
+export const toggleModeratorRights =
+  (otherUserId: string, notification: string) =>
+  async (dispatch: Dispatch<SnackbarActions | OtherUserDataAction>) => {
+    try {
+      const response = await axios().patch(
+        `${process.env.REACT_APP_API_URI}toggleModerator`,
+        {
+          otherUserId
+        }
+      );
+      dispatch({
+        type: OtherUserDataActionTypes.UPDATE_OTHER_USER_DATA_SUCCESS,
+        payload: {
+          role: response.data.role
+        }
+      });
+      dispatch({
+        type: SnackbarActionsType.SET_SUCCESS,
+        payload: notification
+      });
+    } catch (error: any) {
+      dispatch({
+        type: OtherUserDataActionTypes.UPDATE_OTHER_USER_DATA_ERROR,
+        payload: error.response.data?.error || 'lost network'
+      });
+      dispatch({
+        type: SnackbarActionsType.SET_ERROR,
+        payload: error.response.data?.error || 'lost network'
+      });
+      throw new Error(error);
+    }
+  };

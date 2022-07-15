@@ -1,5 +1,4 @@
 import React from 'react';
-import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import {
   Button,
@@ -16,14 +15,13 @@ interface Props {
   photo: string;
   fullName: string;
   linkedIn: string;
-  gitHub: string;
 }
 
-const AboutDeveloperCard = ({ photo, fullName, linkedIn, gitHub }: Props) => (
+const AboutDeveloperCard = ({ photo, fullName, linkedIn }: Props) => (
   <StyledDeveloperCard>
     <CardActionArea>
       <CardMedia component="img" image={photo} alt="personal photo" />
-      <CardContent>
+      <CardContent sx={{ minHeight: 96 }}>
         <Typography align="center" variant="h6">
           {fullName}
         </Typography>
@@ -33,18 +31,11 @@ const AboutDeveloperCard = ({ photo, fullName, linkedIn, gitHub }: Props) => (
       <Button
         component={Link}
         href={linkedIn}
+        target="_blank"
         size="small"
         endIcon={<LinkedInIcon />}
       >
         LinkedIn
-      </Button>
-      <Button
-        component={Link}
-        href={gitHub}
-        size="small"
-        endIcon={<GitHubIcon />}
-      >
-        GitHub
       </Button>
     </CardActions>
   </StyledDeveloperCard>
