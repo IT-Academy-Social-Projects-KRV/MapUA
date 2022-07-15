@@ -1,5 +1,11 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
+import { selectUserRole } from 'redux/memoizedSelectors/isUserAuthorizedSelectors';
+import {
+  selectUserDataDescription,
+  selectUserDataSubscribers,
+  selectUserDataSubscriptions
+} from 'redux/memoizedSelectors/userDataSelectors';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { Tabs, Tab, Typography, Box, TextField } from '@mui/material';
@@ -66,12 +72,16 @@ export default function BasicTabs({
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-  const { role } = useTypedSelector(state => state.isUserAuthorized.data);
+  const role = useTypedSelector(selectUserRole);
+
+  const description = useTypedSelector(selectUserDataDescription);
+  const subscribers = useTypedSelector(selectUserDataSubscribers);
+  const subscriptions = useTypedSelector(selectUserDataSubscriptions);
 
   const { fetchWaitingForVerifyLocations, fetchReportedLocations } =
     useTypedDispatch();
 
-  const userDescription = useTypedSelector(state => state.userData);
+  // const userDescription = useTypedSelector(state => state.userData);
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -123,24 +133,23 @@ export default function BasicTabs({
         <Box>
           <TabPanel value={value} index={0}>
             <Typography component="span">
-              {userDescription.data.description ||
-                `${t('profile.basicTabs.noDescription')}`}
+              {description || `${t('profile.basicTabs.noDescription')}`}
             </Typography>
           </TabPanel>
         </Box>
       )}
       <Box>
         <TabPanel value={value} index={1}>
-          {userDescription.data.subscribers.length > 0 ? (
-            <ProfileTabsData array={userDescription.data.subscribers} />
+          {subscribers.length > 0 ? (
+            <ProfileTabsData array={subscribers} />
           ) : (
             `${t('profile.basicTabs.noSubscribers')}`
           )}
         </TabPanel>
       </Box>
       <TabPanel value={value} index={2}>
-        {userDescription.data.subscriptions.length > 0 ? (
-          <ProfileTabsData array={userDescription.data.subscriptions} />
+        {subscriptions.length > 0 ? (
+          <ProfileTabsData array={subscriptions} />
         ) : (
           `${t('profile.basicTabs.noSubscriptions')}`
         )}

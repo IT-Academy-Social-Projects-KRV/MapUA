@@ -1,6 +1,7 @@
 import React, { useState, MouseEvent, useEffect } from 'react';
 import axios from 'services/axios';
 import { useNavigate } from 'react-router-dom';
+import { selectIsUserAuthorizedError } from 'redux/memoizedSelectors/isUserAuthorizedSelectors';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
@@ -64,7 +65,8 @@ function Registration() {
     }
   };
 
-  const { error } = useTypedSelector(state => state.isUserAuthorized);
+  const error = useTypedSelector(selectIsUserAuthorizedError);
+
   useEffect(() => {
     if (error && typeof error === 'string') {
       SetErrorSnackbar(error);

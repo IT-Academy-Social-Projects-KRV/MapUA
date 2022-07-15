@@ -21,8 +21,11 @@ import CommentForm from './CommentForm';
 import Comment from './Comment';
 
 const CommentSection = () => {
-  const { ref, inView } = useInView({ threshold: 1, triggerOnce: true });
-  const commentStepCount = 5;
+  const { ref, inView } = useInView({
+    threshold: 1,
+    triggerOnce: true
+  });
+  const commentStepCount = 10;
 
   const locationId = useTypedSelector(selectLocationId);
   const comments = useTypedSelector(selectComments);
@@ -38,13 +41,6 @@ const CommentSection = () => {
     useState(commentStepCount);
 
   useEffect(() => {
-    if (locationId) {
-      console.log('useEffect 40 row CommentSection');
-      fetchComments(locationId, undefined, topCommentsOnPageIndex);
-    }
-  }, []);
-
-  useEffect(() => {
     const addMoreComment = () =>
       setTopCommentsOnPageIndex(prevState => prevState + commentStepCount);
 
@@ -56,7 +52,6 @@ const CommentSection = () => {
   }, [inView]);
 
   useEffect(() => {
-    console.log('useEffect 57 row CommentSection');
     fetchComments(locationId, undefined, topCommentsOnPageIndex);
   }, [topCommentsOnPageIndex]);
 

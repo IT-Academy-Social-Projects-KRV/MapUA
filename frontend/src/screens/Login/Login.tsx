@@ -1,6 +1,11 @@
 import React, { useEffect, useState, MouseEvent } from 'react';
 import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import {
+  selectIsUserAuthorized,
+  selectIsUserAuthorizedError,
+  selectIsUserAuthorizedLoading
+} from 'redux/memoizedSelectors/isUserAuthorizedSelectors';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
@@ -55,11 +60,10 @@ function Login() {
 
   const { t } = useTranslation();
 
-  const {
-    data: { isAuthorized },
-    error,
-    loading
-  } = useTypedSelector(state => state.isUserAuthorized);
+  const isAuthorized = useTypedSelector(selectIsUserAuthorized);
+  const error = useTypedSelector(selectIsUserAuthorizedError);
+  const loading = useTypedSelector(selectIsUserAuthorizedLoading);
+
   useEffect(() => {
     if (error && typeof error === 'string') {
       SetErrorSnackbar(error);
@@ -75,8 +79,6 @@ function Login() {
   useEffect(() => {
     if (location.search.includes('oauth=1')) {
       const accessToken = Cookies.get('accessToken') || '';
-      // const userId = Cookies.get('userId') || '';
-      // loginOAuth(accessToken, userId);
       loginOAuth(accessToken);
     }
   }, []);

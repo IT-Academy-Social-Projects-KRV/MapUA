@@ -2,6 +2,18 @@
 import React, { useEffect } from 'react';
 import { Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import {
+  selectIsUserAuthorized,
+  selectIsUserAuthorizedLoading
+} from 'redux/memoizedSelectors/isUserAuthorizedSelectors';
+import {
+  selectUserDataError,
+  selectUserDataLoading
+} from 'redux/memoizedSelectors/userDataSelectors';
+import {
+  selectPrivateUserDataError,
+  selectPrivateUserDataLoading
+} from 'redux/memoizedSelectors/privatUserDataSelectors';
 import ProfilePage from './ProfilePage';
 import { useTypedSelector } from '../../redux/hooks/useTypedSelector';
 import { useTypedDispatch } from '../../redux/hooks/useTypedDispatch';
@@ -11,15 +23,15 @@ function Profile() {
   const accessToken = localStorage.getItem('accessToken');
   const navigate = useNavigate();
 
-  const {
-    data: { isAuthorized },
-    loading: isAuthLoading
-  } = useTypedSelector(state => state.isUserAuthorized);
-  const { error: userError, loading: userLoading } = useTypedSelector(
-    state => state.userData
-  );
-  const { error: privateUserError, loading: privateUserLoading } =
-    useTypedSelector(state => state.privateUserData);
+  const isAuthorized = useTypedSelector(selectIsUserAuthorized);
+  const isAuthLoading = useTypedSelector(selectIsUserAuthorizedLoading);
+
+  const userError = useTypedSelector(selectUserDataError);
+  const userLoading = useTypedSelector(selectUserDataLoading);
+
+  const privateUserError = useTypedSelector(selectPrivateUserDataError);
+  const privateUserLoading = useTypedSelector(selectPrivateUserDataLoading);
+
   const { fetchPrivateUserData } = useTypedDispatch();
 
   useEffect(() => {
