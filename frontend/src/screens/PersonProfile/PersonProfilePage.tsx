@@ -121,6 +121,7 @@ export default function PersonProfilePage() {
               otherUserRole !== 'moderator' &&
               (myRole === 'moderator' || myRole === 'admin') && (
                 <SubsrcibeButton
+                  sx={{ mb: '40px' }}
                   size="large"
                   variant="contained"
                   onClick={handleBan}
