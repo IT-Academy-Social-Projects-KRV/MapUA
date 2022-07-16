@@ -19,6 +19,7 @@ import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { CommentType, AuthorInfoType } from '../../../../types';
 import CommentForm from './CommentForm';
 import Comment from './Comment';
+import { selectOtherUserRole } from 'redux/memoizedSelectors/otherUserDataSelectors';
 
 const CommentSection = () => {
   const { ref, inView } = useInView({
@@ -30,6 +31,8 @@ const CommentSection = () => {
   const locationId = useTypedSelector(selectLocationId);
   const comments = useTypedSelector(selectComments);
   const isAuthorized = useTypedSelector(selectIsUserAuthorized);
+
+  const otherUserRole = useTypedSelector(selectOtherUserRole);
 
   const { fetchComments } = useTypedDispatch();
 
@@ -55,6 +58,21 @@ const CommentSection = () => {
     fetchComments(locationId, undefined, topCommentsOnPageIndex);
   }, [topCommentsOnPageIndex]);
 
+  useEffect(() => {
+    const addMoreComment = () =>
+      setTopCommentsOnPageIndex(prevState => prevState + commentStepCount);
+
+    const timerId = setTimeout(() => addMoreComment(), 500);
+
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [inView]);
+
+  useEffect(() => {
+    fetchComments(locationId, undefined, topCommentsOnPageIndex);
+  }, [topCommentsOnPageIndex]);
+
   return (
     <CardContent>
       <Divider sx={{ mb: 4 }}>
@@ -64,7 +82,7 @@ const CommentSection = () => {
             comments.length
           }`}
       </Divider>
-      {isAuthorized && <CommentForm />}
+      {isAuthorized || (otherUserRole !== 'bannedUser' && <CommentForm />)}
       {!comments.length ? (
         <Stack spacing={1} mt={2}>
           <Skeleton />

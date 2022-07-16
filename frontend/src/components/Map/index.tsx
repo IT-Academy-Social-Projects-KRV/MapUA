@@ -1,13 +1,16 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState, useRef, memo } from 'react';
 import { useParams } from 'react-router-dom';
-import { TileLayer, useMapEvents } from 'react-leaflet';
+import { TileLayer } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useTranslation } from 'react-i18next';
 import SearchFormContainer from 'components/SearchFormContainer';
 import useDebounce from 'utils/useDebounce';
 import { StyledMapWrapper } from 'components/design/StyledMapWrapper';
-import { selectIsUserAuthorized } from 'redux/memoizedSelectors/isUserAuthorizedSelectors';
+import {
+  selectIsUserAuthorized,
+  selectUserRole
+} from 'redux/memoizedSelectors/isUserAuthorizedSelectors';
 import {
   selectAuthorizedFilters,
   selectMapInfoBounds,
@@ -17,13 +20,14 @@ import {
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import L from 'leaflet';
+import { Box } from '@mui/material';
 import Locations from './Locations/Locations';
 import MyZoomComponent from './ZoomComponent';
 
 import { StyledMapContainer } from '../design/StyledMapContainer';
 import {
-  StyledAddLocationButton,
-  StyledCloseAddingModeLocationButton
+  StyledCloseAddingModeLocationButton,
+  StyledAddLocationButton
 } from '../design/StyledAddLocationButton';
 import { latlngType } from '../../../types';
 import DrawMarkerCreateLocation from './DrawMarkerWhenLocationCreate';
@@ -52,16 +56,15 @@ function Map({
   isOpenLocationForm
 }: Props) {
   const { t } = useTranslation();
-  const isAuthorized = useTypedSelector(selectIsUserAuthorized);
 
+  const isAuthorized = useTypedSelector(selectIsUserAuthorized);
+  const role = useTypedSelector(selectUserRole);
   const bounds = useTypedSelector(selectMapInfoBounds);
   const searchName = useTypedSelector(selectMapInfolocationName);
   const selectedFilters = useTypedSelector(selectMapInfoFilters);
   const authorizedFilters = useTypedSelector(selectAuthorizedFilters);
 
   const { locationId } = useParams();
-
-  const { setLocationName } = useTypedDispatch();
 
   const closeButtonRef = React.useRef<any>(null);
 
@@ -84,7 +87,7 @@ function Map({
     locationId
   ]);
 
-  const closeAddLocationModal = (e: any) => {
+  const closeAddLocationModal = () => {
     toggleClose();
   };
 
@@ -112,27 +115,28 @@ function Map({
 
         <SearchFormContainer />
 
-        {isAuthorized && !isOpen && (
-          <StyledAddLocationButton
-            onClick={() => toggleIsAddLocation()}
-            style={{
-              background: isAddLocationActive ? 'yellow' : 'white',
-              color: isAddLocationActive ? 'black' : '#1976d2'
-            }}
-          >
-            {isAddLocationActive
-              ? `${t('map.chooseCoordinates')}`
-              : `${t('map.addLocation')}`}
-          </StyledAddLocationButton>
-        )}
+        {isAuthorized && !isOpen && role !== 'bannedUser' && (
+          <Box ref={closeButtonRef}>
+            <StyledAddLocationButton
+              onClick={() => toggleIsAddLocation()}
+              style={{
+                background: isAddLocationActive ? 'yellow' : 'white',
+                color: isAddLocationActive ? 'black' : '#1976d2'
+              }}
+            >
+              {isAddLocationActive
+                ? `${t('map.chooseCoordinates')}`
+                : `${t('map.addLocation')}`}
+            </StyledAddLocationButton>
 
-        {isAddLocationActive && !isOpenLocationForm && (
-          <StyledCloseAddingModeLocationButton
-            ref={closeButtonRef}
-            onClick={closeAddLocationModal}
-          >
-            x
-          </StyledCloseAddingModeLocationButton>
+            {isAddLocationActive && !isOpenLocationForm && (
+              <StyledCloseAddingModeLocationButton
+                onClick={closeAddLocationModal}
+              >
+                x
+              </StyledCloseAddingModeLocationButton>
+            )}
+          </Box>
         )}
         {isOpen && <DrawMarkerCreateLocation coordinate={coordinate} />}
       </StyledMapContainer>

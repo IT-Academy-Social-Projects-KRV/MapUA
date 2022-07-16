@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { StyledAppBar } from '../design/StyledAppBar';
 import { StyledChangeLangButton } from '../design/StyledChangeLangButton';
+import HowToAddLocation from '../HowToAddLocation/HowToAddLocation';
 
 const StyledLink: React.FC<
   // eslint-disable-next-line react/require-default-props
@@ -62,6 +63,7 @@ function NavBar() {
       <StyledLink onClick={handleOnClick} to="/">
         {t('navBar.map')}
       </StyledLink>
+      {isAuthorized ? <HowToAddLocation /> : null}
       {isAuthorized ? (
         <StyledLink to="/profile">{t('navBar.myProfile')}</StyledLink>
       ) : (

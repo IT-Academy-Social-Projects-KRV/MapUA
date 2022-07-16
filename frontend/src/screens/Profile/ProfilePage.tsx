@@ -155,7 +155,7 @@ export default function ProfilePage() {
                 />
               </StyledProfileBadge>
               <Typography mt={2} variant="h5" component="h4" align="center">
-                {displayName === undefined
+                {displayName
                   ? `${t('profile.profilePage.yourName')}`
                   : displayName}
               </Typography>

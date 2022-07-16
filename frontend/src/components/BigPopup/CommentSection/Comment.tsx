@@ -127,7 +127,6 @@ const Comment = ({
 
   useEffect(() => {
     if (showAnswers) {
-      console.log('useEffect 116 row Comment');
       fetchComments(locationId, id, topCommentsOnPageIndex);
     }
   }, [showAnswers]);

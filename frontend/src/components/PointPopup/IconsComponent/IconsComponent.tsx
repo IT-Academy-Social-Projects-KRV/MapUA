@@ -68,7 +68,7 @@ const IconsComponent = ({
     addReportToLocation,
     deleteReportToLocation,
     SetSuccessSnackbar,
-    updatePopupLocation
+    updatePopupLocationRating
   } = useTypedDispatch();
 
   const rating = useTypedSelector(selectRaiting);
@@ -114,7 +114,7 @@ const IconsComponent = ({
 
   const handleConfirmOrDeclineVerification = useCallback(
     (status: string) => {
-      updatePopupLocation(locationId, {
+      updatePopupLocationRating(locationId, {
         rating,
         verificationStatus: status
       });
@@ -199,15 +199,18 @@ const IconsComponent = ({
       >
         {locationIsVisited ? <TourIcon /> : <TourOutlinedIcon />}
       </IconButton>
-      <IconButton
-        id="basic-button"
-        aria-controls={open ? 'basic-menu' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
-      >
-        <MoreHorizIcon />
-      </IconButton>
+      {isAuthorized && (
+        <IconButton
+          id="basic-button"
+          aria-controls={open ? 'basic-menu' : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? 'true' : undefined}
+          onClick={handleClick}
+        >
+          <MoreHorizIcon />
+        </IconButton>
+      )}
+
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
@@ -229,6 +232,7 @@ const IconsComponent = ({
             <ListItemText>{t('createLocation.deleteLocation')}</ListItemText>
           </MenuItem>
         )}
+
         {((role === 'moderator' && verificationStatus === 'waiting') ||
           (role === 'admin' && verificationStatus === 'waiting')) && (
           <ConfirmOrDecline
@@ -238,17 +242,21 @@ const IconsComponent = ({
           />
         )}
 
-        {locationAuthorId?._id === userId && (
-          <MenuItem onClick={editData}>
-            <ListItemIcon>
-              <EditIcon fontSize="small" />
-            </ListItemIcon>
-            <ListItemText>{t('createLocation.editLocation')}</ListItemText>
-          </MenuItem>
-        )}
+        {(locationAuthorId?._id === userId ||
+          role === 'moderator' ||
+          role === 'admin') &&
+          verificationStatus !== 'verified' &&
+          role !== 'bannedUser' && (
+            <MenuItem onClick={editData}>
+              <ListItemIcon>
+                <EditIcon fontSize="small" />
+              </ListItemIcon>
+              <ListItemText>{t('createLocation.editLocation')}</ListItemText>
+            </MenuItem>
+          )}
 
-        {isAuthorized && (
-          <MenuItem onClick={() => reportLocation()}>
+        {isAuthorized && !reported && role !== 'bannedUser' && (
+          <MenuItem onClick={reportLocation}>
             <ListItemIcon>
               <ReportIcon fontSize="small" />
             </ListItemIcon>
@@ -256,8 +264,8 @@ const IconsComponent = ({
           </MenuItem>
         )}
 
-        {reported && (role === 'moderator' || role === 'admin') && (
-          <MenuItem onClick={() => deleteReport()}>
+        {(role === 'moderator' || role === 'admin') && reported && (
+          <MenuItem onClick={deleteReport}>
             <ListItemIcon>
               <ReportOffIcon fontSize="small" />
             </ListItemIcon>

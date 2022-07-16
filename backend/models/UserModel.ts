@@ -1,6 +1,5 @@
-import mongoose, { Schema }  from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import bcrypt from 'bcrypt';
-import { userInfo } from 'os';
 import { Role } from '../types';
 
 export interface IUser extends Document {
@@ -30,7 +29,7 @@ const schema = new Schema(
     },
     role: {
       type: String,
-      enum: ['user', 'admin', 'moderator'],
+      enum: ['user', 'admin', 'moderator', 'bannedUser'],
       default: 'user'
     },
     passwordHash: {
@@ -46,14 +45,18 @@ const schema = new Schema(
     imageUrl: {
       type: String
     },
-    subscribers: [{
-      type: Schema.Types.ObjectId,
-      ref: 'User'
-    }],
-    subscriptions: [{
-      type: Schema.Types.ObjectId,
-      ref: 'User'
-    }],
+    subscribers: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+      }
+    ],
+    subscriptions: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+      }
+    ],
     favorite: {
       type: [],
       default: []

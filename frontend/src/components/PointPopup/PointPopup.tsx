@@ -10,7 +10,10 @@ import React, {
 } from 'react';
 import { Box, Card, CardContent, Collapse, Typography } from '@mui/material';
 import AlertDialog from 'components/AlertDialog';
-import { selectIsUserAuthorized } from 'redux/memoizedSelectors/isUserAuthorizedSelectors';
+import {
+  selectIsUserAuthorized,
+  selectUserRole
+} from 'redux/memoizedSelectors/isUserAuthorizedSelectors';
 import {
   selectArrayPhotos,
   selectAuthor,
@@ -19,7 +22,8 @@ import {
   selectPopUpLocationName,
   selectRaiting,
   selectVerificationStatus,
-  selectLocationData
+  selectLocationData,
+  selectLocationFilters
 } from 'redux/memoizedSelectors/popupLocationSelectors';
 import {
   selectUserDataFavorite,
@@ -50,8 +54,6 @@ import LocationImageCarousel from './LocationImageCarousel/LocationImageCarousel
 import CircularLoader from '../CircularLoader/CircularLoader';
 import { LocationForm } from '../../../types';
 
-// import CommentSection from 'components/BigPopup/CommentSection/CommentSection';
-
 const LazyCommentSection = lazy(
   () => import('components/BigPopup/CommentSection/CommentSection')
 );
@@ -69,7 +71,7 @@ const PointPopup = ({ toggleClose }: Props) => {
   const handleOpenDialog = useCallback(() => setOpen(true), []);
 
   const {
-    updatePopupLocation,
+    updatePopupLocationRating,
     toggleVisitedField,
     toggleFavoriteField,
     deleteLocation,
@@ -78,20 +80,22 @@ const PointPopup = ({ toggleClose }: Props) => {
   } = useTypedDispatch();
 
   const isAuthorized = useTypedSelector(selectIsUserAuthorized);
-  const verificationStatus = useTypedSelector(selectVerificationStatus);
 
   const userId = useTypedSelector(selectUserId);
   const favorite = useTypedSelector(selectUserDataFavorite);
   const visited = useTypedSelector(selectUserDataVisited);
-
+  const role = useTypedSelector(selectUserRole);
   const locationAuthorId = useTypedSelector(selectAuthor);
 
   const locationId = useTypedSelector(selectLocationId);
+
   const rating = useTypedSelector(selectRaiting);
+  const verificationStatus = useTypedSelector(selectVerificationStatus);
+
   const locationName = useTypedSelector(selectPopUpLocationName);
   const description = useTypedSelector(selectDescription);
   const arrayPhotos = useTypedSelector(selectArrayPhotos);
-
+  const selectedLocationFilters = useTypedSelector(selectLocationFilters);
   const isDeleted = useTypedSelector(selectLocationIsDeleted);
 
   const { control } = useForm<LocationForm>({
@@ -148,10 +152,10 @@ const PointPopup = ({ toggleClose }: Props) => {
   const handleRating = useCallback(
     (e: MouseEvent<HTMLButtonElement>, type: 'likes' | 'dislikes') => {
       e.preventDefault();
-      const updatedRating = { ...rating, verificationStatus };
+      const updatedRating = { ...rating };
       if (rating[type].includes(userId)) {
         updatedRating[type] = updatedRating[type].filter(
-          value => value !== userId
+          (value: any) => value !== userId
         );
       } else {
         updatedRating[type].push(userId);
@@ -161,7 +165,7 @@ const PointPopup = ({ toggleClose }: Props) => {
 
       if (rating[inverseType].includes(userId)) {
         updatedRating[inverseType] = updatedRating[inverseType].filter(
-          value => value !== userId
+          (value: any) => value !== userId
         );
       }
 
@@ -178,7 +182,7 @@ const PointPopup = ({ toggleClose }: Props) => {
       ) {
         status = 'unverified';
       }
-      return updatePopupLocation(locationId, {
+      return updatePopupLocationRating(locationId, {
         rating: updatedRating,
         verificationStatus: status
       });
@@ -206,12 +210,15 @@ const PointPopup = ({ toggleClose }: Props) => {
 
   return (
     <Box>
-      {showEditPanel && locationAuthorId?._id === userId ? (
+      {(showEditPanel && locationAuthorId?._id === userId) ||
+      (showEditPanel && role === 'moderator') ||
+      (showEditPanel && role === 'admin') ? (
         <EditLocation
           locationNamelocationName={locationName}
           closeEditData={closeEditData}
           descriptiondescription={description}
           locationId={locationId}
+          selectedLocationFilters={selectedLocationFilters}
         />
       ) : (
         <Box>

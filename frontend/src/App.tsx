@@ -22,7 +22,7 @@ import { useTypedDispatch } from './redux/hooks/useTypedDispatch';
 import ExtendSnackbar from './components/ExtendSnackbar/ExtendSnackbar';
 
 const LazyProfile = lazy(() => import('screens/Profile/Profile'));
-const LazyPage404 = lazy(() => import('components/Page_404/Page404'));
+const LazyPage404 = lazy(() => import('screens/Page_404/Page404'));
 const LazyTopList = lazy(() => import('screens/TopList/TopList'));
 const LazyAboutUs = lazy(() => import('screens/AboutUs/AboutUs'));
 const LazyRegistration = lazy(

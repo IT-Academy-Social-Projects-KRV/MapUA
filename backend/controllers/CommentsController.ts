@@ -59,18 +59,17 @@ const CommentsController = {
       const comment = await Comment.findById(newCommentId).populate({
         path: 'author',
         select: 'displayName imageUrl role'
-      });
+      }).sort({ createdAt: -1 });
 
       const parentComment = await Comment.findById(parentCommentId).populate({
         path: 'author',
         select: 'displayName imageUrl role'
-      });
+      }).sort({ createdAt: -1 });
       
       const comments = {addedComent: comment, parentComment: parentComment};
 
       return res.status(200).json({
         message: req.t('location_comments.comment_add_success'),
-        // comment
         comments
       });
     } catch (err: any) {

@@ -26,6 +26,7 @@ import {
   selectMapInfoFilters,
   selectMapInfolocationName
 } from 'redux/memoizedSelectors/mapInfoSelectors';
+import { resizeImageFn } from 'utils/imgResizer';
 import { latlngType } from '../../../types';
 import { getFiltersForUser } from '../../static/mainFIlters';
 import { useTypedSelector } from '../../redux/hooks/useTypedSelector';
@@ -51,6 +52,7 @@ const CreateLocation = ({
 }: Props) => {
   const [files, setFiles] = useState<File[]>([]);
   const [filters, setFilters] = useState('');
+
   const [locationImageName, setLocationImageName] = useState<string>('');
   const ref = useRef<null | HTMLInputElement>();
 
@@ -101,25 +103,14 @@ const CreateLocation = ({
     formData.append('coordinates', String(coordinate.lat));
     formData.append('coordinates', String(coordinate.lng));
     formData.append('filters', String(filters));
-
-    for (let i = 0; i < files.length; i += 1) {
-      formData.append('image', files[i]);
-    }
-
+    files.map(file => formData.append('image', file));
     createLocation(formData, t('createLocation.locationSuccessfullyCreated'));
   };
 
-  const handleFilesChange = (e: any) => {
-    const { files: filesLst } = e.currentTarget;
-    const filesListArr = [];
-
-    if (filesLst) {
-      for (let i = 0; i < filesLst.length; i += 1) {
-        filesListArr.push(filesLst[i]);
-      }
-
-      setFiles(filesListArr);
-    }
+  const handleFilesChange = async (e: any) => {
+    const imgFiles = [...e.target.files];
+    const images = await resizeImageFn(imgFiles, 800, 500);
+    setFiles(images);
   };
 
   return (

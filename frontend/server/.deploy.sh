@@ -2,7 +2,6 @@
 
 APP_NAME="map-ua"
 
-# Uncomment if you don't neet to build the app (as it is a time consuming process)
 source ../.build.sh;
 
 echo "$(tput setaf 3)Deploy script start";

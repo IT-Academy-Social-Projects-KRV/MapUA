@@ -1,6 +1,7 @@
 import { Box, Button } from '@mui/material';
 import React, { memo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { resizeSingleImageFn } from 'utils/imgResizer';
 import { StyledHiddenInput } from '../StyledHiddenInput';
 
 type UploadInputProfilePageProps = {
@@ -20,8 +21,10 @@ const UploadInputProfilePage = (props: UploadInputProfilePageProps) => {
           type="file"
           {...register('imageUrl')}
           ref={inputRef}
-          onChange={(e: any) => {
-            setUserImage(e.target?.files?.[0] || '');
+          onChange={async (e: any) => {
+            const file = e.target?.files?.[0];
+            const image = await resizeSingleImageFn(file, 300, 150);
+            setUserImage(image);
           }}
         />
         <Button

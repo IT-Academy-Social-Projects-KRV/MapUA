@@ -1,5 +1,5 @@
-import { Avatar } from '@mui/material';
 import React, { memo, useEffect } from 'react';
+import { Avatar, Box } from '@mui/material';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import {
   selectLocationList,
@@ -39,7 +39,7 @@ const ModerationTab = ({ t, fetchLocationsForModeration }: Props) => {
   }
 
   if (!locations.length) {
-    return <>`{t}`</>;
+    return <Box>{t}</Box>;
   }
 
   return (

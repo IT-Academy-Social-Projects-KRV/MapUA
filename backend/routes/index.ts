@@ -192,7 +192,22 @@ router.put(
   UserController.toggleVisited
 );
 router.get('/profile/:id', UserController.getOtherUserProfile);
+
+router.patch(
+  '/profile/ban/:id',
+  passport.authenticate('jwt', { session: false }),
+  RoleChecker.restrictTo('moderator', 'admin'),
+  UserController.updateUserByBan
+);
+
 router.get('/topLocations', LocationsController.getTopLocations);
 router.get('/topUsers', UserController.getTopUsers);
+
+router.patch(
+  '/toggleModerator',
+  passport.authenticate('jwt', { session: false }),
+  RoleChecker.restrictTo('admin'),
+  UserController.toggleModeratorRights
+);
 
 export default router;

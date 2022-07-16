@@ -16,6 +16,7 @@ import { selectUserId } from 'redux/memoizedSelectors/userDataSelectors';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { getPath } from 'utils/createPath';
 import { Link as RouterLink } from 'react-router-dom';
+import CircularLoader from 'components/CircularLoader/CircularLoader';
 import { TopUserType } from '../../../types';
 
 const TopUsers = () => {
@@ -28,13 +29,12 @@ const TopUsers = () => {
   const userId = useTypedSelector(selectUserId);
 
   if (topUsers.loading) {
-    return <h1>{t('profile.profile.loading')}</h1>;
+    return <CircularLoader />;
   }
   return (
     <Box sx={{ mb: '50px' }}>
       <h2 style={{ textAlign: 'center' }}>{t('topList.topUsers')}</h2>
       <List>
-        {/* {topUsers.data.splice(0, 10).map((user: TopUserType) => ( */}
         {topUsers.data.map((user: TopUserType) => (
           <StyledCardTopRated key={user._id}>
             <ListItem>

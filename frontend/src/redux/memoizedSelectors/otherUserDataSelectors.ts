@@ -36,7 +36,12 @@ export const selectOtherUserDisplayName = createSelector(
   displayName => displayName
 );
 
-export const selectOtherUserAvatar= createSelector(
+export const selectOtherUserAvatar = createSelector(
   [(state: RootState) => state.otherUserData.data.imageUrl],
   imageUrl => imageUrl
+);
+
+export const selectOtherUserRole = createSelector(
+  [(state: RootState) => state.otherUserData.data.role],
+  role => role
 );

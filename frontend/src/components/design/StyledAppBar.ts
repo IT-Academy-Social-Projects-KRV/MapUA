@@ -7,5 +7,5 @@ export const StyledAppBar = styled(Toolbar)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'space-around',
   color: 'white',
-  zIndex: 1500
+  zIndex: 1000
 }));

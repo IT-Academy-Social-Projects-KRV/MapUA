@@ -50,3 +50,8 @@ export const selectArrayPhotos = createSelector(
   [(state: RootState) => state.popupLocation.data.arrayPhotos],
   arrayPhotos => arrayPhotos
 );
+
+export const selectLocationFilters = createSelector(
+  [(state: RootState) => state.popupLocation.data.filters],
+  selectedLocationFilters => selectedLocationFilters
+);
