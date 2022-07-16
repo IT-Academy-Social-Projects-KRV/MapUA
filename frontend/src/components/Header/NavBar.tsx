@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { memo, useCallback, useState } from 'react';
 import { Link, Box } from '@mui/material';
 import { Link as RouterLink, useSearchParams } from 'react-router-dom';
 import { selectIsUserAuthorized } from 'redux/memoizedSelectors/isUserAuthorizedSelectors';
@@ -42,22 +42,24 @@ function NavBar() {
   const [, setSearchParams] = useSearchParams();
   const { setLocationName } = useTypedDispatch();
 
-  const changeLanguage = (language: string) => () => {
-    i18n.changeLanguage(language);
-    setCurrentLanguage(language);
-  };
+  const changeLanguage = useCallback(
+    (language: string) => () => {
+      i18n.changeLanguage(language);
+      setCurrentLanguage(language);
+    },
+    []
+  );
+
+  const handleOnClick = useCallback(() => {
+    setSearchParams({});
+    setLocationName('');
+  }, []);
 
   return (
     <StyledAppBar>
       <StyledLink to="/about-us">{t('navBar.aboutUs')}</StyledLink>
       <StyledLink to="/top">{t('navBar.top')}</StyledLink>
-      <StyledLink
-        onClick={() => {
-          setSearchParams({});
-          setLocationName('');
-        }}
-        to="/"
-      >
+      <StyledLink onClick={handleOnClick} to="/">
         {t('navBar.map')}
       </StyledLink>
       {isAuthorized ? (
@@ -84,4 +86,4 @@ function NavBar() {
   );
 }
 
-export default NavBar;
+export default memo(NavBar);

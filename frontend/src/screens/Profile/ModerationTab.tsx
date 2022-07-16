@@ -1,5 +1,5 @@
 import { Avatar } from '@mui/material';
-import React, { useEffect } from 'react';
+import React, { memo, useEffect } from 'react';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import {
   selectLocationList,
@@ -17,7 +17,7 @@ interface Props {
   fetchLocationsForModeration: () => void;
 }
 
-export const ModerationTab = ({ t, fetchLocationsForModeration }: Props) => {
+const ModerationTab = ({ t, fetchLocationsForModeration }: Props) => {
   const locations = useTypedSelector(selectLocationList);
   const loading = useTypedSelector(selectLocationsListLoading);
 
@@ -39,7 +39,7 @@ export const ModerationTab = ({ t, fetchLocationsForModeration }: Props) => {
   }
 
   if (!locations.length) {
-    return <>`${t}`</>;
+    return <>`{t}`</>;
   }
 
   return (
@@ -64,3 +64,5 @@ export const ModerationTab = ({ t, fetchLocationsForModeration }: Props) => {
     </>
   );
 };
+
+export default memo(ModerationTab);

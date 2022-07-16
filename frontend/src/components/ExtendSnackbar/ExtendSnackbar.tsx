@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 import { Alert, AlertColor, Snackbar } from '@mui/material';
 
 interface Props {
@@ -34,4 +34,4 @@ const ExtendSnackbar: FC<Props> = ({ open, notification, onClose, severity }) =>
 
 ExtendSnackbar.defaultProps = defaultProps;
 
-export default ExtendSnackbar;
+export default memo(ExtendSnackbar);

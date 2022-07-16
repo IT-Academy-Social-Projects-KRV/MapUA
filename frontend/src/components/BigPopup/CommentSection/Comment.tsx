@@ -27,6 +27,8 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { Link } from 'react-router-dom';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useTranslation } from 'react-i18next';
+import { selectUserId } from 'redux/memoizedSelectors/userDataSelectors';
+import { selectUserRole } from 'redux/memoizedSelectors/isUserAuthorizedSelectors';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { getPath } from 'utils/createPath';
 import { useForm, SubmitHandler, useFormState } from 'react-hook-form';
@@ -90,8 +92,10 @@ const Comment = ({
   const [showReplyComment, setShowReplyComment] = useState(false);
   const [showAnswers, setShowAnswers] = useState(false);
   const [disabledPressedButton, setDisabledPressedButton] = useState(false);
-  const { _id: userId } = useTypedSelector(state => state.userData.data);
-  const { role } = useTypedSelector(state => state.isUserAuthorized.data);
+
+  const userId = useTypedSelector(selectUserId);
+  const role = useTypedSelector(selectUserRole);
+
   const { sendComment, fetchComments, editComment, deleteComment } =
     useTypedDispatch();
 

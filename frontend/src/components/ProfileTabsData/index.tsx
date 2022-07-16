@@ -1,7 +1,7 @@
 import { Avatar, Box } from '@mui/material';
 import { StyledTabComponentBox } from 'components/design/StyledTabComponentBox';
 import { StyledCardProfileTabs } from 'components/design/StyledCardProfileTabs';
-import React from 'react';
+import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { getPath } from 'utils/createPath';
 import { selectUserId } from 'redux/memoizedSelectors/userDataSelectors';
@@ -40,4 +40,4 @@ const ProfileTabsData = ({ array }: Props) => {
   );
 };
 
-export default ProfileTabsData;
+export default memo(ProfileTabsData);

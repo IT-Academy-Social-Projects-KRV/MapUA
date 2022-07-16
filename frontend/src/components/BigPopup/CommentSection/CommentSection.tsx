@@ -25,7 +25,7 @@ const CommentSection = () => {
     threshold: 1,
     triggerOnce: true
   });
-  const commentStepCount = 10;
+  const commentStepCount = 5;
 
   const locationId = useTypedSelector(selectLocationId);
   const comments = useTypedSelector(selectComments);

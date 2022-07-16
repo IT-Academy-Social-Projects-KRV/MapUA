@@ -1,12 +1,14 @@
-import React, { SyntheticEvent, useEffect } from 'react';
+import React, {
+  Suspense,
+  lazy,
+  SyntheticEvent,
+  useEffect,
+  useCallback
+} from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import HomeScreen from 'screens/HomeScreen';
 import Login from 'screens/Login/Login';
-import ForgotPassword from 'screens/ForgotPassword/ForgotPassword';
-import Registration from 'screens/Registration/Registration';
-import Profile from 'screens/Profile/Profile';
-import Page404 from 'components/Page_404/Page404';
 import { selectIsUserAuthorized } from 'redux/memoizedSelectors/isUserAuthorizedSelectors';
 import {
   selectSnackbarNotification,
@@ -14,12 +16,24 @@ import {
   selectSnackbarVisible
 } from 'redux/memoizedSelectors/snackbarSelectors';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
-import AboutUs from 'screens/AboutUs/AboutUs';
-import PersonProfile from 'screens/PersonProfile/PersonProfile';
-import TopList from 'screens/TopList/TopList';
 import Layout from 'components/Layout/Layout';
+import CircularLoader from 'components/CircularLoader/CircularLoader';
 import { useTypedDispatch } from './redux/hooks/useTypedDispatch';
 import ExtendSnackbar from './components/ExtendSnackbar/ExtendSnackbar';
+
+const LazyProfile = lazy(() => import('screens/Profile/Profile'));
+const LazyPage404 = lazy(() => import('components/Page_404/Page404'));
+const LazyTopList = lazy(() => import('screens/TopList/TopList'));
+const LazyAboutUs = lazy(() => import('screens/AboutUs/AboutUs'));
+const LazyRegistration = lazy(
+  () => import('screens/Registration/Registration')
+);
+const LazyForgotPassword = lazy(
+  () => import('screens/ForgotPassword/ForgotPassword')
+);
+const LazyPersonProfile = lazy(
+  () => import('screens/PersonProfile/PersonProfile')
+);
 
 function App() {
   let accessToken = localStorage.getItem('accessToken');
@@ -29,15 +43,15 @@ function App() {
   const notification = useTypedSelector(selectSnackbarNotification);
 
   const { ResetSnackbar } = useTypedDispatch();
-  const handleCloseNotification = (
-    e?: SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    ResetSnackbar();
-  };
+  const handleCloseNotification = useCallback(
+    (e?: SyntheticEvent | Event, reason?: string) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+      ResetSnackbar();
+    },
+    []
+  );
 
   const isAuthorized = useTypedSelector(selectIsUserAuthorized);
 
@@ -72,33 +86,43 @@ function App() {
           }
         }}
       />
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<HomeScreen />} />
-          <Route path="/moderation/:locationId" element={<HomeScreen />} />
-          <Route
-            path="/registration"
-            element={
-              isAuthorized ? <Navigate to="/" replace /> : <Registration />
-            }
-          />
-          <Route
-            path="/login"
-            element={isAuthorized ? <Navigate to="/" replace /> : <Login />}
-          />
-          <Route
-            path="/forgot-password"
-            element={
-              isAuthorized ? <Navigate to="/" replace /> : <ForgotPassword />
-            }
-          />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/profile/:id" element={<PersonProfile />} />
-          <Route path="/about-us" element={<AboutUs />} />
-          <Route path="/top" element={<TopList />} />
-          <Route path="/*" element={<Page404 />} />
-        </Route>
-      </Routes>
+      <Suspense fallback={<CircularLoader />}>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<HomeScreen />} />
+            <Route path="/moderation/:locationId" element={<HomeScreen />} />
+            <Route
+              path="/registration"
+              element={
+                isAuthorized ? (
+                  <Navigate to="/" replace />
+                ) : (
+                  <LazyRegistration />
+                )
+              }
+            />
+            <Route
+              path="/login"
+              element={isAuthorized ? <Navigate to="/" replace /> : <Login />}
+            />
+            <Route
+              path="/forgot-password"
+              element={
+                isAuthorized ? (
+                  <Navigate to="/" replace />
+                ) : (
+                  <LazyForgotPassword />
+                )
+              }
+            />
+            <Route path="/profile" element={<LazyProfile />} />
+            <Route path="/profile/:id" element={<LazyPersonProfile />} />
+            <Route path="/about-us" element={<LazyAboutUs />} />
+            <Route path="/top" element={<LazyTopList />} />
+            <Route path="/*" element={<LazyPage404 />} />
+          </Route>
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   );
 }

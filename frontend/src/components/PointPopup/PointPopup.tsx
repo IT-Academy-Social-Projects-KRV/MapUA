@@ -1,11 +1,12 @@
-import CommentSection from 'components/BigPopup/CommentSection/CommentSection';
 import React, {
   useState,
   MouseEvent,
   useEffect,
   memo,
   useCallback,
-  useMemo
+  useMemo,
+  Suspense,
+  lazy
 } from 'react';
 import { Box, Card, CardContent, Collapse, Typography } from '@mui/material';
 import AlertDialog from 'components/AlertDialog';
@@ -17,14 +18,24 @@ import {
   selectLocationId,
   selectPopUpLocationName,
   selectRaiting,
-  selectVerificationStatus
+  selectVerificationStatus,
+  selectLocationData
 } from 'redux/memoizedSelectors/popupLocationSelectors';
 import {
   selectUserDataFavorite,
   selectUserDataVisited,
   selectUserId
 } from 'redux/memoizedSelectors/userDataSelectors';
-import { selectLocationIsDeleted } from 'redux/memoizedSelectors/deleteLocationSelectors';
+import {
+  selectDeletedLocationsLoading,
+  selectLocationIsDeleted
+} from 'redux/memoizedSelectors/deleteLocationSelectors';
+import {
+  selectAuthorizedFilters,
+  selectMapInfoBounds,
+  selectMapInfoFilters,
+  selectMapInfolocationName
+} from 'redux/memoizedSelectors/mapInfoSelectors';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useForm, useFormState } from 'react-hook-form';
@@ -38,6 +49,12 @@ import { StyledPopupButtonsWrapper } from '../design/StyledPopupButtonsWrapper';
 import LocationImageCarousel from './LocationImageCarousel/LocationImageCarousel';
 import CircularLoader from '../CircularLoader/CircularLoader';
 import { LocationForm } from '../../../types';
+
+// import CommentSection from 'components/BigPopup/CommentSection/CommentSection';
+
+const LazyCommentSection = lazy(
+  () => import('components/BigPopup/CommentSection/CommentSection')
+);
 
 type Props = {
   toggleClose: Function;
@@ -115,12 +132,10 @@ const PointPopup = ({ toggleClose }: Props) => {
     handleCloseDialog();
   }, [isAuthorized, locationId]);
 
-  const {
-    bounds,
-    locationName: searchName,
-    selectedFilters,
-    authorizedFilters
-  } = useTypedSelector(state => state.mapInfo);
+  const bounds = useTypedSelector(selectMapInfoBounds);
+  const searchName = useTypedSelector(selectMapInfolocationName);
+  const selectedFilters = useTypedSelector(selectMapInfoFilters);
+  const authorizedFilters = useTypedSelector(selectAuthorizedFilters);
 
   useEffect(() => {
     if (isDeleted && locationId) {
@@ -179,11 +194,11 @@ const PointPopup = ({ toggleClose }: Props) => {
     setShowEditPanel(false);
   }, []);
 
-  const locationData = useTypedSelector(state => state.popupLocation);
+  const locationData = useTypedSelector(selectLocationData);
+
   const { loading } = locationData;
-  const deleteLocationLoading = useTypedSelector(
-    state => state.deleteLocation.loading
-  );
+
+  const deleteLocationLoading = useTypedSelector(selectDeletedLocationsLoading);
 
   if (loading || deleteLocationLoading) {
     return <CircularLoader />;
@@ -241,7 +256,9 @@ const PointPopup = ({ toggleClose }: Props) => {
               />
             </CardContent>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
-              <CommentSection />
+              <Suspense fallback={<CircularLoader />}>
+                <LazyCommentSection />
+              </Suspense>
             </Collapse>
           </Card>
         </Box>

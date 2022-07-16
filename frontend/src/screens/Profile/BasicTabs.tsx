@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
 import { selectUserRole } from 'redux/memoizedSelectors/isUserAuthorizedSelectors';
 import {
@@ -11,8 +11,10 @@ import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { Tabs, Tab, Typography, Box, TextField } from '@mui/material';
 import { Controller, Control, FieldError } from 'react-hook-form';
 import ProfileTabsData from 'components/ProfileTabsData';
+import CircularLoader from 'components/CircularLoader/CircularLoader';
 import { UserForm } from '../../../types';
-import { ModerationTab } from './ModerationTab';
+
+const LazyModerationTab = lazy(() => import('./ModerationTab'));
 
 interface TabPanelProps {
   index: number;
@@ -80,8 +82,6 @@ export default function BasicTabs({
 
   const { fetchWaitingForVerifyLocations, fetchReportedLocations } =
     useTypedDispatch();
-
-  // const userDescription = useTypedSelector(state => state.userData);
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -155,16 +155,20 @@ export default function BasicTabs({
         )}
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <ModerationTab
-          t={t('profile.basicTabs.noWaitingForVerify')}
-          fetchLocationsForModeration={fetchWaitingForVerifyLocations}
-        />
+        <Suspense fallback={<CircularLoader />}>
+          <LazyModerationTab
+            t={t('profile.basicTabs.noWaitingForVerify')}
+            fetchLocationsForModeration={fetchWaitingForVerifyLocations}
+          />
+        </Suspense>
       </TabPanel>
       <TabPanel value={value} index={4}>
-        <ModerationTab
-          t={t('profile.basicTabs.noReportedLocations')}
-          fetchLocationsForModeration={fetchReportedLocations}
-        />
+        <Suspense fallback={<CircularLoader />}>
+          <LazyModerationTab
+            t={t('profile.basicTabs.noReportedLocations')}
+            fetchLocationsForModeration={fetchReportedLocations}
+          />
+        </Suspense>
       </TabPanel>
     </Box>
   );
