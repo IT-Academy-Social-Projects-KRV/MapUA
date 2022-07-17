@@ -12,10 +12,12 @@ import { StyledCommentsLoaderBox } from 'components/design/StyledCommentsLoaderB
 import { t } from 'i18next';
 import { useInView } from 'react-intersection-observer';
 import { selectComments } from 'redux/memoizedSelectors/locationCommentsSelectors';
-import { selectOtherUserRole } from 'redux/memoizedSelectors/otherUserDataSelectors';
+import {
+  selectUserRole,
+  selectIsUserAuthorized
+} from 'redux/memoizedSelectors/isUserAuthorizedSelectors';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { selectLocationId } from 'redux/memoizedSelectors/popupLocationSelectors';
-import { selectIsUserAuthorized } from 'redux/memoizedSelectors/isUserAuthorizedSelectors';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { CommentType, AuthorInfoType } from '../../../../types';
 import CommentForm from './CommentForm';
@@ -32,7 +34,7 @@ const CommentSection = () => {
   const comments = useTypedSelector(selectComments);
   const isAuthorized = useTypedSelector(selectIsUserAuthorized);
 
-  const otherUserRole = useTypedSelector(selectOtherUserRole);
+  const userRole = useTypedSelector(selectUserRole);
 
   const { fetchComments } = useTypedDispatch();
 
@@ -82,7 +84,7 @@ const CommentSection = () => {
             comments.length
           }`}
       </Divider>
-      {isAuthorized || (otherUserRole !== 'bannedUser' && <CommentForm />)}
+      {(isAuthorized || userRole !== 'bannedUser') && <CommentForm />}
       {!comments.length ? (
         <Stack spacing={1} mt={2}>
           <Skeleton />
