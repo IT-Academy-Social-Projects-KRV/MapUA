@@ -62,7 +62,7 @@ const LocationsController = {
 
       if (searchName) {
         locations = locations.filter(l => {
-          return l.name.toLowerCase().startsWith(searchName.toLowerCase());
+          return l.name.toLowerCase().includes(searchName.toLowerCase());
         });
       }
 
