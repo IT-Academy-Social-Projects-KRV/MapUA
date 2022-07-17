@@ -12,6 +12,7 @@ import { StyledCommentsLoaderBox } from 'components/design/StyledCommentsLoaderB
 import { t } from 'i18next';
 import { useInView } from 'react-intersection-observer';
 import { selectComments } from 'redux/memoizedSelectors/locationCommentsSelectors';
+import { selectOtherUserRole } from 'redux/memoizedSelectors/otherUserDataSelectors';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { selectLocationId } from 'redux/memoizedSelectors/popupLocationSelectors';
 import { selectIsUserAuthorized } from 'redux/memoizedSelectors/isUserAuthorizedSelectors';
@@ -19,7 +20,6 @@ import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { CommentType, AuthorInfoType } from '../../../../types';
 import CommentForm from './CommentForm';
 import Comment from './Comment';
-import { selectOtherUserRole } from 'redux/memoizedSelectors/otherUserDataSelectors';
 
 const CommentSection = () => {
   const { ref, inView } = useInView({
@@ -59,10 +59,10 @@ const CommentSection = () => {
   }, [topCommentsOnPageIndex]);
 
   useEffect(() => {
-    const addMoreComment = () =>
+    const downloadMoreComment = () =>
       setTopCommentsOnPageIndex(prevState => prevState + commentStepCount);
 
-    const timerId = setTimeout(() => addMoreComment(), 500);
+    const timerId = setTimeout(() => downloadMoreComment(), 500);
 
     return () => {
       clearTimeout(timerId);

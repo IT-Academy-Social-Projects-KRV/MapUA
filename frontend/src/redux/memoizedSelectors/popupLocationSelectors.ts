@@ -12,12 +12,12 @@ export const selectLocationData = createSelector(
 );
 
 export const selectRaiting = createSelector(
-  [(state: RootState) => state.popupLocation.data.rating],
+  [(state: RootState) => state.popupLocationRating.data.rating],
   rating => rating
 );
 
 export const selectVerificationStatus = createSelector(
-  [(state: RootState) => state.popupLocation.data.verificationStatus],
+  [(state: RootState) => state.popupLocationRating.data.verificationStatus],
   verificationStatus => verificationStatus
 );
 
