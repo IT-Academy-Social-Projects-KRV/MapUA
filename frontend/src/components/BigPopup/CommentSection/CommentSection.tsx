@@ -46,17 +46,6 @@ const CommentSection = () => {
     useState(commentStepCount);
 
   useEffect(() => {
-    const addMoreComment = () =>
-      setTopCommentsOnPageIndex(prevState => prevState + commentStepCount);
-
-    const timerId = setTimeout(() => addMoreComment(), 500);
-
-    return () => {
-      clearTimeout(timerId);
-    };
-  }, [inView]);
-
-  useEffect(() => {
     fetchComments(locationId, undefined, topCommentsOnPageIndex);
   }, [topCommentsOnPageIndex]);
 

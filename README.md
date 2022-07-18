@@ -16,6 +16,18 @@ For example you found a beautiful place in the woods, and you want to share it w
 - **second step** - you should follow instruction README.md in frontend folder
 - **third step** - you should follow instruction README.md in backend folder
 
+### Techologies
+
+React, Typescript, Redux, Node.js, Express, MongoDb, Mui, i18, Swagger
+
+### Authorization
+
+Use Passport.js with JWT token, Google auth, Facebook auth
+
+### MAP
+
+https://leafletjs.com/
+
 Actions with Locations and data:
 
 1. Authorized users can add\remove\edit own locations
