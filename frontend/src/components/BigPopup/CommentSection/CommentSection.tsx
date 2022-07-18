@@ -36,7 +36,6 @@ const CommentSection = () => {
 
   const myRole = useTypedSelector(selectUserRole);
 
-
   const { fetchComments } = useTypedDispatch();
 
   const topComments = comments.filter(
