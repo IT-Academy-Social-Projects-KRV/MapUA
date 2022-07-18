@@ -12,16 +12,14 @@ export const infoAboutDeveloper = [
     linkedIn: 'https://www.linkedin.com'
   },
   {
-    photo:
-      'https://media2.nekropole.info/2013/05/375px-Vasco_da_Gama_-_1838.png',
+    photo: '/photo/Mazur.jpg',
     fullName: 'Oleksandr Mazur',
-    linkedIn: 'https://www.linkedin.com'
+    linkedIn: 'https://www.linkedin.com/in/oleksandr-mazur-005441174/'
   },
   {
-    photo:
-      'https://media2.nekropole.info/2013/05/375px-Vasco_da_Gama_-_1838.png',
+    photo: '/photo/Poberezhnyi.jpg',
     fullName: 'Oleksandr Poberezhnyi',
-    linkedIn: 'https://www.linkedin.com'
+    linkedIn: 'https://www.linkedin.com/in/oleksandr-poberezhnyi-9a54391b7/'
   },
   {
     photo: '/photo/Yozh.jpg',
@@ -32,7 +30,7 @@ export const infoAboutDeveloper = [
     photo:
       'https://media2.nekropole.info/2013/05/375px-Vasco_da_Gama_-_1838.png',
     fullName: 'Roman Kalishuk',
-    linkedIn: 'https://www.linkedin.com'
+    linkedIn: 'https://www.linkedin.com/in/roman-kalishuk-37408620b/'
   },
   {
     photo:
@@ -53,10 +51,10 @@ export const infoAboutDeveloper = [
       'https://www.linkedin.com/authwall?trk=bf&trkInfo=AQHOHdnXZv7XjQAAAYH8NxAgQgQ9oXLUHcqVUAM7nBEzscBC6wWSgUiUmV7S7SIarlmLTp1NZF7murkAPcU9T4s2dn_4NSGXOEez1pzXWpT589BmRsed-4Lo8XlPN5R1H018ymw=&original_referer=&sessionRedirect=https%3A%2F%2Fwww.linkedin.com%2Fin%2Fyurii-stupnytskyi-980936243%3Flipi%3Durn%253Ali%253Apage%253Ad_flagship3_profile_view_base_contact_details%253BI2GJodxKT0ahJ2IgX%252B00ng%253D%253D'
   },
   {
-    photo:
-      'https://media2.nekropole.info/2013/05/375px-Vasco_da_Gama_-_1838.png',
+    photo: '/photo/Soproniuk.jpg',
     fullName: 'Yuriy Soproniuk',
-    linkedIn: 'https://www.linkedin.com'
+    linkedIn:
+      'https://www.linkedin.com/in/%D1%8E%D1%80%D0%B8%D0%B9-%D1%81%D0%BE%D0%BF%D1%80%D0%BE%D0%BD%D1%8E%D0%BA-548978195/'
   },
   {
     photo: '/photo/Kulesh.jpg',
