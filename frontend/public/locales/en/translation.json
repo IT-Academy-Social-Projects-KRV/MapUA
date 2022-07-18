@@ -16,7 +16,7 @@
     "top": "Top-list",
     "map": "Map",
     "myProfile": "My profile",
-    "howToUse": "How to add mark on map"
+    "howToUse": "How to add marker on map"
   },
   "infoPopUp": {
     "header": "Instuction how to add location",
@@ -61,8 +61,8 @@
       "noSubscribers": "user has no subscribers",
       "noSubscriptions": "user has no subscriptions",
       "noWaitingForVerify": "There is no locations",
-      "reportedLocations":"reported locations",
-      "noReportedLocations":"There are no locations"
+      "reportedLocations": "reported locations",
+      "noReportedLocations": "There are no locations"
     },
     "profilePage": {
       "lostNetwork": "Lost Network",
