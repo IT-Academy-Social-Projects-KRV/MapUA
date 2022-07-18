@@ -14,7 +14,6 @@ export const StyledCloseAddingModeLocationButton = styled(Button)`
   top: 15px;
   left: 230px;
   background-color: yellow;
-  height: 35px;
   min-width: 35px;
   color: black;
   &:hover {

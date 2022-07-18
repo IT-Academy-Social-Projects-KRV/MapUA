@@ -131,6 +131,9 @@ function Map({
 
             {isAddLocationActive && !isOpenLocationForm && (
               <StyledCloseAddingModeLocationButton
+                style={{
+                  left: localStorage.i18nextLng === 'ua' ? '240px' : '230px'
+                }}
                 onClick={closeAddLocationModal}
               >
                 x
