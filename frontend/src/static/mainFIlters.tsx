@@ -76,7 +76,9 @@ export const mainFilters = [
 export const getFiltersForUser = () =>
   mainFilters.reduce(
     (prev, current) =>
-      current.forLoggedUser ? prev : [...prev, ...current.values],
+      current.forLoggedUser || current.id === 3
+        ? prev
+        : [...prev, ...current.values],
     [] as string[]
   );
 
