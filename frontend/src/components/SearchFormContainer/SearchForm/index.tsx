@@ -16,7 +16,9 @@ function SearchForm() {
   const { setLocationName } = useTypedDispatch();
   const locationName = useTypedSelector(selectMapInfolocationName);
 
-  const handleChange = (e: any): void => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ): void => {
     setLocationName(e.target.value);
     const query = e.target.value;
     if (locationName.length) {

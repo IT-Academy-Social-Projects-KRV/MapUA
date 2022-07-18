@@ -36,6 +36,7 @@ const CommentSection = () => {
 
   const myRole = useTypedSelector(selectUserRole);
 
+
   const { fetchComments } = useTypedDispatch();
 
   const topComments = comments.filter(
@@ -84,7 +85,9 @@ const CommentSection = () => {
             comments.length
           }`}
       </Divider>
+
       {isAuthorized && myRole !== 'bannedUser' && <CommentForm />}
+
       {!comments.length ? (
         <Stack spacing={1} mt={2}>
           <Skeleton />
