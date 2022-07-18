@@ -1,7 +1,12 @@
-import React, { MouseEventHandler } from 'react';
-import { IconButton, ListItemIcon, ListItemText, Tooltip } from '@mui/material';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import React, { memo, MouseEventHandler, useCallback } from 'react';
+import {
+  IconButton,
+  ListItemIcon,
+  ListItemText,
+  Tooltip,
+  Menu,
+  MenuItem
+} from '@mui/material';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
@@ -15,12 +20,24 @@ import TourIcon from '@mui/icons-material/Tour';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
-import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
-import { useTypedSelector } from 'redux/hooks/useTypedSelector';
-import { useTranslation } from 'react-i18next';
 import ReportIcon from '@mui/icons-material/Report';
 import EditIcon from '@mui/icons-material/Edit';
 import ReportOffIcon from '@mui/icons-material/ReportOff';
+import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
+import {
+  selectAuthor,
+  selectRaiting,
+  selectReported,
+  selectVerificationStatus
+} from 'redux/memoizedSelectors/popupLocationSelectors';
+import { selectUserId } from 'redux/memoizedSelectors/userDataSelectors';
+import {
+  selectIsUserAuthorized,
+  selectUserRole
+} from 'redux/memoizedSelectors/isUserAuthorizedSelectors';
+import { useTypedSelector } from 'redux/hooks/useTypedSelector';
+import { useTranslation } from 'react-i18next';
+
 import ConfirmOrDecline from './ConfirmOrDecline';
 
 type Props = {
@@ -35,7 +52,7 @@ type Props = {
   locationId: any;
 };
 
-export const IconsComponent = ({
+const IconsComponent = ({
   handleRating,
   handleFavoriteClick,
   locationIsFavorite,
@@ -54,20 +71,13 @@ export const IconsComponent = ({
     updatePopupLocationRating
   } = useTypedDispatch();
 
-  const { rating } = useTypedSelector(state => state.popupLocationRating.data);
-
-  const { verificationStatus } = useTypedSelector(
-    state => state.popupLocationRating.data
-  );
-
-  const { author, reported } = useTypedSelector(
-    state => state.popupLocation.data
-  );
-  const { _id: userId } = useTypedSelector(state => state.userData.data);
-  const { isAuthorized } = useTypedSelector(
-    state => state.isUserAuthorized.data
-  );
-  const { role } = useTypedSelector(state => state.isUserAuthorized.data);
+  const rating = useTypedSelector(selectRaiting);
+  const verificationStatus = useTypedSelector(selectVerificationStatus);
+  const author = useTypedSelector(selectAuthor);
+  const reported = useTypedSelector(selectReported);
+  const userId = useTypedSelector(selectUserId);
+  const isAuthorized = useTypedSelector(selectIsUserAuthorized);
+  const role = useTypedSelector(selectUserRole);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -102,12 +112,15 @@ export const IconsComponent = ({
     );
   };
 
-  const handleConfirmOrDeclineVerification = (status: string) => {
-    updatePopupLocationRating(locationId, {
-      rating,
-      verificationStatus: status
-    });
-  };
+  const handleConfirmOrDeclineVerification = useCallback(
+    (status: string) => {
+      updatePopupLocationRating(locationId, {
+        rating,
+        verificationStatus: status
+      });
+    },
+    [locationId, rating]
+  );
 
   return (
     <>
@@ -265,3 +278,5 @@ export const IconsComponent = ({
     </>
   );
 };
+
+export default memo(IconsComponent);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Drawer } from '@mui/material';
 import Box from '@mui/material/Box';
 import ArrowLeftIcon from '@mui/icons-material/ArrowBackIos';
@@ -13,7 +13,7 @@ interface PopupProps {
   location: locationType | null;
 }
 
-export default function BigPopup(props: PopupProps) {
+function BigPopup(props: PopupProps) {
   const { isOpen, toggleClose, location } = props;
 
   return (
@@ -39,3 +39,5 @@ export default function BigPopup(props: PopupProps) {
     )
   );
 }
+
+export default memo(BigPopup);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import {
   CardContent,
   List,
@@ -11,41 +11,60 @@ import {
 import { StyledCommentsLoaderBox } from 'components/design/StyledCommentsLoaderBox';
 import { t } from 'i18next';
 import { useInView } from 'react-intersection-observer';
+import { selectComments } from 'redux/memoizedSelectors/locationCommentsSelectors';
+import {
+  selectUserRole,
+  selectIsUserAuthorized
+} from 'redux/memoizedSelectors/isUserAuthorizedSelectors';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
+import { selectLocationId } from 'redux/memoizedSelectors/popupLocationSelectors';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { CommentType, AuthorInfoType } from '../../../../types';
 import CommentForm from './CommentForm';
 import Comment from './Comment';
 
 const CommentSection = () => {
-  const { ref, inView } = useInView({ threshold: 1, triggerOnce: true });
+  const { ref, inView } = useInView({
+    threshold: 1,
+    triggerOnce: true
+  });
   const commentStepCount = 5;
 
-  const { _id: locationId } = useTypedSelector(
-    state => state.popupLocation.data
-  );
-  const { comments } = useTypedSelector(state => state.locationComments);
-  const { fetchComments } = useTypedDispatch();
-  const { isAuthorized, role: myRole } = useTypedSelector(
-    state => state.isUserAuthorized.data
-  );
+  const locationId = useTypedSelector(selectLocationId);
+  const comments = useTypedSelector(selectComments);
+  const isAuthorized = useTypedSelector(selectIsUserAuthorized);
 
-  const topComments = comments.filter(c => !c.parentComment);
+  const myRole = useTypedSelector(selectUserRole);
+
+  const { fetchComments } = useTypedDispatch();
+
+  const topComments = comments.filter(
+    (c: CommentType<AuthorInfoType>) => !c.parentComment
+  );
 
   const [topCommentsOnPageIndex, setTopCommentsOnPageIndex] =
     useState(commentStepCount);
-
-  useEffect(() => {
-    if (locationId) {
-      fetchComments(locationId, undefined, topCommentsOnPageIndex);
-    }
-  }, [locationId]);
 
   useEffect(() => {
     const addMoreComment = () =>
       setTopCommentsOnPageIndex(prevState => prevState + commentStepCount);
 
     const timerId = setTimeout(() => addMoreComment(), 500);
+
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [inView]);
+
+  useEffect(() => {
+    fetchComments(locationId, undefined, topCommentsOnPageIndex);
+  }, [topCommentsOnPageIndex]);
+
+  useEffect(() => {
+    const downloadMoreComment = () =>
+      setTopCommentsOnPageIndex(prevState => prevState + commentStepCount);
+
+    const timerId = setTimeout(() => downloadMoreComment(), 500);
 
     return () => {
       clearTimeout(timerId);
@@ -65,7 +84,7 @@ const CommentSection = () => {
             comments.length
           }`}
       </Divider>
-      {isAuthorized || (myRole !== 'bannedUser' && <CommentForm />)}
+      {isAuthorized && myRole !== 'bannedUser' && <CommentForm />}
       {!comments.length ? (
         <Stack spacing={1} mt={2}>
           <Skeleton />
@@ -125,4 +144,4 @@ const CommentSection = () => {
   );
 };
 
-export default CommentSection;
+export default memo(CommentSection);

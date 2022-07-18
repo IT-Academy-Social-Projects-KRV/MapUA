@@ -1,4 +1,11 @@
-import React, { useState, MouseEvent, useEffect } from 'react';
+import React, {
+  useState,
+  MouseEvent,
+  useEffect,
+  useCallback,
+  useMemo,
+  memo
+} from 'react';
 import {
   Avatar,
   Box,
@@ -20,6 +27,8 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { Link } from 'react-router-dom';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useTranslation } from 'react-i18next';
+import { selectUserId } from 'redux/memoizedSelectors/userDataSelectors';
+import { selectUserRole } from 'redux/memoizedSelectors/isUserAuthorizedSelectors';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { getPath } from 'utils/createPath';
 import { useForm, SubmitHandler, useFormState } from 'react-hook-form';
@@ -83,20 +92,25 @@ const Comment = ({
   const [showReplyComment, setShowReplyComment] = useState(false);
   const [showAnswers, setShowAnswers] = useState(false);
   const [disabledPressedButton, setDisabledPressedButton] = useState(false);
-  const { _id: userId } = useTypedSelector(state => state.userData.data);
-  const { role } = useTypedSelector(state => state.isUserAuthorized.data);
+
+  const userId = useTypedSelector(selectUserId);
+  const role = useTypedSelector(selectUserRole);
+
   const { sendComment, fetchComments, editComment, deleteComment } =
     useTypedDispatch();
 
   const [openDialog, setOpen] = useState(false);
 
-  const handleCloseDialog = () => setOpen(false);
-  const handleOpenDialog = () => setOpen(true);
+  const handleCloseDialog = useCallback(() => setOpen(false), []);
+  const handleOpenDialog = useCallback(() => setOpen(true), []);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
-  const childComments = comments.filter(c => c.parentComment === id);
+  const childComments = useMemo(
+    () => comments.filter(c => c.parentComment === id),
+    [comments]
+  );
 
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -104,12 +118,12 @@ const Comment = ({
 
   const handleClose = () => setAnchorEl(null);
 
-  const handleDeleteAndUpdate = async () => {
+  const handleDeleteAndUpdate = useCallback(async () => {
     setShowAnswers(false);
     await deleteComment(id);
     await fetchComments(locationId, parentComment, topCommentsOnPageIndex);
     handleCloseDialog();
-  };
+  }, [id, locationId, parentComment, topCommentsOnPageIndex]);
 
   useEffect(() => {
     if (showAnswers) {
@@ -130,52 +144,66 @@ const Comment = ({
     control
   });
 
-  const openEditOrReplyComment = (
-    e: MouseEvent<HTMLLIElement, globalThis.MouseEvent>,
-    type: 'edit' | 'reply'
-  ) => {
-    if (type === 'edit') {
-      setShowEditComment(true);
-    } else if (type === 'reply') {
-      setShowReplyComment(true);
-    }
-    setDisabledPressedButton(true);
-    handleClose();
-  };
+  const openEditOrReplyComment = useCallback(
+    (
+      e: MouseEvent<HTMLLIElement, globalThis.MouseEvent>,
+      type: 'edit' | 'reply'
+    ) => {
+      if (type === 'edit') {
+        setShowEditComment(true);
+      } else if (type === 'reply') {
+        setShowReplyComment(true);
+      }
+      setDisabledPressedButton(true);
+      handleClose();
+    },
+    []
+  );
 
-  const closeEditComment = () => {
+  const closeEditComment = useCallback(() => {
     setShowEditComment(false);
     setDisabledPressedButton(false);
-  };
+  }, []);
 
-  const closeReplyComment = () => {
+  const closeReplyComment = useCallback(() => {
     setShowReplyComment(false);
     setDisabledPressedButton(false);
-  };
+  }, []);
 
-  const onSubmitEditComment: SubmitHandler<ChangeCommentCheck> = data => {
-    const comment = {
-      text: data.commentText,
-      author: authorId,
-      locationId,
-      likes,
-      dislikes,
-      parentComment
-    };
-    editComment(comment, id);
-    closeEditComment();
-  };
+  const onSubmitEditComment: SubmitHandler<ChangeCommentCheck> = useCallback(
+    data => {
+      const comment = {
+        text: data.commentText,
+        author: authorId,
+        locationId,
+        likes,
+        dislikes,
+        parentComment
+      };
+      editComment(comment, id);
+      closeEditComment();
+    },
+    [authorId, locationId, likes, dislikes, parentComment]
+  );
 
-  const onSubmitReplyComment: SubmitHandler<ChangeCommentCheck> = data => {
-    const comment = {
-      text: data.commentText,
-      author: userId,
-      locationId,
-      parentComment: id
-    };
-    sendComment(comment);
-    closeReplyComment();
-  };
+  const onSubmitReplyComment: SubmitHandler<ChangeCommentCheck> = useCallback(
+    data => {
+      const comment = {
+        text: data.commentText,
+        author: userId,
+        locationId,
+        parentComment: id
+      };
+      sendComment(comment);
+      closeReplyComment();
+    },
+    [userId, locationId, id]
+  );
+
+  const pathToProfile = useMemo(
+    () => getPath(userId, authorId),
+    [userId, authorId]
+  );
 
   return (
     <>
@@ -191,7 +219,7 @@ const Comment = ({
           />
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Box sx={{ display: 'flex' }}>
-              <Link to={getPath(userId, authorId)}>
+              <Link to={pathToProfile}>
                 <StyledCommentBadge
                   color="info"
                   badgeContent={authorRole}
@@ -204,7 +232,7 @@ const Comment = ({
                   />
                 </StyledCommentBadge>
               </Link>
-              <Link to={getPath(userId, authorId)}>
+              <Link to={pathToProfile}>
                 <Typography component="span" variant="h6" color="text.primary">
                   {authorsName}
                 </Typography>
@@ -330,7 +358,7 @@ const Comment = ({
                 topCommentsOnPageIndex={topCommentsOnPageIndex}
                 hasReplies={hasReplies}
                 parentAuthorName={authorsName}
-                parentAuthorUrl={getPath(userId, authorId)}
+                parentAuthorUrl={pathToProfile}
                 comments={comments}
                 index={index}
                 childComments={childComments}
@@ -344,7 +372,7 @@ const Comment = ({
           topCommentsOnPageIndex={topCommentsOnPageIndex}
           hasReplies={hasReplies}
           parentAuthorName={authorsName}
-          parentAuthorUrl={getPath(userId, authorId)}
+          parentAuthorUrl={pathToProfile}
           comments={comments}
           index={index}
           childComments={childComments}
@@ -359,4 +387,4 @@ Comment.defaultProps = {
   parentAuthorName: ''
 };
 
-export default Comment;
+export default memo(Comment);

@@ -9,14 +9,24 @@ import {
   Divider
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import React, { FC, MouseEventHandler } from 'react';
+import React, { FC, memo, MouseEventHandler, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import {
+  selectAuthor,
+  selectCreatedAt,
+  selectDescription
+} from 'redux/memoizedSelectors/popupLocationSelectors';
+import {
+  selectUserDataSubscriptions,
+  selectUserId
+} from 'redux/memoizedSelectors/userDataSelectors';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { Controller } from 'react-hook-form';
 import { getPath } from 'utils/createPath';
 import { Link } from 'react-router-dom';
 import { StyledCardComponentBox } from '../../design/StyledCardComponentBox';
 import userImageNotFound from '../../../static/image-not-found.jpg';
+import { AuthorInfoType } from '../../../../types';
 
 type Props = {
   handleExpandClick: MouseEventHandler<HTMLButtonElement>;
@@ -26,23 +36,35 @@ type Props = {
   errors: any;
 };
 
-export const CardComponent: FC<Props> = ({
+const CardComponent: FC<Props> = ({
   handleExpandClick,
   expanded,
   showEditPanel,
   control,
   errors
 }) => {
-  const { createdAt, author, description } = useTypedSelector(
-    state => state.popupLocation.data
-  );
-  const { _id, subscriptions } = useTypedSelector(state => state.userData.data);
-
-  const isSubscribed = subscriptions.some((s: any) => s._id === author?._id);
   const { t } = useTranslation();
+
+  const createdAt = useTypedSelector(selectCreatedAt);
+  const author = useTypedSelector(selectAuthor);
+  const description = useTypedSelector(selectDescription);
+
+  const userId = useTypedSelector(selectUserId);
+  const subscriptions = useTypedSelector(selectUserDataSubscriptions);
+
+  const isSubscribed = subscriptions.some(
+    (s: AuthorInfoType) => s._id === author?._id
+  );
+
+  const pathToProfile = useMemo(
+    () => getPath(userId, author?._id),
+    [userId, author?._id]
+  );
+
   const URL_REGEX =
     // eslint-disable-next-line no-useless-escape
     /(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])/gim;
+
   function getListOfWords() {
     const newDescription = description.split(' ');
     return newDescription;
@@ -52,14 +74,14 @@ export const CardComponent: FC<Props> = ({
       <StyledCardComponentBox>
         {t('pointPopUp.locationCreatedBy')}
         <Badge color="secondary" variant="dot" invisible={!isSubscribed}>
-          <Link to={getPath(_id, author?._id)}>
+          <Link to={pathToProfile}>
             <Avatar
               aria-label="author"
               src={(author && author.imageUrl) || userImageNotFound}
             />
           </Link>
         </Badge>
-        <Link to={getPath(_id, author?._id)}>
+        <Link to={pathToProfile}>
           {(author && author.displayName) || 'undefined'}
         </Link>
 
@@ -124,3 +146,5 @@ export const CardComponent: FC<Props> = ({
     </Box>
   );
 };
+
+export default memo(CardComponent);

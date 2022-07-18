@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useState, useRef, memo } from 'react';
 import { useParams } from 'react-router-dom';
 import { TileLayer } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -6,6 +7,16 @@ import { useTranslation } from 'react-i18next';
 import SearchFormContainer from 'components/SearchFormContainer';
 import useDebounce from 'utils/useDebounce';
 import { StyledMapWrapper } from 'components/design/StyledMapWrapper';
+import {
+  selectIsUserAuthorized,
+  selectUserRole
+} from 'redux/memoizedSelectors/isUserAuthorizedSelectors';
+import {
+  selectAuthorizedFilters,
+  selectMapInfoBounds,
+  selectMapInfoFilters,
+  selectMapInfolocationName
+} from 'redux/memoizedSelectors/mapInfoSelectors';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import L from 'leaflet';
@@ -45,18 +56,15 @@ function Map({
   isOpenLocationForm
 }: Props) {
   const { t } = useTranslation();
-  const { isAuthorized, role } = useTypedSelector(
-    state => state.isUserAuthorized.data
-  );
+
+  const isAuthorized = useTypedSelector(selectIsUserAuthorized);
+  const role = useTypedSelector(selectUserRole);
+  const bounds = useTypedSelector(selectMapInfoBounds);
+  const searchName = useTypedSelector(selectMapInfolocationName);
+  const selectedFilters = useTypedSelector(selectMapInfoFilters);
+  const authorizedFilters = useTypedSelector(selectAuthorizedFilters);
 
   const { locationId } = useParams();
-
-  const {
-    bounds,
-    locationName: searchName,
-    selectedFilters,
-    authorizedFilters
-  } = useTypedSelector(state => state.mapInfo);
 
   const closeButtonRef = React.useRef<any>(null);
 
@@ -136,4 +144,4 @@ function Map({
   );
 }
 
-export default Map;
+export default memo(Map);

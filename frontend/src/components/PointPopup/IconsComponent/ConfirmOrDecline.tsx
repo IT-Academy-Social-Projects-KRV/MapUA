@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CloseIcon from '@mui/icons-material/Close';
 import { Box, ListItemIcon, ListItemText, MenuItem } from '@mui/material';
@@ -25,4 +25,4 @@ const ConfirmOrDecline = ({ handleConfirmOrDeclineVerification }: Props) => (
   </Box>
 );
 
-export default ConfirmOrDecline;
+export default memo(ConfirmOrDecline);

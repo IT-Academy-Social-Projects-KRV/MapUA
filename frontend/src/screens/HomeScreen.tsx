@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Box } from '@mui/material';
 import Map from 'components/Map/index';
 import BigPopup from 'components/BigPopup/index';
@@ -18,32 +18,34 @@ function HomeScreen() {
   const [, setSearchParams] = useSearchParams();
   const { setLocationName } = useTypedDispatch();
 
-  const onOpenBigPopup = (locationData: locationType) => {
+  const onOpenBigPopup = useCallback((locationData: locationType) => {
     setLocation(locationData);
     setIsOpenLocationPopup(true);
-  };
+  }, []);
 
-  const onOpenLocationForm = () => {
+  const onOpenLocationForm = useCallback(() => {
     setIsOpenLocationForm(true);
-  };
+  }, []);
 
-  const toggleIsAddLocation = () => {
+  const toggleIsAddLocation = useCallback(() => {
     setIsAddLocationActive(prevState => !prevState);
-  };
+  }, []);
 
-  const setIsAddLocation = (value: boolean) => {
+  const setIsAddLocation = useCallback((value: boolean) => {
     setIsAddLocationActive(value);
-  };
+  }, []);
+
+  const toggleClose = useCallback(() => {
+    setIsOpenLocationPopup(false);
+    setSearchParams({});
+    setLocationName('');
+  }, []);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <BigPopup
         isOpen={isOpenLocationPopup}
-        toggleClose={() => {
-          setIsOpenLocationPopup(false);
-          setSearchParams({});
-          setLocationName('');
-        }}
+        toggleClose={toggleClose}
         location={location}
       />
 

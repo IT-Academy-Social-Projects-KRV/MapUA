@@ -1,6 +1,10 @@
+import React, { memo, useEffect } from 'react';
 import { Avatar, Box } from '@mui/material';
-import React, { useEffect } from 'react';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
+import {
+  selectLocationList,
+  selectLocationsListLoading
+} from 'redux/memoizedSelectors/locationListSelectors';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { StyledCardProfileTabs } from 'components/design/StyledCardProfileTabs';
 import { Link, useNavigate } from 'react-router-dom';
@@ -13,10 +17,9 @@ interface Props {
   fetchLocationsForModeration: () => void;
 }
 
-export const ModerationTab = ({ t, fetchLocationsForModeration }: Props) => {
-  const { data: locations, loading } = useTypedSelector(
-    state => state.locationList
-  );
+const ModerationTab = ({ t, fetchLocationsForModeration }: Props) => {
+  const locations = useTypedSelector(selectLocationList);
+  const loading = useTypedSelector(selectLocationsListLoading);
 
   const { setLocationName } = useTypedDispatch();
 
@@ -61,3 +64,5 @@ export const ModerationTab = ({ t, fetchLocationsForModeration }: Props) => {
     </>
   );
 };
+
+export default memo(ModerationTab);

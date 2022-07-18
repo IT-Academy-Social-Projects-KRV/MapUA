@@ -1,7 +1,45 @@
-import CommentSection from 'components/BigPopup/CommentSection/CommentSection';
-import React, { useState, MouseEvent, useEffect } from 'react';
+import React, {
+  useState,
+  MouseEvent,
+  useEffect,
+  memo,
+  useCallback,
+  useMemo,
+  Suspense,
+  lazy
+} from 'react';
 import { Box, Card, CardContent, Collapse, Typography } from '@mui/material';
 import AlertDialog from 'components/AlertDialog';
+import {
+  selectIsUserAuthorized,
+  selectUserRole
+} from 'redux/memoizedSelectors/isUserAuthorizedSelectors';
+import {
+  selectArrayPhotos,
+  selectAuthor,
+  selectDescription,
+  selectLocationId,
+  selectPopUpLocationName,
+  selectRaiting,
+  selectVerificationStatus,
+  selectLocationData,
+  selectLocationFilters
+} from 'redux/memoizedSelectors/popupLocationSelectors';
+import {
+  selectUserDataFavorite,
+  selectUserDataVisited,
+  selectUserId
+} from 'redux/memoizedSelectors/userDataSelectors';
+import {
+  selectDeletedLocationsLoading,
+  selectLocationIsDeleted
+} from 'redux/memoizedSelectors/deleteLocationSelectors';
+import {
+  selectAuthorizedFilters,
+  selectMapInfoBounds,
+  selectMapInfoFilters,
+  selectMapInfolocationName
+} from 'redux/memoizedSelectors/mapInfoSelectors';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { useForm, useFormState } from 'react-hook-form';
@@ -9,13 +47,16 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { CreatingLocationSchema } from 'utils/validation';
 import EditLocation from 'components/EditLocation/EditLocation';
 import { useTranslation } from 'react-i18next';
-import { CardComponent } from './СardComponent/CardComponent';
-import { IconsComponent } from './IconsComponent/IconsComponent';
+import CardComponent from './СardComponent/CardComponent';
+import IconsComponent from './IconsComponent/IconsComponent';
 import { StyledPopupButtonsWrapper } from '../design/StyledPopupButtonsWrapper';
 import LocationImageCarousel from './LocationImageCarousel/LocationImageCarousel';
 import CircularLoader from '../CircularLoader/CircularLoader';
-
 import { LocationForm } from '../../../types';
+
+const LazyCommentSection = lazy(
+  () => import('components/BigPopup/CommentSection/CommentSection')
+);
 
 type Props = {
   toggleClose: Function;
@@ -26,8 +67,8 @@ const PointPopup = ({ toggleClose }: Props) => {
   const [expanded, setExpanded] = useState(false);
   const [openDialog, setOpen] = React.useState(false);
 
-  const handleCloseDialog = () => setOpen(false);
-  const handleOpenDialog = () => setOpen(true);
+  const handleCloseDialog = useCallback(() => setOpen(false), []);
+  const handleOpenDialog = useCallback(() => setOpen(true), []);
 
   const {
     updatePopupLocationRating,
@@ -38,35 +79,24 @@ const PointPopup = ({ toggleClose }: Props) => {
     clearPopupLocation
   } = useTypedDispatch();
 
-  const { isAuthorized } = useTypedSelector(
-    state => state.isUserAuthorized.data
-  );
+  const isAuthorized = useTypedSelector(selectIsUserAuthorized);
 
-  const { role } = useTypedSelector(state => state.isUserAuthorized.data);
-  const {
-    _id: userId,
-    favorite,
-    visited
-  } = useTypedSelector(state => state.userData.data);
+  const userId = useTypedSelector(selectUserId);
+  const favorite = useTypedSelector(selectUserDataFavorite);
+  const visited = useTypedSelector(selectUserDataVisited);
+  const role = useTypedSelector(selectUserRole);
+  const locationAuthorId = useTypedSelector(selectAuthor);
 
-  const { author: locationAuthorId } = useTypedSelector(
-    state => state.popupLocation.data
-  );
-  const selectedLocationFilters = useTypedSelector(
-    state => state.popupLocation.data.filters
-  );
+  const locationId = useTypedSelector(selectLocationId);
 
-  const isDeleted = useTypedSelector(state => state.deleteLocation.data);
-  const {
-    _id: locationId,
-    locationName,
-    description,
-    arrayPhotos
-  } = useTypedSelector(state => state.popupLocation.data);
+  const rating = useTypedSelector(selectRaiting);
+  const verificationStatus = useTypedSelector(selectVerificationStatus);
 
-  const { rating, verificationStatus } = useTypedSelector(
-    state => state.popupLocationRating.data
-  );
+  const locationName = useTypedSelector(selectPopUpLocationName);
+  const description = useTypedSelector(selectDescription);
+  const arrayPhotos = useTypedSelector(selectArrayPhotos);
+  const selectedLocationFilters = useTypedSelector(selectLocationFilters);
+  const isDeleted = useTypedSelector(selectLocationIsDeleted);
 
   const { control } = useForm<LocationForm>({
     mode: 'onBlur',
@@ -78,28 +108,38 @@ const PointPopup = ({ toggleClose }: Props) => {
     control
   });
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
+  const isFavorite = useMemo(
+    () => favorite.includes(locationId),
+    [favorite, locationId]
+  );
 
-  const handleFavoriteClick = () => {
+  const isVisited = useMemo(
+    () => visited.includes(locationId),
+    [visited, locationId]
+  );
+
+  const handleExpandClick = useCallback(() => {
+    setExpanded(!expanded);
+  }, [expanded]);
+
+  const handleFavoriteClick = useCallback(() => {
     if (isAuthorized) toggleFavoriteField(locationId);
-  };
-  const handleVisitedClick = () => {
+  }, [isAuthorized, locationId]);
+
+  const handleVisitedClick = useCallback(() => {
     if (isAuthorized) toggleVisitedField(locationId);
-  };
-  const handleDeleteClick = () => {
+  }, [isAuthorized, locationId]);
+
+  const handleDeleteClick = useCallback(() => {
     if (isAuthorized)
       deleteLocation(locationId, t('pointPopUp.locationDelete'));
     handleCloseDialog();
-  };
+  }, [isAuthorized, locationId]);
 
-  const {
-    bounds,
-    locationName: searchName,
-    selectedFilters,
-    authorizedFilters
-  } = useTypedSelector(state => state.mapInfo);
+  const bounds = useTypedSelector(selectMapInfoBounds);
+  const searchName = useTypedSelector(selectMapInfolocationName);
+  const selectedFilters = useTypedSelector(selectMapInfoFilters);
+  const authorizedFilters = useTypedSelector(selectAuthorizedFilters);
 
   useEffect(() => {
     if (isDeleted && locationId) {
@@ -109,61 +149,60 @@ const PointPopup = ({ toggleClose }: Props) => {
     }
   }, [isDeleted]);
 
-  const handleRating = (
-    e: MouseEvent<HTMLButtonElement>,
-    type: 'likes' | 'dislikes'
-  ) => {
-    e.preventDefault();
-    const updatedRating = { ...rating };
-    if (rating[type].includes(userId)) {
-      updatedRating[type] = updatedRating[type].filter(
-        value => value !== userId
-      );
-    } else {
-      updatedRating[type].push(userId);
-    }
+  const handleRating = useCallback(
+    (e: MouseEvent<HTMLButtonElement>, type: 'likes' | 'dislikes') => {
+      e.preventDefault();
+      const updatedRating = { ...rating };
+      if (rating[type].includes(userId)) {
+        updatedRating[type] = updatedRating[type].filter(
+          (value: any) => value !== userId
+        );
+      } else {
+        updatedRating[type].push(userId);
+      }
 
-    const inverseType = type === 'likes' ? 'dislikes' : 'likes';
+      const inverseType = type === 'likes' ? 'dislikes' : 'likes';
 
-    if (rating[inverseType].includes(userId)) {
-      updatedRating[inverseType] = updatedRating[inverseType].filter(
-        value => value !== userId
-      );
-    }
+      if (rating[inverseType].includes(userId)) {
+        updatedRating[inverseType] = updatedRating[inverseType].filter(
+          (value: any) => value !== userId
+        );
+      }
 
-    let status = verificationStatus;
+      let status = verificationStatus;
 
-    if (
-      updatedRating.likes.length >= 5 &&
-      verificationStatus === 'unverified'
-    ) {
-      status = 'waiting';
-    } else if (
-      updatedRating.likes.length < 5 &&
-      verificationStatus === 'waiting'
-    ) {
-      status = 'unverified';
-    }
-
-    return updatePopupLocationRating(locationId, {
-      rating: updatedRating,
-      verificationStatus: status
-    });
-  };
-
-  const editData = () => {
-    setShowEditPanel(true);
-  };
-
-  const closeEditData = () => {
-    setShowEditPanel(false);
-  };
-
-  const locationData = useTypedSelector(state => state.popupLocation);
-  const { loading } = locationData;
-  const deleteLocationLoading = useTypedSelector(
-    state => state.deleteLocation.loading
+      if (
+        updatedRating.likes.length >= 5 &&
+        verificationStatus === 'unverified'
+      ) {
+        status = 'waiting';
+      } else if (
+        updatedRating.likes.length < 5 &&
+        verificationStatus === 'waiting'
+      ) {
+        status = 'unverified';
+      }
+      return updatePopupLocationRating(locationId, {
+        rating: updatedRating,
+        verificationStatus: status
+      });
+    },
+    [verificationStatus, rating]
   );
+
+  const editData = useCallback(() => {
+    setShowEditPanel(true);
+  }, []);
+
+  const closeEditData = useCallback(() => {
+    setShowEditPanel(false);
+  }, []);
+
+  const locationData = useTypedSelector(selectLocationData);
+
+  const { loading } = locationData;
+
+  const deleteLocationLoading = useTypedSelector(selectDeletedLocationsLoading);
 
   if (loading || deleteLocationLoading) {
     return <CircularLoader />;
@@ -203,8 +242,8 @@ const PointPopup = ({ toggleClose }: Props) => {
                 <IconsComponent
                   handleRating={handleRating}
                   handleFavoriteClick={handleFavoriteClick}
-                  locationIsFavorite={favorite.includes(locationId)}
-                  locationIsVisited={visited.includes(locationId)}
+                  locationIsFavorite={isFavorite}
+                  locationIsVisited={isVisited}
                   handleVisitedClick={handleVisitedClick}
                   editData={editData}
                   locationAuthorId={locationAuthorId}
@@ -224,7 +263,9 @@ const PointPopup = ({ toggleClose }: Props) => {
               />
             </CardContent>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
-              <CommentSection />
+              <Suspense fallback={<CircularLoader />}>
+                <LazyCommentSection />
+              </Suspense>
             </Collapse>
           </Card>
         </Box>
@@ -233,4 +274,4 @@ const PointPopup = ({ toggleClose }: Props) => {
   );
 };
 
-export default PointPopup;
+export default memo(PointPopup);

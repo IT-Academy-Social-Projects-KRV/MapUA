@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, ChangeEvent, useState } from 'react';
+import React, { MouseEventHandler, ChangeEvent, useState, memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Box, TextField, Stack, Button } from '@mui/material';
 import { Controller, UseControllerProps, FieldErrors } from 'react-hook-form';
@@ -86,4 +86,4 @@ const EditCommentField = ({
   );
 };
 
-export default EditCommentField;
+export default memo(EditCommentField);

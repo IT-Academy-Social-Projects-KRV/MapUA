@@ -1,7 +1,7 @@
 /* eslint-disable import/no-unresolved */
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { CardMedia } from '@mui/material';
-import React from 'react';
+import React, { memo } from 'react';
 import { Navigation, Pagination } from 'swiper';
 
 import 'swiper/css';
@@ -15,7 +15,7 @@ type Props = {
   locationName: string;
 };
 
-export default ({ arrayPhotos, locationName }: Props) => (
+export default memo(({ arrayPhotos, locationName }: Props) => (
   <Swiper
     loop
     navigation
@@ -44,4 +44,4 @@ export default ({ arrayPhotos, locationName }: Props) => (
       </SwiperSlide>
     ))}
   </Swiper>
-);
+));

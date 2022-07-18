@@ -2,6 +2,18 @@
 import React, { useEffect } from 'react';
 import { Button, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import {
+  selectOtherUserAvatar,
+  selectOtherUserDataLoading,
+  selectOtherUserDisplayName,
+  selectOtherUserId,
+  selectOtherUserRole
+} from 'redux/memoizedSelectors/otherUserDataSelectors';
+import { selectUserDataSubscriptions } from 'redux/memoizedSelectors/userDataSelectors';
+import {
+  selectIsUserAuthorized,
+  selectUserRole
+} from 'redux/memoizedSelectors/isUserAuthorizedSelectors';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useParams } from 'react-router-dom';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
@@ -18,22 +30,15 @@ import CircularLoader from '../../components/CircularLoader/CircularLoader';
 
 export default function PersonProfilePage() {
   const { t } = useTranslation();
-  const {
-    loading: userLoading,
-    data: {
-      _id: otherUserId,
-      displayName,
-      imageUrl: userAvatar,
-      role: otherUserRole
-    }
-  } = useTypedSelector(state => state.otherUserData);
-  const {
-    data: { subscriptions }
-  } = useTypedSelector(state => state.userData);
 
-  const {
-    data: { isAuthorized, role: myRole }
-  } = useTypedSelector(state => state.isUserAuthorized);
+  const userLoading = useTypedSelector(selectOtherUserDataLoading);
+  const otherUserId = useTypedSelector(selectOtherUserId);
+  const displayName = useTypedSelector(selectOtherUserDisplayName);
+  const userAvatar = useTypedSelector(selectOtherUserAvatar);
+  const otherUserRole = useTypedSelector(selectOtherUserRole);
+  const subscriptions = useTypedSelector(selectUserDataSubscriptions);
+  const isAuthorized = useTypedSelector(selectIsUserAuthorized);
+  const myRole = useTypedSelector(selectUserRole);
 
   const {
     fetchOtherUserData,

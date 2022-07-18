@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Box, TextField } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
@@ -11,6 +11,8 @@ import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
 import { CommentSectionSchema } from 'utils/validation';
 import { useTranslation } from 'react-i18next';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
+import { selectUserId } from 'redux/memoizedSelectors/userDataSelectors';
+import { selectLocationId } from 'redux/memoizedSelectors/popupLocationSelectors';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { AddCommentType } from '../../../../types';
 import { StyledCommentFormButton } from '../../design/StyledCommentFormButton';
@@ -23,10 +25,8 @@ const CommentForm = () => {
   const { t } = useTranslation();
 
   const { sendComment } = useTypedDispatch();
-  const { _id: userId } = useTypedSelector(state => state.userData.data);
-  const { _id: locationId } = useTypedSelector(
-    state => state.popupLocation.data
-  );
+  const userId = useTypedSelector(selectUserId);
+  const locationId = useTypedSelector(selectLocationId);
 
   const { handleSubmit, control, reset } = useForm<CommentCheck>({
     resolver: yupResolver(CommentSectionSchema)
@@ -80,4 +80,4 @@ const CommentForm = () => {
   );
 };
 
-export default CommentForm;
+export default memo(CommentForm);

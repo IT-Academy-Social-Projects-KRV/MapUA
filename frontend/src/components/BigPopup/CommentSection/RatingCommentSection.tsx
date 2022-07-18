@@ -1,9 +1,10 @@
-import React, { MouseEvent } from 'react';
+import React, { memo, MouseEvent } from 'react';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import { IconButton, Typography, Stack, Box } from '@mui/material';
+import { selectIsUserAuthorized } from 'redux/memoizedSelectors/isUserAuthorizedSelectors';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import ReplyComment from './ReplyComment';
@@ -29,9 +30,7 @@ const RatingCommentSection = ({
   likes,
   dislikes
 }: Props) => {
-  const { isAuthorized } = useTypedSelector(
-    state => state.isUserAuthorized.data
-  );
+  const isAuthorized = useTypedSelector(selectIsUserAuthorized);
   const { editCommentRating } = useTypedDispatch();
 
   const handleCommentRating = (
@@ -127,4 +126,4 @@ const RatingCommentSection = ({
   );
 };
 
-export default RatingCommentSection;
+export default memo(RatingCommentSection);

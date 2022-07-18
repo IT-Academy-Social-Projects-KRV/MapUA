@@ -10,6 +10,18 @@ import { StyledProfileBadge } from 'components/design/StyledProfileBadge';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { EditProfileSchema } from 'utils/validation';
 import { useTranslation } from 'react-i18next';
+import {
+  selectUserAvatar,
+  selectUserDataDescription,
+  selectUserDisplayName,
+  selectUserId
+} from 'redux/memoizedSelectors/userDataSelectors';
+import {
+  selectPrivateUserDataCreatedAt,
+  selectPrivateUserDataEmail,
+  selectPrivateUserDataUpdatedAt
+} from 'redux/memoizedSelectors/privatUserDataSelectors';
+import { selectUserRole } from 'redux/memoizedSelectors/isUserAuthorizedSelectors';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import UploadInputProfilePage from 'components/design/UploadInputProfilePage';
@@ -35,15 +47,14 @@ export default function ProfilePage() {
   const { updateUserData, deleteUserData, deletePrivateUserData, logout } =
     useTypedDispatch();
 
-  const {
-    data: { _id: id, displayName, description, imageUrl: userAvatar }
-  } = useTypedSelector(state => state.userData);
-  const { email, createdAt, updatedAt } = useTypedSelector(
-    state => state.privateUserData.data
-  );
-  const {
-    data: { role }
-  } = useTypedSelector(state => state.isUserAuthorized);
+  const userId = useTypedSelector(selectUserId);
+  const displayName = useTypedSelector(selectUserDisplayName);
+  const description = useTypedSelector(selectUserDataDescription);
+  const userAvatar = useTypedSelector(selectUserAvatar);
+  const email = useTypedSelector(selectPrivateUserDataEmail);
+  const createdAt = useTypedSelector(selectPrivateUserDataCreatedAt);
+  const updatedAt = useTypedSelector(selectPrivateUserDataUpdatedAt);
+  const role = useTypedSelector(selectUserRole);
 
   const [showEditPanel, setShowEditPanel] = useState(false);
   const [userImage, setUserImage] = useState<File | null>();
@@ -62,7 +73,7 @@ export default function ProfilePage() {
     if (userImage) {
       formData.append('image', userImage);
     }
-    formData.append('id', id);
+    formData.append('id', userId);
     formData.append('displayName', data.displayName);
     formData.append('description', data.description);
     updateUserData(
