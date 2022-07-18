@@ -12,6 +12,7 @@ describe('TopLocations', () => {
   beforeEach(() => {
     i18n.init();
   });
+describe('TopLocations', () => {
   const initialState = {
     topLocations: {
       loading: false,
@@ -22,7 +23,6 @@ describe('TopLocations', () => {
   };
   const middlewares = [thunk];
   const mockStore = configureStore(middlewares);
-
   it('should render TopLocations', () => {
     const store = mockStore(initialState);
     const component = render(

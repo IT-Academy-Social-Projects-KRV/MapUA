@@ -19,8 +19,9 @@ export const sendComment =
 
       dispatch({
         type: LocationCommentsActionTypes.ADD_COMMENT,
-        payload: data.comment
+        payload: data.comments
       });
+
       dispatch({
         type: SnackbarActionsType.SET_SUCCESS,
         payload: data.message
@@ -31,10 +32,15 @@ export const sendComment =
   };
 
 export const fetchComments =
-  (locationId: string) =>
+  (locationId: string, id?: string | undefined, count?: number) =>
   async (dispatch: Dispatch<LocationCommentsActions>) => {
     try {
-      const { data } = await axios().get(`comments/${locationId}`);
+      const { data } = await axios().get(`comments/${locationId}`, {
+        params: {
+          commentId: id,
+          commentCount: count
+        }
+      });
 
       dispatch({
         type: LocationCommentsActionTypes.FETCH_COMMENTS,

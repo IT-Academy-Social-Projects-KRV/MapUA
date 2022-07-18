@@ -1,13 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   CardContent,
   List,
   Skeleton,
   Typography,
   Stack,
-  Divider
+  Divider,
+  CircularProgress
 } from '@mui/material';
+import { StyledCommentsLoaderBox } from 'components/design/StyledCommentsLoaderBox';
 import { t } from 'i18next';
+import { useInView } from 'react-intersection-observer';
 import { useTypedSelector } from 'redux/hooks/useTypedSelector';
 import { useTypedDispatch } from 'redux/hooks/useTypedDispatch';
 import { CommentType, AuthorInfoType } from '../../../../types';
@@ -15,25 +18,43 @@ import CommentForm from './CommentForm';
 import Comment from './Comment';
 
 const CommentSection = () => {
-  const { role: otherUserRole } = useTypedSelector(
-    state => state.otherUserData.data
-  );
+  const { ref, inView } = useInView({ threshold: 1, triggerOnce: true });
+  const commentStepCount = 5;
+
   const { _id: locationId } = useTypedSelector(
     state => state.popupLocation.data
   );
   const { comments } = useTypedSelector(state => state.locationComments);
   const { fetchComments } = useTypedDispatch();
-  const { isAuthorized } = useTypedSelector(
+  const { isAuthorized, role: myRole } = useTypedSelector(
     state => state.isUserAuthorized.data
   );
 
   const topComments = comments.filter(c => !c.parentComment);
 
+  const [topCommentsOnPageIndex, setTopCommentsOnPageIndex] =
+    useState(commentStepCount);
+
   useEffect(() => {
     if (locationId) {
-      fetchComments(locationId);
+      fetchComments(locationId, undefined, topCommentsOnPageIndex);
     }
   }, [locationId]);
+
+  useEffect(() => {
+    const addMoreComment = () =>
+      setTopCommentsOnPageIndex(prevState => prevState + commentStepCount);
+
+    const timerId = setTimeout(() => addMoreComment(), 500);
+
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [inView]);
+
+  useEffect(() => {
+    fetchComments(locationId, undefined, topCommentsOnPageIndex);
+  }, [topCommentsOnPageIndex]);
 
   return (
     <CardContent>
@@ -44,7 +65,7 @@ const CommentSection = () => {
             comments.length
           }`}
       </Divider>
-      {isAuthorized || (otherUserRole !== 'bannedUser' && <CommentForm />)}
+      {isAuthorized || (myRole !== 'bannedUser' && <CommentForm />)}
       {!comments.length ? (
         <Stack spacing={1} mt={2}>
           <Skeleton />
@@ -56,38 +77,49 @@ const CommentSection = () => {
           </Typography>
         </Stack>
       ) : (
-        <List>
-          {topComments.map(
-            ({
-              _id: commentId,
-              text,
-              author,
-              createdAt,
-              likes,
-              dislikes,
-              parentComment,
-              deleted
-            }: CommentType<AuthorInfoType>) => (
-              <Comment
-                index={0}
-                comments={comments}
-                key={commentId}
-                authorId={author._id}
-                authorRole={author.role}
-                authorsImage={author.imageUrl}
-                authorsName={author.displayName}
-                createdAt={createdAt!}
-                text={text}
-                id={commentId}
-                locationId={locationId}
-                likes={likes}
-                dislikes={dislikes}
-                parentComment={parentComment}
-                deleted={deleted}
-              />
-            )
+        <>
+          <List>
+            {topComments.map(
+              ({
+                _id: commentId,
+                text,
+                author,
+                createdAt,
+                likes,
+                dislikes,
+                parentComment,
+                deleted,
+                hasReplies
+              }: CommentType<AuthorInfoType>) => (
+                <Comment
+                  index={0}
+                  hasReplies={hasReplies}
+                  topCommentsOnPageIndex={topCommentsOnPageIndex}
+                  comments={comments}
+                  key={commentId}
+                  authorId={author._id}
+                  authorRole={author.role}
+                  authorsImage={author.imageUrl}
+                  authorsName={author.displayName}
+                  createdAt={createdAt!}
+                  text={text}
+                  id={commentId}
+                  locationId={locationId}
+                  likes={likes}
+                  dislikes={dislikes}
+                  parentComment={parentComment}
+                  deleted={deleted}
+                />
+              )
+            )}
+          </List>
+          {topComments.length >= topCommentsOnPageIndex && (
+            <StyledCommentsLoaderBox ref={ref}>
+              {t('bigPopup.commentSection.commentSection.commentsLoading')}
+              <CircularProgress />
+            </StyledCommentsLoaderBox>
           )}
-        </List>
+        </>
       )}
     </CardContent>
   );

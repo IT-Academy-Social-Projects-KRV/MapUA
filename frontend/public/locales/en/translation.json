@@ -165,7 +165,8 @@
         "noComments": "There are no comments for this location yet",
         "deletedOriginalComment": "This comment has been deleted by the user",
         "numberOfCommentars": "number of comments -",
-        "alertdialogmessagedata": "comment"
+        "alertdialogmessagedata": "comment",
+        "commentsLoading": "Comments loading..."
       }
     }
   },
