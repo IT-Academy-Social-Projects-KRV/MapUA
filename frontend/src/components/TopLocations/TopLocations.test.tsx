@@ -6,8 +6,12 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import TopLocations from './TopLocations';
+import i18n from '../../i18n';
 
 describe('TopLocations', () => {
+  beforeEach(() => {
+    i18n.init();
+  });
   const initialState = {
     topLocations: {
       loading: false,
@@ -18,6 +22,7 @@ describe('TopLocations', () => {
   };
   const middlewares = [thunk];
   const mockStore = configureStore(middlewares);
+
   it('should render TopLocations', () => {
     const store = mockStore(initialState);
     const component = render(
