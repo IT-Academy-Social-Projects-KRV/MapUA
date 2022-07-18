@@ -5,33 +5,10 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import PersonProfilePage from './PersonProfilePage';
+import Login from './Login';
 
-describe('PersonProfilePage', () => {
+describe('Login', () => {
   const initialState = {
-    otherUserData: {
-      loading: false,
-      error: null,
-      success: false,
-      data: {
-        _id: '',
-        displayName: '',
-        description: '',
-        imageUrl: '',
-        role: '',
-        subscribers: [],
-        subscriptions: [1, 2, 3],
-        favorite: [],
-        visited: [],
-        personalLocations: []
-      }
-    },
-    userData: {
-      loading: false,
-      error: null,
-      success: false,
-      data: []
-    },
     isUserAuthorized: {
       loading: false,
       error: null,
@@ -41,12 +18,12 @@ describe('PersonProfilePage', () => {
   };
   const middlewares = [thunk];
   const mockStore = configureStore(middlewares);
-  it('should render TopLocations', () => {
+  it('should render Login component', () => {
     const store = mockStore(initialState);
     const component = render(
       <Provider store={store}>
         <Router>
-          <PersonProfilePage />
+          <Login />
         </Router>
       </Provider>
     );
