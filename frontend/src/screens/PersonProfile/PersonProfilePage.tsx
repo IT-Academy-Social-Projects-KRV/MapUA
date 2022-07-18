@@ -101,7 +101,7 @@ export default function PersonProfilePage() {
           src={userAvatar || userImageNotFound}
         />
         <Typography mt={2} variant="h5" component="h4" align="center">
-          {displayName ? `${t('profile.profilePage.yourName')}` : displayName}
+          {!displayName ? `${t('profile.profilePage.yourName')}` : displayName}
         </Typography>
 
         {isAuthorized && (
