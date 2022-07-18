@@ -1,7 +1,8 @@
 import React from 'react';
-import { Drawer, IconButton } from '@mui/material';
+import { Drawer } from '@mui/material';
 import Box from '@mui/material/Box';
 import { ArrowLeftIcon } from 'components/Icons';
+import { StyledArrowLeftButton } from '../StyledArrowLeftButton';
 
 type BigPopupProps = {
   isOpen: boolean;
@@ -30,18 +31,9 @@ export default function BigPopupLocation(
         open={isOpen}
         onClose={toggleClose}
       >
-        <IconButton
-          onClick={backArrowOnclick}
-          sx={{
-            borderRadius: 0,
-            pr: '88%',
-            position: 'static',
-            display: 'inline',
-            zIndex: 10
-          }}
-        >
+        <StyledArrowLeftButton onClick={backArrowOnclick}>
           <ArrowLeftIcon />
-        </IconButton>
+        </StyledArrowLeftButton>
         {children}
       </Drawer>
     </Box>
