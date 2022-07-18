@@ -17,12 +17,6 @@ import BasicTabs from './BasicTabs';
 import CircularLoader from '../../components/CircularLoader/CircularLoader';
 
 export default function PersonProfilePage() {
-  // const { role } = useTypedSelector(state => state.otherUserData.data);
-
-  // const { role: myRole } = useTypedSelector(
-  //   state => state.isUserAuthorized.data
-  // );
-
   const { t } = useTranslation();
   const {
     loading: userLoading,

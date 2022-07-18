@@ -21,16 +21,12 @@ const CommentSection = () => {
   const { ref, inView } = useInView({ threshold: 1, triggerOnce: true });
   const commentStepCount = 5;
 
-  const { role: otherUserRole } = useTypedSelector(
-    state => state.otherUserData.data
-  );
-
   const { _id: locationId } = useTypedSelector(
     state => state.popupLocation.data
   );
   const { comments } = useTypedSelector(state => state.locationComments);
   const { fetchComments } = useTypedDispatch();
-  const { isAuthorized } = useTypedSelector(
+  const { isAuthorized, role: myRole } = useTypedSelector(
     state => state.isUserAuthorized.data
   );
 
@@ -69,7 +65,7 @@ const CommentSection = () => {
             comments.length
           }`}
       </Divider>
-      {isAuthorized || (otherUserRole !== 'bannedUser' && <CommentForm />)}
+      {isAuthorized || (myRole !== 'bannedUser' && <CommentForm />)}
       {!comments.length ? (
         <Stack spacing={1} mt={2}>
           <Skeleton />
