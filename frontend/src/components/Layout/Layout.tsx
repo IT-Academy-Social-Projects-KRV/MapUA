@@ -1,6 +1,6 @@
 import Footer from 'components/Footer/Footer';
 import NavBar from 'components/Header/NavBar';
-import React from 'react';
+import React, { memo } from 'react';
 import { Outlet } from 'react-router-dom';
 
 const Layout = () => (
@@ -11,4 +11,4 @@ const Layout = () => (
   </>
 );
 
-export default Layout;
+export default memo(Layout);

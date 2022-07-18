@@ -4,7 +4,12 @@ import { styled } from '@mui/material/styles';
 export const StyledArrowLeftButton = styled(IconButton)(() => ({
   borderRadius: 0,
   paddingRight: '88%',
-  position: 'static',
+  position: 'sticky',
+  top: 0,
   display: 'inline',
-  zIndex: 10
+  zIndex: 10,
+  backgroundColor: 'white',
+  '&:hover': {
+    backgroundColor: '#F5F5F5'
+  }
 }));

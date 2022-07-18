@@ -34,7 +34,7 @@ const CommentSection = () => {
   const comments = useTypedSelector(selectComments);
   const isAuthorized = useTypedSelector(selectIsUserAuthorized);
 
-  const userRole = useTypedSelector(selectUserRole);
+  const myRole = useTypedSelector(selectUserRole);
 
   const { fetchComments } = useTypedDispatch();
 
@@ -84,7 +84,7 @@ const CommentSection = () => {
             comments.length
           }`}
       </Divider>
-      {(isAuthorized || userRole !== 'bannedUser') && <CommentForm />}
+      {isAuthorized && myRole !== 'bannedUser' && <CommentForm />}
       {!comments.length ? (
         <Stack spacing={1} mt={2}>
           <Skeleton />

@@ -2,7 +2,8 @@
   "root": true, // Make sure eslint picks up the config at the root of the directory
   "env": {
     "browser": true,
-    "es2021": true
+    "es2021": true,
+    "jest": true
   },
   "extends": ["plugin:react/recommended", "airbnb", "prettier"], // Make this the last element so prettier config overrides other formatting rul],
   "parser": "@typescript-eslint/parser",
