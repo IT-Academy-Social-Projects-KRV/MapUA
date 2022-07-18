@@ -116,7 +116,10 @@ function Map({
         <SearchFormContainer />
 
         {isAuthorized && !isOpen && role !== 'bannedUser' && (
-          <Box ref={closeButtonRef}>
+          <Box
+            ref={closeButtonRef}
+            style={{ position: 'absolute', top: '11px', left: '55px' }}
+          >
             <StyledAddLocationButton
               onClick={() => toggleIsAddLocation()}
               style={{
