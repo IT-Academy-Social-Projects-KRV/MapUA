@@ -75,7 +75,7 @@ function Map({
   useEffect(() => {
     if (closeButtonRef.current)
       L.DomEvent.disableClickPropagation(closeButtonRef.current);
-  }, [isAddLocationActive]);
+  }, [isAddLocationActive, closeButtonRef.current]);
 
   useEffect(() => {
     fetchLocations(bounds, debouncedValue, selectedFilters, authorizedFilters);
