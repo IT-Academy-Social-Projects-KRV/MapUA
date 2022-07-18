@@ -12,26 +12,27 @@ describe('TopLocations', () => {
   beforeEach(() => {
     i18n.init();
   });
-describe('TopLocations', () => {
-  const initialState = {
-    topLocations: {
-      loading: false,
-      error: null,
-      success: false,
-      data: []
-    }
-  };
-  const middlewares = [thunk];
-  const mockStore = configureStore(middlewares);
-  it('should render TopLocations', () => {
-    const store = mockStore(initialState);
-    const component = render(
-      <Provider store={store}>
-        <Router>
-          <TopLocations />
-        </Router>
-      </Provider>
-    );
-    expect(component).toMatchSnapshot();
+  describe('TopLocations', () => {
+    const initialState = {
+      topLocations: {
+        loading: false,
+        error: null,
+        success: false,
+        data: []
+      }
+    };
+    const middlewares = [thunk];
+    const mockStore = configureStore(middlewares);
+    it('should render TopLocations', () => {
+      const store = mockStore(initialState);
+      const component = render(
+        <Provider store={store}>
+          <Router>
+            <TopLocations />
+          </Router>
+        </Provider>
+      );
+      expect(component).toMatchSnapshot();
+    });
   });
 });
