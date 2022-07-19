@@ -6,10 +6,9 @@ export const infoAboutDeveloper = [
       'https://www.linkedin.com/authwall?trk=bf&trkInfo=AQFppOJrt7Pr4QAAAYH8OXGA7XzIP5Jy2GuSAmfwjmor0331YruL3mB53Ll-OD8_oJxjGCmxwMxadIdJDhHqkAgn_aL7vDci1FguIRSUGWHhIb9-I3ecqfIQnhVHuZw58WAFvfI=&original_referer=&sessionRedirect=https%3A%2F%2Fwww.linkedin.com%2Fin%2Foleksandr-bozhko-1509a7115%2F'
   },
   {
-    photo:
-      'https://media2.nekropole.info/2013/05/375px-Vasco_da_Gama_-_1838.png',
+    photo: '/photo/Zaika.jpg',
     fullName: 'Nikita Zaika',
-    linkedIn: 'https://www.linkedin.com'
+    linkedIn: 'https://www.linkedin.com/in/nikita-zaika/'
   },
   {
     photo: '/photo/Mazur.jpg',
