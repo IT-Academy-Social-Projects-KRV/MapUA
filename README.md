@@ -8,7 +8,7 @@ For example you found a beautiful place in the woods, and you want to share it w
 ### Working project on Heroku
 
 [Link to the Webpage](https://map-ua.herokuapp.com/)  
-[Link to the API](https://map-ua.herokuapp.com/api-docs/)
+[Link to the API](https://mapua-backend-app.herokuapp.com/api-docs/)
 
 ### If you want open it locally:
 
